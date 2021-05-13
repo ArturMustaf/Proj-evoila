@@ -5,7 +5,7 @@ Dimitri Kreis <br>
 Jan Zittel <br>
 Philipp Grafmüller <br>
 Felix Stapf <br>
-Vorgänger:
+Vorgänger: <br>
 Darvin Weinheimer <br>
 Vanessa Fabian <br>
 Maximilian Berg <br>

@@ -11,13 +11,6 @@ Vanessa Fabian <br>
 Maximilian Berg <br>
 Mathias Aff <br>
 
-## Wiki
-Dateien im [Github-Wiki](https://github.com/maxxberg/proj-evoila/wiki):
-- Nutzerdokumentation (Erklärung des Service-Desks)
-- Deployment-Dokumentation
-- PDF mit weiteren Ideen
-
-
 # Deployment
 
 - [Umgebung](#umgebung)

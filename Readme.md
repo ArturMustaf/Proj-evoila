@@ -1,5 +1,11 @@
 # Allgemein
 ## Teammitglieder
+Artur Mustaf <br>
+Dimitri Kreis <br>
+Jan Zittel <br>
+Philipp Grafmüller <br>
+Felix Stapf <br>
+Vorgänger:
 Darvin Weinheimer <br>
 Vanessa Fabian <br>
 Maximilian Berg <br>

@@ -1,0 +1,56 @@
+<div class="next">
+
+  <input (keyup)="search()" *ngIf="!noSearch" [(ngModel)]="searchQuery" class="clr-input" clrInput
+         placeholder="Suchanfrage"/>
+  <button (click)="toForms()" *ngIf="editMode" class="btn btn-primary padding" id="plus">
+    +
+  </button>
+
+
+</div>
+
+
+<clr-datagrid (clrDgRefresh)="refresh($event)" *ngIf="!onlySelect" [clrDgLoading]="loading">
+  <ng-container *ngFor="let searchName of searchGridDefinition.fields">
+    <clr-dg-column>{{searchName}}</clr-dg-column>
+  </ng-container>
+
+  <clr-dg-row (click)="select(elm.id)" *ngFor="let elm of data">
+    <ng-container *ngFor="let key of searchGridDefinition.fieldKeys">
+      <clr-dg-cell>{{searchGridLoader.getField(elm, key)}}</clr-dg-cell>
+    </ng-container>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    <clr-dg-pagination #pagination [clrDgPageSize]="10">
+      <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Elemente per Seite</clr-dg-page-size>
+      {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+      von {{pagination.totalItems}} Elementen
+    </clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
+
+<!--Copy for Databinding => automatically creates select -->
+<clr-datagrid (clrDgRefresh)="refresh($event)" *ngIf="onlySelect"
+              [(clrDgSingleSelected)]="selectedData" [clrDgLoading]="loading">
+
+  <ng-container *ngFor="let searchName of searchGridDefinition.fields">
+    <clr-dg-column>{{searchName}}</clr-dg-column>
+  </ng-container>
+
+
+  <clr-dg-row (click)="select(elm.id)" *ngFor="let elm of data" [clrDgItem]="elm">
+    <ng-container *ngFor="let key of searchGridDefinition.fieldKeys">
+      <clr-dg-cell>{{searchGridLoader.getField(elm, key)}}</clr-dg-cell>
+    </ng-container>
+
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    <clr-dg-pagination #pagination [clrDgPageSize]="10">
+      <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Elemente per Seite</clr-dg-page-size>
+      {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+      von {{pagination.totalItems}} Elementen
+    </clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>

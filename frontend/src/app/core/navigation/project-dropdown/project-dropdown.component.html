@@ -1,0 +1,14 @@
+<clr-dropdown>
+  <button clrDropdownTrigger>
+    <span>Projekt: {{project}}</span>
+  </button>
+  <clr-dropdown-menu *clrIfOpen clrPosition="bottom-left">
+    <input (keyup)="onKeyPress()" *ngIf="projects.length >= 4" [(ngModel)]="searchString" placeholder="Projekt suchen">
+    <div *ngFor="let proj of projects">
+      <button (click)="onClick(proj.name)" *ngIf="proj.active"
+              [class.active]="proj.name === project" clrDropdownItem type="button">
+        {{proj.name}}
+      </button>
+    </div>
+  </clr-dropdown-menu>
+</clr-dropdown>

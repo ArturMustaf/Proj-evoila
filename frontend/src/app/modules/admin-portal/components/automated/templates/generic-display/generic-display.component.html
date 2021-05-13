@@ -1,0 +1,18 @@
+<form [formGroup]="form" clrForm>
+  <div *ngFor="let question of questions" class="form-row">
+    <app-generic-form [editMode]="editMode" [form]="form" [question]="question"></app-generic-form>
+  </div>
+
+  <div class="form-row">
+    <button (click)="onSubmit()" *ngIf="id && editMode" [disabled]="!form.valid " class="btn btn-primary"
+            type="submit">Aktualisieren
+    </button>
+    <button (click)="onSubmit()" *ngIf="!id &&editMode" [disabled]="!form.valid" class="btn btn-primary" type="submit">
+      Speichern
+    </button>
+  </div>
+</form>
+
+<div *ngIf="payLoad" class="form-row">
+  <strong>Saved values</strong><br>
+</div>

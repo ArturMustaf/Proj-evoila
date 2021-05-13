@@ -1,0 +1,33 @@
+<!--<div style="display: flex; justify-content: center" >
+ <div class="clr-col-lg-4 clr-col-md-6 clr-col-10">
+    <div class="card clickable" *ngFor="let ticket of tickets; let i = index" routerLink="/tickets?id={{ticket.id}}">
+      <div class="card-header">
+        <div class="card-header-text">
+          <div>
+            {{ticket.title}}
+          </div>
+          <div class="{{ticket.status}}">
+            Status: {{ticket.status}}
+          </div>
+        </div>
+      </div>
+      <div class="card-block">
+        <div class="card-title">
+          Summary:
+        </div>
+        <div class="card-text">
+          {{ticket.summary}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>-->
+<div class="card">
+  <div class="card-header">Ticketverwaltung</div>
+  <div class="card-block">
+    <div role="tooltip" aria-haspopup="true" class="tooltip tooltip-lg tooltip-bottom-right" id="tool">
+      <button class="btn btn-primary" (click)="onClick()">Jira Helpdesk</button>
+      <span class="tooltip-content">Sie werden zum Ticketsystem weitergeleitet</span>
+    </div>
+  </div>
+</div>

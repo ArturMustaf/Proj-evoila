@@ -1,0 +1,48 @@
+package de.test.backend.entities.user.contact_information;
+
+import de.test.backend.entities.base.BaseEntity;
+import de.test.backend.entities.user.contact_information.contact_types.AddressType;
+import de.test.backend.entities.user.contact_information.contact_types.Country;
+import lombok.*;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.IndexedEmbedded;
+
+import javax.persistence.*;
+
+@EqualsAndHashCode(callSuper = true)
+@Entity
+@Data
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+/**
+ * Address data of a company or user
+ */
+public class Address extends BaseEntity {
+    /**
+     * Street or place
+     */
+    @Field
+    String address;
+    /**
+     * plz
+     */
+    @Field
+    String plz;
+    /**
+     * City
+     */
+    @Field
+    String city;
+    /**
+     * Country which the address is belonging
+     */
+    @IndexedEmbedded
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    Country country;
+    /**
+     * Addresstype of the address
+     */
+    @Enumerated(EnumType.STRING)
+    AddressType addressType;
+}

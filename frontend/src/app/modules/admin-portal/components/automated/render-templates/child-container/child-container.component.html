@@ -1,0 +1,16 @@
+<h4 *ngIf="question.label !== ''">{{question.label}}</h4>
+<div *ngIf="question.label !== ''" class="card-divider"></div>
+
+<button (click)="onLink()" *ngIf="!question.linkedData && editMode && question.selectAllowed" class="btn">
+  <clr-icon shape="link"></clr-icon>
+</button>
+<button (click)="onUnlink()" *ngIf="question.linkedData && editMode && question.selectAllowed" class="btn btn-icon">
+  <clr-icon shape="unlink"></clr-icon>
+</button>
+
+<app-popup-grid (emitter)="onSelect($event)" *ngIf="selectTrigger && question.selectAllowed" [form]="form"
+                [question]="question"></app-popup-grid>
+
+<div *ngFor="let elm of question.children">
+  <app-generic-form [editMode]="editMode" [form]="form" [question]="elm"></app-generic-form>
+</div>

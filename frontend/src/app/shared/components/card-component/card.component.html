@@ -1,0 +1,22 @@
+<div class="content-container background-vanessa">
+
+  <nav class="sidenav">
+    <section class="sidenav-content">
+      <section class="nav-group">
+        <label>Einstellungen</label>
+        <ul class="nav-list">
+          <li><a [class.active]="this.path === 'settings'" class="nav-link" routerLink="/settings">
+            <clr-icon shape="clipboard"></clr-icon>
+            Kontaktdaten</a></li>
+          <li><a [class.active]="this.path === 'change'" class="nav-link" routerLink="/change">
+            <clr-icon shape="lock"></clr-icon>
+            Passwort ändern</a></li>
+        </ul>
+      </section>
+    </section>
+  </nav>
+  <div class="content-area">
+    <ng-content></ng-content>
+  </div>
+</div>
+

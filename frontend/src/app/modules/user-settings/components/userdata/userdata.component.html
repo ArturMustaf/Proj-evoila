@@ -1,0 +1,83 @@
+<app-usersettings>
+  <div class="card">
+    <div class="card-header">
+      Kontaktdaten
+    </div>
+    <div class="card-block">
+      <div class="card-text">
+        <form (submit)="send()" class="clr-form clr-form-horizontal">
+          <div class="clr-form-control">
+            <label for="firstName" class="clr-control-label">Vorname</label>
+            <div class="clr-control-container">
+              <div class="clr-input-wrapper">
+                <input [(ngModel)]="firstNameValue" class="clr-input" id="firstName" name="firstName"
+                       placeholder="{{name}}" type="text" [disabled]="changesDisabled"/>
+              </div>
+            </div>
+          </div>
+          <div class="clr-form-control">
+            <label for="lastName" class="clr-control-label">Nachname</label>
+            <div class="clr-control-container">
+              <div class="clr-input-wrapper">
+                <input [(ngModel)]="lastNameValue" class="clr-input" id="lastName" name="lastName"
+                       placeholder="{{lastName}}" type="text" [disabled]="changesDisabled"/>
+              </div>
+            </div>
+          </div>
+          <div class="clr-form-control">
+            <label for="mail" class="clr-control-label">E-Mail</label>
+            <div class="clr-control-container">
+              <div class="clr-input-wrapper">
+                <input [(ngModel)]="emailValue" class="clr-input" id="mail" name="email" placeholder="{{email}}"
+                       type="text" [disabled]="changesDisabled"/>
+              </div>
+            </div>
+          </div>
+          <div class="clr-form-control">
+            <label for="street" class="clr-control-label">Adresse</label>
+            <div class="clr-control-container">
+              <div class="clr-input-wrapper">
+                <input [(ngModel)]="addressValue" class="clr-input" id="street" name="street" placeholder="{{address}}"
+                       type="text" [disabled]="changesDisabled"/>
+              </div>
+            </div>
+          </div>
+          <div class="clr-form-control">
+            <label for="postalCode" class="clr-control-label">Postleitzahl</label>
+            <div class="clr-control-container">
+              <div class="clr-input-wrapper">
+                <input [(ngModel)]="codeValue" class="clr-input" id="postalCode" name="code" placeholder="{{code}}"
+                       type="text" [disabled]="changesDisabled"/>
+              </div>
+            </div>
+          </div>
+          <div class="clr-form-control">
+            <label for="city" class="clr-control-label">Ort</label>
+            <div class="clr-control-container">
+              <div class="clr-input-wrapper">
+                <input [(ngModel)]="cityValue" class="clr-input" id="city" name="city" placeholder="{{city}}"
+                       type="text" [disabled]="changesDisabled"/>
+              </div>
+            </div>
+          </div>
+          <div class="clr-form-control">
+            <label for="countries" class="clr-control-label">Land</label>
+            <div class="clr-control-container">
+              <div class="clr-select-wrapper">
+                <select id="countries" [disabled]="changesDisabled">
+                  <option>Deutschland</option>
+                  <option>Österreich</option>
+                  <option>Schweiz</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-sm btn-primary" type="button" (click)="enableChanges()">Bearbeiten</button>
+            <button class="btn btn-sm btn-primary" type="submit" [disabled]="changesDisabled">Speichern</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</app-usersettings>

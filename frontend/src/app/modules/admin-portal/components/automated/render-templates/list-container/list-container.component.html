@@ -1,0 +1,24 @@
+<h4 *ngIf="question.label !== ''">{{question.label}}</h4>
+<button (click)="addElement()" *ngIf="editMode" class="btn btn-primary" id="plus">
+  +
+</button>
+
+<clr-accordion *ngFor="let elm of question.datalist; let i = index">
+
+  <clr-accordion-panel>
+
+    <clr-accordion-title>
+       <span>
+         {{question.shortenFunction(elm, i)}}
+         <button (click)="remove(i)" *ngIf="editMode" class="label label-danger">
+        <clr-icon shape="minus"></clr-icon>
+      </button>
+       </span>
+
+
+    </clr-accordion-title>
+    <clr-accordion-content *ngFor="let child of elm">
+      <app-generic-form [editMode]="editMode" [form]="form.get(i + '')" [question]="child"></app-generic-form>
+    </clr-accordion-content>
+  </clr-accordion-panel>
+</clr-accordion>

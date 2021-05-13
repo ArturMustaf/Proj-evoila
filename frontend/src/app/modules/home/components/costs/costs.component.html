@@ -1,0 +1,44 @@
+<div class="card">
+  <div class="card-header">Auswahl Zeitraum und Projekt</div>
+  <div class="card-block">
+    <form clrForm class="clr-form-horizontal">
+      <clr-date-container>
+        <label for="start">Anfang Abrechnungszeitraum</label>
+        <input clrDate name="start" type="date" [max]="dateOfToday" [(ngModel)]="start" [valueAsDate]="startDate"
+               id="start">
+      </clr-date-container>
+      <clr-date-container>
+        <label for="end">Ende Abrechnungszeitraum</label>
+        <input clrDate name="end" type="date" [max]="dateOfToday" [(ngModel)]="end" [valueAsDate]="endDate" id="end">
+      </clr-date-container>
+      <br>
+      <span id="notValid"
+            *ngIf="!validSpan">Der Beginn des Abrechnungszeitraumes darf nicht nach dem Ende liegen.</span>
+    </form>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">Kosten im gewählten Zeitraum</div>
+  <div class="clr-row">
+    <div class="card-block clr-col-6" id="table">
+      <clr-datagrid (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading">
+        <clr-dg-column>Posten</clr-dg-column>
+        <clr-dg-column>Kosten</clr-dg-column>
+
+        <clr-dg-row *ngFor="let resourceType of ressources |keyvalue; let i = index">
+          <clr-dg-cell>{{resourceType.key}}</clr-dg-cell>
+          <clr-dg-cell>{{resourceType.value.toFixed(2)}}</clr-dg-cell>
+        </clr-dg-row>
+
+        <clr-dg-footer>
+          Gesamtkosten: {{totalCost.toFixed(2)}}
+        </clr-dg-footer>
+      </clr-datagrid>
+      <br>
+      <button class="btn btn-primary">Rechnung</button>
+    </div>
+    <div class="clr-col-6">
+      <app-costs-diagram [startDate]="start" [endDate]="end"></app-costs-diagram>
+    </div>
+  </div>
+</div>

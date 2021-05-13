@@ -1,0 +1,28 @@
+<nav class="subnav">
+  <ul class="nav" *ngIf="!this.nav.isAdmin">
+    <li class="nav-item">
+      <a [class.active]="this.path === '/'" class="nav-link" routerLink="/">Dashboard</a>
+    </li>
+    <li class="nav-item">
+      <a [class.active]="this.path === '/tickets'" class="nav-link" routerLink="/tickets">Tickets</a>
+    </li>
+    <li class="nav-item">
+      <a [class.active]="this.path === '/costs'" class="nav-link" routerLink="/costs">Kosten</a>
+    </li>
+    <li class="nav-item">
+      <a [class.active]="this.path === '/resources'" class="nav-link" routerLink="/resources">Ressourcen</a>
+    </li>
+  </ul>
+  <ul class="nav" *ngIf="this.nav.isAdmin">
+    <li class="nav-item">
+      <a [class.active]="this.path.includes('projects')" class="nav-link" routerLink="/admin/grid/projects">Projekte</a>
+    </li>
+    <li class="nav-item">
+      <a [class.active]="this.path.includes('customers')" class="nav-link" routerLink="/admin/grid/customers">Nutzer</a>
+    </li>
+    <li class="nav-item">
+      <a [class.active]="this.path.includes('resourceTypes') || this.path.includes('resourcetypes')" class="nav-link"
+         routerLink="/admin/grid/resourceTypes">Ressourcen</a>
+    </li>
+  </ul>
+</nav>

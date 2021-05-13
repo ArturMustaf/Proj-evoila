@@ -1,0 +1,36 @@
+<div class="card" *ngIf="!onDash">
+  <div class="card-header">Auswahl Zeitraum und Projekt</div>
+  <div class="card-block">
+    <form class="clr-form-horizontal" clrForm>
+      <clr-date-container>
+        <label for="start">Anfang Abrechnungszeitraum</label>
+        <input [(ngModel)]="start" [max]="dateOfToday" [valueAsDate]="startDate" clrDate id="start" name="start"
+               type="date">
+      </clr-date-container>
+      <clr-date-container>
+        <label for="end">Ende Abrechnungszeitraum</label>
+        <input [(ngModel)]="end" [max]="dateOfToday" [valueAsDate]="endDate" clrDate id="end" name="end" type="date">
+      </clr-date-container>
+      <br>
+      <span *ngIf="!validSpan"
+            id="notValid">Der Beginn des Abrechnungszeitraumes darf nicht nach dem Ende liegen.</span>
+    </form>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">{{name}}</div>
+  <div class="card-block" id="table">
+    <clr-datagrid (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading">
+      <clr-dg-column>Ressource</clr-dg-column>
+      <clr-dg-column>Menge</clr-dg-column>
+      <clr-dg-column>Einheit</clr-dg-column>
+      <clr-dg-row *ngFor="let resource of resources; let i = index">
+        <clr-dg-cell>{{resource.resourceName}}</clr-dg-cell>
+        <clr-dg-cell>{{resource.quantity}}</clr-dg-cell>
+        <clr-dg-cell>{{resource.unitType}}</clr-dg-cell>
+      </clr-dg-row>
+      <clr-dg-footer>
+      </clr-dg-footer>
+    </clr-datagrid>
+  </div>
+</div>

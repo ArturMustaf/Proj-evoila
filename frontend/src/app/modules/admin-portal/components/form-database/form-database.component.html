@@ -1,0 +1,8 @@
+<div class="card middle">
+  <div class="card-header">Informationen</div>
+  <button (click)="editTrigger()" class="btn btn-primary padding">Bearbeiten</button>
+  <div *ngIf="loaded">
+    <app-generic-display [editMode]="editMode" [id]="id" [questions]="questions$ | async"
+                         [urlInterface]="urlInterface"></app-generic-display>
+  </div>
+</div>

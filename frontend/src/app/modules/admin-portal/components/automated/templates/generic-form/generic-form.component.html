@@ -1,0 +1,60 @@
+<div [formGroup]="form">
+
+  <div [ngSwitch]="question.controlType">
+    <div *ngSwitchCase="'textbox'">
+      <div *ngIf="editMode && question.editAllowed">
+        <clr-input-container>
+          <label [attr.for]="question.key">{{question.label}}</label>
+          <input [formControlName]="question.key" [id]="question.key"
+                 [placeholder]="question.label" [type]="question.type" [value]="question.value"
+                 class="clr-form-compact" clrInput>
+        </clr-input-container>
+      </div>
+
+      <div *ngIf="!editMode || !question.editAllowed">
+        <label>{{question.label}}:</label>
+        <label>{{question.value}}</label>
+
+      </div>
+    </div>
+    <div *ngSwitchCase="'dropdown'">
+      <clr-select-container *ngIf="editMode && question.editAllowed">
+        <label [attr.for]="question.key">{{question.label}}</label>
+        <select [formControlName]="question.key" [id]="question.key" clrSelect>
+          <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
+        </select>
+      </clr-select-container>
+      <div *ngIf="!editMode || !question.editAllowed">
+        <span>
+                 <label [attr.for]="question.key">{{question.label}}:</label>
+        <label>{{dropDownToString(question, question.value)}}</label>
+        </span>
+
+      </div>
+    </div>
+    <div *ngSwitchCase="'datetimepicker'">
+      <div *ngIf="editMode">
+        <clr-date-container>
+          <label [attr.for]="question.key">{{question.label}}: </label>
+          <input (clrDateChange)="onDateChange($event)" [placeholder]="question.value | date"
+                 [type]="question.type" clrDate>
+        </clr-date-container>
+      </div>
+      <div *ngIf="!editMode">
+        <label>{{question.label}}:</label>
+        <label>{{question.value | date}}</label>
+      </div>
+    </div>
+
+    <app-child-container *ngSwitchCase="'popup'" [editMode]="editMode"
+                         [form]="form.get(question.key)" [question]="question"></app-child-container>
+    <app-list-container *ngSwitchCase="'list-container'" [editMode]="editMode" [form]="form.get(question.key)"
+                        [question]="question"></app-list-container>
+
+
+    <!--<app-searchable-grid *ngSwitchCase="'searchgrid'" [editMode]="editMode" [embeddedGrid]="true"
+                         [inputGridName]="$any(question).gridName" [noSearch]="true"></app-searchable-grid>-->
+  </div>
+
+  <div *ngIf="!isValid && editMode" class="errorMessage">{{question.label}} ist benötigt</div>
+</div>

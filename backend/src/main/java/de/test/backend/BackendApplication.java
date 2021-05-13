@@ -1,0 +1,17 @@
+package de.test.backend;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+/**
+ * Start point of the application
+ */
+public class BackendApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(BackendApplication.class, args);
+    }
+
+
+}

@@ -1,0 +1,11 @@
+<div *ngIf="editMode">
+  <clr-date-container>
+    <label [attr.for]="datetimepicker.key">{{datetimepicker.label}}: </label>
+    <input [formControlName]="datetimepicker.key" [id]="datetimepicker.key" [type]="datetimepicker.type"
+           [value]="datetimepicker.value" clrDate>
+  </clr-date-container>
+</div>
+<div *ngIf="!editMode">
+  <label>{{datetimepicker.label}}:</label>
+  <label>{{datetimepicker.value | date}}</label>
+</div>

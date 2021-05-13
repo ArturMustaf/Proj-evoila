@@ -1,0 +1,67 @@
+version: '3'
+
+networks:
+  web_backend:
+    external: true
+  db_backend:
+
+services:
+  db:
+    image: library/postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: 'postgres1234'
+    networks:
+      - db_backend
+    restart: always
+
+  backend:
+    image: backend:prod
+    depends_on:
+      - elasticsearch
+      - db
+    expose:
+      - 8080
+    networks:
+      - web_backend
+      - db_backend
+    env_file:
+      - backend.env
+  frontend:
+    image: frontend:prod
+    depends_on:
+      - backend
+    expose:
+      - 80
+    networks:
+      - web_backend
+    env_file:
+      - frontend.env
+    restart: always
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.13
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data2
+    expose:
+      - "9200"
+      - "9300"
+    restart: always
+    networks:
+      - db_backend
+
+volumes:
+  elasticsearch-data:
+    driver: local
+

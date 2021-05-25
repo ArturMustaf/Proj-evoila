@@ -53,12 +53,12 @@ jobs:
       - name: Set env to development
         shell: bash
         run: echo "environment=dev" >> $GITHUB_ENV; echo "environment_long=development" >> $GITHUB_ENV
-        if: env.branch == 'development'
+        if: env.branch == 'develop'
 
       - name: Set env to production
         shell: bash
         run: echo "environment=prod" >> $GITHUB_ENV; echo "environment_long=production" >> $GITHUB_ENV
-        if: env.branch == 'main'
+        if: env.branch == 'master'
 
       - name:  install node
         uses: actions/setup-node@v1

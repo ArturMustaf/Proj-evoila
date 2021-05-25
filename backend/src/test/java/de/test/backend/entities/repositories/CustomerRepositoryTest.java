@@ -17,8 +17,8 @@ import java.util.List;
 
 @ExtendWith(BeforeEveryTest.class)
 @SpringBootTest
-//@ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
-@ContextConfiguration(initializers = {LocalInitalizer.PropertiesInitializer.class})
+@ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
+//@ContextConfiguration(initializers = {LocalInitalizer.PropertiesInitializer.class})
 /**
  * This a test for checking if the datacreation is successful
  * in development its useful to switch the @ContextConfiguration to the commented LocalInitializer since this is able

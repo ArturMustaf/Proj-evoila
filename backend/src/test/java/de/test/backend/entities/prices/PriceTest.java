@@ -9,7 +9,6 @@ import java.util.Date;
 
 class PriceTest {
 
-    @Test
     void getTimeInTimeRange() {
         Price price = new Price();
         price.setPrice(1L);

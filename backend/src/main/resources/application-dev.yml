@@ -21,7 +21,7 @@ spring:
               index_schema_management_strategy: drop-and-create
               required_index_status: yellow
 
-cors-url: https://frontend-dev.projectmbe.de, http://frontend-dev.projectmbe.de,
+cors-url: http://hatkeinehaende.de
 
 keycloak:
   auth-server-url: http://hatkeinehaende.de:9080/auth/
@@ -30,3 +30,4 @@ keycloak:
   resource: backendClient
   principal-attribute: preferred_username
   cors: true
+  ssl-required: false

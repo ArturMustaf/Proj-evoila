@@ -2,7 +2,6 @@ version: '3'
 
 networks:
   web_backend:
-    external: true
   db_backend:
 
 services:
@@ -19,8 +18,8 @@ services:
     depends_on:
       - elasticsearch
       - db
-    expose:
-      - 8080
+    ports:
+      - 8888:8080
     networks:
       - web_backend
       - db_backend
@@ -30,8 +29,8 @@ services:
     image: frontend:prod
     depends_on:
       - backend
-    expose:
-      - 80
+    ports:
+      - 80:80
     networks:
       - web_backend
     env_file:

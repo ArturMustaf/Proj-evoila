@@ -82,5 +82,11 @@ jobs:
       - name: install angular cli
         run: npm install -g @angular/cli
 
+      - name: extract Chrome
+        shell: bash
+        run: export CHROME_BIN=/usr/bin/google-chrome
+        
+        
       - name: ng test
         run: ng test --watch=false
+        if: 1 equals 2

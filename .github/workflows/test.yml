@@ -83,4 +83,4 @@ jobs:
         run: npm install -g @angular/cli
 
       - name: ng test
-        run: ng test
+        run: ng tests --watch=false

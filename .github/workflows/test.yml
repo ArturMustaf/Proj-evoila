@@ -14,7 +14,7 @@ jobs:
 
       - name: Extract branch name
         shell: bash
-        run: echo "branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+        run: echo "branch=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
         id: extract_branch
 
       - name: Set env to development
@@ -53,7 +53,7 @@ jobs:
 
       - name: Extract branch name
         shell: bash
-        run: echo "branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+        run: echo "branch=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
         id: extract_branch
 
       - name: Set env to development

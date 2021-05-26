@@ -83,4 +83,4 @@ jobs:
         run: npm install -g @angular/cli
 
       - name: ng test
-        run: ng test --configuration $environment_long
+        run: ng test

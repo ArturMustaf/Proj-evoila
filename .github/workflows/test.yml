@@ -89,4 +89,4 @@ jobs:
         
       - name: ng test
         run: ng test --watch=false
-        if: 1 equals 2
+        if: 1 == 2

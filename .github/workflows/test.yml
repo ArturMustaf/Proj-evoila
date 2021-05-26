@@ -7,7 +7,7 @@ on:
       - develop
       
 jobs:
-  backend-build-image:
+  backend-test:
     runs-on: [self-hosted, linux]
     steps:
       - uses: actions/checkout@v2
@@ -37,12 +37,12 @@ jobs:
         with:
           java-version: 11.0.5
 
-      - name: Build backend with maven
+      - name: test backend with maven
         working-directory: ./backend
-        run: mvn test
+        run: mvn test -P $environment --file pom.xml
 
 
-  frontend-build-image:
+  frontend-test:
     runs-on: [ self-hosted, linux ]
     needs: [backend-build-image]
     defaults:

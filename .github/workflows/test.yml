@@ -1,6 +1,6 @@
-name: Build images
+name: Run Tests
 on:
-  pull:
+  pull_request:
     branches:
       - master
       - release

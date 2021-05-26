@@ -44,7 +44,7 @@ jobs:
 
   frontend-test:
     runs-on: [ self-hosted, linux ]
-    needs: [backend-build-image]
+    needs: [backend-test]
     defaults:
       run:
         working-directory: ./frontend

@@ -1,0 +1,92 @@
+name: Run Tests
+on:
+  pull_request:
+    branches:
+      - master
+      - release
+      - develop
+      
+jobs:
+  backend-test:
+    runs-on: [self-hosted, linux]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
+        id: extract_branch
+
+      - name: Set env to development
+        shell: bash
+        run: echo "environment=dev" >> $GITHUB_ENV
+        if: env.branch == 'develop'
+
+      - name: Set env to production
+        shell: bash
+        run: echo "environment=prod" >> $GITHUB_ENV
+        if: env.branch == 'master'
+
+      - name: Set env to release
+        shell: bash
+        run: echo "environment=prod" >> $GITHUB_ENV
+        if: env.branch == 'release'
+        
+      - name: Set up JDK 11.0.5
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11.0.5
+
+      - name: test backend with maven
+        working-directory: ./backend
+        run: mvn test -P $environment --file pom.xml
+
+
+  frontend-test:
+    runs-on: [ self-hosted, linux ]
+    needs: [backend-test]
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
+        id: extract_branch
+
+      - name: Set env to development
+        shell: bash
+        run: echo "environment=dev" >> $GITHUB_ENV; echo "environment_long=development" >> $GITHUB_ENV
+        if: env.branch == 'develop'
+
+      - name: Set env to production
+        shell: bash
+        run: echo "environment=prod" >> $GITHUB_ENV; echo "environment_long=production" >> $GITHUB_ENV
+        if: env.branch == 'master'
+
+      - name: Set env to release
+        shell: bash
+        run: echo "environment=prod" >> $GITHUB_ENV; echo "environment_long=production" >> $GITHUB_ENV
+        if: env.branch == 'release'
+        
+      - name:  install node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+
+      - name: install modules
+        run: npm install
+
+      - name: install angular cli
+        run: npm install -g @angular/cli
+
+      - name: extract Chrome
+        shell: bash
+        run: export CHROME_BIN=/usr/bin/google-chrome
+        
+        
+      - name: ng test
+        run: ng test --watch=false
+        if: 1 == 2

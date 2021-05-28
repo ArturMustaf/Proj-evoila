@@ -13,7 +13,7 @@ export const environment = {
     clientId: 'frontendClient',
   },
   backend: {
-    address: 'http://hatkeinehaende.de:8080'
+    address: 'http://hatkeinehaende.de:8889'
   },
   atlassian: {
     jira: {

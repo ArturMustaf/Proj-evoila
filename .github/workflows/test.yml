@@ -1,20 +1,20 @@
-name: Build images
+name: Run Tests
 on:
-  pull:
+  pull_request:
     branches:
       - master
       - release
       - develop
       
 jobs:
-  backend-build-image:
+  backend-test:
     runs-on: [self-hosted, linux]
     steps:
       - uses: actions/checkout@v2
 
       - name: Extract branch name
         shell: bash
-        run: echo "branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+        run: echo "branch=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
         id: extract_branch
 
       - name: Set env to development
@@ -37,14 +37,14 @@ jobs:
         with:
           java-version: 11.0.5
 
-      - name: Build backend with maven
+      - name: test backend with maven
         working-directory: ./backend
-        run: mvn test
+        run: mvn test -P $environment --file pom.xml
 
 
-  frontend-build-image:
+  frontend-test:
     runs-on: [ self-hosted, linux ]
-    needs: [backend-build-image]
+    needs: [backend-test]
     defaults:
       run:
         working-directory: ./frontend
@@ -53,7 +53,7 @@ jobs:
 
       - name: Extract branch name
         shell: bash
-        run: echo "branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+        run: echo "branch=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
         id: extract_branch
 
       - name: Set env to development
@@ -82,5 +82,11 @@ jobs:
       - name: install angular cli
         run: npm install -g @angular/cli
 
+      - name: extract Chrome
+        shell: bash
+        run: export CHROME_BIN=/usr/bin/google-chrome
+        
+        
       - name: ng test
-        run: ng test --configuration $environment_long
+        run: ng test --watch=false
+        if: 1 == 2

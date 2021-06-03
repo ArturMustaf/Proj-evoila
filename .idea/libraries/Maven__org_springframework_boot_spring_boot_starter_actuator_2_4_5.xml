@@ -1,13 +1,13 @@
 <component name="libraryTable">
-  <library name="Maven: com.github.docker-java:docker-java-transport:3.2.8">
+  <library name="Maven: org.springframework.boot:spring-boot-starter-actuator:2.4.5">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/github/docker-java/docker-java-transport/3.2.8/docker-java-transport-3.2.8.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-actuator/2.4.5/spring-boot-starter-actuator-2.4.5.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/com/github/docker-java/docker-java-transport/3.2.8/docker-java-transport-3.2.8-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-actuator/2.4.5/spring-boot-starter-actuator-2.4.5-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/com/github/docker-java/docker-java-transport/3.2.8/docker-java-transport-3.2.8-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-actuator/2.4.5/spring-boot-starter-actuator-2.4.5-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

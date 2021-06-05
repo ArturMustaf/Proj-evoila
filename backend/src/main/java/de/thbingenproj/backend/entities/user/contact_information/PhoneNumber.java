@@ -1,7 +1,7 @@
-package de.test.backend.entities.user.contact_information;
+package de.thbingenproj.backend.entities.user.contact_information;
 
-import de.test.backend.entities.base.BaseEntity;
-import de.test.backend.entities.user.contact_information.contact_types.PhoneNumberType;
+import de.thbingenproj.backend.entities.base.BaseEntity;
+import de.thbingenproj.backend.entities.user.contact_information.contact_types.PhoneNumberType;
 import lombok.*;
 import org.hibernate.search.annotations.Field;
 

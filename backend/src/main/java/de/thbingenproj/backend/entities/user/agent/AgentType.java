@@ -1,6 +1,6 @@
-package de.test.backend.entities.user.agent;
+package de.thbingenproj.backend.entities.user.agent;
 
-import de.test.backend.entities.base.BaseEntity;
+import de.thbingenproj.backend.entities.base.BaseEntity;
 import lombok.*;
 
 import javax.persistence.Entity;

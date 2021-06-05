@@ -1,4 +1,4 @@
-package de.test.backend.entities.ressources.informations;
+package de.thbingenproj.backend.entities.ressources.informations;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

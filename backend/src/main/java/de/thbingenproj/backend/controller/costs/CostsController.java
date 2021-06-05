@@ -1,14 +1,14 @@
-package de.test.backend.controller.costs;
+package de.thbingenproj.backend.controller.costs;
 
-import de.test.backend.controller.costs.models.CostsModel;
-import de.test.backend.controller.costs.models.Pair;
-import de.test.backend.controller.costs.models.PriceIterator;
-import de.test.backend.entities.prices.Price;
-import de.test.backend.entities.prices.RuntimePair;
-import de.test.backend.entities.prices.price.PriceType;
-import de.test.backend.entities.repositories.*;
-import de.test.backend.entities.ressources.ResourceEntity;
-import de.test.backend.entities.ressources.ResourceType;
+import de.thbingenproj.backend.controller.costs.models.CostsModel;
+import de.thbingenproj.backend.controller.costs.models.Pair;
+import de.thbingenproj.backend.controller.costs.models.PriceIterator;
+import de.thbingenproj.backend.entities.prices.Price;
+import de.thbingenproj.backend.entities.prices.RuntimePair;
+import de.thbingenproj.backend.entities.prices.price.PriceType;
+import de.thbingenproj.backend.entities.repositories.*;
+import de.thbingenproj.backend.entities.ressources.ResourceEntity;
+import de.thbingenproj.backend.entities.ressources.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.GetMapping;

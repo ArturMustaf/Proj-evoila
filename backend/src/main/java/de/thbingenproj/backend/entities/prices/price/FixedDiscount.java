@@ -1,4 +1,4 @@
-package de.test.backend.entities.prices.price;
+package de.thbingenproj.backend.entities.prices.price;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

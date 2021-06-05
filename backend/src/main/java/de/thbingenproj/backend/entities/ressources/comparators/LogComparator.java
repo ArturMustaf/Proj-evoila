@@ -1,6 +1,6 @@
-package de.test.backend.entities.ressources.comparators;
+package de.thbingenproj.backend.entities.ressources.comparators;
 
-import de.test.backend.entities.ressources.ResourceLog;
+import de.thbingenproj.backend.entities.ressources.ResourceLog;
 
 import java.util.Comparator;
 //TODO remove not used

@@ -1,4 +1,4 @@
-package de.test.backend.controller.projections;
+package de.thbingenproj.backend.controller.projections;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

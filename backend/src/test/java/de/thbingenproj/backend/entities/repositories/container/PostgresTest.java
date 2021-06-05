@@ -1,4 +1,4 @@
-package de.test.backend.entities.repositories.container;
+package de.thbingenproj.backend.entities.repositories.container;
 
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;

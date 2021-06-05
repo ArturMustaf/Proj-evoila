@@ -1,6 +1,6 @@
-package de.test.backend.entities.prices.price;
+package de.thbingenproj.backend.entities.prices.price;
 
-import de.test.backend.entities.ressources.ResourceType;
+import de.thbingenproj.backend.entities.ressources.ResourceType;
 import lombok.Getter;
 import lombok.Setter;
 

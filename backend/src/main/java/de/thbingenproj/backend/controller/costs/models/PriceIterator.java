@@ -1,7 +1,7 @@
-package de.test.backend.controller.costs.models;
+package de.thbingenproj.backend.controller.costs.models;
 
-import de.test.backend.entities.prices.Price;
-import de.test.backend.entities.ressources.ResourceType;
+import de.thbingenproj.backend.entities.prices.Price;
+import de.thbingenproj.backend.entities.ressources.ResourceType;
 
 import java.util.Iterator;
 import java.util.List;

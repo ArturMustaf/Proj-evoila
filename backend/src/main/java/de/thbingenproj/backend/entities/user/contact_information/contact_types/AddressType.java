@@ -1,4 +1,4 @@
-package de.test.backend.entities.user.contact_information.contact_types;
+package de.thbingenproj.backend.entities.user.contact_information.contact_types;
 
 /**
  * AddressType

@@ -1,4 +1,4 @@
-package de.test.backend.controller.costs.models;
+package de.thbingenproj.backend.controller.costs.models;
 
 import lombok.Data;
 import lombok.Getter;

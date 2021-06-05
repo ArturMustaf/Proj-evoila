@@ -1,7 +1,7 @@
-package de.test.backend.controller.keycloak;
+package de.thbingenproj.backend.controller.keycloak;
 
-import de.test.backend.entities.repositories.CustomerRepository;
-import de.test.backend.entities.user.Customer;
+import de.thbingenproj.backend.entities.repositories.CustomerRepository;
+import de.thbingenproj.backend.entities.user.Customer;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

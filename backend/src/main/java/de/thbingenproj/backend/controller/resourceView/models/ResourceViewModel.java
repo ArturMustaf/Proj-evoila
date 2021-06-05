@@ -1,4 +1,4 @@
-package de.test.backend.controller.resourceView.models;
+package de.thbingenproj.backend.controller.resourceView.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

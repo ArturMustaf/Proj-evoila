@@ -1,8 +1,8 @@
-package de.test.backend.entities.user.contact_information;
+package de.thbingenproj.backend.entities.user.contact_information;
 
-import de.test.backend.entities.base.BaseEntity;
-import de.test.backend.entities.user.contact_information.contact_types.AddressType;
-import de.test.backend.entities.user.contact_information.contact_types.Country;
+import de.thbingenproj.backend.entities.base.BaseEntity;
+import de.thbingenproj.backend.entities.user.contact_information.contact_types.AddressType;
+import de.thbingenproj.backend.entities.user.contact_information.contact_types.Country;
 import lombok.*;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.IndexedEmbedded;

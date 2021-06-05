@@ -1,11 +1,11 @@
-package de.test.backend.controller.resourceView;
+package de.thbingenproj.backend.controller.resourceView;
 
-import de.test.backend.controller.resourceView.models.ResourceViewModel;
-import de.test.backend.entities.prices.RuntimePair;
-import de.test.backend.entities.repositories.ProjectRepository;
-import de.test.backend.entities.repositories.RuntimePairRepository;
-import de.test.backend.entities.ressources.ResourceEntity;
-import de.test.backend.entities.ressources.ResourceType;
+import de.thbingenproj.backend.controller.resourceView.models.ResourceViewModel;
+import de.thbingenproj.backend.entities.prices.RuntimePair;
+import de.thbingenproj.backend.entities.repositories.ProjectRepository;
+import de.thbingenproj.backend.entities.repositories.RuntimePairRepository;
+import de.thbingenproj.backend.entities.ressources.ResourceEntity;
+import de.thbingenproj.backend.entities.ressources.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

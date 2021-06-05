@@ -1,8 +1,8 @@
-package de.test.backend.entities.user.contact_information;
+package de.thbingenproj.backend.entities.user.contact_information;
 
-import de.test.backend.entities.base.BaseEntity;
-import de.test.backend.entities.prices.Project;
-import de.test.backend.entities.user.contact_information.contact_types.CompanyType;
+import de.thbingenproj.backend.entities.base.BaseEntity;
+import de.thbingenproj.backend.entities.prices.Project;
+import de.thbingenproj.backend.entities.user.contact_information.contact_types.CompanyType;
 import lombok.*;
 
 import javax.persistence.*;

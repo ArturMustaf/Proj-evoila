@@ -35,9 +35,6 @@ public class CostsModel {
         public String type;
         public double price = 0d;
     }
-    //private final String resource_type;
-
-    //private Map<String, List<>>
 
 
 }

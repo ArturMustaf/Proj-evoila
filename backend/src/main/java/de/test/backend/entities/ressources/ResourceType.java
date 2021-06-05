@@ -56,12 +56,6 @@ public class ResourceType extends BaseEntity {
     @IndexedEmbedded
     @OneToMany(cascade = CascadeType.ALL)
     List<Price> offlinePrice;
-//    /**
-//     * If there are resource changes for example in description or resources given a next Resourcetype can be defined
-//     * to ensure the correct usage and price calculation without changing the base resource type
-//     */
-//    @ManyToOne
-//    ResourceType previousResource;
     /**
      * If there are resource changes for example in description or resources given a next Resourcetype can be defined
      * to ensure the correct usage and price calculation without changing the base resource type

@@ -47,11 +47,6 @@ class CostsControllerTest {
         p1.setPriceType(PriceType.MINUTE_PRICE);
         p1.setCreated(calendar.getTime());
         prices.add(p1);
-
-
-
-
-
     }
 
 }

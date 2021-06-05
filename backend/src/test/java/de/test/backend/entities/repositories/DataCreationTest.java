@@ -27,7 +27,7 @@ import java.util.List;
  * The @ExtendWith is the initializer for creating a testcontainer with elasticsearch
  * In general all tests should be run against the instances which are provided through the testcontainer instances.
  */
-public class DataCreation extends PostgresTest {
+class DataCreationTest extends PostgresTest {
 
     @Autowired
     CustomerRepository repository;

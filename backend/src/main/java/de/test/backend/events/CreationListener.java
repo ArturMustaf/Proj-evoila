@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-
 @Component
 public class CreationListener {
     @Autowired
@@ -29,7 +28,7 @@ public class CreationListener {
 
     @Scheduled(fixedDelay = 1000)
     public void createRuntimePairs() {
-        while (events.size() > 0) {
+        while (!events.isEmpty()) {
 
             ResourceLog createdlog = events.removeFirst();
             if (retriedAmount == 3 && retriedFor.equals(createdlog)) {
@@ -49,14 +48,14 @@ public class CreationListener {
                 return;
             }
             if (log.getEvent() != null && log.getEvent().getEventType() == EventType.STARTED) {
-                RuntimePair runtimePair = new RuntimePair();
+                var runtimePair = new RuntimePair();
                 runtimePair.started = log;
                 runtimePair.entity = log.getResourceEntity();
                 runtimePair.project = log.getProject();
-                runtimePair = runtimePairRepository.save(runtimePair);
+                runtimePairRepository.save(runtimePair);
             } else if (log.getEvent() != null && log.getEvent().getEventType() == EventType.STOPPED) {
                 List<RuntimePair> runtimePair = runtimePairRepository.findRuntimePairByEntityIdAndStopped(log.getResourceEntity().getId());
-                if (runtimePair == null || runtimePair.size() == 0) {
+                if (runtimePair == null || runtimePair.isEmpty()) {
                     events.addFirst(createdlog);
                     retriedFor = createdlog;
                     retriedAmount += 1;
@@ -72,7 +71,7 @@ public class CreationListener {
 
 
     @EventListener()
-    public void createResourceLog(CreationEvent<ResourceLog> creationEvent) throws InterruptedException {
+    public void createResourceLog(CreationEvent<ResourceLog> creationEvent) {
         ResourceLog log = creationEvent.getEntity();
 
         if (log.getEvent() != null && log.getEvent().getEventType() == EventType.STOPPED || log.getEvent().getEventType() == EventType.STARTED) {

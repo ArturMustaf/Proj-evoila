@@ -21,9 +21,9 @@ public class CustomerProjectMapper {
     public ProjectRepository projectRepository;
 
     @GetMapping("/public/createUserLink/{userid}/{projectid}")
-    void update(@PathVariable long userid, @PathVariable long projectid) {
-        Customer customer = customerRepository.findById(userid).orElse(null);
-        Project project = projectRepository.findById(projectid).orElse(null);
+    public void update(@PathVariable long userid, @PathVariable long projectid) throws NullPointerException {
+        var customer = customerRepository.findById(userid).orElse(null);
+        var project = projectRepository.findById(projectid).orElse(null);
         customer.getProjects().add(project);
         customerRepository.save(customer);
     }

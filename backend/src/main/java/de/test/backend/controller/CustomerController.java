@@ -22,7 +22,7 @@ public class CustomerController {
      * @return saved object
      */
     @PutMapping("create/customers/{id}")
-    Customer createCustomer(@PathVariable long id, @RequestBody Customer customer) {
+    public Customer createCustomer(@PathVariable long id, @RequestBody Customer customer) {
         customer.setId(id);
         return this.customerRepository.save(customer);
     }
@@ -34,7 +34,7 @@ public class CustomerController {
      * @return saved object
      */
     @PostMapping("create/customers")
-    Customer postCustomer(@RequestBody Customer customer) {
+    public Customer postCustomer(@RequestBody Customer customer) {
         return this.customerRepository.save(customer);
     }
 
@@ -43,9 +43,8 @@ public class CustomerController {
      * @return
      */
     @GetMapping("create/customers/linked/{id}")
-    Customer isLinked(@PathVariable long id) {
-        Customer customer = customerRepository.findById(id).orElse(null);
-        return customer;
+    public Customer isLinked(@PathVariable long id) {
+        return customerRepository.findById(id).orElse(null);
     }
 
     /**
@@ -55,7 +54,7 @@ public class CustomerController {
      * @return
      */
     @GetMapping("create/customers/{id}")
-    Customer getCustomer(@PathVariable long id) {
+    public Customer getCustomer(@PathVariable long id) {
         return this.customerRepository.findById(id).orElse(null);
     }
 }

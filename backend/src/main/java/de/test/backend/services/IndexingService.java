@@ -24,7 +24,7 @@ public class IndexingService {
     @Transactional
     public void initiateIndexing() throws InterruptedException {
         log.info("Initiating indexing...");
-        FullTextEntityManager fullTextEntityManager =
+        var fullTextEntityManager =
                 Search.getFullTextEntityManager(em);
         fullTextEntityManager.createIndexer().startAndWait();
         log.info("All entities indexed");

@@ -24,7 +24,4 @@ public abstract class BaseTimeEntity extends BaseEntity {
     /**
      * Possible field for lastEditedUser to save who created / modified entry
      */
-//    @LastModifiedBy
-//    @ManyToOne
-//    Agent agent;
 }

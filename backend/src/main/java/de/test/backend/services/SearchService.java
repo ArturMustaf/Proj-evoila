@@ -34,7 +34,7 @@ public class SearchService {
      * @return results with pagination
      */
     public SearchResult<Customer> getUserOnQuery(String query, int from, int size) {
-        FullTextEntityManager fullTextEntityManager =
+        var fullTextEntityManager =
                 Search.getFullTextEntityManager(entityManager);
         QueryBuilder qb = fullTextEntityManager
                 .getSearchFactory()
@@ -43,55 +43,56 @@ public class SearchService {
                 .get();
 
         if (query == null || Objects.equals(query, "") || Objects.equals(query, " ")) {
-            FullTextQuery fullTextQuery = fullTextEntityManager
+            var fullTextQuery = fullTextEntityManager
                     .createFullTextQuery(qb.all().createQuery(), Customer.class);
             fullTextQuery.setSort(qb.sort().byScore().createSort());
             fullTextQuery.setFirstResult(from);
             fullTextQuery.setMaxResults(size);
-            List<Customer> result = (List<Customer>) fullTextQuery.getResultList();
+            List<Customer> result = fullTextQuery.getResultList();
             result.forEach(customer -> customer.setProjects(null));
             return new SearchResult<>(result, fullTextQuery.getResultSize());
         }
-        Query allQuery = qb.simpleQueryString().onFields("contactInformation.email",
-                "contactInformation.numbers.number", "contactInformation.address.plz",
-                "contactInformation.address.city", "contactInformation.address.country.countryName",
-                "contactInformation.address.address", "fullName").boostedTo(8f).withAndAsDefaultOperator().matching(query).createQuery();
-
-
-        Query mailQuery = qb.keyword()
-                .onFields("contactInformation.email", "contactInformation.numbers.number")
+        final String contactEmail = "contactInformation.email";
+        final String contactNumber = "contactInformation.numbers.number";
+        final String contactPLZ = "contactInformation.address.plz";
+        final String contactCountry = "contactInformation.address.country.countryName";
+        final String contactFullName = "fullName";
+        final String contactCity = "contactInformation.address.city";
+        final String contactAddress = "contactInformation.address.address";
+        var allQuery = qb.simpleQueryString().onFields(contactEmail, contactNumber, contactPLZ, contactCity, contactCountry, contactAddress, contactFullName)
+                .boostedTo(8f).withAndAsDefaultOperator().matching(query).createQuery();
+        var mailQuery = qb.keyword()
+                .onFields(contactEmail, contactNumber)
                 .matching(query).createQuery();
-        Query addressExact = qb.keyword()
-                .onFields("contactInformation.address.plz"
-                        , "contactInformation.address.city", "contactInformation.address.country.countryName")
+        var addressExact = qb.keyword()
+                .onFields(contactPLZ, contactCity, contactCountry)
                 .matching(query).createQuery();
-
-        Query address = qb.keyword().fuzzy().withEditDistanceUpTo(2).withPrefixLength(9).boostedTo(3f)
-                .onFields("contactInformation.address.address")
+        var address = qb.keyword().fuzzy().withEditDistanceUpTo(2).withPrefixLength(9).boostedTo(3f)
+                .onFields(contactAddress)
                 .matching(query).createQuery();
-        Query nameQuery = qb.keyword().fuzzy().withPrefixLength(5).withEditDistanceUpTo(2)
-                .boostedTo(5f).onField("fullName").matching(query).createQuery();
+        var nameQuery = qb.keyword().fuzzy().withPrefixLength(5).withEditDistanceUpTo(2)
+                .boostedTo(5f).onField(contactFullName).matching(query).createQuery();
 
-        Query phraseQuery = qb.phrase().withSlop(5).onField("fullName").andField("contactInformation.address.address")
-                .andField("contactInformation.address.plz").andField("contactInformation.email").andField("contactInformation.address.plz")
-                .andField("contactInformation.address.city").andField("contactInformation.address.country.countryName").sentence(query).createQuery();
+        var phraseQuery = qb.phrase().withSlop(5).onField(contactFullName).andField(contactAddress)
+                .andField(contactPLZ).andField(contactEmail).andField(contactPLZ)
+                .andField(contactCity).andField(contactCountry).sentence(query).createQuery();
 
-        Query searchQuery = qb.bool()
+        var searchQuery = qb.bool()
                 .should(mailQuery).should(nameQuery)
                 .should(addressExact).should(address)
                 .should(phraseQuery).should(allQuery).minimumShouldMatchNumber(1).createQuery();
 
 
-        FullTextQuery fullTextQuery = fullTextEntityManager
+        var fullTextQuery = fullTextEntityManager
                 .createFullTextQuery(searchQuery, Customer.class);
         fullTextQuery.setSort(qb.sort().byScore().createSort());
         fullTextQuery.setFirstResult(from);
         fullTextQuery.setMaxResults(size);
 
-        List<Customer> result = (List<Customer>) fullTextQuery.getResultList();
+        List<Customer> result = fullTextQuery.getResultList();
         result.forEach(customer -> customer.setProjects(null));
 
-        return new SearchResult<>((List<Customer>) fullTextQuery.getResultList(), fullTextQuery.getResultSize());
+        return new SearchResult<>(fullTextQuery.getResultList(), fullTextQuery.getResultSize());
     }
 
     /**
@@ -101,7 +102,7 @@ public class SearchService {
      * @return results with pagination
      */
     public SearchResult<Project> getProjects(String query, int from, int size) {
-        FullTextEntityManager fullTextEntityManager =
+        var fullTextEntityManager =
                 Search.getFullTextEntityManager(entityManager);
 
         QueryBuilder qb = fullTextEntityManager
@@ -110,35 +111,35 @@ public class SearchService {
                 .forEntity(Project.class)
                 .get();
         if (query == null || Objects.equals(query, "") || Objects.equals(query, " ")) {
-            FullTextQuery fullTextQuery = fullTextEntityManager
+            var fullTextQuery = fullTextEntityManager
                     .createFullTextQuery(qb.all().createQuery(), Project.class);
             fullTextQuery.setSort(qb.sort().byScore().createSort());
             fullTextQuery.setFirstResult(from);
             fullTextQuery.setMaxResults(size);
-            List<Project> result = (List<Project>) fullTextQuery.getResultList();
-            result.forEach(project -> {
-                project.setLogs(null);
-            });
+            List<Project> result = fullTextQuery.getResultList();
+            result.forEach(project ->
+                project.setLogs(null)
+            );
             return new SearchResult<>(result, fullTextQuery.getResultSize());
         }
 
-        Query searchProjektName = qb.keyword().fuzzy().withEditDistanceUpTo(2).boostedTo(5f)
+        var searchProjektName = qb.keyword().fuzzy().withEditDistanceUpTo(2).boostedTo(5f)
                 .onFields("name")
                 .matching(query).createQuery();
-        Query searchQuery = qb.keyword()
+        var searchQuery = qb.keyword()
                 .fuzzy().withEditDistanceUpTo(1).onFields("description")
                 .matching(query)
                 .createQuery();
-        Query mixedQuery = qb.bool().should(searchQuery).should(searchProjektName).createQuery();
-        FullTextQuery fullTextQuery = fullTextEntityManager
+        var mixedQuery = qb.bool().should(searchQuery).should(searchProjektName).createQuery();
+        var fullTextQuery = fullTextEntityManager
                 .createFullTextQuery(mixedQuery, Project.class);
         fullTextQuery.setSort(qb.sort().byScore().createSort());
         fullTextQuery.setFirstResult(from);
         fullTextQuery.setMaxResults(size);
-        List<Project> result = (List<Project>) fullTextQuery.getResultList();
-        result.forEach(project -> {
-            project.setLogs(null);
-        });
+        List<Project> result = fullTextQuery.getResultList();
+        result.forEach(project ->
+            project.setLogs(null)
+        );
         return new SearchResult<>(result, fullTextQuery.getResultSize());
     }
 
@@ -149,7 +150,7 @@ public class SearchService {
      * @return results with pagination
      */
     public SearchResult<ContactInformation> getContactInformations(String query, int from, int size) {
-        FullTextEntityManager fullTextEntityManager =
+        var fullTextEntityManager =
                 Search.getFullTextEntityManager(entityManager);
 
         QueryBuilder qb = fullTextEntityManager
@@ -158,7 +159,7 @@ public class SearchService {
                 .forEntity(ContactInformation.class)
                 .get();
         if (query == null || Objects.equals(query, "") || Objects.equals(query, " ")) {
-            FullTextQuery fullTextQuery = fullTextEntityManager
+            var fullTextQuery = fullTextEntityManager
                     .createFullTextQuery(qb.all().createQuery(), ContactInformation.class);
             fullTextQuery.setSort(qb.sort().byScore().createSort());
             fullTextQuery.setFirstResult(from);
@@ -166,22 +167,22 @@ public class SearchService {
 
             return new SearchResult<>((List<ContactInformation>) fullTextQuery.getResultList(), fullTextQuery.getResultSize());
         }
-        Query dataQuery = qb.keyword()
+        var dataQuery = qb.keyword()
                 .onFields("email", "numbers.number")
                 .matching(query).createQuery();
-        Query addressExact = qb.keyword()
+        var addressExact = qb.keyword()
                 .onFields("address.plz"
                         , "address.city", "address.country.countryName")
                 .matching(query).createQuery();
 
-        Query address = qb.keyword().fuzzy().withEditDistanceUpTo(2).withPrefixLength(9).boostedTo(3f)
+        var address = qb.keyword().fuzzy().withEditDistanceUpTo(2).withPrefixLength(9).boostedTo(3f)
                 .onFields("address.address")
                 .matching(query).createQuery();
 
 
-        Query searchQuery = qb.bool().should(addressExact).should(address).should(dataQuery).createQuery();
+        var searchQuery = qb.bool().should(addressExact).should(address).should(dataQuery).createQuery();
 
-        FullTextQuery fullTextQuery = fullTextEntityManager
+        var fullTextQuery = fullTextEntityManager
                 .createFullTextQuery(searchQuery, ContactInformation.class);
         fullTextQuery.setSort(qb.sort().byScore().createSort());
         fullTextQuery.setFirstResult(from);
@@ -197,7 +198,7 @@ public class SearchService {
      * @return results with pagination
      */
     public SearchResult<ResourceType> getResourceType(String query, int from, int size) {
-        FullTextEntityManager fullTextEntityManager =
+        var fullTextEntityManager =
                 Search.getFullTextEntityManager(entityManager);
 
         QueryBuilder qb = fullTextEntityManager
@@ -206,7 +207,7 @@ public class SearchService {
                 .forEntity(ResourceType.class)
                 .get();
         if (query == null || Objects.equals(query, "") || Objects.equals(query, " ")) {
-            FullTextQuery fullTextQuery = fullTextEntityManager
+            var fullTextQuery = fullTextEntityManager
                     .createFullTextQuery(qb.all().createQuery(), ResourceType.class);
             fullTextQuery.setSort(qb.sort().byScore().createSort());
             fullTextQuery.setFirstResult(from);
@@ -214,13 +215,13 @@ public class SearchService {
 
             return new SearchResult<>((List<ResourceType>) fullTextQuery.getResultList(), fullTextQuery.getResultSize());
         }
-        Query dataQuery = qb.keyword()
+        var dataQuery = qb.keyword()
                 .onFields("type", "shortDescription", "fullDescription")
                 .matching(query).createQuery();
 
-        Query searchQuery = qb.bool().should(dataQuery).createQuery();
+        var searchQuery = qb.bool().should(dataQuery).createQuery();
 
-        FullTextQuery fullTextQuery = fullTextEntityManager
+        var fullTextQuery = fullTextEntityManager
                 .createFullTextQuery(searchQuery, ResourceType.class);
         fullTextQuery.setSort(qb.sort().byScore().createSort());
         fullTextQuery.setFirstResult(from);

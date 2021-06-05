@@ -12,5 +12,5 @@ import java.util.List;
  * Basic Spring crud repo
  */
 public interface AgentRepository extends CrudRepository<Agent, Long> {
-    List<Customer> findAllByContactInformation_Id(long id);
+    List<Customer> findAllByContactInformationId(long id);
 }

@@ -11,12 +11,7 @@ import java.util.Optional;
 @Configuration
 @EnableScheduling
 class SpringSecurityAuditorAware implements AuditorAware<Agent> {
-    //TODO Remove Static employee
     private Agent agent;
-
-    static {
-
-    }
 
     SpringSecurityAuditorAware() {
         System.out.println("init");

@@ -11,9 +11,6 @@ import javax.persistence.PostPersist;
 @Component
 public class ResourceLogListener {
 
-    //@Autowired
-    //ResourceLogRepository resourceLogRepository;
-
     public static ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
@@ -25,7 +22,7 @@ public class ResourceLogListener {
     @PostPersist
     public void runPairCreation(ResourceLog log) {
         System.out.println(log);
-        final CreationEvent<ResourceLog> resourceLog = new CreationEvent<ResourceLog>(log);
+        final CreationEvent<ResourceLog> resourceLog = new CreationEvent<>(log);
         applicationEventPublisher.publishEvent(resourceLog);
     }
 

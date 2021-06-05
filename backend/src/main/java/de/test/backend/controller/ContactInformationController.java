@@ -20,7 +20,7 @@ public class ContactInformationController {
      * @return the requested ContactInformation Object or null
      */
     @GetMapping("create/contactInformations/{id}")
-    ContactInformation getContactInformations(@PathVariable long id) {
+    public ContactInformation getContactInformations(@PathVariable long id) {
         return this.contactInformationRepository.findById(id).orElse(null);
     }
 
@@ -30,7 +30,7 @@ public class ContactInformationController {
      * @return the saved ContactInformation Object or error
      */
     @PutMapping("create/contactInformations/{id}")
-    ContactInformation putContactInformation(@PathVariable long id, @RequestBody ContactInformation contactInformation) {
+    public ContactInformation putContactInformation(@PathVariable long id, @RequestBody ContactInformation contactInformation) {
         contactInformation.setId(id);
         return this.contactInformationRepository.save(contactInformation);
     }
@@ -40,7 +40,7 @@ public class ContactInformationController {
      * @return the saved ContactInformation Object or error
      */
     @PostMapping("create/contactInformations")
-    ContactInformation postCustomer(@RequestBody ContactInformation contactInformation) {
+    public ContactInformation postCustomer(@RequestBody ContactInformation contactInformation) {
         return this.contactInformationRepository.save(contactInformation);
     }
 }

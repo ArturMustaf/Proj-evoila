@@ -3,7 +3,6 @@ package de.test.backend.configuration;
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.keycloak.adapters.springsecurity.KeycloakConfiguration;
-import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.client.KeycloakClientRequestFactory;
 import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
@@ -59,8 +58,8 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
      * @param auth SecurityBuilder to build authentications and add details like authproviders etc.
      */
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        KeycloakAuthenticationProvider keyCloakAuthProvider = keycloakAuthenticationProvider();
+    public void configureGlobal(AuthenticationManagerBuilder auth) {
+        var keyCloakAuthProvider = keycloakAuthenticationProvider();
         keyCloakAuthProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
 
         auth.authenticationProvider(keyCloakAuthProvider);
@@ -70,7 +69,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
      * Sets keycloaks config resolver to use springs application.properties instead of keycloak.json (which is standard)
      */
     @Bean
-    public KeycloakConfigResolver KeyCloakConfigResolver() {
+    public KeycloakConfigResolver keyCloakConfigResolver() {
         return new KeycloakSpringBootConfigResolver();
     }
 
@@ -106,7 +105,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
+        var configuration = new CorsConfiguration();
 
         configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH"));
         configuration.setAllowCredentials(true);
@@ -119,7 +118,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        var source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
@@ -128,7 +127,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     @Bean
     public FilterRegistrationBean keycloakAuthenticationProcessingFilterRegistrationBean(
             KeycloakAuthenticationProcessingFilter filter) {
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
+        var registrationBean = new FilterRegistrationBean(filter);
         registrationBean.setEnabled(false);
         return registrationBean;
     }
@@ -136,7 +135,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     @Bean
     public FilterRegistrationBean keycloakPreAuthActionsFilterRegistrationBean(
             KeycloakPreAuthActionsFilter filter) {
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean(filter);
+        var registrationBean = new FilterRegistrationBean(filter);
         registrationBean.setEnabled(false);
         return registrationBean;
     }

@@ -59,9 +59,9 @@ public class Price extends BaseEntity {
 
         long fromTime = from.getTime();
         long toTime = to.getTime();
-        Date expire = expireDate;
+        var expire = expireDate;
         if (expire == null) {
-            Calendar cal = Calendar.getInstance();
+            var cal = Calendar.getInstance();
             cal.add(Calendar.YEAR, 200);
             expire = cal.getTime();
         }

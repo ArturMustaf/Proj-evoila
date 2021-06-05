@@ -4,7 +4,6 @@ import de.test.backend.controller.costs.models.CostsModel;
 import de.test.backend.controller.costs.models.Pair;
 import de.test.backend.controller.costs.models.PriceIterator;
 import de.test.backend.entities.prices.Price;
-import de.test.backend.entities.prices.Project;
 import de.test.backend.entities.prices.RuntimePair;
 import de.test.backend.entities.prices.price.PriceType;
 import de.test.backend.entities.repositories.*;
@@ -51,7 +50,7 @@ public class CostsController {
      */
 
     @GetMapping("/costs")
-    public List<CostsModel> Costs(@RequestParam() long id, @RequestParam(required = false) Long startTS,
+    public List<CostsModel> costs(@RequestParam() long id, @RequestParam(required = false) Long startTS,
                                   @RequestParam(required = false) Long endTS) {
 
         Date start;
@@ -63,7 +62,7 @@ public class CostsController {
             end = new Date(endTS);
         }
         if (startTS == null) {
-            Calendar calendar = Calendar.getInstance();
+            var calendar = Calendar.getInstance();
             calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
             calendar.set(Calendar.MINUTE, 0);
             calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -89,14 +88,13 @@ public class CostsController {
      */
     @Transactional
     public CostsModel priceForProject(long id, Date from, Date to) {
-        Project project = repository.findById(id).orElse(null);
+        var project = repository.findById(id).orElse(null);
         if (project == null) {
             return null;
         }
-        long totalPrice = 0L;
+        var totalPrice = 0L;
         List<RuntimePair> runtimes = runtimePairRepository.findRuntimePairsByEndDateAndStartDateAndProject(from, to, project);
 
-        System.out.println(runtimes.size());
         HashMap<ResourceEntity, Pair<ResourceType, Long>> entityPriceMap = new HashMap<>();
 
         for (RuntimePair pair : runtimes) {
@@ -105,7 +103,7 @@ public class CostsController {
             ResourceEntity runEntity = pair.entity;
             long price = 0;
             // create iterator over prices
-            PriceIterator priceIterator = new PriceIterator(type);
+            var priceIterator = new PriceIterator(type);
             Date validTimeStart = pair.started.getCreated().before(from) ? from : pair.started.getCreated();
 
             Date validTimeEnd;
@@ -118,7 +116,7 @@ public class CostsController {
             }
 
             while (priceIterator.hasNext()) {
-                Price priceObject = priceIterator.next();
+                var priceObject = priceIterator.next();
                 Pair<Long, Long> timeinRange = priceObject.getTimeInTimeRange(validTimeStart, validTimeEnd);
                 long timerun = timeinRange.elm1;
                 price += calculatePrice(priceObject, timerun);
@@ -135,16 +133,13 @@ public class CostsController {
             if (!resourceTypes.containsKey(result.elm1.getType())) {
                 resourceTypes.put(result.elm1.getType(), new CostsModel.TypeInformation());
             }
-            CostsModel.TypeInformation typeInformation = resourceTypes.get(result.elm1.getType());
+            var typeInformation = resourceTypes.get(result.elm1.getType());
             typeInformation.price += (double) result.elm2 / 100;
             typeInformation.type = result.elm1.getType();
 
         }
 
-        CostsModel model = new CostsModel(totalPrice, project.getName(), resourceTypes);
-
-
-        return model;
+        return new CostsModel(totalPrice, project.getName(), resourceTypes);
 
     }
 
@@ -157,7 +152,7 @@ public class CostsController {
     private long calculatePrice(Price price, long time) {
         // TODO support more time intervals
 
-        PriceType type = price.getPriceType();
+        var type = price.getPriceType();
         if (type == PriceType.HOURLY_PRICE) {
             long hours = time / (60 * 60 * 1000);
             return Math.abs(price.getPrice() * hours);

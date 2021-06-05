@@ -5,6 +5,7 @@ import de.test.backend.entities.ressources.ResourceType;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Iterator through Prices. To allow following RessourceTypes and keep the timeframes correctly
@@ -32,7 +33,7 @@ public class PriceIterator implements Iterator<Price> {
         return i < this.prices.size() ||
                 (type.getNextResource() != null &&
                         type.getNextResource().getPrice() != null &&
-                        type.getNextResource().getPrice().size() > 0);
+                        !type.getNextResource().getPrice().isEmpty());
     }
 
     /**
@@ -40,7 +41,7 @@ public class PriceIterator implements Iterator<Price> {
      * @throws IndexOutOfBoundsException if iterating and there is no next price
      */
     @Override
-    public Price next() {
+    public Price next() throws NoSuchElementException {
         if (!hasNext()) {
             throw new IndexOutOfBoundsException("Cant iterate further - completete price history is iterated");
         }
@@ -49,10 +50,7 @@ public class PriceIterator implements Iterator<Price> {
             this.prices = this.type.getPrice();
             this.i = 0;
         }
-        Price result = this.prices.get(i++);
-
-
-        return result;
+        return this.prices.get(i++);
     }
 
 

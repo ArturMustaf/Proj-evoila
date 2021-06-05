@@ -28,7 +28,7 @@ public class SearchController {
      * @return SearchResults
      */
     @GetMapping(path = "/search/customers/{query}/{from}/{size}")
-    SearchResult<Customer> getCustomers(@PathVariable String query, @PathVariable int from, @PathVariable int size) {
+    public SearchResult<Customer> getCustomers(@PathVariable String query, @PathVariable int from, @PathVariable int size) {
         return this.searchService.getUserOnQuery(query, from, size);
     }
 
@@ -39,7 +39,7 @@ public class SearchController {
      * @return SearchResults
      */
     @GetMapping(path = "/search/contact_information/{query}/{from}/{size}")
-    SearchResult<ContactInformation> getContactInformations(@PathVariable String query, @PathVariable int from, @PathVariable int size) {
+    public SearchResult<ContactInformation> getContactInformations(@PathVariable String query, @PathVariable int from, @PathVariable int size) {
         return this.searchService.getContactInformations(query, from, size);
     }
 
@@ -50,7 +50,7 @@ public class SearchController {
      * @return SearchResults
      */
     @GetMapping(path = "/search/projects/{query}/{from}/{size}")
-    SearchResult<Project> getProjects(@PathVariable String query, @PathVariable int from, @PathVariable int size) {
+    public SearchResult<Project> getProjects(@PathVariable String query, @PathVariable int from, @PathVariable int size) {
         return this.searchService.getProjects(query, from, size);
     }
 
@@ -61,7 +61,7 @@ public class SearchController {
      * @return SearchResults
      */
     @GetMapping(path = "/search/resourcetypes/{query}/{from}/{size}")
-    SearchResult<ResourceType> getResourceType(@PathVariable String query, @PathVariable int from, @PathVariable int size) {
+    public SearchResult<ResourceType> getResourceType(@PathVariable String query, @PathVariable int from, @PathVariable int size) {
         return this.searchService.getResourceType(query, from, size);
     }
 

@@ -19,11 +19,11 @@ public class Authentificator {
 
     @Transactional
     @PostMapping("/auth/update")
-    Customer updateUserData(@RequestBody Customer customer, HttpServletRequest request) {
+    public Customer updateUserData(@RequestBody Customer customer, HttpServletRequest request) {
         KeycloakAuthenticationToken principal = (KeycloakAuthenticationToken) request.getUserPrincipal();
         String userId = principal.getAccount().getKeycloakSecurityContext().getToken().getSubject().intern();
         customer.setUserId(userId);
-        Customer customerObj = customerRepository.findCustomerByUserId(userId);
+        var customerObj = customerRepository.findCustomerByUserId(userId);
         if (customerObj == null) {
             return customerRepository.save(customer);
         }
@@ -38,12 +38,10 @@ public class Authentificator {
 
     @Transactional
     @GetMapping("/auth/user")
-    Customer getCustomer(HttpServletRequest request) {
+    public Customer getCustomer(HttpServletRequest request) {
         KeycloakAuthenticationToken principal = (KeycloakAuthenticationToken) request.getUserPrincipal();
         String userId = principal.getAccount().getKeycloakSecurityContext().getToken().getSubject().intern();
-        Customer customer = customerRepository.findCustomerByUserId(userId);
-
-        return customer;
+        return customerRepository.findCustomerByUserId(userId);
     }
 
 

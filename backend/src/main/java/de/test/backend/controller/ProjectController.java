@@ -25,7 +25,7 @@ public class ProjectController {
      * @return
      */
     @GetMapping("create/projects/{id}")
-    Project getContactInformations(@PathVariable long id) {
+    public Project getContactInformations(@PathVariable long id) {
         return this.projectRepository.findById(id).orElse(null);
     }
 
@@ -35,7 +35,7 @@ public class ProjectController {
      * @return
      */
     @PutMapping("create/projects/{id}")
-    Project putProjects(@PathVariable long id, @RequestBody Project project) {
+    public Project putProjects(@PathVariable long id, @RequestBody Project project) {
         project.setId(id);
         return this.projectRepository.save(project);
     }
@@ -45,15 +45,15 @@ public class ProjectController {
      * @return saved project
      */
     @PostMapping("create/projects")
-    Project postProjects(@RequestBody Project project) {
+    public Project postProjects(@RequestBody Project project) {
         return this.projectRepository.save(project);
     }
 
     @GetMapping("/projectInformations")
-    List<ProjectInformation> getProjects(HttpServletRequest request) {
+    public List<ProjectInformation> getProjects(HttpServletRequest request) {
         KeycloakAuthenticationToken principal = (KeycloakAuthenticationToken) request.getUserPrincipal();
         String userId = principal.getAccount().getKeycloakSecurityContext().getToken().getSubject().intern();
-        Customer customer = customerRepository.findCustomerByUserId(userId);
+        var customer = customerRepository.findCustomerByUserId(userId);
         List<ProjectInformation> projectInformations = new ArrayList<>();
         for (Project project : customer.getProjects()) {
             projectInformations.add(new ProjectInformation(project.getName(), project.getDescription(), project.getId()));

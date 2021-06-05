@@ -31,6 +31,7 @@ public class RestConfig implements RepositoryRestConfigurer {
      *
      */
     @Override
+    @Deprecated
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(Customer.class);
         config.exposeIdsFor(ContactInformation.class);

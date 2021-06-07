@@ -118,24 +118,24 @@ public class CostsController {
             while (priceIterator.hasNext()) {
                 var priceObject = priceIterator.next();
                 Pair<Long, Long> timeinRange = priceObject.getTimeInTimeRange(validTimeStart, validTimeEnd);
-                long timerun = timeinRange.elm1;
+                long timerun = timeinRange.getElm1();
                 price += calculatePrice(priceObject, timerun);
 
             }
             if (!entityPriceMap.containsKey(runEntity)) {
                 entityPriceMap.put(runEntity, new Pair<>(type, 0L));
             }
-            entityPriceMap.get(runEntity).elm2 += price;
+            entityPriceMap.get(runEntity).setElm2(entityPriceMap.get(runEntity).getElm2() + price);
             totalPrice += price;
         }
         HashMap<String, CostsModel.TypeInformation> resourceTypes = new HashMap<>();
         for (Pair<ResourceType, Long> result : entityPriceMap.values()) {
-            if (!resourceTypes.containsKey(result.elm1.getType())) {
-                resourceTypes.put(result.elm1.getType(), new CostsModel.TypeInformation());
+            if (!resourceTypes.containsKey(result.getElm1().getType())) {
+                resourceTypes.put(result.getElm1().getType(), new CostsModel.TypeInformation());
             }
-            var typeInformation = resourceTypes.get(result.elm1.getType());
-            typeInformation.price += (double) result.elm2 / 100;
-            typeInformation.type = result.elm1.getType();
+            var typeInformation = resourceTypes.get(result.getElm1().getType());
+            typeInformation.setPrice(typeInformation.getPrice() + (double) result.getElm2() / 100);
+            typeInformation.setType(result.getElm1().getType());
 
         }
 
@@ -155,12 +155,12 @@ public class CostsController {
         var type = price.getPriceType();
         if (type == PriceType.HOURLY_PRICE) {
             long hours = time / (60 * 60 * 1000);
-            return Math.abs(price.getPrice() * hours);
+            return Math.abs(price.getPriceInCt() * hours);
 
         }
         if (type == PriceType.MINUTE_PRICE) {
             long minutes = time / (60 * 1000);
-            return Math.abs(price.getPrice() * minutes);
+            return Math.abs(price.getPriceInCt() * minutes);
         }
 
 

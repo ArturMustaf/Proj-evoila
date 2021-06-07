@@ -2,6 +2,7 @@ package de.thbingenproj.backend.events;
 
 import de.thbingenproj.backend.services.IndexingService;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -18,12 +19,14 @@ public class StartupEvent implements ApplicationListener<ApplicationReadyEvent> 
 
     private final IndexingService service;
 
+    @SneakyThrows
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         try {
             service.initiateIndexing();
         } catch (InterruptedException e) {
             log.error("Failed to reindex entities ", e);
+            throw e;
         }
     }
 }

@@ -22,8 +22,8 @@ public class Address extends BaseEntity {
     /**
      * Street or place
      */
-    @Field
-    String address;
+    @Field(name = "address")
+    String streetAddress;
     /**
      * plz
      */

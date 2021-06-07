@@ -23,7 +23,7 @@ public class PriceMockCreator {
         PriceType priceType = dataCreator.getBetween(PriceType.HOURLY_PRICE, PriceType.MINUTE_PRICE);
         for (int i = 0; i < random; i++) {
             Price price = new Price();
-            price.setPrice(dataCreator.getBetween(1, 2, 4, 1, 15, 20, 100, 200));
+            price.setPriceInCt(dataCreator.getBetween(1, 2, 4, 1, 15, 20, 100, 200));
             price.setCreated(calendar.getTime());
             calendar.add(Calendar.MINUTE, dataCreator.getRandom(10, 15000));
             price.setCurrency(currency);

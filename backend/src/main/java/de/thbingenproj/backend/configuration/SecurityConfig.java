@@ -26,7 +26,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 @KeycloakConfiguration
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
@@ -110,9 +109,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
         configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH"));
         configuration.setAllowCredentials(true);
         //the below three lines will add the relevant CORS response headers
-        System.out.println(List.of(allowedCors));
         for (String allowedCorsUrl : this.allowedCors) {
-            System.out.println(allowedCorsUrl);
             configuration.addAllowedOrigin(allowedCorsUrl);
         }
 
@@ -125,17 +122,17 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
 
     @Bean
-    public FilterRegistrationBean keycloakAuthenticationProcessingFilterRegistrationBean(
+    public FilterRegistrationBean<KeycloakAuthenticationProcessingFilter> keycloakAuthenticationProcessingFilterRegistrationBean(
             KeycloakAuthenticationProcessingFilter filter) {
-        var registrationBean = new FilterRegistrationBean(filter);
+        var registrationBean = new FilterRegistrationBean<>(filter);
         registrationBean.setEnabled(false);
         return registrationBean;
     }
 
     @Bean
-    public FilterRegistrationBean keycloakPreAuthActionsFilterRegistrationBean(
+    public FilterRegistrationBean<KeycloakPreAuthActionsFilter> keycloakPreAuthActionsFilterRegistrationBean(
             KeycloakPreAuthActionsFilter filter) {
-        var registrationBean = new FilterRegistrationBean(filter);
+        var registrationBean = new FilterRegistrationBean<>(filter);
         registrationBean.setEnabled(false);
         return registrationBean;
     }

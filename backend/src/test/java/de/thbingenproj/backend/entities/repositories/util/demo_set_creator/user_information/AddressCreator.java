@@ -21,7 +21,7 @@ public class AddressCreator {
         Address address = new Address();
         address.setAddressType(creator.getBetween(AddressType.BILLING_ADDRESS, AddressType.CONTACT_ADDRESS));
         address.setPlz(creator.getData(DataTypes.PLZ));
-        address.setAddress(creator.getData(DataTypes.ADDRESS));
+        address.setStreetAddress(creator.getData(DataTypes.ADDRESS));
         address.setCity(creator.getData(DataTypes.CITY));
         address.setCountry(countryMockCreator.createCountry());
 

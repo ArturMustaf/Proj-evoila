@@ -16,7 +16,7 @@ public class PriceMockCalculator {
     DataCreator creator;
     Price priceCreator(){
         Price price = new Price();
-        price.setPrice(creator.getRandom(500,15000));
+        price.setPriceInCt(creator.getRandom(500,15000));
 
         return price;
     }

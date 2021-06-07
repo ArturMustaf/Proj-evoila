@@ -2,7 +2,6 @@ package de.thbingenproj.backend.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

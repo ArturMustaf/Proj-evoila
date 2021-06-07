@@ -1,6 +1,6 @@
-package de.thbingenproj.backend.controller.resourceView;
+package de.thbingenproj.backend.controller.resourceview;
 
-import de.thbingenproj.backend.controller.resourceView.models.ResourceViewModel;
+import de.thbingenproj.backend.controller.resourceview.models.ResourceViewModel;
 import de.thbingenproj.backend.entities.prices.RuntimePair;
 import de.thbingenproj.backend.entities.repositories.ProjectRepository;
 import de.thbingenproj.backend.entities.repositories.RuntimePairRepository;
@@ -70,11 +70,11 @@ public class ResourceViewController {
             }
             ResourceViewModel model = map.get(type);
             if (!machinesRun.contains(pair.started.getResourceEntity())) {
-                model.totalMachinesRun += 1;
+                model.setTotalMachinesRun(model.getTotalMachinesRun() + 1);
                 machinesRun.add(pair.started.getResourceEntity());
             }
             if (pair.stopped == null || pair.stopped.getCreated().after(end)) {
-                model.quantity += 1;
+                model.setQuantity(model.getQuantity() + 1);
             }
         }
         return new ArrayList<>(map.values());

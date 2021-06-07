@@ -27,8 +27,8 @@ public class Price extends BaseEntity {
     /**
      * Price in cents
      */
-    @Field
-    long price;
+    @Field(name = "price")
+    long priceInCt;
     /**
      * Price type of a object. Defined through enum PriceType
      */

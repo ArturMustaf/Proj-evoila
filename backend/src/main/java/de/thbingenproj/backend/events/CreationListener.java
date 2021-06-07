@@ -30,23 +30,17 @@ public class CreationListener {
     public void createRuntimePairs() {
         while (!events.isEmpty()) {
             ResourceLog createdlog = events.removeFirst();
-            
-            if (retriedAmount == 3 && retriedFor.equals(createdlog)) {
-                System.err.println("Removed: " + createdlog);
-                System.err.println("Should not happen => elemnt found with no exisiting creation event");
-                retriedAmount = 0;
-                createdlog = events.removeFirst();
-            } else if (retriedFor != null && !retriedFor.equals(createdlog)) {
-                retriedAmount = 0;
-            }
+
+            createdlog = checkRetried(createdlog);
+
             ResourceLog log = resourceLogRepository.findById(createdlog.getId()).orElse(null);
             if (log == null) {
                 events.addFirst(createdlog);
-                System.out.println(createdlog.getResourceEntity().getId());
                 retriedFor = createdlog;
                 retriedAmount += 1;
                 return;
             }
+
             if (log.getEvent() != null && log.getEvent().getEventType() == EventType.STARTED) {
                 var runtimePair = new RuntimePair();
                 runtimePair.started = log;
@@ -59,7 +53,6 @@ public class CreationListener {
                     events.addFirst(createdlog);
                     retriedFor = createdlog;
                     retriedAmount += 1;
-                    System.out.println(createdlog.getResourceEntity().getId());
                     return;
                 }
                 runtimePair.get(0).stopped = log;
@@ -69,6 +62,15 @@ public class CreationListener {
         }
     }
 
+    public ResourceLog checkRetried(ResourceLog createdlog){
+        if (retriedAmount == 3 && retriedFor.equals(createdlog)) {
+            retriedAmount = 0;
+            createdlog = events.removeFirst();
+        } else if (retriedFor != null && !retriedFor.equals(createdlog)) {
+            retriedAmount = 0;
+        }
+        return createdlog;
+    }
 
     @EventListener()
     public void createResourceLog(CreationEvent<ResourceLog> creationEvent) {

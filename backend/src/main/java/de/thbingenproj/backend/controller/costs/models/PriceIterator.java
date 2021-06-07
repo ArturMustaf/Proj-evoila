@@ -43,7 +43,7 @@ public class PriceIterator implements Iterator<Price> {
     @Override
     public Price next() throws NoSuchElementException {
         if (!hasNext()) {
-            throw new IndexOutOfBoundsException("Cant iterate further - completete price history is iterated");
+            throw new NoSuchElementException("Cant iterate further - completete price history is iterated");
         }
         if (i >= prices.size()) {
             this.type = this.type.getNextResource();

@@ -49,13 +49,13 @@ public class SearchService {
             result.forEach(customer -> customer.setProjects(null));
             return new SearchResult<>(result, fullTextQuery.getResultSize());
         }
-        final String contactEmail = "contactInformation.email";
-        final String contactNumber = "contactInformation.numbers.number";
-        final String contactPLZ = "contactInformation.address.plz";
-        final String contactCountry = "contactInformation.address.country.countryName";
-        final String contactFullName = "fullName";
-        final String contactCity = "contactInformation.address.city";
-        final String contactAddress = "contactInformation.address.address";
+        final var contactEmail = "contactInformation.email";
+        final var contactNumber = "contactInformation.numbers.number";
+        final var contactPLZ = "contactInformation.address.plz";
+        final var contactCountry = "contactInformation.address.country.countryName";
+        final var contactFullName = "fullName";
+        final var contactCity = "contactInformation.address.city";
+        final var contactAddress = "contactInformation.address.address";
         var allQuery = qb.simpleQueryString().onFields(contactEmail, contactNumber, contactPLZ, contactCity, contactCountry, contactAddress, contactFullName)
                 .boostedTo(8f).withAndAsDefaultOperator().matching(query).createQuery();
         var mailQuery = qb.keyword()

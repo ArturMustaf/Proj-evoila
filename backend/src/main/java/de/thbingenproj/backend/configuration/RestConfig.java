@@ -28,10 +28,10 @@ public class RestConfig implements RepositoryRestConfigurer {
     /**
      * Exposes Ids for specified classes
      * @param config Autoinjected from Spring
-     *
+     * @deprecated remove if not necessary
      */
     @Override
-    @Deprecated
+    @Deprecated (forRemoval = false)
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(Customer.class);
         config.exposeIdsFor(ContactInformation.class);

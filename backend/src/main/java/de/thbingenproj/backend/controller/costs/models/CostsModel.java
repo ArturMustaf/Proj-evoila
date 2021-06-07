@@ -31,9 +31,10 @@ public class CostsModel {
      * type: ResourceType e.g "VM 2GB 2CPU"
      * price: Price for the resource
      */
+    @Data
     public static class TypeInformation {
-        public String type;
-        public double price = 0d;
+        private String type;
+        private double price = 0d;
     }
 
 

@@ -43,7 +43,7 @@ class CostsControllerTest {
         calendar.add(Calendar.MINUTE, -3000);
         List<Price> prices = new ArrayList<>();
         Price p1 = new Price();
-        p1.setPrice(100);
+        p1.setPriceInCt(100);
         p1.setPriceType(PriceType.MINUTE_PRICE);
         p1.setCreated(calendar.getTime());
         prices.add(p1);

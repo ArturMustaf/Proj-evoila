@@ -15,7 +15,7 @@ import java.util.List;
  * Helper class for elastic-search searches
  */
 public class SearchResult<T> {
-    public List<T> data;
-    public int resultSize;
+    private List<T> data;
+    private int resultSize;
 
 }

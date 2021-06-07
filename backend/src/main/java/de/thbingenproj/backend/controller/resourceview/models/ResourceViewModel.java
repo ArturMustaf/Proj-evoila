@@ -1,17 +1,17 @@
-package de.thbingenproj.backend.controller.resourceView.models;
+package de.thbingenproj.backend.controller.resourceview.models;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 @AllArgsConstructor
 
 /**
  * Helper class to send ResourceInformations
  */
 public class ResourceViewModel {
-      public String resourceName;
-      public long quantity;
-      public String unitType;
-      public int totalMachinesRun;
+      private String resourceName;
+      private long quantity;
+      private String unitType;
+      private int totalMachinesRun;
 }

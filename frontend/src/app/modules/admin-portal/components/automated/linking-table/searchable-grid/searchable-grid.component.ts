@@ -105,7 +105,7 @@ export class SearchableGridComponent implements OnInit {
       const query = this.searchQuery === '' ? ' ' : this.searchQuery;
       this.loading = true;
       const search = await this.requestService.loadSearchData(this.searchGridDefinition.searchUrl,
-        query, this.page.currentPage - 1 + '', this.page.pageSize + '');
+        query, +this.page.currentPage - 1 + '', this.page.pageSize + '');
       this.data = search.data;
       this.page.totalItems = search.resultSize;
 

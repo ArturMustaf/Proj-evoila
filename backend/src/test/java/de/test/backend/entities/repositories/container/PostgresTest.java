@@ -1,8 +1,10 @@
 package de.test.backend.entities.repositories.container;
 
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.stereotype.Repository;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 /**

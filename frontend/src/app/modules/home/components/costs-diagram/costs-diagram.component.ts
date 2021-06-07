@@ -33,7 +33,7 @@ export class CostsDiagramComponent {
   end = '';
   projectId = '';
 
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   _startDate: Date;
 
   @Input() set startDate(startDate: string) {
@@ -41,7 +41,7 @@ export class CostsDiagramComponent {
     this.draw();
   }
 
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
   _endDate: Date;
 
   @Input() set endDate(endDate: string) {

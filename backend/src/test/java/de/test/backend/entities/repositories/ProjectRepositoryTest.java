@@ -1,7 +1,6 @@
 package de.test.backend.entities.repositories;
 
 import de.test.backend.entities.prices.Project;
-import de.test.backend.entities.repositories.container.LocalInitalizer;
 import de.test.backend.entities.repositories.container.PostgresTest;
 import de.test.backend.entities.repositories.util.demo_set_creator.logging_resources.RessourceLogMockCreator;
 import de.test.backend.entities.repositories.util.demo_set_creator.user_information.ProjectMockCreator;

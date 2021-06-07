@@ -16,18 +16,18 @@ export class CostsComponent implements OnInit {
 
   loading: boolean;
   costResponses: CostsResponse[] = [];
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   _start = '';
   startDate: Date;
   endDate: Date;
   today: Date;
   dateOfToday: string;
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
   _end = '';
   validSpan = true;
 
   projectId = '';
-  // tslint:disable-next-line:no-inferrable-types
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   totalCost: number = 100000000;
   projects: ProjectDescription[];
   ressources: Map<string, number>;

@@ -1,5 +1,6 @@
 #Sonarlint
 .sonar
+.idea/sonarlint
 
 #IntelliJ
 *.iws

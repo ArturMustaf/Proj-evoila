@@ -1,3 +1,13 @@
+#Sonarlint
+.sonar
+.idea/sonarlint
+
+#IntelliJ
+*.iws
+*.iml
+*.ipr
+.idea
+
 # Logs
 logs
 *.log

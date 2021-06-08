@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,7 @@ class ProjectRepositoryTest extends PostgresTest {
     CreationListener creationListener;
 
     @Test
+    @Transactional
     void createProjects() throws InterruptedException {
         List<Project> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
@@ -52,10 +54,10 @@ class ProjectRepositoryTest extends PostgresTest {
         }
         for (Project project : entities)
             repository.save(project);
+        var checkList = repository.findAll();
+        Assert.assertEquals(entities, checkList);
         //creationListener.createRuntimePairs();
-        /*var checkList = repository.findAll();
-        Assert.assertEquals(entities, checkList);*/
-        //todo remove;
+        //todo ?;
 
     }
 

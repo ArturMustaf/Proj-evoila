@@ -2,6 +2,8 @@ package de.thbingenproj.backend.controller;
 
 import de.thbingenproj.backend.entities.repositories.CustomerRepository;
 import de.thbingenproj.backend.entities.user.Customer;
+import de.thbingenproj.backend.entities.user.CustomerDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
     @Autowired
     CustomerRepository customerRepository;
+    @Autowired
+    ModelMapper modelMapper;
 
     /**
      * Put Mapping for object
@@ -22,9 +26,9 @@ public class CustomerController {
      * @return saved object
      */
     @PutMapping("create/customers/{id}")
-    public Customer createCustomer(@PathVariable long id, @RequestBody Customer customer) {
+    public Customer createCustomer(@PathVariable long id, @RequestBody CustomerDTO customer) {
         customer.setId(id);
-        return this.customerRepository.save(customer);
+        return this.customerRepository.save(modelMapper.map(customer, Customer.class));
     }
 
     /**
@@ -34,8 +38,8 @@ public class CustomerController {
      * @return saved object
      */
     @PostMapping("create/customers")
-    public Customer postCustomer(@RequestBody Customer customer) {
-        return this.customerRepository.save(customer);
+    public Customer postCustomer(@RequestBody CustomerDTO customer) {
+        return this.customerRepository.save(modelMapper.map(customer, Customer.class));
     }
 
     /**

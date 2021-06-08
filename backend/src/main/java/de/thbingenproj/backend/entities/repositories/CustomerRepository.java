@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
     List<Customer> findAllByContactInformationId(long id);
-    //List<Customer> findAll();
+    List<Customer> findAll();
 
     Customer findCustomerByUserId(String userId);
 

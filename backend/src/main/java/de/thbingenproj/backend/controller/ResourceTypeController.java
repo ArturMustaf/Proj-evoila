@@ -2,6 +2,8 @@ package de.thbingenproj.backend.controller;
 
 import de.thbingenproj.backend.entities.repositories.ResourceTypeRepository;
 import de.thbingenproj.backend.entities.ressources.ResourceType;
+import de.thbingenproj.backend.entities.ressources.ResourceTypeDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +12,8 @@ public class ResourceTypeController {
 
     @Autowired
     ResourceTypeRepository resourceTypeRepository;
-
+    @Autowired
+    ModelMapper modelMapper;
     /**
      * Read ContactInformation by id
      *
@@ -30,9 +33,9 @@ public class ResourceTypeController {
      * @return
      */
     @PutMapping("create/resourceType/{id}")
-    public ResourceType putContactInformation(@PathVariable long id, @RequestBody ResourceType resourceType) {
+    public ResourceType putContactInformation(@PathVariable long id, @RequestBody ResourceTypeDTO resourceType) {
         resourceType.setId(id);
-        return this.resourceTypeRepository.save(resourceType);
+        return this.resourceTypeRepository.save(modelMapper.map(resourceType, ResourceType.class));
     }
 
     /**
@@ -42,7 +45,7 @@ public class ResourceTypeController {
      * @return
      */
     @PostMapping("create/resourceType")
-    public ResourceType postCustomer(@RequestBody ResourceType resourceType) {
-        return this.resourceTypeRepository.save(resourceType);
+    public ResourceType postCustomer(@RequestBody ResourceTypeDTO resourceType) {
+        return this.resourceTypeRepository.save(modelMapper.map(resourceType, ResourceType.class));
     }
 }

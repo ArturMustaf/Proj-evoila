@@ -4,6 +4,7 @@ import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.user_information.CustomerMockCreator;
 import de.thbingenproj.backend.entities.user.Customer;
 import de.thbingenproj.backend.extensions.BeforeEvery;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +37,7 @@ class DataCreationTest extends PostgresTest {
 
 
     @Test
+    @Transactional
     void testCreation() {
         List<Customer> entities = new ArrayList<>();
         for (int i = 0; i < 300; i++) {
@@ -42,9 +45,8 @@ class DataCreationTest extends PostgresTest {
             entities.add(customer);
         }
         repository.saveAll(entities);
-        System.out.println(entities);
-        entities.forEach(customer -> System.out.println(customer.getId()));
-
+        var checkList = repository.findAll();
+        Assert.assertEquals(entities, checkList);
     }
 
 }

@@ -50,6 +50,7 @@ public class CostsController {
      */
 
     @GetMapping("/costs")
+    @Transactional
     public List<CostsModel> costs(@RequestParam() long id, @RequestParam(required = false) Long startTS,
                                   @RequestParam(required = false) Long endTS) {
 

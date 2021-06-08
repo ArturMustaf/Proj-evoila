@@ -2,6 +2,8 @@ package de.thbingenproj.backend.controller;
 
 import de.thbingenproj.backend.entities.repositories.ContactInformationRepository;
 import de.thbingenproj.backend.entities.user.contact_information.ContactInformation;
+import de.thbingenproj.backend.entities.user.contact_information.ContactInformationDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class ContactInformationController {
     @Autowired
     ContactInformationRepository contactInformationRepository;
-
+    @Autowired
+    ModelMapper modelMapper;
     /**
      * @param id id of the contactInformation
      * @return the requested ContactInformation Object or null
@@ -30,9 +33,9 @@ public class ContactInformationController {
      * @return the saved ContactInformation Object or error
      */
     @PutMapping("create/contactInformations/{id}")
-    public ContactInformation putContactInformation(@PathVariable long id, @RequestBody ContactInformation contactInformation) {
+    public ContactInformation putContactInformation(@PathVariable long id, @RequestBody ContactInformationDTO contactInformation) {
         contactInformation.setId(id);
-        return this.contactInformationRepository.save(contactInformation);
+        return this.contactInformationRepository.save(modelMapper.map(contactInformation, ContactInformation.class));
     }
 
     /**
@@ -40,7 +43,7 @@ public class ContactInformationController {
      * @return the saved ContactInformation Object or error
      */
     @PostMapping("create/contactInformations")
-    public ContactInformation postCustomer(@RequestBody ContactInformation contactInformation) {
-        return this.contactInformationRepository.save(contactInformation);
+    public ContactInformation postCustomer(@RequestBody ContactInformationDTO contactInformation) {
+        return this.contactInformationRepository.save(modelMapper.map(contactInformation, ContactInformation.class));
     }
 }

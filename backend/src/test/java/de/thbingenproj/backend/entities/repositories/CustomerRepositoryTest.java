@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,7 @@ class CustomerRepositoryTest extends PostgresTest {
 
 
     @Test
+    @Transactional
     void testCreation() {
         List<Customer> entities = new ArrayList<>();
         for (int i = 0; i < 300; i++) {
@@ -46,18 +48,8 @@ class CustomerRepositoryTest extends PostgresTest {
             entities.add(customer);
         }
         repository.saveAll(entities);
-        /*var checkList = repository.findAll();
-        System.out.println(entities);
-        System.out.println(checkList);
-        Assert.assertEquals(entities, checkList);*/
-        //assert(repository == !null);
-
-        /*
-        assert(
-        for(x in entities)
-            repository.getId();
-        );
-         */
+        var checkList = repository.findAll();
+        Assert.assertEquals(entities, checkList);
     }
 
 

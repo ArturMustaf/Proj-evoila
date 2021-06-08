@@ -16,9 +16,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Getter
-@Setter
-@ToString
+@Data
 @Table(indexes = {@Index(unique = true, columnList = "userId", name = "IDX_CUSTOMER_ID")})
 @NoArgsConstructor
 @AllArgsConstructor

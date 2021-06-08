@@ -2,9 +2,11 @@ package de.thbingenproj.backend.controller;
 
 import de.thbingenproj.backend.controller.projections.ProjectInformation;
 import de.thbingenproj.backend.entities.prices.Project;
+import de.thbingenproj.backend.entities.prices.ProjectDTO;
 import de.thbingenproj.backend.entities.repositories.CustomerRepository;
 import de.thbingenproj.backend.entities.repositories.ProjectRepository;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,8 @@ public class ProjectController {
     ProjectRepository projectRepository;
     @Autowired
     CustomerRepository customerRepository;
+    @Autowired
+    ModelMapper modelMapper;
 
     /**
      * @param id to read the Project Information
@@ -34,9 +38,9 @@ public class ProjectController {
      * @return
      */
     @PutMapping("create/projects/{id}")
-    public Project putProjects(@PathVariable long id, @RequestBody Project project) {
+    public Project putProjects(@PathVariable long id, @RequestBody ProjectDTO project) {
         project.setId(id);
-        return this.projectRepository.save(project);
+        return this.projectRepository.save(modelMapper.map(project, Project.class));
     }
 
     /**
@@ -44,8 +48,8 @@ public class ProjectController {
      * @return saved project
      */
     @PostMapping("create/projects")
-    public Project postProjects(@RequestBody Project project) {
-        return this.projectRepository.save(project);
+    public Project postProjects(@RequestBody ProjectDTO project) {
+        return this.projectRepository.save(modelMapper.map(project, Project.class));
     }
 
     @GetMapping("/projectInformations")

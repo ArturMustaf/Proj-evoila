@@ -42,6 +42,5 @@ public class RestConfig implements RepositoryRestConfigurer {
         config.exposeIdsFor(Country.class);
         config.exposeIdsFor(PhoneNumber.class);
         config.exposeIdsFor(Event.class);
-
     }
 }

@@ -3,7 +3,7 @@ package de.thbingenproj.backend.entities.repositories;
 import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.user_information.CustomerMockCreator;
 import de.thbingenproj.backend.entities.user.Customer;
-import de.thbingenproj.backend.extensions.BeforeEveryTest;
+import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 
-@ExtendWith(BeforeEveryTest.class)
+@ExtendWith(BeforeEvery.class)
 @SpringBootTest
 @Ignore
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})

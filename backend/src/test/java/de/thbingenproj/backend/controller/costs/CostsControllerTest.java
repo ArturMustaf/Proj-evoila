@@ -6,7 +6,7 @@ import de.thbingenproj.backend.entities.prices.price.PriceType;
 import de.thbingenproj.backend.entities.repositories.ProjectRepository;
 import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entities.ressources.ResourceType;
-import de.thbingenproj.backend.extensions.BeforeEveryTest;
+import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.Calendar;
 import java.util.List;
 
 @SpringBootTest
-@ExtendWith(BeforeEveryTest.class)
+@ExtendWith(BeforeEvery.class)
 // Initializers define where to run the code against | this one creates against test containers
 
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})

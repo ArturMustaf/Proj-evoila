@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.extension.ExtensionContext.Namespace.GLOBAL;
 /**
  * this extension creates and destroys the container after usage again
  */
-public class BeforeEveryTest implements BeforeAllCallback, ExtensionContext.Store.CloseableResource {
+public class BeforeEvery implements BeforeAllCallback, ExtensionContext.Store.CloseableResource {
 
     private static boolean started = false;
 

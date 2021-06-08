@@ -20,6 +20,6 @@ public interface ProjectRepository extends CrudRepository<Project, Long> {
      */
     @Query("SELECT p.logs FROM Project p WHERE p.id = :id")
     List<ResourceLog> findAllLogs(@Param("id") Long id);
-
+    List<Project> findAll();
 
 }

@@ -5,7 +5,8 @@ import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.logging_resources.RessourceLogMockCreator;
 import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.user_information.ProjectMockCreator;
 import de.thbingenproj.backend.events.CreationListener;
-import de.thbingenproj.backend.extensions.BeforeEveryTest;
+import de.thbingenproj.backend.extensions.BeforeEvery;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
-@ExtendWith(BeforeEveryTest.class)
+@ExtendWith(BeforeEvery.class)
 //@ContextConfiguration(initializers = {LocalInitalizer.PropertiesInitializer.class})
 /**
  * This a test for checking if the datacreation is successful
@@ -44,18 +45,17 @@ class ProjectRepositoryTest extends PostgresTest {
 
     @Test
     void createProjects() throws InterruptedException {
-        System.out.println("Zeile 1");
         List<Project> entities = new ArrayList<>();
-        System.out.println("Test");
         for (int i = 0; i < 50; i++) {
             Project project = creator.createProject();
             entities.add(project);
         }
         for (Project project : entities)
             repository.save(project);
-        creationListener.createRuntimePairs();
-        //todo remove sleep; what is it used for?
-        //Thread.sleep(120000);
+        //creationListener.createRuntimePairs();
+        /*var checkList = repository.findAll();
+        Assert.assertEquals(entities, checkList);*/
+        //todo remove;
 
     }
 

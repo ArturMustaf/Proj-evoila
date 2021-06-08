@@ -9,6 +9,7 @@ import org.junit.jupiter.api.TestInstance;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 /**
@@ -45,7 +46,7 @@ class PriceIteratorTest {
         boolean hasNext = iter.hasNext();
         Assertions.assertFalse(hasNext);
 
-        Assertions.assertThrows(IndexOutOfBoundsException.class, iter::next);
+        Assertions.assertThrows(NoSuchElementException.class, iter::next);
 
 
     }

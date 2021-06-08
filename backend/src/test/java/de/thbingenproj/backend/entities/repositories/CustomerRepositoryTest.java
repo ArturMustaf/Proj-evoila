@@ -4,7 +4,8 @@ import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.user_information.CustomerMockCreator;
 import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.user_information.ProjectMockCreator;
 import de.thbingenproj.backend.entities.user.Customer;
-import de.thbingenproj.backend.extensions.BeforeEveryTest;
+import de.thbingenproj.backend.extensions.BeforeEvery;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 
-@ExtendWith(BeforeEveryTest.class)
+@ExtendWith(BeforeEvery.class)
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 //@ContextConfiguration(initializers = {LocalInitalizer.PropertiesInitializer.class})
@@ -45,8 +46,19 @@ class CustomerRepositoryTest extends PostgresTest {
             entities.add(customer);
         }
         repository.saveAll(entities);
-        entities.forEach(customer -> System.out.println(customer.getId()));
+        /*var checkList = repository.findAll();
+        System.out.println(entities);
+        System.out.println(checkList);
+        Assert.assertEquals(entities, checkList);*/
+        //assert(repository == !null);
 
+        /*
+        assert(
+        for(x in entities)
+            repository.getId();
+        );
+         */
     }
+
 
 }

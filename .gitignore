@@ -2,12 +2,15 @@
 .sonar
 .idea/sonarlint
 
+feature/BaseCrawler/S0S-32
+=======
 #IntelliJ
 *.iws
 *.iml
 *.ipr
 .idea
 
+develop
 # Logs
 logs
 *.log

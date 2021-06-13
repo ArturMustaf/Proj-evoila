@@ -61,6 +61,14 @@ class ProjectRepositoryTest extends PostgresTest {
 
     }
 
+    @Test
+    void findAllLogs() {
+    }
+
+    @Test
+    void findAll() {
+    }
+
 //    @Test
 //    void createResourceTypes(){
 //        List<ResourceLog> entities = new ArrayList<>();

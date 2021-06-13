@@ -53,4 +53,15 @@ class CustomerRepositoryTest extends PostgresTest {
     }
 
 
+    @Test
+    void findAllByContactInformationId() {
+    }
+
+    @Test
+    void findAll() {
+    }
+
+    @Test
+    void findCustomerByUserId() {
+    }
 }

@@ -11,7 +11,7 @@ public class QuoteClient {
     public Quote getQuote() {
         return client.get().uri("/random")
                 .retrieve()
-                .bodyToFlux(Quote.class)
-                .blockFirst();
+                .bodyToMono(Quote.class)
+                .block();
     }
 }

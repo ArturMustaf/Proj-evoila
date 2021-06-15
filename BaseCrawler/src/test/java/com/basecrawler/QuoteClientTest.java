@@ -3,14 +3,16 @@ package com.basecrawler;
 import com.basecrawler.service.QuoteClient;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class QuoteClientTest {
+
+class QuoteClientTest {
 
     @Test
-    void getQuote() {
+    void getQuoteTest() {
         var client = new QuoteClient();
         var quote = client.getQuote();
-        assertTrue(quote!=null);
+        assertNotNull(quote);
     }
+
 }

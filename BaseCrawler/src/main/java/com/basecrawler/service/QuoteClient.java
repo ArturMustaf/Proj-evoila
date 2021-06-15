@@ -2,7 +2,6 @@ package com.basecrawler.service;
 
 import com.basecrawler.models.Quote;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 public class QuoteClient {
     // /random

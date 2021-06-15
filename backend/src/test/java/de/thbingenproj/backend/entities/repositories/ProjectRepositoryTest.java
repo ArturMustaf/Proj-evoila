@@ -55,7 +55,12 @@ class ProjectRepositoryTest extends PostgresTest {
         for (Project project : entities)
             repository.save(project);
         var checkList = repository.findAll();
-        Assert.assertEquals(entities, checkList);
+
+        for(Project x : entities){
+            Assert.assertTrue(checkList.contains(x));
+        }
+        //Assert.assertTrue(checkList.contains(entities));
+        //Assert.assertEquals(entities, checkList);
         //creationListener.createRuntimePairs();
         //todo ?;
 

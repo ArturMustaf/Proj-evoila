@@ -49,7 +49,9 @@ class CustomerRepositoryTest extends PostgresTest {
         }
         repository.saveAll(entities);
         var checkList = repository.findAll();
-        Assert.assertEquals(entities, checkList);
+        for(Customer x : entities){
+            Assert.assertTrue(checkList.contains(x));
+        }
     }
 
 
@@ -64,4 +66,53 @@ class CustomerRepositoryTest extends PostgresTest {
     @Test
     void findCustomerByUserId() {
     }
+
+    @Test
+    @Transactional
+    void createCustomers(){
+        List<Customer> entities = new ArrayList<>();
+        for (int i = 0; i < 300; i++) {
+            var customer = creator.createUser();
+            entities.add(customer);
+        }
+        repository.saveAll(entities);
+        var checkList = repository.findAll();
+        for (Customer x : entities){
+            Assert.assertTrue(checkList.contains(x));
+        }
+    }
+/*
+    @Test
+    @Transactional
+    void readContactInformation(){
+        var contactInformation = contactInformationMockCreator.createContactInformation();
+        repository.save(contactInformation);
+        Assert.assertNotNull(repository.findById(contactInformation.getId()));
+    }
+
+    @Test
+    @Transactional
+    void deleteContactInformation(){
+        var contactInformation = contactInformationMockCreator.createContactInformation();
+        repository.save(contactInformation);
+        Assert.assertNotNull(repository.findById(contactInformation.getId()));
+        repository.delete(contactInformation);
+        Assert.assertNull(repository.findById(contactInformation.getId()).orElse(null));
+    }
+
+    @Test
+    @Transactional
+    void updateContactInformation(){
+        var contactInformation = contactInformationMockCreator.createContactInformation();
+        var contactFirstMail = contactInformation.getEmail();
+        repository.save(contactInformation);
+        Assert.assertNotNull(repository.findById(contactInformation.getId()));
+        ContactInformation contactInformationReturned = repository.findById(contactInformation.getId()).orElse(null);
+        byte[] array = new byte[7]; // length is bounded by 7
+        new Random().nextBytes(array);
+        String generatedString = new String(array, Charset.forName("UTF-8"));
+        contactInformationReturned.setEmail(generatedString);
+        repository.save(contactInformationReturned);
+        assertNotEquals(contactFirstMail, contactInformation.getEmail());
+    }*/
 }

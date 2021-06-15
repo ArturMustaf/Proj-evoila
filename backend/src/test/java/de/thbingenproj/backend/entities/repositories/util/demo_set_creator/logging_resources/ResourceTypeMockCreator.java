@@ -1,6 +1,6 @@
 package de.thbingenproj.backend.entities.repositories.util.demo_set_creator.logging_resources;
 
-import de.thbingenproj.backend.entities.repositories.PriceMockCreator;
+import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.user_information.PriceMockCreator;
 import de.thbingenproj.backend.entities.repositories.ResourceTypeRepository;
 import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.dataset.DataCreator;
 import de.thbingenproj.backend.entities.ressources.ResourceType;

@@ -39,7 +39,7 @@ public class SearchController {
      * @return SearchResults
      */
     @GetMapping(path = "/search/contact_information/{query}/{from}/{size}")
-    public SearchResult<ContactInformation> getContactInformations(@PathVariable String query, @PathVariable int from, @PathVariable int size) {
+    public SearchResult<ContactInformation> getContactInformation(@PathVariable String query, @PathVariable int from, @PathVariable int size) {
         return this.searchService.getContactInformations(query, from, size);
     }
 

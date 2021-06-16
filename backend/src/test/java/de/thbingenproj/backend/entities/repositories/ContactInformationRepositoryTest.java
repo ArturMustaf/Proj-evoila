@@ -27,7 +27,12 @@ class ContactInformationRepositoryTest {
     @Autowired
     ContactInformationMockCreator contactInformationMockCreator;
     @Autowired
-    ContactInformationRepository repository;
+    ContactInformationRepository contactInformationRepository;
+
+    @Test
+    void testCreation(){
+        Assert.assertNotNull(contactInformationRepository);
+    }
 
     @Test
     @Transactional
@@ -37,8 +42,8 @@ class ContactInformationRepositoryTest {
             var contactInformation = contactInformationMockCreator.createContactInformation();
             entities.add(contactInformation);
         }
-        repository.saveAll(entities);
-        var checkList = repository.findAll();
+        contactInformationRepository.saveAll(entities);
+        var checkList = contactInformationRepository.findAll();
         for(ContactInformation x : entities){
             Assert.assertTrue(checkList.contains(x));
         }
@@ -48,34 +53,34 @@ class ContactInformationRepositoryTest {
     @Transactional
     void readContactInformation(){
         var contactInformation = contactInformationMockCreator.createContactInformation();
-        repository.save(contactInformation);
-        Assert.assertNotNull(repository.findById(contactInformation.getId()));
+        contactInformationRepository.save(contactInformation);
+        Assert.assertNotNull(contactInformationRepository.findById(contactInformation.getId()));
     }
 
     @Test
     @Transactional
     void deleteContactInformation(){
         var contactInformation = contactInformationMockCreator.createContactInformation();
-        repository.save(contactInformation);
-        Assert.assertNotNull(repository.findById(contactInformation.getId()));
-        repository.delete(contactInformation);
-        Assert.assertNull(repository.findById(contactInformation.getId()).orElse(null));
+        contactInformationRepository.save(contactInformation);
+        Assert.assertNotNull(contactInformationRepository.findById(contactInformation.getId()));
+        contactInformationRepository.delete(contactInformation);
+        Assert.assertNull(contactInformationRepository.findById(contactInformation.getId()).orElse(null));
     }
 
     @Test
     @Transactional
     void updateContactInformation(){
         var contactInformation = contactInformationMockCreator.createContactInformation();
-        var contactFirstMail = contactInformation.getEmail();
-        repository.save(contactInformation);
-        Assert.assertNotNull(repository.findById(contactInformation.getId()));
-        ContactInformation contactInformationReturned = repository.findById(contactInformation.getId()).orElse(null);
+        var contactInitialMail = contactInformation.getEmail();
+        contactInformationRepository.save(contactInformation);
+        Assert.assertNotNull(contactInformationRepository.findById(contactInformation.getId()));
+        var contactInformationReturned = contactInformationRepository.findById(contactInformation.getId()).orElse(null);
         byte[] array = new byte[7]; // length is bounded by 7
         new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
+        var generatedString = new String(array, Charset.forName("UTF-8"));
         contactInformationReturned.setEmail(generatedString);
-        repository.save(contactInformationReturned);
-        assertNotEquals(contactFirstMail, contactInformation.getEmail());
+        contactInformationRepository.save(contactInformationReturned);
+        assertNotEquals(contactInitialMail, contactInformation.getEmail());
     }
 
 }

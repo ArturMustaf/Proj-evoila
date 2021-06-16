@@ -146,7 +146,7 @@ public class SearchService {
      * @param size  pagination
      * @return results with pagination
      */
-    public SearchResult<ContactInformation> getContactInformations(String query, int from, int size) {
+    public SearchResult<ContactInformation> getContactInformation(String query, int from, int size) {
         var fullTextEntityManager =
                 Search.getFullTextEntityManager(entityManager);
 

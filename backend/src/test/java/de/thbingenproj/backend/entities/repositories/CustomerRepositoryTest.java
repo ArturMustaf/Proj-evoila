@@ -2,7 +2,6 @@ package de.thbingenproj.backend.entities.repositories;
 
 import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.user_information.CustomerMockCreator;
-import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.user_information.ProjectMockCreator;
 import de.thbingenproj.backend.entities.user.Customer;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.Assert;
@@ -13,8 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.transaction.Transactional;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @ExtendWith(BeforeEvery.class)
 @SpringBootTest
@@ -30,89 +33,97 @@ import java.util.List;
 class CustomerRepositoryTest extends PostgresTest {
 
     @Autowired
-    CustomerRepository repository;
+    CustomerRepository customerRepository;
     @Autowired
-    CustomerMockCreator creator;
-    @Autowired
-    ProjectRepository projectRepository;
-    @Autowired
-    ProjectMockCreator projectCreator;
+    CustomerMockCreator customerMockCreator;
 
+    @Test
+    void testCreation(){
+        Assert.assertNotNull(customerRepository);
+    }
 
     @Test
     @Transactional
-    void testCreation() {
+    void createCustomer(){
         List<Customer> entities = new ArrayList<>();
         for (int i = 0; i < 300; i++) {
-            Customer customer = creator.createUser();
+            var customer = customerMockCreator.createUser();
             entities.add(customer);
         }
-        repository.saveAll(entities);
-        var checkList = repository.findAll();
+        customerRepository.saveAll(entities);
+        var checkList = customerRepository.findAll();
         for(Customer x : entities){
             Assert.assertTrue(checkList.contains(x));
         }
     }
 
+    @Test
+    @Transactional
+    void readCustomer(){
+        var customer = customerMockCreator.createUser();
+        customerRepository.save(customer);
+        Assert.assertNotNull(customerRepository.findById(customer.getId()));
+    }
 
     @Test
+    @Transactional
+    void deleteCustomer(){
+        var customer = customerMockCreator.createUser();
+        customerRepository.save(customer);
+        Assert.assertNotNull(customerRepository.findById(customer.getId()));
+        customerRepository.delete(customer);
+        Assert.assertNull(customerRepository.findById(customer.getId()).orElse(null));
+    }
+
+    @Test
+    @Transactional
+    void updateCustomer(){
+        var customer = customerMockCreator.createUser();
+        var contactInitialID = customer.getUserId();
+        customerRepository.save(customer);
+        Assert.assertNotNull(customerRepository.findById(customer.getId()));
+        var customerReturned = customerRepository.findById(customer.getId()).orElse(null);
+        byte[] array = new byte[7]; // length is bounded by 7
+        new Random().nextBytes(array);
+        var generatedString = new String(array, Charset.forName("UTF-8"));
+        customerReturned.setUserId(generatedString);
+        customerRepository.save(customerReturned);
+        assertNotEquals(contactInitialID, customer.getUserId());
+    }
+
+    @Test
+    @Transactional
     void findAllByContactInformationId() {
+        var customer = customerMockCreator.createUser();
+        var contact = customer.getContactInformation();
+        customerRepository.save(customer);
+        var result = customerRepository.findAllByContactInformationId(contact.getId());
+        Assert.assertTrue(result.contains(customer));
     }
 
     @Test
+    @Transactional
     void findAll() {
+        var entities = new ArrayList<Customer>();
+        for(int i = 0; i < 50; i++){
+            entities.add(customerMockCreator.createUser());
+        }
+        customerRepository.saveAll(entities);
+        var list= customerRepository.findAll();
+        for(var x : entities){
+            Assert.assertTrue(list.contains(x));
+        }
     }
 
     @Test
+    @Transactional
     void findCustomerByUserId() {
-    }
-
-    @Test
-    @Transactional
-    void createCustomers(){
-        List<Customer> entities = new ArrayList<>();
-        for (int i = 0; i < 300; i++) {
-            var customer = creator.createUser();
-            entities.add(customer);
-        }
-        repository.saveAll(entities);
-        var checkList = repository.findAll();
-        for (Customer x : entities){
-            Assert.assertTrue(checkList.contains(x));
-        }
-    }
-/*
-    @Test
-    @Transactional
-    void readContactInformation(){
-        var contactInformation = contactInformationMockCreator.createContactInformation();
-        repository.save(contactInformation);
-        Assert.assertNotNull(repository.findById(contactInformation.getId()));
-    }
-
-    @Test
-    @Transactional
-    void deleteContactInformation(){
-        var contactInformation = contactInformationMockCreator.createContactInformation();
-        repository.save(contactInformation);
-        Assert.assertNotNull(repository.findById(contactInformation.getId()));
-        repository.delete(contactInformation);
-        Assert.assertNull(repository.findById(contactInformation.getId()).orElse(null));
-    }
-
-    @Test
-    @Transactional
-    void updateContactInformation(){
-        var contactInformation = contactInformationMockCreator.createContactInformation();
-        var contactFirstMail = contactInformation.getEmail();
-        repository.save(contactInformation);
-        Assert.assertNotNull(repository.findById(contactInformation.getId()));
-        ContactInformation contactInformationReturned = repository.findById(contactInformation.getId()).orElse(null);
+        var customer = customerMockCreator.createUser();
         byte[] array = new byte[7]; // length is bounded by 7
         new Random().nextBytes(array);
         String generatedString = new String(array, Charset.forName("UTF-8"));
-        contactInformationReturned.setEmail(generatedString);
-        repository.save(contactInformationReturned);
-        assertNotEquals(contactFirstMail, contactInformation.getEmail());
-    }*/
+        customer.setUserId(generatedString);
+        customerRepository.save(customer);
+        Assert.assertNotNull(customerRepository.findCustomerByUserId(generatedString));
+    }
 }

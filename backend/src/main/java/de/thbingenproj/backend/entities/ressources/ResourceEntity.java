@@ -15,7 +15,6 @@ import javax.persistence.Entity;
  * Used for external identifier of machines and mapping to local id
  */
 
-//TODO do we still need this?
 public class ResourceEntity extends BaseEntity {
     String resourceID;
 }

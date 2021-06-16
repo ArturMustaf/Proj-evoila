@@ -13,12 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 class CostsControllerTest {
-
-    @Test
+    //TODO implement or remove
     void costs() {
     }
 
-    @Test
     void priceForProject() {
     }
 }

@@ -58,7 +58,7 @@ public class ProjectController {
         String userId = principal.getAccount().getKeycloakSecurityContext().getToken().getSubject().intern();
         var customer = customerRepository.findCustomerByUserId(userId);
         if(customer == null){
-            return null;
+            return new ArrayList<>();
         } else {
             List<ProjectInformation> projectInformation = new ArrayList<>();
             for (Project project : customer.getProjects()) {

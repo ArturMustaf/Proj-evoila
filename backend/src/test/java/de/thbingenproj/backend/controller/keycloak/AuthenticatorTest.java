@@ -62,4 +62,40 @@ class AuthenticatorTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_admin")
+    void updateUserDataWithWrongRole() throws Exception{
+        var user = customerMockCreator.createUser();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(user);
+        mockMvc.perform(post("/auth/update")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_admin")
+    void getCustomerWithWrongRole() throws Exception {
+        mockMvc.perform(get("/auth/user"))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void updateUserDataWithNoAuth() throws Exception{
+        var user = customerMockCreator.createUser();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(user);
+        mockMvc.perform(post("/auth/update")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andDo(print())
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void getCustomerWithNoAuth() throws Exception {
+        mockMvc.perform(get("/auth/user"))
+                .andDo(print())
+                .andExpect(status().isUnauthorized());
+    }
 }

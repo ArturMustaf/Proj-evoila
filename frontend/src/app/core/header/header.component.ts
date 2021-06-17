@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {KeycloakService} from 'keycloak-angular';
-import {Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import {AuthServiceService} from '../services/auth-service/auth-service.service';
 import {NavService} from '../services/nav/nav.service';
 import {UserinfoService} from '../services/userinfo/userinfo.service';
@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
   username = '';
   redirectToAdmin = false;
   redirectToUser = false;
+  path : string;
 
 
   constructor(private keycloakService: KeycloakService, private router: Router, private authService: AuthServiceService,
@@ -27,6 +28,16 @@ export class HeaderComponent implements OnInit {
     console.log('Initialized AppComponent');
     this.setUsername();
     this.setRole();
+    this.setupNavigation();
+  }
+
+  async setupNavigation(): Promise<void> {
+    this.path = this.router.url;
+    this.router.events.subscribe(value => {
+      if (value instanceof NavigationEnd) {
+        this.path = value.urlAfterRedirects;
+      }
+    });
   }
 
   async setUsername(): Promise<void> {

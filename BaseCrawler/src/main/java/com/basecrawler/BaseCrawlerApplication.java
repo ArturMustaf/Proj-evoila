@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 @SpringBootApplication
 public class BaseCrawlerApplication {
     final Logger logger = LoggerFactory.getLogger(BaseCrawlerApplication.class);
-    QuoteClient client = new QuoteClient();
+    final QuoteClient client = new QuoteClient();
     public static void main(String[] args) {
         SpringApplication.run(BaseCrawlerApplication.class, args);
     }

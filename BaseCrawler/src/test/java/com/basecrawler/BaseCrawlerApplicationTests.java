@@ -9,8 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class BaseCrawlerApplicationTests {
-    QuoteClient client = new QuoteClient();
-   @Test
+    final QuoteClient client = new QuoteClient();
+    @Test
     void contextLoads() {
         assertNotNull(client);
     }

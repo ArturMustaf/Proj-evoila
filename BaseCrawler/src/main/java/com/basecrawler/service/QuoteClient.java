@@ -5,7 +5,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 public class QuoteClient {
     // /random
-    WebClient client = WebClient.create("https://quoters.apps.pcfone.io/api");
+    final WebClient client = WebClient.create("https://quoters.apps.pcfone.io/api");
 
     public Quote getQuote() {
         return client.get().uri("/random")

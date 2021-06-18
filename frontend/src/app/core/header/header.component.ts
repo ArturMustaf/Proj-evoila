@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   username = '';
   redirectToAdmin = false;
   redirectToUser = false;
-  path : string;
+  path: string;
 
 
   constructor(private keycloakService: KeycloakService, private router: Router, private authService: AuthServiceService,
@@ -48,6 +48,7 @@ export class HeaderComponent implements OnInit {
   async setRole(): Promise<void> {
     const roles = await this.keycloakService.getUserRoles();
     this.redirectToAdmin = roles.includes('admin');
+    console.log(roles);
     this.redirectToUser = roles.includes('user');
   }
 
@@ -67,11 +68,7 @@ export class HeaderComponent implements OnInit {
   }
 
   toStart(): void {
-    if (this.redirectToAdmin) {
-      this.router.navigate(['/admin']);
-    } else {
-      this.router.navigate(['']);
-    }
+    this.redirectToAdmin ? this.toAdmin() : this.toDash();
   }
 
   toDash(): void {

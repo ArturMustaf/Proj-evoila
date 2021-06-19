@@ -3,7 +3,7 @@ import {CostsResponse} from '../../../../core/services/costs-communicator/mock-c
 import {Chart} from 'chart.js';
 import {CostsCommunicatorService} from '../../../../core/services/costs-communicator/costs-communicator.service';
 import {NavService} from '../../../../core/services/nav/nav.service';
-import {ProjectDescription} from '../../../../core/navigation/project-dropdown/project-dropdown.component';
+import {ProjectDescription} from '../../../../core/header-navigation/project-dropdown/project-dropdown.component';
 
 @Component({
   selector: 'app-costs-diagram',

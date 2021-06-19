@@ -17,7 +17,7 @@ import {SiteframeComponent} from './siteframe/siteframe.component';
 import {EmptypageComponent} from '../shared/components/emptypage/emptypage.component';
 import {HttpClientModule} from '@angular/common/http';
 import {initializer} from './authentification/util/helper';
-import {ProjectDropdownComponent} from './navigation/project-dropdown/project-dropdown.component';
+import {ProjectDropdownComponent} from './header-navigation/project-dropdown/project-dropdown.component';
 import {LY_THEME, LY_THEME_NAME, LyHammerGestureConfig, LyTheme2, StyleRenderer} from '@alyle/ui';
 import {MinimaLight} from '@alyle/ui/themes/minima';
 

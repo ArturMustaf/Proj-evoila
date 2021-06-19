@@ -6,14 +6,14 @@ import {NavService} from '../services/nav/nav.service';
 import {UserinfoService} from '../services/userinfo/userinfo.service';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  selector: 'app-header-navigation',
+  templateUrl: './header-navigation.component.html',
+  styleUrls: ['./header-navigation.component.scss']
 })
 /**
  * Top bar of the page => including menu items and embedded the project dropdown
  */
-export class HeaderComponent implements OnInit {
+export class HeaderNavigationComponent implements OnInit {
   @ViewChild('input1', {static: false})
   private input1: ElementRef;
   headername = 'evoila Service Desk';

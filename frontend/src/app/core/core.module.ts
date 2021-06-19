@@ -12,7 +12,7 @@ import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 // componentimports
-import {HeaderComponent} from './header/header.component';
+import {HeaderNavigationComponent} from './header-navigation/header-navigation.component';
 import {SiteframeComponent} from './siteframe/siteframe.component';
 import {EmptypageComponent} from '../shared/components/emptypage/emptypage.component';
 import {HttpClientModule} from '@angular/common/http';
@@ -25,7 +25,7 @@ import {MinimaLight} from '@alyle/ui/themes/minima';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
+    HeaderNavigationComponent,
     SiteframeComponent,
     EmptypageComponent,
     ProjectDropdownComponent

@@ -13,7 +13,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 // componentimports
 import {HeaderComponent} from './header/header.component';
-import {NavigationComponent} from './navigation/navigation.component';
 import {SiteframeComponent} from './siteframe/siteframe.component';
 import {EmptypageComponent} from '../shared/components/emptypage/emptypage.component';
 import {HttpClientModule} from '@angular/common/http';
@@ -27,7 +26,6 @@ import {MinimaLight} from '@alyle/ui/themes/minima';
   declarations: [
     AppComponent,
     HeaderComponent,
-    NavigationComponent,
     SiteframeComponent,
     EmptypageComponent,
     ProjectDropdownComponent

@@ -1,7 +1,6 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {KeycloakService} from 'keycloak-angular';
-import {NavigationEnd, Router} from '@angular/router';
-import {AuthServiceService} from '../services/auth-service/auth-service.service';
+import {Router} from '@angular/router';
 import {NavService} from '../services/nav/nav.service';
 import {UserinfoService} from '../services/userinfo/userinfo.service';
 
@@ -13,7 +12,7 @@ import {UserinfoService} from '../services/userinfo/userinfo.service';
 /**
  * Top bar of the page => including menu items and embedded the project dropdown
  */
-export class HeaderNavigationComponent implements OnInit {
+export class HeaderNavigationComponent {
   @ViewChild('input1', {static: false})
   private input1: ElementRef;
   headername = 'evoila Service Desk';
@@ -21,9 +20,8 @@ export class HeaderNavigationComponent implements OnInit {
   redirectToAdmin = false;
   redirectToUser = false;
 
-  constructor(private keycloakService: KeycloakService, private router: Router, private authService: AuthServiceService,
+  constructor(private keycloakService: KeycloakService, private router: Router,
               public nav: NavService, public userinfoService: UserinfoService) {
-    console.log('Initialized AppComponent');
     this.setUsername();
     this.setRole();
   }
@@ -34,13 +32,9 @@ export class HeaderNavigationComponent implements OnInit {
   }
 
   async setRole(): Promise<void> {
-    const roles = await this.keycloakService.getUserRoles();
+    const roles = this.keycloakService.getUserRoles();
     this.redirectToAdmin = roles.includes('admin');
-    console.log(roles);
     this.redirectToUser = roles.includes('user');
-  }
-
-  ngOnInit(): void {
   }
 
   logout(): void {
@@ -62,5 +56,4 @@ export class HeaderNavigationComponent implements OnInit {
   toDash(): void {
     this.router.navigate(['']);
   }
-
 }

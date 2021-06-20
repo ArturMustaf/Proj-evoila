@@ -20,24 +20,12 @@ export class HeaderNavigationComponent implements OnInit {
   username = '';
   redirectToAdmin = false;
   redirectToUser = false;
-  path: string;
-
 
   constructor(private keycloakService: KeycloakService, private router: Router, private authService: AuthServiceService,
               public nav: NavService, public userinfoService: UserinfoService) {
     console.log('Initialized AppComponent');
     this.setUsername();
     this.setRole();
-    this.setupNavigation();
-  }
-
-  async setupNavigation(): Promise<void> {
-    this.path = this.router.url;
-    this.router.events.subscribe(value => {
-      if (value instanceof NavigationEnd) {
-        this.path = value.urlAfterRedirects;
-      }
-    });
   }
 
   async setUsername(): Promise<void> {

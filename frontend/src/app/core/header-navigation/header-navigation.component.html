@@ -1,11 +1,11 @@
 <header class="header-5">
   <div class="branding">
-    <a class="nav-link" style="cursor:pointer" (click)="toStart()">
+    <a class="nav-link" style="cursor:pointer" [routerLink]="this.redirectToAdmin ? '/admin' : '' ">
       <span class="title">{{headername}}</span>
     </a>
   </div>
   <div class="header-nav" *ngIf="!this.nav.isAdmin">
-    <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" routerLink="">Dashboard</a>
+    <a class="nav-link" routerLinkActive="active" routerLink="" [routerLinkActiveOptions]="{ exact: true }" >Dashboard</a>
     <a class="nav-link" routerLinkActive="active" routerLink="/costs">Kosten</a>
     <a class="nav-link" routerLinkActive="active" routerLink="/resources">Ressourcen</a>
   </div>
@@ -24,15 +24,15 @@
       </button>
       <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
         <div class="dropdown-header">Willkommen {{username}}</div>
-        <button type="button" (click)="settings();" clrDropdownItem>
+        <button type="button" routerLink="/settings" clrDropdownItem>
           <clr-icon shape="cog"></clr-icon>
           Einstellungen
         </button>
-        <button *ngIf="redirectToAdmin" type="button" (click)="toAdmin();" clrDropdownItem>
+        <button *ngIf="redirectToAdmin" type="button" routerLink="/admin" clrDropdownItem>
           <clr-icon shape="key"></clr-icon>
           Adminportal
         </button>
-        <button *ngIf="redirectToAdmin && redirectToUser" type="button" (click)="toDash();" clrDropdownItem>
+        <button *ngIf="redirectToAdmin && redirectToUser" type="button" routerLink="" clrDropdownItem>
           <clr-icon shape="pinboard"></clr-icon>
           Dashboard
         </button>

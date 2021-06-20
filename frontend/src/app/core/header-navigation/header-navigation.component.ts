@@ -1,6 +1,5 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {KeycloakService} from 'keycloak-angular';
-import {Router} from '@angular/router';
 import {NavService} from '../services/nav/nav.service';
 import {UserinfoService} from '../services/userinfo/userinfo.service';
 
@@ -20,8 +19,7 @@ export class HeaderNavigationComponent {
   redirectToAdmin = false;
   redirectToUser = false;
 
-  constructor(private keycloakService: KeycloakService, private router: Router,
-              public nav: NavService, public userinfoService: UserinfoService) {
+  constructor(private keycloakService: KeycloakService, public nav: NavService, public userinfoService: UserinfoService) {
     this.setUsername();
     this.setRole();
   }
@@ -39,21 +37,5 @@ export class HeaderNavigationComponent {
 
   logout(): void {
     this.keycloakService.logout();
-  }
-
-  settings(): void {
-    this.router.navigate(['/settings']);
-  }
-
-  toAdmin(): void {
-    this.router.navigate(['/admin']);
-  }
-
-  toStart(): void {
-    this.redirectToAdmin ? this.toAdmin() : this.toDash();
-  }
-
-  toDash(): void {
-    this.router.navigate(['']);
   }
 }

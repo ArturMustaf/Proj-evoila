@@ -14,7 +14,6 @@ import {UserinfoService} from '../services/userinfo/userinfo.service';
 export class HeaderNavigationComponent {
   @ViewChild('input1', {static: false})
   private input1: ElementRef;
-  headername = 'evoila Service Desk';
   username = '';
   redirectToAdmin = false;
   redirectToUser = false;

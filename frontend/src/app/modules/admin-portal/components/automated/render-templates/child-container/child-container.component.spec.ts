@@ -4,7 +4,7 @@ import {ChildContainerComponent} from './child-container.component';
 import {DatafieldLoader} from '../../../../service/form-loader/DatafieldLoader';
 
 
-describe('ChildContainerComponent', () => {
+xdescribe('ChildContainerComponent', () => {
   let component: ChildContainerComponent;
   let fixture: ComponentFixture<ChildContainerComponent>;
 

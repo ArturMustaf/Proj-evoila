@@ -1,4 +1,4 @@
-import {Component, Injectable} from '@angular/core';
+import {Component, Directive, Injectable, Pipe} from '@angular/core';
 
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {GenericForm} from '../../models/questions/GenericForm';

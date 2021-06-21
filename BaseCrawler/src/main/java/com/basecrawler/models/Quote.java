@@ -8,6 +8,6 @@ import lombok.Data;
 public class Quote {
 
     private String type;
-    private com.basecrawler.models.Value value;
+    private Value value = new Value();
 
 }

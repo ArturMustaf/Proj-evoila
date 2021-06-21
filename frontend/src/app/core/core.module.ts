@@ -8,6 +8,7 @@ import {EnsureModuleLoadedOnceGuard} from './EnsureModuleLoadedOnceGuard';
 import {RedirectGuard} from './guards/RedirectGuard';
 import {CoreRoutingModule} from './core-routing.module';
 import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
+import {DatafieldLoader} from '../modules/admin-portal/service/form-loader/DatafieldLoader';
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
@@ -39,11 +40,10 @@ import {MinimaLight} from '@alyle/ui/themes/minima';
     KeycloakAngularModule,
     HttpClientModule,
     CoreRoutingModule,
-
     FormsModule,
     ReactiveFormsModule,
     HammerModule,
-
+    DatafieldLoader
   ],
   providers: [{
     provide: APP_INITIALIZER,

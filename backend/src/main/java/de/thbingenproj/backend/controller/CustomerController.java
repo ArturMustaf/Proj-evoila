@@ -43,7 +43,7 @@ public class CustomerController {
     }
 
     /**
-     * @param not implemented
+     * @param id
      * @return
      */
     @GetMapping("create/customers/linked/{id}")

@@ -1,8 +1,24 @@
-<app-tickets></app-tickets>
-<div class="card">
-  <div class="card-header">Aktuelle Kosten</div>
-  <div class="card-block">
-    <app-costs-diagram></app-costs-diagram>
+<div class="clr-row">
+  <div class="clr-col">
+    <div class="card">
+      <div class="card-header">Projects</div>
+      <div class="card-block">
+        <app-project-view></app-project-view>
+
+      </div>
+    </div>
   </div>
-</div>
-<app-resource-view name="Aktuell genutzte Ressourcen" onDash="true"></app-resource-view>
+
+  <div class="clr-col">
+    <div class="card">
+      <div class="card-header">VDCs</div>
+      <div class="card-block">
+        <app-single-vdc></app-single-vdc>
+        <app-single-vdc></app-single-vdc>
+        <app-single-vdc></app-single-vdc>
+
+      </div>
+    </div>
+
+
+  </div>

@@ -19,7 +19,7 @@ import java.util.List;
  * Database entity of projects
  *
  */
-public class ProjectDTO extends BaseTimeEntity {
+public class --ProjectDTO extends BaseTimeEntity {
     /**
      * Basic project name
      */

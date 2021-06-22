@@ -24,35 +24,38 @@ import {MinimaLight} from '@alyle/ui/themes/minima';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    NavigationComponent,
-    SiteframeComponent,
-    EmptypageComponent,
-    ProjectDropdownComponent
-  ],
-  imports: [
-    BrowserModule,
-    ClarityModule,
-    BrowserAnimationsModule,
-    KeycloakAngularModule,
-    HttpClientModule,
-    CoreRoutingModule,
+    declarations: [
+        AppComponent,
+        HeaderComponent,
+        NavigationComponent,
+        SiteframeComponent,
+        EmptypageComponent,
+        ProjectDropdownComponent
+    ],
+    imports: [
+        BrowserModule,
+        ClarityModule,
+        BrowserAnimationsModule,
+        KeycloakAngularModule,
+        HttpClientModule,
+        CoreRoutingModule,
 
-    FormsModule,
-    ReactiveFormsModule,
-    HammerModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HammerModule,
 
-  ],
-  providers: [{
-    provide: APP_INITIALIZER,
-    useFactory: initializer,
-    deps: [KeycloakService],
-    multi: true
-  }, RedirectGuard, {provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig}, StyleRenderer,
-    LyTheme2, {provide: LY_THEME_NAME, useValue: 'minima-light'}, {provide: LY_THEME, useClass: MinimaLight, multi: true}],
-  bootstrap: [AppComponent]
+    ],
+    providers: [{
+        provide: APP_INITIALIZER,
+        useFactory: initializer,
+        deps: [KeycloakService],
+        multi: true
+    }, RedirectGuard, {provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig}, StyleRenderer,
+        LyTheme2, {provide: LY_THEME_NAME, useValue: 'minima-light'}, {provide: LY_THEME, useClass: MinimaLight, multi: true}],
+    exports: [
+        ProjectDropdownComponent
+    ],
+    bootstrap: [AppComponent]
 })
 /**
  * Core-Module this module is loaded always and should only contain services and elements which should be loaded only once and be available

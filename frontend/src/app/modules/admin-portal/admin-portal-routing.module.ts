@@ -4,7 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {FormDatabaseComponent} from './components/form-database/form-database.component';
 import {SearchableGridComponent} from './components/automated/linking-table/searchable-grid/searchable-grid.component';
 
-const routes: Routes = [
+export const routes: Routes = [
     {
       path: '', redirectTo: 'grid/projects', pathMatch: 'full'
     },

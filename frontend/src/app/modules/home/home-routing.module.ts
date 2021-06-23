@@ -7,7 +7,7 @@ import {CostsComponent} from './components/costs/costs.component';
 import {TicketsComponent} from './components/tickets/tickets.component';
 
 
-const routes: Routes = [
+export const routes: Routes = [
   {path: '', component: DashComponent},
   {path: 'resources', component: ResourceViewComponent},
   {path: 'costs', component: CostsComponent},

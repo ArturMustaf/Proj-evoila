@@ -1,24 +1,30 @@
 <div class="clr-row">
-  <div class="clr-col">
+  <div class="clr-col-sm-12 clr-col-md-6">
     <div class="card">
       <div class="card-header">Projects</div>
       <div class="card-block">
         <app-project-view></app-project-view>
-
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">Costs</div>
+      <div class="card-block">
+        <app-costs-diagram></app-costs-diagram>
       </div>
     </div>
   </div>
 
-  <div class="clr-col">
+
+  <div class="clr-col-sm-12 clr-col-md-6" >
     <div class="card">
       <div class="card-header">VDCs</div>
-      <div class="card-block">
+      <div class="card-block" class="vdcView">
         <app-single-vdc></app-single-vdc>
         <app-single-vdc></app-single-vdc>
         <app-single-vdc></app-single-vdc>
-
       </div>
     </div>
-
-
   </div>
+
+
+</div>

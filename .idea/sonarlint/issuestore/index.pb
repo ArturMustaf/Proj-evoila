@@ -1,18 +1,36 @@
 
+9
+	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+7
+pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
+q
+Asrc/test/java/de/thbingenproj/backend/extensions/BeforeEvery.java,2\a\2aa20b7f17b5ca319797360a6979f081646e5d73
+z
+Jsrc/main/java/de/thbingenproj/backend/configuration/ApplicationConfig.java,e\8\e8ee8207d82b322c2f697835448ac1a59f2e828a
+s
+Csrc/main/java/de/thbingenproj/backend/configuration/RestConfig.java,4\8\48ac6ab4b9b4efe0412a4d04e6e9a62381b2aac9
+Š
+Zsrc/test/java/de/thbingenproj/backend/entities/repositories/container/LocalInitalizer.java,1\1\118a14e7176e632bbb0eea54690afef64fe4bc0c
+‡
+Wsrc/test/java/de/thbingenproj/backend/entities/repositories/container/PostgresTest.java,a\3\a3059b804a86f5942e57b54dd47abc5713f887fe
+
+Qsrc/test/java/de/thbingenproj/backend/entities/repositories/DataCreationTest.java,a\0\a0849888d408dfe408f7bae4df6efcc963d7baf2
+w
+Gsrc/main/java/de/thbingenproj/backend/controller/ProjectController.java,a\d\ad05956d9c022991bea3ea0f35ee7c380d12ccb0
+Y
+)src/main/resources/application.properties,0\6\06f65155ec73600b9fc5c4dc2883d4bb84d8e284
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
-9
-	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-_
-/src/main/java/com/basecrawler/models/Value.java,7\1\71e74fe9eff27e63143b21024ce22707f82e76c1
-n
->src/test/java/com/basecrawler/BaseCrawlerApplicationTests.java,c\e\ce4437bc5d66812a00655c9801db18b3457c705b
+8
+mvnw.cmd,1\f\1f1763f358c257ea3515417352b82b0165647ad1
 i
 9src/main/java/com/basecrawler/BaseCrawlerApplication.java,2\e\2ec21516418fb07d4d7a0cb46903a6445678a96f
-7
-HELP.md,1\a\1a273f73b7a477b0745593641bd708a6182c7ad5
-f
-6src/main/java/com/basecrawler/service/QuoteClient.java,8\b\8bd175fe73f75d002cb578543a6c28e378361b4e
-_
-/src/main/java/com/basecrawler/models/Quote.java,8\d\8d85a20b24290def263784ab01e937c9317e28d7
+m
+=src/test/java/com/basecrawler/service/APIAuthServiceTest.java,a\8\a846da8602dcd04176006ce4bd1583a5afc46d36
+r
+Bsrc/test/java/com/basecrawler/configuration/ApplicationConfig.java,0\7\0771ba621b8044dd307c3f94da18c5f86a201b07
+4
+mvnw,5\d\5d837c4ed85ecaaf932c506e80ff5d7b9f3d590d
+i
+9src/main/java/com/basecrawler/service/APIAuthService.java,2\1\2175ed1319a57d07cd5f4797e5e14aa121df3da9

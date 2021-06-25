@@ -39,11 +39,9 @@ import {MinimaLight} from '@alyle/ui/themes/minima';
     KeycloakAngularModule,
     HttpClientModule,
     CoreRoutingModule,
-
     FormsModule,
     ReactiveFormsModule,
     HammerModule,
-
   ],
   providers: [{
     provide: APP_INITIALIZER,

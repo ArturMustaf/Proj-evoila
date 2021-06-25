@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 @RestController
-public class Authentificator {
+public class Authenticator {
     @Autowired
     CustomerRepository customerRepository;
     @Autowired

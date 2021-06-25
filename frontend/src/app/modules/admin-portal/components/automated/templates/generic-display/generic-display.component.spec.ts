@@ -1,6 +1,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {GenericDisplayComponent} from './generic-display.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {CoreRoutingModule} from '../../../../../../core/core-routing.module';
 
 describe('GenericDisplayComponent', () => {
   let component: GenericDisplayComponent;
@@ -8,6 +10,10 @@ describe('GenericDisplayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        CoreRoutingModule
+      ],
       declarations: [GenericDisplayComponent]
     })
       .compileComponents();

@@ -1,4 +1,4 @@
-package de.thbingenproj.backend.entities.repositories;
+package de.thbingenproj.backend.entities.repositories.util.demo_set_creator.user_information;
 
 import de.thbingenproj.backend.entities.prices.Price;
 import de.thbingenproj.backend.entities.prices.price.PriceType;

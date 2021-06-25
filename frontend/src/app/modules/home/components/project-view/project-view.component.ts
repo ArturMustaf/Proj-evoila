@@ -11,7 +11,7 @@ export class ProjectViewComponent implements OnInit {
 
 
   PROJECTS: ProjectModel[]=
-    [{id: 1, name: 'evoila', location: 'Mainz', status: 'healthy'},
+    [{id: 1, name: 'evoila', location: 'Mainz', status: 'unhealthy'},
       {id: 1, name: 'evoila1', location: 'Mainz', status: 'healthy'},
       {id: 2, name: 'evoila2', location: 'Wiesbaden', status: 'healthy'},
       {id: 3, name: 'evoila3', location: 'Mainz', status: 'unhealthy'},
@@ -21,6 +21,24 @@ export class ProjectViewComponent implements OnInit {
       {id: 3, name: 'evoila3', location: 'Mainz', status: 'unhealthy'},
       {id: 1, name: 'evoila', location: 'Mainz', status: 'healthy'},
       {id: 1, name: 'evoila1', location: 'Mainz', status: 'healthy'},
+      {id: 2, name: 'evoila2', location: 'Wiesbaden', status: 'healthy'},
+      {id: 3, name: 'evoila3', location: 'Mainz', status: 'unhealthy'},
+      {id: 1, name: 'evoila', location: 'Mainz', status: 'healthy'},
+      {id: 1, name: 'evoila1', location: 'Mainz', status: 'healthy'},
+      {id: 2, name: 'evoila2', location: 'Wiesbaden', status: 'healthy'},
+      {id: 3, name: 'evoila3', location: 'Mainz', status: 'unhealthy'},
+      {id: 1, name: 'evoila', location: 'Mainz', status: 'healthy'},
+      {id: 1, name: 'evoila1', location: 'Mainz', status: 'healthy'},
+      {id: 2, name: 'evoila2', location: 'Wiesbaden', status: 'healthy'},
+      {id: 3, name: 'evoila3', location: 'Mainz', status: 'unhealthy'},
+      {id: 1, name: 'evoila', location: 'Mainz', status: 'healthy'},
+      {id: 1, name: 'evoila1', location: 'Mainz', status: 'healthy'},
+      {id: 2, name: 'evoila2', location: 'Wiesbaden', status: 'healthy'},
+      {id: 3, name: 'evoila3', location: 'Mainz', status: 'unhealthy'},
+      {id: 1, name: 'evoila', location: 'Mainz', status: 'healthy'},
+      {id: 1, name: 'evoila1', location: 'Mainz', status: 'healthy'},
+      {id: 2, name: 'evoila2', location: 'Wiesbaden', status: 'healthy'},
+      {id: 2, name: 'evoila2', location: 'Wiesbaden', status: 'healthy'},
       {id: 2, name: 'evoila2', location: 'Wiesbaden', status: 'healthy'},
       {id: 3, name: 'evoila3', location: 'Mainz', status: 'unhealthy'}];
   constructor() {

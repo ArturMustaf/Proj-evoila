@@ -1,22 +1,47 @@
 <clr-datagrid>
-  <clr-dg-column >Project Name</clr-dg-column>
+  <clr-dg-column>Project Name</clr-dg-column>
   <!-- toDo Location Datacenter-->
   <clr-dg-column>Datacenter Location</clr-dg-column>
   <clr-dg-column>Status</clr-dg-column>
 
 
- <clr-dg-row *clrDgItems= "let project of PROJECTS" >
+  <clr-dg-row *clrDgItems="let project of PROJECTS">
     <clr-dg-cell>{{project.name}}</clr-dg-cell>
     <clr-dg-cell>{{project.location}}</clr-dg-cell>
-    <clr-dg-cell>{{project.status}}</clr-dg-cell>
+
+    <!-- default -->
+
+    <clr-dg-cell>
+      <span class="label label-info"> {{project.status}} </span>
+    </clr-dg-cell>
+
+    <!--cases for Status-->
+    <!--    <div *ngIf="project.status== 'healthy'">
+      <clr-dg-cell>
+        <span class="label label-success"> {{project.status}} </span>
+      </clr-dg-cell>
+    </div>
+
+        <div *ngIf="project.status=='unhealthy'">
+          <clr-dg-cell>
+            <span class="label label-warning"> {{project.status}} </span>
+          </clr-dg-ce        </div>
+
+
+        <div *ngIf=" project.status =='critical'">
+          <clr-dg-cell>
+            <span class="label label-danger"> {{project.status}} </span>
+          </clr-dg-cell>
+        </div>  -->
+
 
   </clr-dg-row>
 
   <clr-dg-footer>
     <clr-dg-pagination #pagination [clrDgPageSize]="10">
-      <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+      <clr-dg-page-size [clrPageSizeOptions]="[10,15,20,30.35,50]">Projects per page</clr-dg-page-size>
       {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-       of {{pagination.totalItems}} Projects
+      of {{pagination.totalItems}} Projects
     </clr-dg-pagination>
   </clr-dg-footer>
 

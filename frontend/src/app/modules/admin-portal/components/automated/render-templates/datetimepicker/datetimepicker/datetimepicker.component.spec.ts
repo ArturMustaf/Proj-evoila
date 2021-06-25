@@ -5,7 +5,7 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {KeycloakAngularModule} from 'keycloak-angular';
 import {RouterTestingModule} from '@angular/router/testing';
 
-describe('DatetimepickerComponent', () => {
+xdescribe('DatetimepickerComponent', () => {
   let component: DatetimepickerComponent;
   let fixture: ComponentFixture<DatetimepickerComponent>;
 

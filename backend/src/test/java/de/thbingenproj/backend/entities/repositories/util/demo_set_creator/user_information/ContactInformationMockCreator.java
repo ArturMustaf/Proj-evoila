@@ -21,7 +21,7 @@ public class ContactInformationMockCreator {
     @Autowired
     PhoneNumberCreator phoneNumberCreator;
 
-    ContactInformation createContactInformation() {
+    public ContactInformation createContactInformation() {
         ContactInformation contactInformation = new ContactInformation();
         contactInformation.setEmail(dataCreator.getData(DataTypes.EMAIL));
         contactInformation.setType(dataCreator.getBetween(ContactInformationType.EMERGENCY_CONTACT, ContactInformationType.MAIN_CONTACT));

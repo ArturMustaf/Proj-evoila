@@ -22,8 +22,8 @@ public class ContactInformationController {
      * @param id id of the contactInformation
      * @return the requested ContactInformation Object or null
      */
-    @GetMapping("create/contactInformations/{id}")
-    public ContactInformation getContactInformations(@PathVariable long id) {
+    @GetMapping("create/contactInformation/{id}")
+    public ContactInformation getContactInformation(@PathVariable long id) {
         return this.contactInformationRepository.findById(id).orElse(null);
     }
 
@@ -32,7 +32,7 @@ public class ContactInformationController {
      * @param contactInformation Overwritting contactInformation Objects with id field present
      * @return the saved ContactInformation Object or error
      */
-    @PutMapping("create/contactInformations/{id}")
+    @PutMapping("create/contactInformation/{id}")
     public ContactInformation putContactInformation(@PathVariable long id, @RequestBody ContactInformationDTO contactInformation) {
         contactInformation.setId(id);
         return this.contactInformationRepository.save(modelMapper.map(contactInformation, ContactInformation.class));
@@ -42,7 +42,7 @@ public class ContactInformationController {
      * @param contactInformation contactInformation Objects without id field present
      * @return the saved ContactInformation Object or error
      */
-    @PostMapping("create/contactInformations")
+    @PostMapping("create/contactInformation")
     public ContactInformation postCustomer(@RequestBody ContactInformationDTO contactInformation) {
         return this.contactInformationRepository.save(modelMapper.map(contactInformation, ContactInformation.class));
     }

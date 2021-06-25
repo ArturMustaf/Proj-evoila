@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 /**
  * Used for external identifier of machines and mapping to local id
  */
+
 public class ResourceEntity extends BaseEntity {
     String resourceID;
 }

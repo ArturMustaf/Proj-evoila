@@ -20,8 +20,4 @@ public abstract class BaseTimeEntity extends BaseEntity {
     Date created;
     @LastModifiedDate
     Date date;
-    // TODO Add again throws error currently since no authorization exisits
-    /**
-     * Possible field for lastEditedUser to save who created / modified entry
-     */
 }

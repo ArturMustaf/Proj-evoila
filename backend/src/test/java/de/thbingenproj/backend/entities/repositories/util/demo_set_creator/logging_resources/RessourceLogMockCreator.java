@@ -9,6 +9,7 @@ import de.thbingenproj.backend.entities.ressources.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -53,6 +54,7 @@ public class RessourceLogMockCreator {
 //        }
     }
 
+    @Transactional
     public List<ResourceLog> createRessourceLog() {
         List<ResourceLog> resourceLogs = new ArrayList<>();
         // 50 * 15

@@ -9,7 +9,10 @@ describe('UserinfoService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, KeycloakAngularModule]
+      imports: [
+        HttpClientTestingModule,
+        KeycloakAngularModule
+      ]
     });
     service = TestBed.inject(UserinfoService);
   });

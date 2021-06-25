@@ -1,6 +1,9 @@
 #Sonarlint
 .sonar
 .idea/sonarlint
+.idea/sonarlint/**
+.idea/sonarlint/*
+*.pb
 
 feature/BaseCrawler/S0S-32
 =======
@@ -9,6 +12,7 @@ feature/BaseCrawler/S0S-32
 *.iml
 *.ipr
 .idea
+
 
 develop
 # Logs

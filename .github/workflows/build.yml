@@ -35,7 +35,7 @@ jobs:
         working-directory: ./backend
         run: mvn -B spring-boot:build-image -Dspring-boot.build-image.imageName=backend:$environment -P $environment --file pom.xml
         
-  backend-build-image:
+  crawler-build-image:
     runs-on: [self-hosted, linux]
     steps:
       - uses: actions/checkout@v2

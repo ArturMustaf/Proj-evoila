@@ -5,8 +5,10 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Organisation {
-    String id;
+public class OrgUserRoleDTO {
     String href;
+    String id;
     String name;
+    String type;
+    String orgID;
 }

@@ -1,5 +1,5 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {ProjectDescription} from '../../navigation/project-dropdown/project-dropdown.component';
+import {ProjectDescription} from '../../header-navigation/project-dropdown/project-dropdown.component';
 
 @Injectable({
   providedIn: 'root'

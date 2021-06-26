@@ -5,8 +5,8 @@
 .idea/sonarlint/*
 *.pb
 
-feature/BaseCrawler/S0S-32
-=======
+# feature/BaseCrawler/S0S-32
+# =======
 #IntelliJ
 *.iws
 *.iml

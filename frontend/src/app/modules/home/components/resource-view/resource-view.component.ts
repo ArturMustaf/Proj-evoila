@@ -3,7 +3,7 @@ import {ClrDatagridStateInterface} from '@clr/angular';
 import {ResourceOverviewModel} from '../../../../shared/models/resource-models/resourceOverview-model';
 import {ResourceCommunicatorService} from '../../../../core/services/resource_communicator/resource-communicator.service';
 import {NavService} from '../../../../core/services/nav/nav.service';
-import {ProjectDescription} from '../../../../core/navigation/project-dropdown/project-dropdown.component';
+import {ProjectDescription} from '../../../../core/header-navigation/project-dropdown/project-dropdown.component';
 
 @Component({
   selector: 'app-resource-view',

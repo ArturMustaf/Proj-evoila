@@ -1,12 +1,13 @@
 package de.thbingenproj.backend.entities.repositories.util.demo_set_creator.logging_resources;
 
-import de.thbingenproj.backend.entities.repositories.PriceMockCreator;
+import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.user_information.PriceMockCreator;
 import de.thbingenproj.backend.entities.repositories.ResourceTypeRepository;
 import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.dataset.DataCreator;
 import de.thbingenproj.backend.entities.ressources.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +17,6 @@ import java.util.Map;
  * Mock creator for ResourceTypes
  */
 public class ResourceTypeMockCreator {
-    Map<String, ResourceType> resourceTypeMap = new HashMap<>();
     @Autowired
     DataCreator dataCreator;
     @Autowired
@@ -65,51 +65,37 @@ public class ResourceTypeMockCreator {
                 "4 Cores 16GB RAM", "8 Cores 16GB RAM", "4 Cores 32GB RAM");
     }
 
-    ResourceType generateResourceType(Calendar calendar) {
+    public ResourceType generateResourceType(Calendar calendar) {
         // Description and unit type
         String generatedDescription = generateResourceDescriptionType();
         String generatedUnitType = generateResourceUnitType(generatedDescription);
 
         // recursive spawning of a resourcetype with price
-        ResourceType resourceType = generateResourceType(generatedDescription, generatedUnitType, calendar, false);
+        ResourceType resourceType = generateResourceType(generatedDescription, generatedUnitType, calendar);
 
-
-        resourceTypeRepository.save(resourceType);
-
+        //resourceTypeRepository.save(resourceType);
         return resourceType;
     }
 
-    private ResourceType generateResourceType(String description, String generatedUnitType, Calendar calendar, boolean recursive) {
-        // check if resourcetype is in "fake" database
-        if (resourceTypeMap.containsKey(description) && !recursive) {
-            return this.resourceTypeMap.get(description);
-        }
+    private ResourceType generateResourceType(String description, String generatedUnitType, Calendar calendar) {
         ResourceType resourceType = new ResourceType();
-        resourceType = resourceTypeRepository.save(resourceType);
         resourceType.setShortDescription(description);
         resourceType.setFullDescription(description);
-
-
         resourceType.setType(description);
-
         resourceType.setPrice(priceCreator.createPrices(calendar));
         resourceType.setUnitType(generatedUnitType);
 
-
         if (dataCreator.getBetween(true, false)) {
-            ResourceType next = generateResourceType(description, generatedUnitType, calendar, true);
-
+            ResourceType next = generateResourceType(description, generatedUnitType, calendar);
+            resourceTypeRepository.save(next);
             resourceType.setNextResource(next);
             //next.setPreviousResource(resourceType);
-            resourceTypeRepository.save(next);
         } else {
             resourceType.getPrice().get(resourceType.getPrice().size() - 1).setExpireDate(null);
         }
 
 
-        if (!recursive) {
-            resourceTypeMap.put(description, resourceType);
-        }
+        resourceTypeRepository.save(resourceType);
 
         return resourceType;
     }

@@ -26,7 +26,7 @@ public class CustomerController {
      * @return saved object
      */
     @PutMapping("create/customers/{id}")
-    public Customer createCustomer(@PathVariable long id, @RequestBody CustomerDTO customer) {
+    public Customer putCustomer(@PathVariable long id, @RequestBody CustomerDTO customer) {
         customer.setId(id);
         return this.customerRepository.save(modelMapper.map(customer, Customer.class));
     }
@@ -43,7 +43,7 @@ public class CustomerController {
     }
 
     /**
-     * @param not implemented
+     * @param id
      * @return
      */
     @GetMapping("create/customers/linked/{id}")

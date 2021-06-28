@@ -11,8 +11,6 @@ import javax.persistence.ManyToOne;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@Getter
-@Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +18,8 @@ import javax.persistence.ManyToOne;
  * Actor or server which can create data or modify data. Agents are for identification of the actor which performed
  * changes in the database
  */
+
+//TODO What are agents used for?
 public class Agent extends BaseEntity {
     String name;
     String lastname;

@@ -12,50 +12,43 @@ import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 // componentimports
-import {HeaderComponent} from './header/header.component';
-import {NavigationComponent} from './navigation/navigation.component';
+import {HeaderNavigationComponent} from './header-navigation/header-navigation.component';
 import {SiteframeComponent} from './siteframe/siteframe.component';
 import {EmptypageComponent} from '../shared/components/emptypage/emptypage.component';
 import {HttpClientModule} from '@angular/common/http';
 import {initializer} from './authentification/util/helper';
-import {ProjectDropdownComponent} from './navigation/project-dropdown/project-dropdown.component';
+import {ProjectDropdownComponent} from './header-navigation/project-dropdown/project-dropdown.component';
 import {LY_THEME, LY_THEME_NAME, LyHammerGestureConfig, LyTheme2, StyleRenderer} from '@alyle/ui';
 import {MinimaLight} from '@alyle/ui/themes/minima';
 
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        HeaderComponent,
-        NavigationComponent,
-        SiteframeComponent,
-        EmptypageComponent,
-        ProjectDropdownComponent
-    ],
-    imports: [
-        BrowserModule,
-        ClarityModule,
-        BrowserAnimationsModule,
-        KeycloakAngularModule,
-        HttpClientModule,
-        CoreRoutingModule,
-
-        FormsModule,
-        ReactiveFormsModule,
-        HammerModule,
-
-    ],
-    providers: [{
-        provide: APP_INITIALIZER,
-        useFactory: initializer,
-        deps: [KeycloakService],
-        multi: true
-    }, RedirectGuard, {provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig}, StyleRenderer,
-        LyTheme2, {provide: LY_THEME_NAME, useValue: 'minima-light'}, {provide: LY_THEME, useClass: MinimaLight, multi: true}],
-    exports: [
-        ProjectDropdownComponent
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    HeaderNavigationComponent,
+    SiteframeComponent,
+    EmptypageComponent,
+    ProjectDropdownComponent
+  ],
+  imports: [
+    BrowserModule,
+    ClarityModule,
+    BrowserAnimationsModule,
+    KeycloakAngularModule,
+    HttpClientModule,
+    CoreRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HammerModule,
+  ],
+  providers: [{
+    provide: APP_INITIALIZER,
+    useFactory: initializer,
+    deps: [KeycloakService],
+    multi: true
+  }, RedirectGuard, {provide: HAMMER_GESTURE_CONFIG, useClass: LyHammerGestureConfig}, StyleRenderer,
+    LyTheme2, {provide: LY_THEME_NAME, useValue: 'minima-light'}, {provide: LY_THEME, useClass: MinimaLight, multi: true}],
+  bootstrap: [AppComponent]
 })
 /**
  * Core-Module this module is loaded always and should only contain services and elements which should be loaded only once and be available

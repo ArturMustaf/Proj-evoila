@@ -1,6 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {ProjectDropdownComponent} from './project-dropdown.component';
+import {CoreRoutingModule} from '../../core-routing.module';
 
 describe('ProjectDropdownComponent', () => {
   let component: ProjectDropdownComponent;
@@ -8,6 +9,10 @@ describe('ProjectDropdownComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        CoreRoutingModule
+        ],
       declarations: [ProjectDropdownComponent]
     })
       .compileComponents();

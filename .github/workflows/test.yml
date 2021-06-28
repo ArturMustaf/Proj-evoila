@@ -122,4 +122,3 @@ jobs:
         
       - name: ng test
         run: ng test --watch=false
-        if: 1 == 2

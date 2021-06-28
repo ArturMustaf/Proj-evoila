@@ -1,4 +1,4 @@
-package com.basecrawler.service;
+package com.crawler.service;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;

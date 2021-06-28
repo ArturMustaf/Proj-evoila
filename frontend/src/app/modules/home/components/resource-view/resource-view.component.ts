@@ -79,13 +79,16 @@ export class ResourceViewComponent implements OnInit {
     }
     this.loading = true;
     const tmpResourceList: ResourceOverviewModel[] = [];
-    for (const x of this.projects) {
-      if (this.onDash) {
-        tmpResourceList.push(...(await this.communicator.loadResourceUsage(x.id, this.start, this.end))
-          .filter(e => e.quantity !== 0).sort((a, b) => a.resourceName.localeCompare(b.resourceName)));
-      } else {
-        tmpResourceList.push(...(await this.communicator.loadResourceUsage(x.id, this.start, this.end))
-          .sort((a, b) => a.resourceName.localeCompare(b.resourceName)));
+    //tried fixing not iterable error
+    if(this.projects != null){
+      for (const x of this.projects) {
+        if (this.onDash) {
+          tmpResourceList.push(...(await this.communicator.loadResourceUsage(x.id, this.start, this.end))
+            .filter(e => e.quantity !== 0).sort((a, b) => a.resourceName.localeCompare(b.resourceName)));
+        } else {
+          tmpResourceList.push(...(await this.communicator.loadResourceUsage(x.id, this.start, this.end))
+            .sort((a, b) => a.resourceName.localeCompare(b.resourceName)));
+        }
       }
     }
     this.resources = tmpResourceList;

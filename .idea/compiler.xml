@@ -14,7 +14,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel target="11">
       <module name="backend" target="11" />
-      <module name="BaseCrawler" target="1.5" />
+      <module name="BaseCrawler" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

@@ -19,7 +19,7 @@ export class CostsDiagramComponent {
     static: true
   }) private chartRef: any;
   chart: any;
-  loading: boolean;F
+  loading: boolean;
   response: CostsResponse[];
   project: CostsResponse;
   resources = {};

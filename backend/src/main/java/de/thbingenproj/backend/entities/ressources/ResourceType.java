@@ -49,7 +49,6 @@ public class ResourceType extends BaseEntity {
     @IndexedEmbedded
     @OneToMany(cascade = CascadeType.ALL)
     List<Price> price;
-    // TODO Add stopped support => Further the results in getResourceRuntimePairs in CostsController
     /**
      * Offline Price support / offline prices for ressource => currently not implemented
      */

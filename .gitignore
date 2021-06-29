@@ -1,14 +1,18 @@
 #Sonarlint
 .sonar
 .idea/sonarlint
+.idea/sonarlint/**
+.idea/sonarlint/*
+*.pb
 
-feature/BaseCrawler/S0S-32
-=======
+# feature/BaseCrawler/S0S-32
+# =======
 #IntelliJ
 *.iws
 *.iml
 *.ipr
 .idea
+
 
 develop
 # Logs
@@ -139,3 +143,5 @@ dist
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+
+BaseCrawler/src/main/resources/logindata.properties

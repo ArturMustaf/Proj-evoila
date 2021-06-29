@@ -21,7 +21,7 @@ public class ResourceTypeController {
      * @return
      */
     @GetMapping("create/resourceType/{id}")
-    public ResourceType getContactInformations(@PathVariable long id) {
+    public ResourceType getResourceType(@PathVariable long id) {
         return this.resourceTypeRepository.findById(id).orElse(null);
     }
 
@@ -33,7 +33,7 @@ public class ResourceTypeController {
      * @return
      */
     @PutMapping("create/resourceType/{id}")
-    public ResourceType putContactInformation(@PathVariable long id, @RequestBody ResourceTypeDTO resourceType) {
+    public ResourceType putResourceType(@PathVariable long id, @RequestBody ResourceTypeDTO resourceType) {
         resourceType.setId(id);
         return this.resourceTypeRepository.save(modelMapper.map(resourceType, ResourceType.class));
     }
@@ -45,7 +45,7 @@ public class ResourceTypeController {
      * @return
      */
     @PostMapping("create/resourceType")
-    public ResourceType postCustomer(@RequestBody ResourceTypeDTO resourceType) {
+    public ResourceType postResourceType(@RequestBody ResourceTypeDTO resourceType) {
         return this.resourceTypeRepository.save(modelMapper.map(resourceType, ResourceType.class));
     }
 }

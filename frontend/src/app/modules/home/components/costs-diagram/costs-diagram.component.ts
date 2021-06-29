@@ -3,7 +3,7 @@ import {CostsResponse} from '../../../../core/services/costs-communicator/mock-c
 import {Chart} from 'chart.js';
 import {CostsCommunicatorService} from '../../../../core/services/costs-communicator/costs-communicator.service';
 import {NavService} from '../../../../core/services/nav/nav.service';
-import {ProjectDescription} from '../../../../core/navigation/project-dropdown/project-dropdown.component';
+import {ProjectDescription} from '../../../../core/header-navigation/project-dropdown/project-dropdown.component';
 
 @Component({
   selector: 'app-costs-diagram',
@@ -67,30 +67,34 @@ export class CostsDiagramComponent {
       if (this.chart) {
         this.chart.destroy();
       }
-      for (const project of this.projects) {
-        this.response = await this.communicator.loadForDiagram(this.start, this.end, project.id);
+      if(this.projects){
+        for (const project of this.projects) {
+          this.response = await this.communicator.loadForDiagram(this.start, this.end, project.id);
+        }
       }
       this.loading = false;
       this.getEverything(this.response);
 
-      this.chart = new Chart(this.chartRef.nativeElement, {
-        type: 'doughnut',
-        data: {
-          labels: this.chartLabels,
-          datasets: [{
-            label: 'Kosten je Ressource',
-            data: this.chartData,
-            backgroundColor: this.backgroundColors,
-            borderColor: this.borderColors,
-            borderWidth: 1
-          }]
-        }
-      });
+      if(this.chartRef){
+        this.chart = new Chart(this.chartRef.nativeElement, {
+          type: 'doughnut',
+          data: {
+            labels: this.chartLabels,
+            datasets: [{
+              label: 'Kosten je Ressource',
+              data: this.chartData,
+              backgroundColor: this.backgroundColors,
+              borderColor: this.borderColors,
+              borderWidth: 1
+            }]
+          }
+        });
+      }
     }
   }
 
   getEverything(data: CostsResponse[]): void {
-    if (data.length > 0) {
+    if (data) {
       this.project = data[0];
       this.resources = this.project.resourceTypes;
       this.totalCost = this.project.totalCosts / 100;

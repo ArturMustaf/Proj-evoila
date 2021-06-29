@@ -19,6 +19,8 @@ import javax.persistence.Enumerated;
  * Table of the existing events and their descriptions.
  * The eventtype if for behavioural differentiation
  */
+
+//TODO not in use
 public class Event extends BaseEntity {
     @Enumerated(EnumType.STRING)
     EventType eventType;

@@ -1,0 +1,46 @@
+<header class="header-5">
+  <div class="branding">
+    <a class="nav-link" [routerLink]="this.redirectToAdmin ? '/admin' : '' ">
+      <span class="title">evoila Service Desk</span>
+    </a>
+  </div>
+  <div class="header-nav" *ngIf="!this.nav.isAdmin">
+    <a class="nav-link" routerLinkActive="active" routerLink="" [routerLinkActiveOptions]="{ exact: true }" >Dashboard</a>
+    <a class="nav-link" routerLinkActive="active" routerLink="/costs">Kosten</a>
+    <a class="nav-link" routerLinkActive="active" routerLink="/resources">Ressourcen</a>
+  </div>
+  <div class="header-nav" *ngIf="this.nav.isAdmin">
+    <a class="nav-link" routerLinkActive="active" routerLink="/admin/grid/projects">Projekte</a>
+    <a class="nav-link" routerLinkActive="active" routerLink="/admin/grid/customers">Nutzer</a>
+    <a class="nav-link" routerLinkActive="active" routerLink="/admin/grid/resourceTypes">Ressourcen</a>
+  </div>
+
+  <div class="header-actions" >
+    <a class="nav-link" *ngIf="!this.nav.isAdmin" routerLinkActive="active" routerLink="/tickets">Tickets</a>
+    <app-project-dropdown *ngIf="!this.nav.isAdmin"></app-project-dropdown>
+    <clr-dropdown>
+      <button clrDropdownTrigger id="usericon">
+        <clr-icon shape="user" size="32"></clr-icon>
+      </button>
+      <clr-dropdown-menu clrPosition="bottom-right" *clrIfOpen>
+        <div class="dropdown-header">Willkommen {{username}}</div>
+        <button type="button" routerLink="/settings" clrDropdownItem>
+          <clr-icon shape="cog"></clr-icon>
+          Einstellungen
+        </button>
+        <button *ngIf="redirectToAdmin" type="button" routerLink="/admin" clrDropdownItem>
+          <clr-icon shape="key"></clr-icon>
+          Adminportal
+        </button>
+        <button *ngIf="redirectToAdmin && redirectToUser" type="button" routerLink="" clrDropdownItem>
+          <clr-icon shape="pinboard"></clr-icon>
+          Dashboard
+        </button>
+        <button type="button" (click)="logout();" clrDropdownItem>
+          <clr-icon shape="logout"></clr-icon>
+          Logout
+        </button>
+      </clr-dropdown-menu>
+    </clr-dropdown>
+  </div>
+</header>

@@ -61,7 +61,7 @@ jobs:
           java-version: 11.0.5
 
       - name: Build backend with maven
-        working-directory: ./BaseCrawler
+        working-directory: ./crawler
         run: mvn -B spring-boot:build-image -Dspring-boot.build-image.imageName=backend:$environment -P $environment --file pom.xml
 
   frontend-build-image:

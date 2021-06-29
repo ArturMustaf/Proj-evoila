@@ -5,8 +5,8 @@
 .idea/sonarlint/*
 *.pb
 
-feature/BaseCrawler/S0S-32
-=======
+# feature/BaseCrawler/S0S-32
+# =======
 #IntelliJ
 *.iws
 *.iml
@@ -143,3 +143,5 @@ dist
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+
+BaseCrawler/src/main/resources/logindata.properties

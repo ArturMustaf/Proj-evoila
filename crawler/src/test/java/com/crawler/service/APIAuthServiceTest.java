@@ -38,7 +38,8 @@ class APIAuthServiceTest {
 
     }
 
-    @Test
+//    @Test
+//    Clientside only test
     void getBearerToken() throws InterruptedException, TimeoutException, IOException {
         getProps();
         var token = authService.getBearerToken(username, password);

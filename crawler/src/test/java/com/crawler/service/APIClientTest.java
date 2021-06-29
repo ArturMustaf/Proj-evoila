@@ -40,7 +40,8 @@ class APIClientTest {
         Assertions.assertNotNull(vdcRepository);
     }
 
-    @Test
+//    @Test
+//    Clientside only test
     void genericTestClass(){
         Assertions.assertTrue(apiClient.getAllOrgs());
         System.out.println("Orgs: "+organizationRepository.findAll());

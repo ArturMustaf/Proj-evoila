@@ -79,7 +79,7 @@ class VAppRepositoryTest {
         String generatedString = new String(array, Charset.forName("UTF-8"));
         vAppReturned.setName(generatedString);
         vAppRepository.save(vAppReturned);
-        assertNotEquals(vAppInitialName, vAppRepository.findById(vApp.getId()));
+        assertNotEquals(vAppInitialName, vAppRepository.findById(vApp.getId()).orElse(null).getName());
     }
 
     @Test

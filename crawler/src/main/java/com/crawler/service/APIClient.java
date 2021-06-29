@@ -12,8 +12,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 @Service
@@ -42,9 +42,9 @@ public class APIClient {
     String password;
 
     public void getProps() throws IOException {
-        String propFileName = "logindata.properties";
-        Properties prop = new Properties();
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+        var propFileName = "logindata.properties";
+        var prop = new Properties();
+        var inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 
         if (inputStream != null) {
             prop.load(inputStream);
@@ -80,12 +80,11 @@ public class APIClient {
             if(entity != null){
                 var organizations = new ArrayList<Organization>();
 
-                for(OrganizationDTO organizationDTO : entity.getRecord()){
+                for(OrganizationDTO organizationDTO : entity.getOrganizationRecord()){
                     var org = modelMapper.map(getOneOrgByID(getID(organizationDTO.getHref(), "org")), Organization.class);
                     organizations.add(org);
                     getOneOrgByID(org.getId());
                     getRolesByOrgID(org.getId());
-//                getOrgNetworksByOrgID(org.getId());
                     getOrgUsersByOrgID(org.getId());
                     getOrgVDCsByOrgID(org.getId());
                     getAllVApps();
@@ -104,14 +103,16 @@ public class APIClient {
         var organizationDTO = client.get().uri("/admin/org/" +orgID)
                 .retrieve().bodyToMono(OrganizationDTO.class)
                 .block();
-        organizationDTO.setId(organizationDTO.getId().replace("urn:vcloud:org:", ""));
+        if(organizationDTO != null){
+            organizationDTO.setId(organizationDTO.getId().replace("urn:vcloud:org:", ""));
+        }
         return organizationDTO;
     }
 
-    public ArrayList<OrgUserRole> getRolesByOrgID(String orgId){
+    public List<OrgUserRole> getRolesByOrgID(String orgId){
         var org = getOneOrgByID(orgId);
         var entities = new ArrayList<OrgUserRole>();
-        for(OrgUserRoleDTO role : org.getRoleReferences().getRecord()){
+        for(OrgUserRoleDTO role : org.getRoleReferences().getOrgUserRoleRecord()){
             var orgUserRole = modelMapper.map(role, OrgUserRole.class);
             orgUserRole.setId(getID(role.getHref(), "admin/org/"+orgId+"/role"));
             orgUserRole.setOrgID(orgId);
@@ -121,10 +122,10 @@ public class APIClient {
         return entities;
     }
 
-    public ArrayList<OrgUser> getOrgUsersByOrgID(String orgID){
+    public List<OrgUser> getOrgUsersByOrgID(String orgID){
         var org = getOneOrgByID(orgID);
         var entities = new ArrayList<OrgUser>();
-        for(OrgUserDTO user: org.getUsers().getRecord()){
+        for(OrgUserDTO user: org.getUsers().getOrgUserRecords()){
             var orgUser= getOneOrgUserByID(getID(user.getHref(), "admin/user"));
             orgUser.setId(getID(user.getHref(), "admin/user"));
             orgUser.setOrgID(orgID);
@@ -141,7 +142,7 @@ public class APIClient {
                 .block();
     }
 
-    public ArrayList<VDC> getOrgVDCsByOrgID(String orgID){
+    public List<VDC> getOrgVDCsByOrgID(String orgID){
         var org = getOneOrgByID(orgID);
         var entities = new ArrayList<VDC>();
         var computeCapacities = new ArrayList<VDCComputeCapacity>();
@@ -197,11 +198,13 @@ public class APIClient {
                 .retrieve().bodyToMono(VAppRecord.class)
                 .block();
         var entities = new ArrayList<VApp>();
-        for(VAppDTO vAppDTO : vApps.getRecord()){
-            var vApp = modelMapper.map(vAppDTO, VApp.class);
-            vApp.setId(vApp.getHref().replace("https://vcloud.evoila.io/api/vApp/vapp-",""));
-            vApp.setVdcID(getID(vApp.getVdcHRef(), "vdc"));
-            entities.add(vApp);
+        if(vApps != null){
+            for(VAppDTO vAppDTO : vApps.getVAppsRecord()){
+                var vApp = modelMapper.map(vAppDTO, VApp.class);
+                vApp.setId(vApp.getHref().replace("https://vcloud.evoila.io/api/vApp/vapp-",""));
+                vApp.setVdcID(getID(vApp.getVdcHRef(), "vdc"));
+                entities.add(vApp);
+            }
         }
         vAppRepository.saveAll(entities);
         return vApps;

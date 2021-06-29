@@ -11,5 +11,5 @@ import java.util.ArrayList;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrgUserRecord {
     @JsonAlias("userReference")
-    ArrayList<OrgUserDTO> record;
+    ArrayList<OrgUserDTO> orgUserRecords;
 }

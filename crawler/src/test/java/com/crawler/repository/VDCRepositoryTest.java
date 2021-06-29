@@ -78,7 +78,7 @@ class VDCRepositoryTest {
         String generatedString = new String(array, Charset.forName("UTF-8"));
         vdcReturned.setName(generatedString);
         vdcRepository.save(vdcReturned);
-        assertNotEquals(vdcInitialName, vdcRepository.findById(vdc.getId()));
+        assertNotEquals(vdcInitialName, vdcRepository.findById(vdc.getId()).orElse(null).getName());
     }
 
     @Test

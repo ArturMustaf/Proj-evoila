@@ -79,7 +79,7 @@ class VDCStorageProfileRepositoryTest {
         String generatedString = new String(array, Charset.forName("UTF-8"));
         vdcStorageProfileReturned.setName(generatedString);
         storageProfileRepository.save(vdcStorageProfileReturned);
-        assertNotEquals(vdcStorageProfileInitialName, storageProfileRepository.findById(vdcStorageProfile.getId()));
+        assertNotEquals(vdcStorageProfileInitialName, storageProfileRepository.findById(vdcStorageProfile.getId()).orElse(null).getName());
     }
 
     @Test

@@ -78,7 +78,7 @@ class OrgUserRepositoryTest {
         String generatedString = new String(array, Charset.forName("UTF-8"));
         orgUserReturned.setName(generatedString);
         orgUserRepository.save(orgUserReturned);
-        assertNotEquals(orgInitialName, orgUserRepository.findById(orgUser.getId()));
+        assertNotEquals(orgInitialName, orgUserRepository.findById(orgUser.getId()).orElse(null).getName());
     }
 
     @Test

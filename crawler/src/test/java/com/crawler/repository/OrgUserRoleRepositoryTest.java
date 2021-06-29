@@ -79,7 +79,7 @@ class OrgUserRoleRoleRepositoryTest {
         String generatedString = new String(array, Charset.forName("UTF-8"));
         orgUserRoleReturned.setName(generatedString);
         orgUserRoleRepository.save(orgUserRoleReturned);
-        assertNotEquals(orgUserRoleInitialName, orgUserRoleRepository.findById(UserRole.getId()));
+        assertNotEquals(orgUserRoleInitialName, orgUserRoleRepository.findById(UserRole.getId()).orElse(null).getName());
     }
 
     @Test

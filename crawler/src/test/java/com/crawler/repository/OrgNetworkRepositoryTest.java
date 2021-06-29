@@ -79,7 +79,7 @@ class OrgNetworkRepositoryTest {
         String generatedString = new String(array, Charset.forName("UTF-8"));
         orgNetworkReturned.setName(generatedString);
         orgNetworkRepository.save(orgNetworkReturned);
-        assertNotEquals(orgNetworkInitialName, orgNetworkRepository.findById(orgNetwork.getId()));
+        assertNotEquals(orgNetworkInitialName, orgNetworkRepository.findById(orgNetwork.getId()).orElse(null).getName());
     }
 
     @Test

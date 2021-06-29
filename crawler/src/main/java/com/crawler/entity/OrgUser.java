@@ -23,6 +23,6 @@ public class OrgUser {
     String telephone;
     String isExternal;
     String isGroupRole;
-    String OrgRoleID;
+    String orgRoleID;
     String orgID;
 }

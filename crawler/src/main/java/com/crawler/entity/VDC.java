@@ -15,8 +15,4 @@ public class VDC {
     String tasks;
     String allocationModel;
     String orgID;
-//    VDCComputeCapacity computeCapacity;
-//    VDCStorageProfile vdcStorageProfiles;
-//    VAppRecord resourceEntities;
-//    VDCNetworkRecord availableNetworks;
 }

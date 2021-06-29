@@ -71,7 +71,7 @@ class VDCComputeCapacityRepositoryTest {
         var vdcComputeCapacityReturned = computeCapacityRepository.findById(vdcComputeCapacity.getId()).orElse(null);
         vdcComputeCapacityReturned.setCpuAllocated(new Random().nextInt());
         computeCapacityRepository.save(vdcComputeCapacityReturned);
-        assertNotEquals(vdcComputeCapacityInitialCpuAllocated, computeCapacityRepository.findById(vdcComputeCapacity.getId()));
+        assertNotEquals(vdcComputeCapacityInitialCpuAllocated, computeCapacityRepository.findById(vdcComputeCapacity.getId()).orElse(null).getCpuAllocated());
     }
 
     @Test

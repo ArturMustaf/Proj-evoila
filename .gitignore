@@ -143,3 +143,5 @@ dist
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+
+BaseCrawler/src/main/resources/logindata.properties

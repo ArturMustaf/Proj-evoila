@@ -73,7 +73,7 @@ jobs:
           java-version: 11.0.5
 
       - name: test backend with maven
-        working-directory: ./BaseCrawler
+        working-directory: ./crawler
         run: mvn test -P $environment --file pom.xml
 
   frontend-test:
@@ -122,4 +122,3 @@ jobs:
         
       - name: ng test
         run: ng test --watch=false
-        if: 1 == 2

@@ -1,12 +1,12 @@
-package com.basecrawler;
+package com.crawler;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BaseCrawlerApplication {
+public class CrawlerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(BaseCrawlerApplication.class, args);
+        SpringApplication.run(CrawlerApplication.class, args);
     }
 
 }

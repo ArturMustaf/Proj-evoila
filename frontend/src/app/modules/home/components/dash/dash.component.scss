@@ -1,21 +1,14 @@
-.View {
-//  overflow: auto ;
-//  height: 77vh;
-//  overflow-x: hidden;
-}
-#dashboard {
- // margin-top: -45px
-}
-
 .grid-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 24px 1fr;
   grid-template-rows: 1fr 1fr;
- // justify-items: stretch;
   height: 100%;
 }
 
 .grid-item {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
 }
 
 .item-projects {
@@ -26,12 +19,11 @@
 }
 
 .item-vdcs {
-  grid-column-start: 2;
-  grid-column-end: 3;
+  grid-column-start: 3;
+  grid-column-end: 4;
   grid-row-start: 1;
   grid-row-end: 3;
-
-  overflow: auto ;
+  overflow: auto;
 }
 
 .item-costs {

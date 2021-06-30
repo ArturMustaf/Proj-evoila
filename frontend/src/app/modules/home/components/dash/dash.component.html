@@ -1,25 +1,25 @@
-<div class="grid-container">
-  <div class="card grid-item item-projects">
-    <div class="card-header">Projects</div>
-    <div class="card-block">
-      <app-project-view></app-project-view>
+<div class="clr-row" style="height: 100% !important">
+  <div class="clr-col-md" style="height: 100%">
+    <div class="card clr-row-md item-projects" style="height: 50%; margin-top: 0; overflow: auto">
+      <div class="card-header">Projects</div>
+      <div class="card-block" style="overflow: auto">
+        <app-project-view></app-project-view>
+      </div>
     </div>
-  </div>
 
-  <div class="card grid-item item-vdcs">
-    <div class="card-header">VDCs</div>
-    <div class="card-block">
-        <app-single-vdc></app-single-vdc>
-        <app-single-vdc></app-single-vdc>
-        <app-single-vdc></app-single-vdc>
-    </div>
-  </div>
-
-  <div class="card grid-item item-costs">
+    <div class="card clr-row-md item-costs" style="height: 50%; margin-top: 0">
     <div class="card-header">Costs</div>
-    <div class="card-block">
+    <div class="card-block" style="overflow: auto">
       <app-costs-diagram></app-costs-diagram>
     </div>
+    </div>
   </div>
-
+  <div class="card clr-col-md item-vdcs" style="height: 100%; margin-top: 0; overflow: auto">
+    <div class="card-header">VDCs</div>
+    <div class="card-block" style="overflow-y: auto">
+      <app-single-vdc></app-single-vdc>
+      <app-single-vdc></app-single-vdc>
+      <app-single-vdc></app-single-vdc>
+    </div>
+  </div>
 </div>

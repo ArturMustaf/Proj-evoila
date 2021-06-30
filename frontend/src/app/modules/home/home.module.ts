@@ -13,6 +13,8 @@ import {CostsDiagramComponent} from './components/costs-diagram/costs-diagram.co
 
 import {TicketsComponent} from './components/tickets/tickets.component';
 import {TicketDisplayComponent} from './components/tickets/display/ticketdisplay.component';
+import { SingleVDCComponent } from './components/single-vdc/single-vdc.component';
+import { ProjectViewComponent } from './components/project-view/project-view.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import {TicketDisplayComponent} from './components/tickets/display/ticketdisplay
     CostsComponent,
     CostsDiagramComponent,
     TicketsComponent,
-    TicketDisplayComponent
+    TicketDisplayComponent,
+    SingleVDCComponent,
+    ProjectViewComponent
 
   ],
   imports: [

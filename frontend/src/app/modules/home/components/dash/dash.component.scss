@@ -1,9 +1,13 @@
-.View {
-//  overflow: auto ;
-//  height: 77vh;
+.vdcs-view {
+  overflow: auto ;
+  height: 77vh;
 //  overflow-x: hidden;
 }
 #dashboard {
  // margin-top: -45px
 }
 
+.left-view {
+  overflow: auto;
+  height: 35vh;
+}

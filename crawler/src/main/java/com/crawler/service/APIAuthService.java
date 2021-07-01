@@ -1,6 +1,7 @@
 package com.crawler.service;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
@@ -8,6 +9,7 @@ import java.util.concurrent.TimeoutException;
 
 import static java.lang.Thread.sleep;
 
+@Service
 public class APIAuthService {
     int retries = 0;
 

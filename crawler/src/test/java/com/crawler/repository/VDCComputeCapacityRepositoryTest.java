@@ -1,0 +1,91 @@
+package com.crawler.repository;
+
+import com.crawler.entity.VDCComputeCapacity;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Random;
+
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
+@SpringBootTest
+class VDCComputeCapacityRepositoryTest {
+
+    @Autowired
+    VDCComputeCapacityRepository computeCapacityRepository;
+
+    @Test
+    void testGeneration(){
+        Assertions.assertNotNull(computeCapacityRepository);
+    }
+
+    @Test
+    @Transactional
+    void createVDCComputeCapacity(){
+        var entities = new ArrayList<VDCComputeCapacity>();
+        for (int i = 0; i < 50; i++) {
+            var vdcComputeCapacity = new VDCComputeCapacity();
+            entities.add(vdcComputeCapacity);
+        }
+        computeCapacityRepository.saveAll(entities);
+        var checkList = computeCapacityRepository.findAll();
+        System.out.println("Ent: "+entities);
+        System.out.println("Check: "+checkList);
+        for(VDCComputeCapacity x : entities){
+            Assertions.assertTrue(checkList.contains(x));
+        }
+    }
+
+    @Test
+    @Transactional
+    void readVDCComputeCapacity(){
+        var vdcComputeCapacity = new VDCComputeCapacity();
+        vdcComputeCapacity.setId(new Random().nextLong());
+        computeCapacityRepository.save(vdcComputeCapacity);
+        Assertions.assertNotNull(computeCapacityRepository.findById(vdcComputeCapacity.getId()));
+    }
+
+    @Test
+    @Transactional
+    void deleteVDCComputeCapacity(){
+        var vdcComputeCapacity = new VDCComputeCapacity();
+        vdcComputeCapacity.setId(new Random().nextLong());
+        computeCapacityRepository.save(vdcComputeCapacity);
+        Assertions.assertNotNull(computeCapacityRepository.findById(vdcComputeCapacity.getId()));
+        computeCapacityRepository.delete(vdcComputeCapacity);
+        Assertions.assertNull(computeCapacityRepository.findById(vdcComputeCapacity.getId()).orElse(null));
+    }
+
+    @Test
+    @Transactional
+    void updateVDCComputeCapacity(){
+        var vdcComputeCapacity = new VDCComputeCapacity();
+        vdcComputeCapacity.setCpuAllocated(new Random().nextInt());
+        var vdcComputeCapacityInitialCpuAllocated = vdcComputeCapacity.getCpuAllocated();
+        computeCapacityRepository.save(vdcComputeCapacity);
+        Assertions.assertNotNull(computeCapacityRepository.findById(vdcComputeCapacity.getId()));
+        var vdcComputeCapacityReturned = computeCapacityRepository.findById(vdcComputeCapacity.getId()).orElse(null);
+        vdcComputeCapacityReturned.setCpuAllocated(new Random().nextInt());
+        computeCapacityRepository.save(vdcComputeCapacityReturned);
+        assertNotEquals(vdcComputeCapacityInitialCpuAllocated, computeCapacityRepository.findById(vdcComputeCapacity.getId()).orElse(null).getCpuAllocated());
+    }
+
+    @Test
+    @Transactional
+    void findAllVDCComputeCapacities() {
+        var entities = new ArrayList<VDCComputeCapacity>();
+        for(int i = 0; i < 50; i++){
+            var vdcComputeCapacity = new VDCComputeCapacity();
+            entities.add(vdcComputeCapacity);
+        }
+        computeCapacityRepository.saveAll(entities);
+        var list= computeCapacityRepository.findAll();
+        for(var x : entities){
+            Assertions.assertTrue(list.contains(x));
+        }
+    }
+}

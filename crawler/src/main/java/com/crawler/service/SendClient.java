@@ -33,6 +33,7 @@ public class SendClient {
             .baseUrl("http://hatkeinehaende.de/create")
             .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
             .build();
+
     public void sendAll(){
         postAllOrganizations();
         postAllOrgUsers();
@@ -132,7 +133,7 @@ public class SendClient {
         ArrayList<VDCComputeCapacity> allOrgComputeCapacities = computeCapacityRepository.findAll();
         for (var computeCapacity: allOrgComputeCapacities) {
             webClient.post()
-                    .uri("/create/computeCapacity")
+                    .uri("/computeCapacity")
                     .body(computeCapacity, VDCComputeCapacity.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,
@@ -149,7 +150,7 @@ public class SendClient {
         ArrayList<VDCStorageProfile> allStorageProfiles = storageProfileRepository.findAll();
         for (var storageProfile: allStorageProfiles) {
             webClient.post()
-                    .uri("/create/storageProfile")
+                    .uri("/storageProfile")
                     .body(storageProfile, VDCStorageProfile.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,
@@ -166,7 +167,7 @@ public class SendClient {
         ArrayList<VApp> allVApps = vAppRepository.findAll();
         for (var vApp: allVApps) {
             webClient.post()
-                    .uri("/create/vApp")
+                    .uri("/vApp")
                     .body(vApp, VApp.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,

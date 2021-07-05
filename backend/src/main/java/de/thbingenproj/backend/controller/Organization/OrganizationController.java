@@ -16,12 +16,6 @@ public class OrganizationController {
     @Autowired
     ModelMapper modelMapper;
 
-    //ToDo implement deleteOrganization
-    @DeleteMapping("delete/organization/{id}")
-    public String deleteOrganization(@PathVariable("id") String id) {
-        throw new UnsupportedOperationException("delete/organization not implemented yet.");
-    }
-
     @GetMapping("organization/{id}")
     public Organization getOrganization(@PathVariable String id) {
         return this.organizationRepository.findById(id).orElse(null);

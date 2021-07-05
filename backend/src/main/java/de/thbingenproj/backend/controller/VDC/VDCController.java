@@ -21,12 +21,6 @@ public class VDCController {
         return this.VDCRepository.save(modelMapper.map(VDC, VDC.class));
     }
 
-    //ToDo implement deleteVDCComputeCapacity
-    @DeleteMapping("delete/VDC/{id}")
-    public String deleteVDCComputeCapacity(@PathVariable("id") String id) {
-        throw new UnsupportedOperationException("delete/VDCComputeCapacity not implemented yet.");
-    }
-
     @GetMapping("VDC/{id}")
     public VDC getVDCComputeCapacity(@PathVariable String id) {
         return this.VDCRepository.findById(id).orElse(null);

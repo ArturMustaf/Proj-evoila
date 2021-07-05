@@ -24,12 +24,6 @@ public class vAppController {
         return this.vAppRepository.save(modelMapper.map(vAppDTO, VApp.class));
     }
 
-    //ToDo implement deleteVAPP
-    @DeleteMapping("delete/vAPP/{id}")
-    public String deleteVAPP(@PathVariable("id") String id) {
-        throw new UnsupportedOperationException("delete/vAPP not implemented yet.");
-    }
-
     @GetMapping("vAPP/{id}")
     public VApp getVAPP(@PathVariable String id) {
         return this.vAppRepository.findById(id).orElse(null);

@@ -25,12 +25,6 @@ public class OrgNetworkController {
         return this.orgNetworkRepository.save(modelMapper.map(orgNetwork, OrgNetwork.class));
     }
 
-    //ToDo implement deleteOrgNetwork
-    @DeleteMapping("delete/orgNetwork/{id}")
-    public String deleteOrgNetwork(@PathVariable("id") String id) {
-        throw new UnsupportedOperationException("delete/orgNetwork not implemented yet.");
-    }
-
     @GetMapping("orgNetwork/{id}")
     public OrgNetwork getOrgNetwork(@PathVariable String id) {
         return this.orgNetworkRepository.findById(id).orElse(null);

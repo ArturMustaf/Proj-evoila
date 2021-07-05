@@ -20,12 +20,6 @@ public class VDCStorageProfileController {
         return this.VDCStorageProfileRepository.save(modelMapper.map(vdcStorageProfile, VDCStorageProfile.class));
     }
 
-    //ToDo implement deleteOrgNetwork
-    @DeleteMapping("delete/VDCStorageProfile/{id}")
-    public String deleteVDCStorageProfile(@PathVariable("id") String id) {
-        throw new UnsupportedOperationException("delete/orgNetwork not implemented yet.");
-    }
-
     @GetMapping("VDCStorageProfile/{id}")
     public VDCStorageProfile getOrgNetwork(@PathVariable String id) {
         return this.VDCStorageProfileRepository.findById(id).orElse(null);

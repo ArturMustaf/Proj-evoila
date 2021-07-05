@@ -20,12 +20,6 @@ public class OrgUserController {
         return this.orgUserRepository.save(modelMapper.map(orgUser, OrgUser.class));
     }
 
-    //ToDo implement deleteOrgUser
-    @DeleteMapping("delete/orgUser/{id}")
-    public String deleteOrgUser(@PathVariable("id") String id) {
-        throw new UnsupportedOperationException("delete/orgUser not implemented yet.");
-    }
-
     @GetMapping("orgUser/{id}")
     public OrgUser getOrgUser(@PathVariable String id) {
         return this.orgUserRepository.findById(id).orElse(null);

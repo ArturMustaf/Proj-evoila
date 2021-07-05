@@ -18,15 +18,15 @@ public class VDCComputeCapacity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     String cpuUnits;
-    int cpuLimit;
-    int cpuAllocated;
-    int cpuReserved;
-    int cpuUsed;
+    long cpuLimit;
+    long cpuAllocated;
+    long cpuReserved;
+    long cpuUsed;
     String memoryUnits;
-    int memoryLimit;
-    int memoryAllocated;
-    int memoryReserved;
-    int memoryUsed;
+    long memoryLimit;
+    long memoryAllocated;
+    long memoryReserved;
+    long memoryUsed;
     long date;
     String vdcID;
 }

@@ -1,6 +1,7 @@
 package de.thbingenproj.backend.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.thbingenproj.backend.record.OrgNetworkRecord;
 import de.thbingenproj.backend.record.OrgUserRecord;
 import de.thbingenproj.backend.record.RoleRecord;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OrganizationDTO {
     String href;
     String type;

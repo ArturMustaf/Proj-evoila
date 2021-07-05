@@ -31,7 +31,6 @@ public class VApp {
     String ownerName;
     String status;
     String totalStorageAllocatedMb;
-    @JsonAlias("vdc")
     String vdcHRef;
     String vdcName;
     String vdcID;

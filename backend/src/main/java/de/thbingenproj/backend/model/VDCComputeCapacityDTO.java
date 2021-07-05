@@ -1,19 +1,21 @@
 package de.thbingenproj.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class VDCComputeCapacityDTO {
     String cpuUnits;
-    int cpuLimit;
-    int cpuAllocated;
-    int cpuReserved;
-    int cpuUsed;
+    long cpuLimit;
+    long cpuAllocated;
+    long cpuReserved;
+    long cpuUsed;
     String memoryUnits;
-    int memoryLimit;
-    int memoryAllocated;
-    int memoryReserved;
-    int memoryUsed;
+    long memoryLimit;
+    long memoryAllocated;
+    long memoryReserved;
+    long memoryUsed;
     long date;
     String vdcID;
 

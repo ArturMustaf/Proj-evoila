@@ -1,10 +1,12 @@
 package de.thbingenproj.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class VAppDTO {
     String id;
     String href;
@@ -23,7 +25,6 @@ public class VAppDTO {
     String ownerName;
     String status;
     String totalStorageAllocatedMb;
-    @JsonAlias("vdc")
     String vdcHRef;
     String vdcName;
     String vdcID;

@@ -1,8 +1,9 @@
 package de.thbingenproj.backend.model;
 
-import com.crawler.record.StorageProfileRecord;
-import com.crawler.record.VDCNetworkRecord;
+import de.thbingenproj.backend.record.StorageProfileRecord;
+import de.thbingenproj.backend.record.VDCNetworkRecord;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
 
 @Data

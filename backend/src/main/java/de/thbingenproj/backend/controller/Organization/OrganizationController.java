@@ -6,9 +6,7 @@ import de.thbingenproj.backend.model.OrganizationDTO;
 import de.thbingenproj.backend.repository.OrganizationRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class OrganizationController {
@@ -17,6 +15,17 @@ public class OrganizationController {
 
     @Autowired
     ModelMapper modelMapper;
+
+    //ToDo implement deleteOrganization
+    @DeleteMapping("delete/organization/{id}")
+    public String deleteOrganization(@PathVariable("id") String id) {
+        throw new UnsupportedOperationException("delete/organization not implemented yet.");
+    }
+
+    @GetMapping("organization/{id}")
+    public Organization getOrganization(@PathVariable String id) {
+        return this.organizationRepository.findById(id).orElse(null);
+    }
 
     @PutMapping("create/organization")
     public Organization putOrganization(@RequestBody OrganizationDTO organization){

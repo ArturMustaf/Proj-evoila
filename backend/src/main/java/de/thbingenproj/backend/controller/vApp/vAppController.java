@@ -1,15 +1,14 @@
 package de.thbingenproj.backend.controller.vApp;
 
 
+import de.thbingenproj.backend.entity.OrgNetwork;
 import de.thbingenproj.backend.entity.VApp;
 import de.thbingenproj.backend.model.VAppDTO;
 import de.thbingenproj.backend.repository.OrgUserRoleRepository;
 import de.thbingenproj.backend.repository.VAppRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class vAppController {
@@ -25,4 +24,14 @@ public class vAppController {
         return this.vAppRepository.save(modelMapper.map(vAppDTO, VApp.class));
     }
 
+    //ToDo implement deleteVAPP
+    @DeleteMapping("delete/vAPP/{id}")
+    public String deleteVAPP(@PathVariable("id") String id) {
+        throw new UnsupportedOperationException("delete/vAPP not implemented yet.");
+    }
+
+    @GetMapping("vAPP/{id}")
+    public VApp getVAPP(@PathVariable String id) {
+        return this.vAppRepository.findById(id).orElse(null);
+    }
 }

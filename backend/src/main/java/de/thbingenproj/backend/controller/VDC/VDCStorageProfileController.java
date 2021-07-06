@@ -27,8 +27,8 @@ public class VDCStorageProfileController {
         return this.VDCStorageProfileRepository.findById(id).orElse(null);
     }
 
-    @GetMapping("VDCStorageProfile")
-    public List<VDCStorageProfile> getAllVDCStorageProfileByVdcID(String vdcID) {
-        return this.VDCStorageProfileRepository.findAllByVdcID(vdcID);
+    @GetMapping("/vdcs/{id}/vdc-storage-profiles")
+    public List<VDCStorageProfile> getAllVDCStorageProfileByVdcID(String id) {
+        return this.VDCStorageProfileRepository.findAllByVdcID(id);
     }
 }

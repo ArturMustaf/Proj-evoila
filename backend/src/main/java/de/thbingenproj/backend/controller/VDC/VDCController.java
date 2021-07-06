@@ -19,18 +19,18 @@ public class VDCController {
     @Autowired
     ModelMapper modelMapper;
 
-    @PutMapping("create/VDC")
-    public VDC putVDC(@RequestBody VDCDTO VDC){
+    @PostMapping("/create/vdcs")
+    public VDC postVDC(@RequestBody VDCDTO VDC){
         return this.VDCRepository.save(modelMapper.map(VDC, VDC.class));
     }
 
-    @GetMapping("VDC/{id}")
+    @GetMapping("/vdcs/{id}")
     public VDC getVDC(@PathVariable String id) {
         return this.VDCRepository.findById(id).orElse(null);
     }
 
-    @GetMapping("VDC")
-    public List<VDC> getAllVDCByOrganizationID(String orgID) {
+    @GetMapping("/organizations/{orgID}/vdcs")
+    public List<VDC> getAllVDCByOrganizationID(@PathVariable String orgID) {
         return this.VDCRepository.findAllByOrgID(orgID);
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class vAppController {
@@ -22,18 +23,23 @@ public class vAppController {
     ModelMapper modelMapper;
 
 
-    @PutMapping("create/vAPP")
-    public VApp putVAPP(@RequestBody VAppDTO vAppDTO){
+    @PostMapping("/create/vapps")
+    public VApp postVApp(@RequestBody VAppDTO vAppDTO){
         return this.vAppRepository.save(modelMapper.map(vAppDTO, VApp.class));
     }
 
-    @GetMapping("vAPP/{id}")
-    public VApp getVAPP(@PathVariable String id) {
+    @GetMapping("/vapps/{id}")
+    public VApp getVApp(@PathVariable String id) {
         return this.vAppRepository.findById(id).orElse(null);
     }
 
-    @GetMapping("vAPP")
-    public ArrayList<VApp> getAllVAPPByVdcID(String vdcID) {
-        return this.vAppRepository.findAllByVdcID(vdcID);
+    @GetMapping("/vdcs/{id}/vapps")
+    public List<VApp> getAllVAppByVdcID(String id) {
+        return this.vAppRepository.findAllByVdcID(id);
+    }
+
+    @GetMapping("/admin/vapps")
+    public List<VApp> getAllVApp() {
+        return this.vAppRepository.findAll();
     }
 }

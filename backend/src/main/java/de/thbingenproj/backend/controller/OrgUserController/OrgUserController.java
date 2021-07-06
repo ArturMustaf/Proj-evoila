@@ -7,6 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class OrgUserController {
     @Autowired
@@ -15,13 +17,23 @@ public class OrgUserController {
     @Autowired
     ModelMapper modelMapper;
 
-    @PutMapping("create/orgUser")
-    public OrgUser putOrgUser(@RequestBody OrgUserDTO orgUser){
+    @PostMapping("/create/org-users")
+    public OrgUser postOrgUser(@RequestBody OrgUserDTO orgUser){
         return this.orgUserRepository.save(modelMapper.map(orgUser, OrgUser.class));
     }
 
-    @GetMapping("orgUser/{id}")
+    @GetMapping("/org-users/{id}")
     public OrgUser getOrgUser(@PathVariable String id) {
         return this.orgUserRepository.findById(id).orElse(null);
+    }
+
+    @GetMapping("/admin/organizations/{id}/org-users")
+    public List<OrgUser> getAllOrgUserByOrgID(@PathVariable String id) {
+        return this.orgUserRepository.findAllByOrgID(id);
+    }
+
+    @GetMapping("/admin/org-users")
+    public List<OrgUser> getAllOrgUser() {
+        return this.orgUserRepository.findAll();
     }
 }

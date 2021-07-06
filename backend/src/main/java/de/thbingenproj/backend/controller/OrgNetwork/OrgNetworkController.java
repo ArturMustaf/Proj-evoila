@@ -11,6 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class OrgNetworkController {
 
@@ -25,8 +27,18 @@ public class OrgNetworkController {
         return this.orgNetworkRepository.save(modelMapper.map(orgNetwork, OrgNetwork.class));
     }
 
-    @GetMapping("orgNetwork/{id}")
-    public OrgNetwork getOrgNetwork(@PathVariable String id) {
+    @GetMapping("/org-networks/{id}")
+    public OrgNetwork getOrgNetworkByID(@PathVariable String id) {
         return this.orgNetworkRepository.findById(id).orElse(null);
+    }
+
+    @GetMapping("/vdcs/{id}/org-networks")
+    public List<OrgNetwork> getAllOrgNetworkByVdcID(@PathVariable String id) {
+        return this.orgNetworkRepository.findAllByVdcID(id);
+    }
+
+    @GetMapping("/admin/org-networks")
+    public List<OrgNetwork> getAllOrgNetwork() {
+        return this.orgNetworkRepository.findAll();
     }
 }

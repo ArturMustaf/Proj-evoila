@@ -99,6 +99,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .antMatchers("/create/**").hasRole("admin")
                 .antMatchers("/public/**").permitAll()
                 .antMatchers("/search/**").hasRole("admin")
+                .antMatchers("/admin/**").hasRole("admin")
                 .anyRequest().hasRole("user");
     }
 

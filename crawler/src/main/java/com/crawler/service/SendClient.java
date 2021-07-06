@@ -45,28 +45,33 @@ public class SendClient {
         postAllVDCs();
     }
     public void postAllOrganizations(){
-        ArrayList<Organization> allOrganizations =  organizationRepository.findAll();
+        var allOrganizations =  organizationRepository.findAll();
         for (var org:allOrganizations) {
-            webClient.post()
-                    .uri("/org")
-                    .body(org, Organization.class)
-                    .retrieve()
-                    .onStatus(HttpStatus::is5xxServerError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .onStatus(HttpStatus::is4xxClientError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .onStatus(HttpStatus::isError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .bodyToMono(String.class)
-                    .block();
-        }
+            try {
+                webClient.post()
+                        .uri("/org")
+                        .body(Mono.just(org), Organization.class)
+                        .retrieve()
+                        .onStatus(HttpStatus::is5xxServerError,
+                                response -> Mono.error(new Exception(response.statusCode().toString())))
+                        .onStatus(HttpStatus::is4xxClientError,
+                                response -> Mono.error(new Exception(response.statusCode().toString())))
+                        .onStatus(HttpStatus::isError,
+                                response -> Mono.error(new Exception(response.statusCode().toString())))
+                        .bodyToMono(String.class)
+                        .block();
+            }
+            catch (Exception e){
+
+            }
+            }
     }
     public void postAllOrgUsers(){
         ArrayList<OrgUser> allOrgUsers =  orgUserRepository.findAll();
         for (var orgUser: allOrgUsers) {
             webClient.post()
                     .uri("/user")
-                    .body(orgUser, OrgUser.class)
+                    .body(Mono.just(orgUser), OrgUser.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,
                             response -> Mono.error(new Exception(response.statusCode().toString())))
@@ -83,7 +88,7 @@ public class SendClient {
         for (var orgUserRole: allOrgUserRoles) {
             webClient.post()
                     .uri("/role")
-                    .body(orgUserRole, OrgUserRole.class)
+                    .body(Mono.just(orgUserRole), OrgUserRole.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,
                             response -> Mono.error(new Exception(response.statusCode().toString())))
@@ -100,7 +105,7 @@ public class SendClient {
         for (var vdc: allVDCs) {
             webClient.post()
                     .uri("/vdc")
-                    .body(vdc, VDC.class)
+                    .body(Mono.just(vdc), VDC.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,
                             response -> Mono.error(new Exception(response.statusCode().toString())))
@@ -117,7 +122,7 @@ public class SendClient {
         for (var orgNetwork: allOrgNetworks) {
             webClient.post()
                     .uri("/network")
-                    .body(orgNetwork, OrgNetwork.class)
+                    .body(Mono.just(orgNetwork), OrgNetwork.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,
                             response -> Mono.error(new Exception(response.statusCode().toString())))
@@ -134,7 +139,7 @@ public class SendClient {
         for (var computeCapacity: allOrgComputeCapacities) {
             webClient.post()
                     .uri("/computeCapacity")
-                    .body(computeCapacity, VDCComputeCapacity.class)
+                    .body(Mono.just(computeCapacity), VDCComputeCapacity.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,
                             response -> Mono.error(new Exception(response.statusCode().toString())))
@@ -151,7 +156,7 @@ public class SendClient {
         for (var storageProfile: allStorageProfiles) {
             webClient.post()
                     .uri("/storageProfile")
-                    .body(storageProfile, VDCStorageProfile.class)
+                    .body(Mono.just(storageProfile), VDCStorageProfile.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,
                             response -> Mono.error(new Exception(response.statusCode().toString())))
@@ -168,7 +173,7 @@ public class SendClient {
         for (var vApp: allVApps) {
             webClient.post()
                     .uri("/vApp")
-                    .body(vApp, VApp.class)
+                    .body(Mono.just(vApp), VApp.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,
                             response -> Mono.error(new Exception(response.statusCode().toString())))

@@ -112,7 +112,7 @@ public class SyncUserService {
             if(user.getName().equals(userRepresentation.getUsername())){
                 OrgUserDTO newUser = modelMapper.map(user, OrgUserDTO.class);
                 newUser.setId(userRepresentation.getId());
-                if(orgUserRepository.findById(user.getId()) != null){
+                if(orgUserRepository.findById(user.getId()).isPresent()){
                     orgUserRepository.deleteById(user.getId());
                 }
                 orgUserRepository.save(modelMapper.map(newUser, OrgUser.class));

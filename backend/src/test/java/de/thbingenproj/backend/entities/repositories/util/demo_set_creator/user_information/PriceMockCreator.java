@@ -28,12 +28,9 @@ public class PriceMockCreator {
             calendar.add(Calendar.MINUTE, dataCreator.getRandom(10, 15000));
             price.setCurrency(currency);
             price.setPriceType(priceType);
-
             price.setExpireDate(calendar.getTime());
             prices.add(price);
         }
-
-
         return prices;
     }
 

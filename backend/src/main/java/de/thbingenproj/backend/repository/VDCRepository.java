@@ -8,6 +8,5 @@ import java.util.ArrayList;
 
 @RepositoryRestResource
 public interface VDCRepository extends CrudRepository<VDC, String> {
-    ArrayList<VDC> findAll();
     ArrayList<VDC> findAllByOrgID(String orgID);
 }

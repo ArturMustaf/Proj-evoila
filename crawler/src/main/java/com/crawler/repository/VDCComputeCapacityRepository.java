@@ -8,4 +8,5 @@ import java.util.ArrayList;
 
 @RepositoryRestResource
 public interface VDCComputeCapacityRepository extends CrudRepository<VDCComputeCapacity, Long> {
+    ArrayList<VDCComputeCapacity> findAll();
 }

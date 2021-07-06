@@ -8,5 +8,4 @@ import java.util.ArrayList;
 
 @RepositoryRestResource
 public interface OrgUserRepository extends CrudRepository<OrgUser, String> {
-    ArrayList<OrgUser> findAll();
 }

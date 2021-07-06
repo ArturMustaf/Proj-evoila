@@ -9,5 +9,5 @@ import java.util.ArrayList;
 
 @RepositoryRestResource
 public interface VAppRepository extends CrudRepository<VApp, String> {
-    ArrayList<VApp> findAll();
+    ArrayList<VApp> findAllByVdcID(String vdcID);
 }

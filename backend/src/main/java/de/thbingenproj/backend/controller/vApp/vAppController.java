@@ -3,12 +3,15 @@ package de.thbingenproj.backend.controller.vApp;
 
 import de.thbingenproj.backend.entity.OrgNetwork;
 import de.thbingenproj.backend.entity.VApp;
+import de.thbingenproj.backend.entity.VDC;
 import de.thbingenproj.backend.model.VAppDTO;
 import de.thbingenproj.backend.repository.OrgUserRoleRepository;
 import de.thbingenproj.backend.repository.VAppRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 public class vAppController {
@@ -27,5 +30,10 @@ public class vAppController {
     @GetMapping("vAPP/{id}")
     public VApp getVAPP(@PathVariable String id) {
         return this.vAppRepository.findById(id).orElse(null);
+    }
+
+    @GetMapping("vAPP")
+    public ArrayList<VApp> getAllVAPPByVdcID(String vdcID) {
+        return this.vAppRepository.findAllByVdcID(vdcID);
     }
 }

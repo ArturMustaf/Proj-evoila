@@ -36,6 +36,11 @@ public class SendClient {
     @Autowired
     KeycloakAuthService authService;
 
+    /**
+     * base URL depends on the env you want to connect to
+     * currently its always directed to prod
+     * for local deployment it needs to be changed to "http://localhost:8080/create"
+     */
     final WebClient webClient = WebClient.builder()
             .baseUrl("http://hatkeinehaende.de/create")
             .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
@@ -54,9 +59,8 @@ public class SendClient {
     public void postAllOrganizations(){
         var allOrganizations =  organizationRepository.findAll();
         for (var org:allOrganizations) {
-            try {
                 webClient.post()
-                        .uri("/org")
+                        .uri("/organizations")
                         .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                         .body(Mono.just(org), Organization.class)
                         .retrieve()
@@ -69,16 +73,12 @@ public class SendClient {
                         .bodyToMono(String.class)
                         .block();
             }
-            catch (Exception e){
-
-            }
-            }
     }
     public void postAllOrgUsers(){
         ArrayList<OrgUser> allOrgUsers =  orgUserRepository.findAll();
         for (var orgUser: allOrgUsers) {
             webClient.post()
-                    .uri("/user")
+                    .uri("/org-users")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(orgUser), OrgUser.class)
                     .retrieve()
@@ -96,7 +96,7 @@ public class SendClient {
         ArrayList<OrgUserRole> allOrgUserRoles= orgUserRoleRepository.findAll();
         for (var orgUserRole: allOrgUserRoles) {
             webClient.post()
-                    .uri("/role")
+                    .uri("/org-user-roles")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(orgUserRole), OrgUserRole.class)
                     .retrieve()
@@ -114,7 +114,7 @@ public class SendClient {
         ArrayList<VDC> allVDCs = vdcRepository.findAll();
         for (var vdc: allVDCs) {
             webClient.post()
-                    .uri("/vdc")
+                    .uri("/vdcs")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(vdc), VDC.class)
                     .retrieve()
@@ -132,7 +132,7 @@ public class SendClient {
         ArrayList<OrgNetwork> allOrgNetworks= orgNetworkRepository.findAll();
         for (var orgNetwork: allOrgNetworks) {
             webClient.post()
-                    .uri("/network")
+                    .uri("/orgNetwork")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(orgNetwork), OrgNetwork.class)
                     .retrieve()
@@ -186,7 +186,7 @@ public class SendClient {
         ArrayList<VApp> allVApps = vAppRepository.findAll();
         for (var vApp: allVApps) {
             webClient.post()
-                    .uri("/vApp")
+                    .uri("/vapps")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(vApp), VApp.class)
                     .retrieve()

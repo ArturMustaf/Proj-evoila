@@ -12,13 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -48,7 +46,6 @@ class CustomerControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(user);
         mockMvc.perform(put("/create/customers/0")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -59,7 +56,6 @@ class CustomerControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(user);
         mockMvc.perform(post("/create/customers")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -67,7 +63,6 @@ class CustomerControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void isLinked() throws Exception {
         mockMvc.perform(get("/create/customers/linked/0"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
@@ -76,7 +71,6 @@ class CustomerControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void getCustomer() throws Exception{
         mockMvc.perform(get("/create/customers/0"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
@@ -88,7 +82,6 @@ class CustomerControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(user);
         mockMvc.perform(put("/create/customers/0")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -99,7 +92,6 @@ class CustomerControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(user);
         mockMvc.perform(post("/create/customers")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -107,7 +99,6 @@ class CustomerControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void isLinkedWithWrongRole() throws Exception {
         mockMvc.perform(get("/create/customers/linked/0"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -115,7 +106,6 @@ class CustomerControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getCustomerWithWrongRole() throws Exception{
         mockMvc.perform(get("/create/customers/0"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -125,7 +115,6 @@ class CustomerControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(user);
         mockMvc.perform(put("/create/customers/0")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 
@@ -135,21 +124,18 @@ class CustomerControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(user);
         mockMvc.perform(post("/create/customers")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     void isLinkedWithNoAuth() throws Exception {
         mockMvc.perform(get("/create/customers/linked/0"))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     void getCustomerWithNoAuth() throws Exception{
         mockMvc.perform(get("/create/customers/0"))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 

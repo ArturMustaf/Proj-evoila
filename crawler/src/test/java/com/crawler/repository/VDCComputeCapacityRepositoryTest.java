@@ -33,8 +33,6 @@ class VDCComputeCapacityRepositoryTest {
         }
         computeCapacityRepository.saveAll(entities);
         var checkList = computeCapacityRepository.findAll();
-        System.out.println("Ent: "+entities);
-        System.out.println("Check: "+checkList);
         for(VDCComputeCapacity x : entities){
             Assertions.assertTrue(checkList.contains(x));
         }

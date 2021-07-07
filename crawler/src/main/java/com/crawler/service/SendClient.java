@@ -8,8 +8,13 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
 import java.util.ArrayList;
+
+/**
+ * Client to send Data from Crawler to Backend
+ * Requests to backend need to be authorized with a bearer token from Keycloak this is handled with
+ * @see KeycloakAuthService
+ */
 @Service
 public class SendClient {
     @Autowired
@@ -28,6 +33,8 @@ public class SendClient {
     VDCStorageProfileRepository storageProfileRepository;
     @Autowired
     VAppRepository vAppRepository;
+    @Autowired
+    KeycloakAuthService authService;
 
     final WebClient webClient = WebClient.builder()
             .baseUrl("http://hatkeinehaende.de/create")
@@ -50,6 +57,7 @@ public class SendClient {
             try {
                 webClient.post()
                         .uri("/org")
+                        .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                         .body(Mono.just(org), Organization.class)
                         .retrieve()
                         .onStatus(HttpStatus::is5xxServerError,
@@ -71,6 +79,7 @@ public class SendClient {
         for (var orgUser: allOrgUsers) {
             webClient.post()
                     .uri("/user")
+                    .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(orgUser), OrgUser.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,
@@ -88,6 +97,7 @@ public class SendClient {
         for (var orgUserRole: allOrgUserRoles) {
             webClient.post()
                     .uri("/role")
+                    .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(orgUserRole), OrgUserRole.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,
@@ -105,6 +115,7 @@ public class SendClient {
         for (var vdc: allVDCs) {
             webClient.post()
                     .uri("/vdc")
+                    .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(vdc), VDC.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,
@@ -122,6 +133,7 @@ public class SendClient {
         for (var orgNetwork: allOrgNetworks) {
             webClient.post()
                     .uri("/network")
+                    .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(orgNetwork), OrgNetwork.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,
@@ -139,6 +151,7 @@ public class SendClient {
         for (var computeCapacity: allOrgComputeCapacities) {
             webClient.post()
                     .uri("/computeCapacity")
+                    .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(computeCapacity), VDCComputeCapacity.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,
@@ -156,6 +169,7 @@ public class SendClient {
         for (var storageProfile: allStorageProfiles) {
             webClient.post()
                     .uri("/storageProfile")
+                    .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(storageProfile), VDCStorageProfile.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,
@@ -173,6 +187,7 @@ public class SendClient {
         for (var vApp: allVApps) {
             webClient.post()
                     .uri("/vApp")
+                    .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(vApp), VApp.class)
                     .retrieve()
                     .onStatus(HttpStatus::is5xxServerError,

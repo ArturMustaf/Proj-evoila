@@ -1,7 +1,7 @@
 package com.crawler.service;
 
 import com.crawler.repository.*;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,41 +18,9 @@ class SendClientTest {
     @Autowired
     OrganizationRepository organizationRepository;
 
-
-
-    @BeforeAll
-    public static void init(){
-    }
-
     @Test
-    void postAllOrganizationsTest() {
+    void sendClientTest() {
+        Assertions.assertNotNull(sendClient);
     }
 
-    @Test
-    void postAllOrgUsersTest() {
-    }
-
-    @Test
-    void postAllUserRolesTest() {
-    }
-
-    @Test
-    void postAllVDCsTest() {
-    }
-
-    @Test
-    void postAllNetworksTest() {
-    }
-
-    @Test
-    void postAllComputeCapacitiesTest() {
-    }
-
-    @Test
-    void postAllStorageProfilesTest() {
-    }
-
-    @Test
-    void postAllVAppsTest() {
-    }
 }

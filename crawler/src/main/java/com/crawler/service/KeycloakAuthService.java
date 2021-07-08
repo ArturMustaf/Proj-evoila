@@ -30,7 +30,7 @@ public class KeycloakAuthService {
      * pulls the needed strings from the logindata.properties file
      * @throws IOException
      */
-    public void getProps() throws IOException {
+    public void setProps() throws IOException {
         var propFileName = "logindata.properties";
         var prop = new Properties();
         var inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
@@ -56,12 +56,10 @@ public class KeycloakAuthService {
             .baseUrl("http://hatkeinehaende.de:9080/auth/realms/TH-Bingen/protocol/openid-connect/token")
             .build();
 
-    KeycloakAuthService() throws IOException {
-        getProps();
-    }
     /**
      * posts to keycloak and retrieves an access token for the used client
      * @return access_token
+     * <code>setProps()</code> need to be called before to read the properties from file
      */
     public String getKeycloakBearerToken(){
         try{

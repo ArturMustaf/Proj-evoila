@@ -46,6 +46,9 @@ class KeycloakAuthServiceTest {
 
     @Test
     void getKeycloakBearerTokenTest() throws JsonProcessingException {
+        authClient.clientID = "0";
+        authClient.clientSecret = "0";
+        authClient.grantType = "0";
         String generatedString = RandomStringUtils.randomAlphanumeric(20);
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("access_token",generatedString);

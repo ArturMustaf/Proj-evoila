@@ -17,7 +17,7 @@ public class OrgUserRoleController {
     @Autowired
     ModelMapper modelMapper;
 
-    @PostMapping("create/org-user-roles")
+    @PostMapping("/create/org-user-roles")
     public OrgUserRole postOrgUserRole(@RequestBody OrgUserRoleDTO orgUserRole){
         return this.orgUserRoleRepository.save(modelMapper.map(orgUserRole, OrgUserRole.class));
     }

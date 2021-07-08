@@ -17,12 +17,12 @@ public class VDCStorageProfileController {
     @Autowired
     ModelMapper modelMapper;
 
-    @PostMapping("create/VDCStorageProfile")
+    @PostMapping("/create/vdc-storage-profiles")
     public VDCStorageProfile postVDCStorageProfile(@RequestBody VDCStorageProfileDTO vdcStorageProfile){
         return this.VDCStorageProfileRepository.save(modelMapper.map(vdcStorageProfile, VDCStorageProfile.class));
     }
 
-    @GetMapping("VDCStorageProfile/{id}")
+    @GetMapping("/vdc-storage-profiles/{id}")
     public VDCStorageProfile getVDCStorageProfile(@PathVariable String id) {
         return this.VDCStorageProfileRepository.findById(id).orElse(null);
     }

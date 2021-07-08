@@ -17,7 +17,7 @@ public class VDCComputeCapacityController {
     @Autowired
     ModelMapper modelMapper;
 
-    @PostMapping("create/VDCComputeCapacity")
+    @PostMapping("/create/VDCComputeCapacity")
     public VDCComputeCapacity postVDCComputeCapacity(@RequestBody VDCComputeCapacityDTO VDCComputeCapacity){
         return this.VDCComputeCapacityRepository.save(modelMapper.map(VDCComputeCapacity, VDCComputeCapacity.class));
     }

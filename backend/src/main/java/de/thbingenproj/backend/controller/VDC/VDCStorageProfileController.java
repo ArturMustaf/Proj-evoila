@@ -17,8 +17,8 @@ public class VDCStorageProfileController {
     @Autowired
     ModelMapper modelMapper;
 
-    @PutMapping("create/VDCStorageProfile")
-    public VDCStorageProfile putVDCStorageProfile(@RequestBody VDCStorageProfileDTO vdcStorageProfile){
+    @PostMapping("create/VDCStorageProfile")
+    public VDCStorageProfile postVDCStorageProfile(@RequestBody VDCStorageProfileDTO vdcStorageProfile){
         return this.VDCStorageProfileRepository.save(modelMapper.map(vdcStorageProfile, VDCStorageProfile.class));
     }
 

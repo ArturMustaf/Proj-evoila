@@ -3,9 +3,7 @@ package com.crawler.service;
 import com.crawler.entity.*;
 import com.crawler.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import java.util.ArrayList;
@@ -15,7 +13,6 @@ import java.util.ArrayList;
  * Requests to backend need to be authorized with a bearer token from Keycloak this is handled with
  * @see KeycloakAuthService
  */
-@Service
 public class SendClient {
     @Autowired
     OrganizationRepository organizationRepository;
@@ -36,169 +33,131 @@ public class SendClient {
     @Autowired
     KeycloakAuthService authService;
 
+    WebClient webClient;
     /**
      * base URL depends on the env you want to connect to
      * currently its always directed to prod
      * for local deployment it needs to be changed to "http://localhost:8080/create"
+     * for prod its "http://hatkeinehaende.de/create"
      */
-    final WebClient webClient = WebClient.builder()
-            .baseUrl("http://hatkeinehaende.de/create")
-            .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
-            .build();
-
-    public void sendAll(){
-        postAllOrganizations();
-        postAllOrgUsers();
-        postAllNetworks();
-        postAllComputeCapacities();
-        postAllVApps();
-        postAllStorageProfiles();
-        postAllUserRoles();
-        postAllVDCs();
+    SendClient(String url){
+        WebClient.builder()
+                .baseUrl(url)
+                .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
+                .build();
     }
-    public void postAllOrganizations(){
-        var allOrganizations =  organizationRepository.findAll();
-        for (var org:allOrganizations) {
-                webClient.post()
+
+    public ArrayList<Organization> postAllOrganizations(){
+            ArrayList<Organization> allOrganizations = organizationRepository.findAll();
+            ArrayList<Organization> postedOrganizations = new ArrayList<>();
+            for (var org : allOrganizations) {
+                postedOrganizations.add(webClient.post()
                         .uri("/organizations")
                         .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                         .body(Mono.just(org), Organization.class)
                         .retrieve()
-                        .onStatus(HttpStatus::is5xxServerError,
-                                response -> Mono.error(new Exception(response.statusCode().toString())))
-                        .onStatus(HttpStatus::is4xxClientError,
-                                response -> Mono.error(new Exception(response.statusCode().toString())))
-                        .onStatus(HttpStatus::isError,
-                                response -> Mono.error(new Exception(response.statusCode().toString())))
-                        .bodyToMono(String.class)
-                        .block();
+                        .bodyToMono(Organization.class)
+                        .block());
             }
+            return postedOrganizations;
     }
-    public void postAllOrgUsers(){
+    public ArrayList<String> postAllOrgUsers(){
         ArrayList<OrgUser> allOrgUsers =  orgUserRepository.findAll();
+        ArrayList<String> postedOrganizationUsers = new ArrayList<>();
         for (var orgUser: allOrgUsers) {
-            webClient.post()
+            postedOrganizationUsers.add(webClient.post()
                     .uri("/org-users")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(orgUser), OrgUser.class)
                     .retrieve()
-                    .onStatus(HttpStatus::is5xxServerError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .onStatus(HttpStatus::is4xxClientError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .onStatus(HttpStatus::isError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
                     .bodyToMono(String.class)
-                    .block();
+                    .block());
         }
+        return postedOrganizationUsers;
     }
-    public void postAllUserRoles(){
+    public ArrayList<String> postAllUserRoles(){
         ArrayList<OrgUserRole> allOrgUserRoles= orgUserRoleRepository.findAll();
+        ArrayList<String> postedOrganizationUserRoles = new ArrayList<>();
         for (var orgUserRole: allOrgUserRoles) {
-            webClient.post()
+            postedOrganizationUserRoles.add(webClient.post()
                     .uri("/org-user-roles")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(orgUserRole), OrgUserRole.class)
                     .retrieve()
-                    .onStatus(HttpStatus::is5xxServerError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .onStatus(HttpStatus::is4xxClientError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .onStatus(HttpStatus::isError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
                     .bodyToMono(String.class)
-                    .block();
+                    .block());
         }
+        return postedOrganizationUserRoles;
     }
-    public void postAllVDCs(){
+    public ArrayList<String> postAllVDCs(){
         ArrayList<VDC> allVDCs = vdcRepository.findAll();
+        ArrayList<String> postedVDCs = new ArrayList<>();
         for (var vdc: allVDCs) {
-            webClient.post()
+            postedVDCs.add(webClient.post()
                     .uri("/vdcs")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(vdc), VDC.class)
                     .retrieve()
-                    .onStatus(HttpStatus::is5xxServerError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .onStatus(HttpStatus::is4xxClientError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .onStatus(HttpStatus::isError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
                     .bodyToMono(String.class)
-                    .block();
+                    .block());
         }
+        return postedVDCs;
     }
-    public void postAllNetworks(){
+    public ArrayList<String> postAllNetworks(){
         ArrayList<OrgNetwork> allOrgNetworks= orgNetworkRepository.findAll();
+        ArrayList<String> postedOrganizationNetworks = new ArrayList<>();
         for (var orgNetwork: allOrgNetworks) {
-            webClient.post()
+            postedOrganizationNetworks.add(webClient.post()
                     .uri("/orgNetwork")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(orgNetwork), OrgNetwork.class)
                     .retrieve()
-                    .onStatus(HttpStatus::is5xxServerError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .onStatus(HttpStatus::is4xxClientError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .onStatus(HttpStatus::isError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
                     .bodyToMono(String.class)
-                    .block();
+                    .block());
         }
+        return postedOrganizationNetworks;
     }
-    public void postAllComputeCapacities(){
+    public ArrayList<String> postAllComputeCapacities(){
         ArrayList<VDCComputeCapacity> allOrgComputeCapacities = computeCapacityRepository.findAll();
+        ArrayList<String> postedComputeCapacities= new ArrayList<>();
         for (var computeCapacity: allOrgComputeCapacities) {
-            webClient.post()
+            postedComputeCapacities.add(webClient.post()
                     .uri("/computeCapacity")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(computeCapacity), VDCComputeCapacity.class)
                     .retrieve()
-                    .onStatus(HttpStatus::is5xxServerError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .onStatus(HttpStatus::is4xxClientError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .onStatus(HttpStatus::isError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
                     .bodyToMono(String.class)
-                    .block();
+                    .block());
         }
+        return postedComputeCapacities;
     }
-    public void postAllStorageProfiles(){
+    public ArrayList<String> postAllStorageProfiles(){
         ArrayList<VDCStorageProfile> allStorageProfiles = storageProfileRepository.findAll();
+        ArrayList<String> postedStorageProfiles= new ArrayList<>();
         for (var storageProfile: allStorageProfiles) {
-            webClient.post()
+            postedStorageProfiles.add(webClient.post()
                     .uri("/storageProfile")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(storageProfile), VDCStorageProfile.class)
                     .retrieve()
-                    .onStatus(HttpStatus::is5xxServerError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .onStatus(HttpStatus::is4xxClientError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .onStatus(HttpStatus::isError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
                     .bodyToMono(String.class)
-                    .block();
+                    .block());
         }
+        return postedStorageProfiles;
     }
-    public void postAllVApps(){
+    public ArrayList<String> postAllVApps(){
         ArrayList<VApp> allVApps = vAppRepository.findAll();
+        ArrayList<String> postedVApps = new ArrayList<>();
         for (var vApp: allVApps) {
-            webClient.post()
+            postedVApps.add(webClient.post()
                     .uri("/vapps")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(vApp), VApp.class)
                     .retrieve()
-                    .onStatus(HttpStatus::is5xxServerError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .onStatus(HttpStatus::is4xxClientError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
-                    .onStatus(HttpStatus::isError,
-                            response -> Mono.error(new Exception(response.statusCode().toString())))
                     .bodyToMono(String.class)
-                    .block();
+                    .block());
         }
+        return postedVApps;
     }
 
 }

@@ -52,7 +52,7 @@ public class KeycloakAuthService {
      * Keycloak url: http://hatkeinehaende.de:9080
      * Path to receive access token: /auth/realms/TH-Bingen/protocol/openid-connect/token
      */
-    final WebClient authClient = WebClient.builder()
+    WebClient webClient = WebClient.builder()
             .baseUrl("http://hatkeinehaende.de:9080/auth/realms/TH-Bingen/protocol/openid-connect/token")
             .build();
 
@@ -68,7 +68,7 @@ public class KeycloakAuthService {
             formData.add("grant_type",grantType);
             formData.add("client_secret", clientSecret);
             formData.add("client_id", clientID);
-            var response = authClient
+            var response = webClient
                     .post()
                     .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                     .body(BodyInserters.fromFormData(formData))
@@ -77,11 +77,11 @@ public class KeycloakAuthService {
                     .block();
             JsonNode root = mapper.readTree(response.getBody());
             JsonNode access_token = root.path("access_token");
-            return access_token.asText();
+            return access_token.toString();
         }
         catch (Exception e){
             System.out.println(e.getMessage());
+            return "";
         }
-        return "";
     }
 }

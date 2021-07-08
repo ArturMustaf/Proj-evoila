@@ -1,4 +1,4 @@
-package de.thbingenproj.backend.controller.Organization;
+package de.thbingenproj.backend.controller.organization;
 
 
 import de.thbingenproj.backend.entity.Organization;
@@ -12,11 +12,15 @@ import java.util.List;
 
 @RestController
 public class OrganizationController {
-    @Autowired
-    OrganizationRepository organizationRepository;
+
+    private final OrganizationRepository organizationRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    ModelMapper modelMapper;
+    public OrganizationController(OrganizationRepository organizationRepository, ModelMapper modelMapper) {
+        this.organizationRepository = organizationRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @PostMapping("/create/organizations")
     public Organization postOrganization(@RequestBody OrganizationDTO organization){

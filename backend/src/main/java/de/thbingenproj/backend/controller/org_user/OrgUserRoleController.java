@@ -1,6 +1,5 @@
-package de.thbingenproj.backend.controller.OrgUserController;
+package de.thbingenproj.backend.controller.org_user;
 
-import de.thbingenproj.backend.entity.OrgUser;
 import de.thbingenproj.backend.entity.OrgUserRole;
 import de.thbingenproj.backend.model.OrgUserRoleDTO;
 import de.thbingenproj.backend.repository.OrgUserRoleRepository;

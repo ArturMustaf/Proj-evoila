@@ -1,17 +1,13 @@
-package de.thbingenproj.backend.controller.vApp;
+package de.thbingenproj.backend.controller.vapp;
 
 
-import de.thbingenproj.backend.entity.OrgNetwork;
 import de.thbingenproj.backend.entity.VApp;
-import de.thbingenproj.backend.entity.VDC;
 import de.thbingenproj.backend.model.VAppDTO;
-import de.thbingenproj.backend.repository.OrgUserRoleRepository;
 import de.thbingenproj.backend.repository.VAppRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -34,7 +30,7 @@ public class vAppController {
     }
 
     @GetMapping("/vdcs/{id}/vapps")
-    public List<VApp> getAllVAppByVdcID(String id) {
+    public List<VApp> getAllVAppByVdcID(@PathVariable String id) {
         return this.vAppRepository.findAllByVdcID(id);
     }
 

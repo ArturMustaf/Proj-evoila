@@ -1,4 +1,4 @@
-package de.thbingenproj.backend.controller.VDC;
+package de.thbingenproj.backend.controller.vdc;
 
 import de.thbingenproj.backend.repository.VDCStorageProfileRepository;
 import de.thbingenproj.backend.entity.VDCStorageProfile;
@@ -28,7 +28,7 @@ public class VDCStorageProfileController {
     }
 
     @GetMapping("/vdcs/{id}/vdc-storage-profiles")
-    public List<VDCStorageProfile> getAllVDCStorageProfileByVdcID(String id) {
+    public List<VDCStorageProfile> getAllVDCStorageProfileByVdcID(@PathVariable String id) {
         return this.VDCStorageProfileRepository.findAllByVdcID(id);
     }
 }

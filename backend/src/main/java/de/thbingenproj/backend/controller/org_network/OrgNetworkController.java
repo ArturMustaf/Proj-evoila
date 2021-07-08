@@ -1,11 +1,7 @@
-package de.thbingenproj.backend.controller.OrgNetwork;
+package de.thbingenproj.backend.controller.org_network;
 
 import de.thbingenproj.backend.entity.OrgNetwork;
-import de.thbingenproj.backend.entity.OrgUser;
-import de.thbingenproj.backend.entity.Organization;
 import de.thbingenproj.backend.model.OrgNetworkDTO;
-import de.thbingenproj.backend.model.OrgUserDTO;
-import de.thbingenproj.backend.model.OrganizationDTO;
 import de.thbingenproj.backend.repository.OrgNetworkRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

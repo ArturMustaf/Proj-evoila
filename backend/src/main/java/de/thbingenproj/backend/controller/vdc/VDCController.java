@@ -1,8 +1,6 @@
-package de.thbingenproj.backend.controller.VDC;
+package de.thbingenproj.backend.controller.vdc;
 
-import de.thbingenproj.backend.entity.Organization;
 import de.thbingenproj.backend.entity.VDC;
-import de.thbingenproj.backend.entity.VDCComputeCapacity;
 import de.thbingenproj.backend.model.VDCDTO;
 import de.thbingenproj.backend.repository.VDCRepository;
 import org.modelmapper.ModelMapper;

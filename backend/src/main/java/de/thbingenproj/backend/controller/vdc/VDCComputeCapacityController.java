@@ -1,6 +1,5 @@
-package de.thbingenproj.backend.controller.VDC;
+package de.thbingenproj.backend.controller.vdc;
 
-import de.thbingenproj.backend.entity.VDC;
 import de.thbingenproj.backend.entity.VDCComputeCapacity;
 import de.thbingenproj.backend.model.VDCComputeCapacityDTO;
 import de.thbingenproj.backend.repository.VDCComputeCapacityRepository;
@@ -29,7 +28,7 @@ public class VDCComputeCapacityController {
     }
 
     @GetMapping("/vdcs/{id}/vdc-compute-capacities")
-    public List<VDCComputeCapacity> getAllVDCComputeCapacityByVDCID(String id) {
+    public List<VDCComputeCapacity> getAllVDCComputeCapacityByVDCID(@PathVariable String id) {
         return this.VDCComputeCapacityRepository.findAllByVdcID(id);
     }
 }

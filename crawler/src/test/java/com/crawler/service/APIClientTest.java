@@ -1,12 +1,15 @@
 package com.crawler.service;
 
+import com.crawler.extensions.PostgresTest;
 import com.crawler.repository.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 @SpringBootTest
+@ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 class APIClientTest {
     @Autowired
     APIClient apiClient;

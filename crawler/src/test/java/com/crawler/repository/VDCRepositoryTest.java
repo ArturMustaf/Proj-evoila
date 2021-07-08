@@ -1,10 +1,13 @@
 package com.crawler.repository;
 
 import com.crawler.entity.VDC;
+import com.crawler.extensions.PostgresTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import javax.transaction.Transactional;
 import java.nio.charset.Charset;
@@ -12,9 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest
+@ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 class VDCRepositoryTest {
     @Autowired
     VDCRepository vdcRepository;
@@ -30,9 +34,7 @@ class VDCRepositoryTest {
         List<VDC> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var vdc = new VDC();
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, Charset.forName("UTF-8"));
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             vdc.setId(generatedString);
             entities.add(vdc);
         }
@@ -87,9 +89,7 @@ class VDCRepositoryTest {
         var entities = new ArrayList<VDC>();
         for(int i = 0; i < 50; i++){
             var vdc = new VDC();
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, Charset.forName("UTF-8"));
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             vdc.setId(generatedString);
             entities.add(vdc);
         }

@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.concurrent.TimeoutException;
 
 import static java.lang.Thread.sleep;
@@ -20,10 +23,19 @@ public class APIAuthService {
 
 
     //TODO log for SOS-39
-    public String getBearerToken(String username, String password) throws InterruptedException, TimeoutException {
+    public String getBearerToken() throws InterruptedException, TimeoutException {
         try {
+            var propFileName = "logindata.properties";
+            var prop = new Properties();
+            var inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+
+            if (inputStream != null) {
+                prop.load(inputStream);
+            } else {
+                throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath / resources. Please create the file and set user and password.");
+            }
             ResponseEntity<String> entity = client.post().uri("/sessions")
-                    .headers(headers -> headers.setBasicAuth(username, password))
+                    .headers(headers -> headers.setBasicAuth(prop.getProperty("user"), prop.getProperty("password")))
                     .retrieve()
                     .toEntity(String.class)
                     .block();
@@ -38,7 +50,7 @@ public class APIAuthService {
                 case REQUEST_TIMEOUT:
                     sleep(1000);
                     retries++;
-                    getBearerToken(username, password);
+                    getBearerToken();
                     break;
                 default:
                     throw e;
@@ -46,6 +58,9 @@ public class APIAuthService {
             if(retries > 5){
                throw new TimeoutException("Maximum number of failed login attempts exceeded. Server might be unreachable.");
             }
+        }
+        catch (IOException ex){
+
         }
         return "";
     }

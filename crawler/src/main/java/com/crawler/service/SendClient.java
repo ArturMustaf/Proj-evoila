@@ -2,8 +2,10 @@ package com.crawler.service;
 
 import com.crawler.entity.*;
 import com.crawler.repository.*;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
  * Requests to backend need to be authorized with a bearer token from Keycloak this is handled with
  * @see KeycloakAuthService
  */
+@Service
 public class SendClient {
     @Autowired
     OrganizationRepository organizationRepository;
@@ -33,23 +36,21 @@ public class SendClient {
     @Autowired
     KeycloakAuthService authService;
 
-    WebClient webClient;
+    WebClient webClient = WebClient.builder()
+            .baseUrl("http://hatkeinehaende.de/create")
+                .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
+                .build();;
     /**
      * base URL depends on the env you want to connect to
      * currently its always directed to prod
      * for local deployment it needs to be changed to "http://localhost:8080/create"
      * for prod its "http://hatkeinehaende.de/create"
      */
-    SendClient(String url){
-        WebClient.builder()
-                .baseUrl(url)
-                .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
-                .build();
-    }
+
 
     public ArrayList<Organization> postAllOrganizations(){
-            ArrayList<Organization> allOrganizations = organizationRepository.findAll();
-            ArrayList<Organization> postedOrganizations = new ArrayList<>();
+            var allOrganizations = organizationRepository.findAll();
+            var postedOrganizations = new ArrayList<Organization>();
             for (var org : allOrganizations) {
                 postedOrganizations.add(webClient.post()
                         .uri("/organizations")
@@ -61,100 +62,100 @@ public class SendClient {
             }
             return postedOrganizations;
     }
-    public ArrayList<String> postAllOrgUsers(){
+    public ArrayList<OrgUser> postAllOrgUsers(){
         ArrayList<OrgUser> allOrgUsers =  orgUserRepository.findAll();
-        ArrayList<String> postedOrganizationUsers = new ArrayList<>();
+        var postedOrganizationUsers = new ArrayList<OrgUser>();
         for (var orgUser: allOrgUsers) {
             postedOrganizationUsers.add(webClient.post()
                     .uri("/org-users")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(orgUser), OrgUser.class)
                     .retrieve()
-                    .bodyToMono(String.class)
+                    .bodyToMono(OrgUser.class)
                     .block());
         }
         return postedOrganizationUsers;
     }
-    public ArrayList<String> postAllUserRoles(){
+    public ArrayList<OrgUserRole> postAllUserRoles(){
         ArrayList<OrgUserRole> allOrgUserRoles= orgUserRoleRepository.findAll();
-        ArrayList<String> postedOrganizationUserRoles = new ArrayList<>();
+        var postedOrganizationUserRoles = new ArrayList<OrgUserRole>();
         for (var orgUserRole: allOrgUserRoles) {
             postedOrganizationUserRoles.add(webClient.post()
                     .uri("/org-user-roles")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(orgUserRole), OrgUserRole.class)
                     .retrieve()
-                    .bodyToMono(String.class)
+                    .bodyToMono(OrgUserRole.class)
                     .block());
         }
         return postedOrganizationUserRoles;
     }
-    public ArrayList<String> postAllVDCs(){
+    public ArrayList<VDC> postAllVDCs(){
         ArrayList<VDC> allVDCs = vdcRepository.findAll();
-        ArrayList<String> postedVDCs = new ArrayList<>();
+        var postedVDCs = new ArrayList<VDC>();
         for (var vdc: allVDCs) {
             postedVDCs.add(webClient.post()
                     .uri("/vdcs")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(vdc), VDC.class)
                     .retrieve()
-                    .bodyToMono(String.class)
+                    .bodyToMono(VDC.class)
                     .block());
         }
         return postedVDCs;
     }
-    public ArrayList<String> postAllNetworks(){
+    public ArrayList<OrgNetwork> postAllNetworks(){
         ArrayList<OrgNetwork> allOrgNetworks= orgNetworkRepository.findAll();
-        ArrayList<String> postedOrganizationNetworks = new ArrayList<>();
+        var postedOrganizationNetworks = new ArrayList<OrgNetwork>();
         for (var orgNetwork: allOrgNetworks) {
             postedOrganizationNetworks.add(webClient.post()
                     .uri("/orgNetwork")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(orgNetwork), OrgNetwork.class)
                     .retrieve()
-                    .bodyToMono(String.class)
+                    .bodyToMono(OrgNetwork.class)
                     .block());
         }
         return postedOrganizationNetworks;
     }
-    public ArrayList<String> postAllComputeCapacities(){
+    public ArrayList<VDCComputeCapacity> postAllComputeCapacities(){
         ArrayList<VDCComputeCapacity> allOrgComputeCapacities = computeCapacityRepository.findAll();
-        ArrayList<String> postedComputeCapacities= new ArrayList<>();
+        var postedComputeCapacities= new ArrayList<VDCComputeCapacity>();
         for (var computeCapacity: allOrgComputeCapacities) {
             postedComputeCapacities.add(webClient.post()
                     .uri("/computeCapacity")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(computeCapacity), VDCComputeCapacity.class)
                     .retrieve()
-                    .bodyToMono(String.class)
+                    .bodyToMono(VDCComputeCapacity.class)
                     .block());
         }
         return postedComputeCapacities;
     }
-    public ArrayList<String> postAllStorageProfiles(){
+    public ArrayList<VDCStorageProfile> postAllStorageProfiles(){
         ArrayList<VDCStorageProfile> allStorageProfiles = storageProfileRepository.findAll();
-        ArrayList<String> postedStorageProfiles= new ArrayList<>();
+        var postedStorageProfiles= new ArrayList<VDCStorageProfile>();
         for (var storageProfile: allStorageProfiles) {
             postedStorageProfiles.add(webClient.post()
                     .uri("/storageProfile")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(storageProfile), VDCStorageProfile.class)
                     .retrieve()
-                    .bodyToMono(String.class)
+                    .bodyToMono(VDCStorageProfile.class)
                     .block());
         }
         return postedStorageProfiles;
     }
-    public ArrayList<String> postAllVApps(){
+    public ArrayList<VApp> postAllVApps(){
         ArrayList<VApp> allVApps = vAppRepository.findAll();
-        ArrayList<String> postedVApps = new ArrayList<>();
+        var postedVApps = new ArrayList<VApp>();
         for (var vApp: allVApps) {
             postedVApps.add(webClient.post()
                     .uri("/vapps")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
                     .body(Mono.just(vApp), VApp.class)
                     .retrieve()
-                    .bodyToMono(String.class)
+                    .bodyToMono(VApp.class)
                     .block());
         }
         return postedVApps;

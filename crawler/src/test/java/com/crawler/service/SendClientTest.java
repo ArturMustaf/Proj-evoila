@@ -1,12 +1,21 @@
 package com.crawler.service;
 
-import com.crawler.entity.Organization;
+import com.crawler.entity.*;
 import com.crawler.repository.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
+import reactor.core.publisher.Mono;
+
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -16,15 +25,31 @@ import java.util.Random;
 
 @SpringBootTest
 class SendClientTest {
+    @Autowired
     SendClient sendClient;
     @Autowired
     KeycloakAuthService authService;
     @Autowired
     OrganizationRepository organizationRepository;
+    @Autowired
+    OrgUserRepository orgUserRepository;
+    @Autowired
+    OrgUserRoleRepository orgUserRoleRepository;
+    @Autowired
+    OrgNetworkRepository orgNetworkRepository;
+    @Autowired
+    VDCRepository vdcRepository;
+    @Autowired
+    VDCComputeCapacityRepository computeCapacityRepository;
+    @Autowired
+    VDCStorageProfileRepository storageProfileRepository;
+    @Autowired
+    VAppRepository vAppRepository;
+    @Autowired
+    ObjectMapper objectMapper;
 
 
     public static MockWebServer mockServer;
-
     @BeforeAll
     static void setUp() throws IOException {
         mockServer = new MockWebServer();
@@ -38,18 +63,18 @@ class SendClientTest {
     void initialize() {
         String baseUrl = String.format("http://localhost:%s",
                 mockServer.getPort());
-        sendClient = new SendClient(baseUrl);
+        sendClient.webClient = WebClient.builder()
+                .baseUrl(baseUrl)
+                .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
+                .build();
     }
-
     @Test
     @Transactional
-    void postAllOrganizationsTest() {
+    void postAllOrganizationsTest() throws JsonProcessingException {
         var entities = new ArrayList<Organization>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 50; i++) {
             var org = new Organization();
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, Charset.forName("UTF-8"));
+            String generatedString = RandomStringUtils.randomAlphanumeric(7);
             org.setId(generatedString);
             entities.add(org);
         }
@@ -57,36 +82,146 @@ class SendClientTest {
         ArrayList<Organization> organizations = organizationRepository.findAll();
         for (var org : organizations) {
             mockServer.enqueue(new MockResponse()
-                    .setBody(org.toString()));
+                    .setHeader("Content-Type", "application/json")
+                    .setBody(objectMapper.writeValueAsString(org)));
         }
-        System.out.println(sendClient.postAllOrganizations());
+        Assertions.assertIterableEquals(sendClient.postAllOrganizations(),organizations);
     }
 
     @Test
-    void postAllOrgUsers() {
+    @Transactional
+    void postAllOrgUsersTest() throws JsonProcessingException {
+        var entities = new ArrayList<OrgUser>();
+        for (int i = 0; i < 50; i++) {
+            String generatedString = RandomStringUtils.randomAlphanumeric(7);
+            var orgUser = new OrgUser();
+            orgUser.setId(generatedString);
+            entities.add(orgUser);
+        }
+        orgUserRepository.saveAll(entities);
+        var orgUsers = orgUserRepository.findAll();
+        for (var orgUser : orgUsers) {
+            mockServer.enqueue(new MockResponse()
+                    .setHeader("Content-Type", "application/json")
+                    .setBody(objectMapper.writeValueAsString(orgUser)));
+        }
+        Assertions.assertIterableEquals(sendClient.postAllOrgUsers(),orgUsers);
     }
 
     @Test
-    void postAllUserRoles() {
+    @Transactional
+    void postAllUserRolesTest() throws JsonProcessingException {
+        var entities = new ArrayList<OrgUserRole>();
+        for (int i = 0; i < 50; i++) {
+            String generatedString = RandomStringUtils.randomAlphanumeric(7);
+            var orgUserRole = new OrgUserRole();
+            orgUserRole.setId(generatedString);
+            entities.add(orgUserRole);
+        }
+        orgUserRoleRepository.saveAll(entities);
+        var orgUserRoles = orgUserRoleRepository.findAll();
+        for (var orgUserRole : orgUserRoles) {
+            mockServer.enqueue(new MockResponse()
+                    .setHeader("Content-Type", "application/json")
+                    .setBody(objectMapper.writeValueAsString(orgUserRole)));
+        }
+        Assertions.assertIterableEquals(sendClient.postAllUserRoles(),orgUserRoles);
     }
 
     @Test
-    void postAllVDCs() {
+    void postAllVDCs() throws JsonProcessingException {
+        var entities = new ArrayList<VDC>();
+        for (int i = 0; i < 50; i++) {
+            String generatedString = RandomStringUtils.randomAlphanumeric(7);
+            var vdc = new VDC();
+            vdc.setId(generatedString);
+            entities.add(vdc);
+        }
+        vdcRepository.saveAll(entities);
+        var vdcs = vdcRepository.findAll();
+        for (var vdc : vdcs) {
+            mockServer.enqueue(new MockResponse()
+                    .setHeader("Content-Type", "application/json")
+                    .setBody(objectMapper.writeValueAsString(vdc)));
+        }
+        Assertions.assertIterableEquals(sendClient.postAllVDCs(),vdcs);
     }
 
     @Test
-    void postAllNetworks() {
+    @Transactional
+    void postAllNetworks() throws JsonProcessingException {
+        var entities = new ArrayList<OrgNetwork>();
+        for (int i = 0; i < 50; i++) {
+            String generatedString = RandomStringUtils.randomAlphanumeric(7);
+            var orgNetwork = new OrgNetwork();
+            orgNetwork.setId(generatedString);
+            entities.add(orgNetwork);
+        }
+        orgNetworkRepository.saveAll(entities);
+        var orgNetworks = orgNetworkRepository.findAll();
+        for (var orgNetwork : orgNetworks) {
+            mockServer.enqueue(new MockResponse()
+                    .setHeader("Content-Type", "application/json")
+                    .setBody(objectMapper.writeValueAsString(orgNetwork)));
+        }
+        Assertions.assertIterableEquals(sendClient.postAllNetworks(),orgNetworks);
     }
 
     @Test
-    void postAllComputeCapacities() {
+    @Transactional
+    void postAllComputeCapacities() throws JsonProcessingException {
+        var entities = new ArrayList<VDCComputeCapacity>();
+        for (int i = 0; i < 50; i++) {
+            var vdcComputeCapacity = new VDCComputeCapacity();
+            entities.add(vdcComputeCapacity);
+        }
+        computeCapacityRepository.saveAll(entities);
+        var computeCapacities = computeCapacityRepository.findAll();
+        for (var computeCapacity : computeCapacities) {
+            mockServer.enqueue(new MockResponse()
+                    .setHeader("Content-Type", "application/json")
+                    .setBody(objectMapper.writeValueAsString(computeCapacity)));
+        }
+        Assertions.assertIterableEquals(sendClient.postAllComputeCapacities(),computeCapacities);
     }
 
     @Test
-    void postAllStorageProfiles() {
+    @Transactional
+    void postAllStorageProfiles() throws JsonProcessingException {
+        var entities = new ArrayList<VDCStorageProfile>();
+        for (int i = 0; i < 50; i++) {
+            var vdcStrorageProfile = new VDCStorageProfile();
+            String generatedString = RandomStringUtils.randomAlphanumeric(7);
+            vdcStrorageProfile.setId(generatedString);
+            entities.add(vdcStrorageProfile);
+        }
+        storageProfileRepository.saveAll(entities);
+        var storageProfiles = storageProfileRepository.findAll();
+        for (var storageProfile : storageProfiles) {
+            mockServer.enqueue(new MockResponse()
+                    .setHeader("Content-Type", "application/json")
+                    .setBody(objectMapper.writeValueAsString(storageProfile)));
+        }
+        Assertions.assertIterableEquals(sendClient.postAllStorageProfiles(),storageProfiles);
     }
 
     @Test
-    void postAllVApps() {
+    @Transactional
+    void postAllVApps() throws JsonProcessingException {
+        var entities = new ArrayList<VApp>();
+        for (int i = 0; i < 50; i++) {
+            String generatedString = RandomStringUtils.randomAlphanumeric(7);
+            var vapp = new VApp();
+            vapp.setId(generatedString);
+            entities.add(vapp);
+        }
+        vAppRepository.saveAll(entities);
+        var vApps = vAppRepository.findAll();
+        for (var vapp : vApps) {
+            mockServer.enqueue(new MockResponse()
+                    .setHeader("Content-Type", "application/json")
+                    .setBody(objectMapper.writeValueAsString(vapp)));
+        }
+        Assertions.assertIterableEquals(sendClient.postAllVApps(),vApps);
     }
 }

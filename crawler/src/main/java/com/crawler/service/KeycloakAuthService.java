@@ -56,6 +56,9 @@ public class KeycloakAuthService {
             .baseUrl("http://hatkeinehaende.de:9080/auth/realms/TH-Bingen/protocol/openid-connect/token")
             .build();
 
+    KeycloakAuthService() throws IOException {
+        getProps();
+    }
     /**
      * posts to keycloak and retrieves an access token for the used client
      * @return access_token
@@ -63,7 +66,6 @@ public class KeycloakAuthService {
     public String getKeycloakBearerToken(){
         try{
             ObjectMapper mapper = new ObjectMapper();
-            getProps();
             MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
             formData.add("grant_type",grantType);
             formData.add("client_secret", clientSecret);

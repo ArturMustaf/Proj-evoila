@@ -1,0 +1,105 @@
+package de.thbingenproj.backend.controller.org_user;
+
+import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.thbingenproj.backend.controller.org_network.OrgNetworkController;
+import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
+import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.vcloud.OrgNetworkMockCreator;
+import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.vcloud.OrgUserRoleMockCreator;
+import de.thbingenproj.backend.extensions.BeforeEvery;
+import org.junit.Assert;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@ExtendWith(BeforeEvery.class)
+@SpringBootTest
+@ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
+@AutoConfigureMockMvc
+class OrgUserRoleControllerTest {
+
+    @Autowired
+    private OrgUserRoleController orgUserRoleController;
+    @Autowired
+    private MockMvc mockMvc;
+    @Autowired
+    private OrgUserRoleMockCreator orgUserRoleMockCreator;
+
+    @Test
+    void testCreation() {
+        Assert.assertNotNull(orgUserRoleController);
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_admin")
+    void postOrgUserRole() throws Exception {
+        var orgUserRole = orgUserRoleMockCreator.createOrgUserRole();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(orgUserRole);
+        mockMvc.perform(post("/create/org-user-roles")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void givenPostOrgUserRoleURIWithUserRole_whenMockMVC_thenResponseForbidden() throws Exception {
+        var orgUserRole = orgUserRoleMockCreator.createOrgUserRole();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(orgUserRole);
+        mockMvc.perform(post("/create/org-user-roles")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void getOrgUserRole() throws Exception {
+        mockMvc.perform(get("/org-user-roles/0"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_admin")
+    void getAllOrgUserRoleByOrgID() throws Exception {
+        mockMvc.perform(get("/admin/organizations/0/org-user-roles"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void givenGetAllOrgUserRoleByOrgIDURIWithUserRole_whenMockMVC_thenResponseForbidden() throws Exception {
+        mockMvc.perform(get("/admin/organizations/0/org-user-roles"))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_admin")
+    void getAllOrgUserRole() throws Exception {
+        mockMvc.perform(get("/admin/org-user-roles"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void givenGetAllOrgUserRoleURIWithUserRole_whenMockMVC_thenResponseForbidden() throws Exception {
+        mockMvc.perform(get("/admin/org-user-roles"))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+    }
+}

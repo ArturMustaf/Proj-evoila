@@ -1,10 +1,13 @@
 package com.crawler.repository;
 
 import com.crawler.entity.Organization;
+import com.crawler.extensions.PostgresTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import javax.transaction.Transactional;
 import java.nio.charset.Charset;
@@ -15,6 +18,7 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest
+@ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 class OrganizationRepositoryTest {
 
     @Autowired
@@ -31,9 +35,7 @@ class OrganizationRepositoryTest {
         List<Organization> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var org = new Organization();
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, Charset.forName("UTF-8"));
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             org.setId(generatedString);
             entities.add(org);
         }
@@ -88,9 +90,7 @@ class OrganizationRepositoryTest {
         var entities = new ArrayList<Organization>();
         for(int i = 0; i < 50; i++){
             var org = new Organization();
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, Charset.forName("UTF-8"));
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             org.setId(generatedString);
             entities.add(org);
         }

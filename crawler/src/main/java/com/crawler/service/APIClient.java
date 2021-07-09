@@ -10,11 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 @Service
 public class APIClient {
@@ -38,42 +35,16 @@ public class APIClient {
     VAppRepository vAppRepository;
 
     static final APIAuthService authService = new APIAuthService();
-    String username;
-    String password;
-
-    public void getProps() throws IOException {
-        var propFileName = "logindata.properties";
-        var prop = new Properties();
-        var inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
-
-        if (inputStream != null) {
-            prop.load(inputStream);
-        } else {
-            throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath / resources. Please create the file and set user and password.");
-        }
-
-        // get the property value and print it out
-        username = prop.getProperty("user");
-        password = prop.getProperty("password");
-
-    }
 
     final WebClient client = WebClient.builder()
             .baseUrl("https://vcloud.evoila.io/api")
-                .defaultHeader("Accept", "application/*+JSON;version=34.0")
-                .defaultHeaders(headers -> {
-                    try {
-                        getProps();
-                        headers.setBearerAuth(authService.getBearerToken(username, password));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                 })
+            .defaultHeader("Accept", "application/*+JSON;version=34.0")
             .build();
 
     public boolean getAllOrgs(){
         try {
             var entity = client.get().uri("/query?type=organization")
+                    .headers(headers -> headers.setBearerAuth(authService.getBearerToken()))
                     .retrieve().bodyToMono(OrgRecord.class)
                     .block();
 
@@ -101,6 +72,7 @@ public class APIClient {
 
     public OrganizationDTO getOneOrgByID(String orgID){
         var organizationDTO = client.get().uri("/admin/org/" +orgID)
+                .headers(headers -> headers.setBearerAuth(authService.getBearerToken()))
                 .retrieve().bodyToMono(OrganizationDTO.class)
                 .block();
         if(organizationDTO != null){
@@ -138,6 +110,7 @@ public class APIClient {
 
     public OrgUserDTO getOneOrgUserByID(String orgUserID){
         return client.get().uri("/admin/user/" +orgUserID)
+                .headers(headers -> headers.setBearerAuth(authService.getBearerToken()))
                 .retrieve().bodyToMono(OrgUserDTO.class)
                 .block();
     }
@@ -182,12 +155,14 @@ public class APIClient {
 
     public VDCDTO getOneVDCByID(String vdcID){
         return client.get().uri("/vdc/"+vdcID)
+                .headers(headers -> headers.setBearerAuth(authService.getBearerToken()))
                 .retrieve().bodyToMono(VDCDTO.class)
                 .block();
     }
 
     public VDCStorageProfileDTO getOneStorageProfileByID(String storageID){
         return client.get().uri("/vdcStorageProfile/"+storageID)
+                .headers(headers -> headers.setBearerAuth(authService.getBearerToken()))
                 .retrieve().bodyToMono(VDCStorageProfileDTO.class)
                 .block();
     }
@@ -195,6 +170,7 @@ public class APIClient {
 
     public VAppRecord getAllVApps(){
         var vApps = client.get().uri("/vApps/query")
+                .headers(headers -> headers.setBearerAuth(authService.getBearerToken()))
                 .retrieve().bodyToMono(VAppRecord.class)
                 .block();
         var entities = new ArrayList<VApp>();

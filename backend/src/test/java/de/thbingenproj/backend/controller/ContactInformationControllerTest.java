@@ -17,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -43,7 +42,6 @@ class ContactInformationControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void getContactInformation() throws Exception{
         mockMvc.perform(get("/create/contactInformation/0"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
@@ -55,7 +53,6 @@ class ContactInformationControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(contactInformation);
         mockMvc.perform(put("/create/contactInformation/0")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -66,14 +63,12 @@ class ContactInformationControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(contactInformation);
         mockMvc.perform(post("/create/contactInformation")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
     @Test
     @WithMockKeycloakAuth("ROLE_user")
     void getContactInformationWithWrongRole() throws Exception{
         mockMvc.perform(get("/create/contactInformation/0"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -84,7 +79,6 @@ class ContactInformationControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(contactInformation);
         mockMvc.perform(put("/create/contactInformation/0")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -95,13 +89,11 @@ class ContactInformationControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(contactInformation);
         mockMvc.perform(post("/create/contactInformation")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
     @Test
     void getContactInformationWithNoAuth() throws Exception{
         mockMvc.perform(get("/create/contactInformation/0"))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 
@@ -111,7 +103,6 @@ class ContactInformationControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(contactInformation);
         mockMvc.perform(put("/create/contactInformation/0")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 
@@ -121,7 +112,6 @@ class ContactInformationControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(contactInformation);
         mockMvc.perform(post("/create/contactInformation")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 }

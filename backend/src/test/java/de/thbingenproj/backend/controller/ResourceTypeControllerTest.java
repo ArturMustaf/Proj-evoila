@@ -17,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,7 +39,6 @@ class ResourceTypeControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void getResourceType() throws Exception {
         mockMvc.perform(get("/create/resourceType/0"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
@@ -52,7 +50,6 @@ class ResourceTypeControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
         mockMvc.perform(put("/create/resourceType/0")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -63,14 +60,12 @@ class ResourceTypeControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
         mockMvc.perform(post("/create/resourceType")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
     @Test
     @WithMockKeycloakAuth("ROLE_user")
     void getResourceTypeWithWrongRole() throws Exception {
         mockMvc.perform(get("/create/resourceType/0"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -81,7 +76,6 @@ class ResourceTypeControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
         mockMvc.perform(put("/create/resourceType/0")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -92,14 +86,12 @@ class ResourceTypeControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
         mockMvc.perform(post("/create/resourceType")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
     @Test
     void getResourceTypeWithNoAuth() throws Exception {
         mockMvc.perform(get("/create/resourceType/0"))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 
@@ -109,7 +101,6 @@ class ResourceTypeControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
         mockMvc.perform(put("/create/resourceType/0")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 
@@ -119,7 +110,6 @@ class ResourceTypeControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
         mockMvc.perform(post("/create/resourceType")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 }

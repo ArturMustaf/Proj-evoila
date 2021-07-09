@@ -3,10 +3,20 @@ version: '3'
 services:
   db:
     image: library/postgres:alpine
+    container_name: db1
     environment:
       POSTGRES_PASSWORD: 'postgres1234'
     ports:
       - "127.0.0.1:5432:5432"
+    restart: unless-stopped
+  
+  db2:
+    image: library/postgres:alpine
+    container_name: db2
+    environment:
+      POSTGRES_PASSWORD: 'postgres1234'
+    ports:
+      - "127.0.0.1:5433:5432"
     restart: unless-stopped
 
   elasticsearch:

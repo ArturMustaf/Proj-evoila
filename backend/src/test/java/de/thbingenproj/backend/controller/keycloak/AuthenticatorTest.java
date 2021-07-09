@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,7 +45,6 @@ class AuthenticatorTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(user);
         mockMvc.perform(post("/auth/update")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -54,7 +52,6 @@ class AuthenticatorTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getCustomer() throws Exception {
         mockMvc.perform(get("/auth/user"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
@@ -66,7 +63,6 @@ class AuthenticatorTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(user);
         mockMvc.perform(post("/auth/update")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -74,7 +70,6 @@ class AuthenticatorTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void getCustomerWithWrongRole() throws Exception {
         mockMvc.perform(get("/auth/user"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -84,14 +79,12 @@ class AuthenticatorTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(user);
         mockMvc.perform(post("/auth/update")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     void getCustomerWithNoAuth() throws Exception {
         mockMvc.perform(get("/auth/user"))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 }

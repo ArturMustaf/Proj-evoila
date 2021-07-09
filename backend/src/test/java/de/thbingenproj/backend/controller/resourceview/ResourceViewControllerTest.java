@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,7 +37,6 @@ class ResourceViewControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void resourceViewTimeframe() throws Exception {
         mockMvc.perform(get("/resourceview").contentType(MediaType.APPLICATION_JSON).param("project", "0").param("from", "0").param("to", "1000"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
@@ -46,13 +44,11 @@ class ResourceViewControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void resourceViewTimeframeWithWrongRole() throws Exception {
         mockMvc.perform(get("/resourceview").contentType(MediaType.APPLICATION_JSON).param("project", "0").param("from", "0").param("to", "1000"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
     @Test
     void resourceViewTimeframeWithNoAuth() throws Exception {
         mockMvc.perform(get("/resourceview").contentType(MediaType.APPLICATION_JSON).param("project", "0").param("from", "0").param("to", "1000"))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 }

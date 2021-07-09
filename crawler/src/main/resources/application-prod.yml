@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 5
+    url: jdbc:postgresql://db2:5432/postgres
+    username: postgres
+    password: "postgres1234"
+  jpa:
+    generate-ddl: true
+
+    properties:
+      hibernate:
+        schema_update:
+          unique_constraint_strategy: RECREATE_QUIETLY
+        search:
+          default:
+            indexmanager: elasticsearch
+            elasticsearch:
+              host: http://elasticsearch:9200
+              index_schema_management_strategy: drop-and-create
+              required_index_status: yellow
+
+cors-url: http://hatkeinehaende.de
+
+keycloak:
+  auth-server-url: http://hatkeinehaende.de:9080/auth/
+  realm: TH-Bingen
+  bearer-only: true
+  resource: backendClient
+  principal-attribute: preferred_username
+  cors: true
+  ssl-required: false

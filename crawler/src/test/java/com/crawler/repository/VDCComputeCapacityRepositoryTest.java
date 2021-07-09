@@ -1,10 +1,12 @@
 package com.crawler.repository;
 
 import com.crawler.entity.VDCComputeCapacity;
+import com.crawler.extensions.PostgresTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest
+@ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 class VDCComputeCapacityRepositoryTest {
 
     @Autowired
@@ -33,8 +36,6 @@ class VDCComputeCapacityRepositoryTest {
         }
         computeCapacityRepository.saveAll(entities);
         var checkList = computeCapacityRepository.findAll();
-        System.out.println("Ent: "+entities);
-        System.out.println("Check: "+checkList);
         for(VDCComputeCapacity x : entities){
             Assertions.assertTrue(checkList.contains(x));
         }

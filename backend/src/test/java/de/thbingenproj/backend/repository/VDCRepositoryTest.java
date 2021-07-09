@@ -39,7 +39,7 @@ class VDCRepositoryTest {
         List<VDC> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var vdc = new VDC();
-            vdc.setId("1-ÄöOtsdhjs" + i);
+            vdc.setId("1ÄöOtsdhjs" + i);
             entities.add(vdc);
         }
         vdcRepository.saveAll(entities);

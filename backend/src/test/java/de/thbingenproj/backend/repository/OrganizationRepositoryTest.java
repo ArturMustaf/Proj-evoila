@@ -40,7 +40,7 @@ class OrganizationRepositoryTest {
         for (int i = 0; i < 50; i++) {
             var org = new Organization();
 
-            org.setId("1-ÄöOtsdhj" +i);
+            org.setId("1ÄöOtsdhj" +i);
             entities.add(org);
         }
         organizationRepository.saveAll(entities);

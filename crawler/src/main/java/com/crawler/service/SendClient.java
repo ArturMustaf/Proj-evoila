@@ -2,13 +2,14 @@ package com.crawler.service;
 
 import com.crawler.entity.*;
 import com.crawler.repository.*;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Client to send Data from Crawler to Backend
@@ -39,7 +40,7 @@ public class SendClient {
     WebClient webClient = WebClient.builder()
             .baseUrl("http://hatkeinehaende.de/create")
                 .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
-                .build();;
+                .build();
     /**
      * base URL depends on the env you want to connect to
      * currently its always directed to prod
@@ -48,7 +49,7 @@ public class SendClient {
      */
 
 
-    public ArrayList<Organization> postAllOrganizations(){
+    public List<Organization> postAllOrganizations(){
             var allOrganizations = organizationRepository.findAll();
             var postedOrganizations = new ArrayList<Organization>();
             for (var org : allOrganizations) {
@@ -62,7 +63,7 @@ public class SendClient {
             }
             return postedOrganizations;
     }
-    public ArrayList<OrgUser> postAllOrgUsers(){
+    public List<OrgUser> postAllOrgUsers(){
         ArrayList<OrgUser> allOrgUsers =  orgUserRepository.findAll();
         var postedOrganizationUsers = new ArrayList<OrgUser>();
         for (var orgUser: allOrgUsers) {
@@ -76,7 +77,7 @@ public class SendClient {
         }
         return postedOrganizationUsers;
     }
-    public ArrayList<OrgUserRole> postAllUserRoles(){
+    public List<OrgUserRole> postAllUserRoles(){
         ArrayList<OrgUserRole> allOrgUserRoles= orgUserRoleRepository.findAll();
         var postedOrganizationUserRoles = new ArrayList<OrgUserRole>();
         for (var orgUserRole: allOrgUserRoles) {
@@ -90,7 +91,7 @@ public class SendClient {
         }
         return postedOrganizationUserRoles;
     }
-    public ArrayList<VDC> postAllVDCs(){
+    public List<VDC> postAllVDCs(){
         ArrayList<VDC> allVDCs = vdcRepository.findAll();
         var postedVDCs = new ArrayList<VDC>();
         for (var vdc: allVDCs) {
@@ -104,7 +105,7 @@ public class SendClient {
         }
         return postedVDCs;
     }
-    public ArrayList<OrgNetwork> postAllNetworks(){
+    public List<OrgNetwork> postAllNetworks(){
         ArrayList<OrgNetwork> allOrgNetworks= orgNetworkRepository.findAll();
         var postedOrganizationNetworks = new ArrayList<OrgNetwork>();
         for (var orgNetwork: allOrgNetworks) {
@@ -118,7 +119,7 @@ public class SendClient {
         }
         return postedOrganizationNetworks;
     }
-    public ArrayList<VDCComputeCapacity> postAllComputeCapacities(){
+    public List<VDCComputeCapacity> postAllComputeCapacities(){
         ArrayList<VDCComputeCapacity> allOrgComputeCapacities = computeCapacityRepository.findAll();
         var postedComputeCapacities= new ArrayList<VDCComputeCapacity>();
         for (var computeCapacity: allOrgComputeCapacities) {
@@ -132,7 +133,7 @@ public class SendClient {
         }
         return postedComputeCapacities;
     }
-    public ArrayList<VDCStorageProfile> postAllStorageProfiles(){
+    public List<VDCStorageProfile> postAllStorageProfiles(){
         ArrayList<VDCStorageProfile> allStorageProfiles = storageProfileRepository.findAll();
         var postedStorageProfiles= new ArrayList<VDCStorageProfile>();
         for (var storageProfile: allStorageProfiles) {
@@ -146,7 +147,7 @@ public class SendClient {
         }
         return postedStorageProfiles;
     }
-    public ArrayList<VApp> postAllVApps(){
+    public List<VApp> postAllVApps(){
         ArrayList<VApp> allVApps = vAppRepository.findAll();
         var postedVApps = new ArrayList<VApp>();
         for (var vApp: allVApps) {

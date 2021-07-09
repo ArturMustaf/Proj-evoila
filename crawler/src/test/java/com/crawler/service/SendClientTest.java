@@ -14,13 +14,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
-import reactor.core.publisher.Mono;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Random;
 
 
 @SpringBootTest
@@ -67,6 +64,9 @@ class SendClientTest {
                 .baseUrl(baseUrl)
                 .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
                 .build();
+        authService.webClient = WebClient.builder()
+                .baseUrl(baseUrl)
+                .build();
     }
     @Test
     @Transactional
@@ -81,6 +81,13 @@ class SendClientTest {
         organizationRepository.saveAll(entities);
         ArrayList<Organization> organizations = organizationRepository.findAll();
         for (var org : organizations) {
+            String generatedString = RandomStringUtils.randomAlphanumeric(20);
+            MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+            formData.add("access_token",generatedString);
+            mockServer.enqueue(new MockResponse()
+                    .setHeader("Content-Type", MediaType.APPLICATION_FORM_URLENCODED)
+                    .setBody(objectMapper.writeValueAsString(formData)));
+
             mockServer.enqueue(new MockResponse()
                     .setHeader("Content-Type", "application/json")
                     .setBody(objectMapper.writeValueAsString(org)));
@@ -101,6 +108,13 @@ class SendClientTest {
         orgUserRepository.saveAll(entities);
         var orgUsers = orgUserRepository.findAll();
         for (var orgUser : orgUsers) {
+            String generatedString = RandomStringUtils.randomAlphanumeric(20);
+            MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+            formData.add("access_token",generatedString);
+            mockServer.enqueue(new MockResponse()
+                    .setHeader("Content-Type", MediaType.APPLICATION_FORM_URLENCODED)
+                    .setBody(objectMapper.writeValueAsString(formData)));
+
             mockServer.enqueue(new MockResponse()
                     .setHeader("Content-Type", "application/json")
                     .setBody(objectMapper.writeValueAsString(orgUser)));
@@ -121,6 +135,13 @@ class SendClientTest {
         orgUserRoleRepository.saveAll(entities);
         var orgUserRoles = orgUserRoleRepository.findAll();
         for (var orgUserRole : orgUserRoles) {
+            String generatedString = RandomStringUtils.randomAlphanumeric(20);
+            MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+            formData.add("access_token",generatedString);
+            mockServer.enqueue(new MockResponse()
+                    .setHeader("Content-Type", MediaType.APPLICATION_FORM_URLENCODED)
+                    .setBody(objectMapper.writeValueAsString(formData)));
+
             mockServer.enqueue(new MockResponse()
                     .setHeader("Content-Type", "application/json")
                     .setBody(objectMapper.writeValueAsString(orgUserRole)));
@@ -140,6 +161,13 @@ class SendClientTest {
         vdcRepository.saveAll(entities);
         var vdcs = vdcRepository.findAll();
         for (var vdc : vdcs) {
+            String generatedString = RandomStringUtils.randomAlphanumeric(20);
+            MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+            formData.add("access_token",generatedString);
+            mockServer.enqueue(new MockResponse()
+                    .setHeader("Content-Type", MediaType.APPLICATION_FORM_URLENCODED)
+                    .setBody(objectMapper.writeValueAsString(formData)));
+
             mockServer.enqueue(new MockResponse()
                     .setHeader("Content-Type", "application/json")
                     .setBody(objectMapper.writeValueAsString(vdc)));
@@ -160,6 +188,13 @@ class SendClientTest {
         orgNetworkRepository.saveAll(entities);
         var orgNetworks = orgNetworkRepository.findAll();
         for (var orgNetwork : orgNetworks) {
+            String generatedString = RandomStringUtils.randomAlphanumeric(20);
+            MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+            formData.add("access_token",generatedString);
+            mockServer.enqueue(new MockResponse()
+                    .setHeader("Content-Type", MediaType.APPLICATION_FORM_URLENCODED)
+                    .setBody(objectMapper.writeValueAsString(formData)));
+
             mockServer.enqueue(new MockResponse()
                     .setHeader("Content-Type", "application/json")
                     .setBody(objectMapper.writeValueAsString(orgNetwork)));
@@ -178,6 +213,13 @@ class SendClientTest {
         computeCapacityRepository.saveAll(entities);
         var computeCapacities = computeCapacityRepository.findAll();
         for (var computeCapacity : computeCapacities) {
+            String generatedString = RandomStringUtils.randomAlphanumeric(20);
+            MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+            formData.add("access_token",generatedString);
+            mockServer.enqueue(new MockResponse()
+                    .setHeader("Content-Type", MediaType.APPLICATION_FORM_URLENCODED)
+                    .setBody(objectMapper.writeValueAsString(formData)));
+
             mockServer.enqueue(new MockResponse()
                     .setHeader("Content-Type", "application/json")
                     .setBody(objectMapper.writeValueAsString(computeCapacity)));
@@ -198,6 +240,13 @@ class SendClientTest {
         storageProfileRepository.saveAll(entities);
         var storageProfiles = storageProfileRepository.findAll();
         for (var storageProfile : storageProfiles) {
+            String generatedString = RandomStringUtils.randomAlphanumeric(20);
+            MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+            formData.add("access_token",generatedString);
+            mockServer.enqueue(new MockResponse()
+                    .setHeader("Content-Type", MediaType.APPLICATION_FORM_URLENCODED)
+                    .setBody(objectMapper.writeValueAsString(formData)));
+
             mockServer.enqueue(new MockResponse()
                     .setHeader("Content-Type", "application/json")
                     .setBody(objectMapper.writeValueAsString(storageProfile)));
@@ -218,6 +267,13 @@ class SendClientTest {
         vAppRepository.saveAll(entities);
         var vApps = vAppRepository.findAll();
         for (var vapp : vApps) {
+            String generatedString = RandomStringUtils.randomAlphanumeric(20);
+            MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+            formData.add("access_token",generatedString);
+            mockServer.enqueue(new MockResponse()
+                    .setHeader("Content-Type", MediaType.APPLICATION_FORM_URLENCODED)
+                    .setBody(objectMapper.writeValueAsString(formData)));
+
             mockServer.enqueue(new MockResponse()
                     .setHeader("Content-Type", "application/json")
                     .setBody(objectMapper.writeValueAsString(vapp)));

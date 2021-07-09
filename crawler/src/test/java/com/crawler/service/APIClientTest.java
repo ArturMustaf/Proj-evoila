@@ -43,18 +43,4 @@ class APIClientTest {
         Assertions.assertNotNull(vdcRepository);
     }
 
-//    @Test
-//    Clientside only test
-    void genericTestClass(){
-        Assertions.assertTrue(apiClient.getAllOrgs());
-        System.out.println("Orgs: "+organizationRepository.findAll());
-        System.out.println("Networks: "+orgNetworkRepository.findAll());
-        System.out.println("OrgUser: "+orgUserRepository.findAll());
-        System.out.println("OrgUserRole: "+orgUserRoleRepository.findAll());
-        System.out.println("OrgVDCs: "+vdcRepository.findAll());
-        System.out.println("ComputeCapacities: " + computeCapacityRepository.findAll());
-        System.out.println("StorageProfiles: " + storageProfileRepository.findAll());
-        System.out.println("VApps: "+vAppRepository.findAll());
-    }
-
 }

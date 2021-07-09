@@ -38,19 +38,13 @@ public class APIClient {
 
     final WebClient client = WebClient.builder()
             .baseUrl("https://vcloud.evoila.io/api")
-                .defaultHeader("Accept", "application/*+JSON;version=34.0")
-                .defaultHeaders(headers -> {
-                    try {
-                        headers.setBearerAuth(authService.getBearerToken());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                 })
+            .defaultHeader("Accept", "application/*+JSON;version=34.0")
             .build();
 
     public boolean getAllOrgs(){
         try {
             var entity = client.get().uri("/query?type=organization")
+                    .headers(headers -> headers.setBearerAuth(authService.getBearerToken()))
                     .retrieve().bodyToMono(OrgRecord.class)
                     .block();
 
@@ -78,6 +72,7 @@ public class APIClient {
 
     public OrganizationDTO getOneOrgByID(String orgID){
         var organizationDTO = client.get().uri("/admin/org/" +orgID)
+                .headers(headers -> headers.setBearerAuth(authService.getBearerToken()))
                 .retrieve().bodyToMono(OrganizationDTO.class)
                 .block();
         if(organizationDTO != null){
@@ -115,6 +110,7 @@ public class APIClient {
 
     public OrgUserDTO getOneOrgUserByID(String orgUserID){
         return client.get().uri("/admin/user/" +orgUserID)
+                .headers(headers -> headers.setBearerAuth(authService.getBearerToken()))
                 .retrieve().bodyToMono(OrgUserDTO.class)
                 .block();
     }
@@ -159,12 +155,14 @@ public class APIClient {
 
     public VDCDTO getOneVDCByID(String vdcID){
         return client.get().uri("/vdc/"+vdcID)
+                .headers(headers -> headers.setBearerAuth(authService.getBearerToken()))
                 .retrieve().bodyToMono(VDCDTO.class)
                 .block();
     }
 
     public VDCStorageProfileDTO getOneStorageProfileByID(String storageID){
         return client.get().uri("/vdcStorageProfile/"+storageID)
+                .headers(headers -> headers.setBearerAuth(authService.getBearerToken()))
                 .retrieve().bodyToMono(VDCStorageProfileDTO.class)
                 .block();
     }
@@ -172,6 +170,7 @@ public class APIClient {
 
     public VAppRecord getAllVApps(){
         var vApps = client.get().uri("/vApps/query")
+                .headers(headers -> headers.setBearerAuth(authService.getBearerToken()))
                 .retrieve().bodyToMono(VAppRecord.class)
                 .block();
         var entities = new ArrayList<VApp>();

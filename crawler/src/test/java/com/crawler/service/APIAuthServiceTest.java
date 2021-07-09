@@ -14,8 +14,6 @@ import java.util.concurrent.TimeoutException;
 class APIAuthServiceTest {
 
     static final APIAuthService authService = new APIAuthService();
-    String username;
-    String password;
 
 //    @Test
 //    Clientside only test

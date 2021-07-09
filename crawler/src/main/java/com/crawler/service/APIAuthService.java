@@ -3,18 +3,12 @@ package com.crawler.service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Properties;
-import java.util.concurrent.TimeoutException;
-
-import static java.lang.Thread.sleep;
 
 @Service
 public class APIAuthService {
-    int retries = 0;
 
     final WebClient client = WebClient.builder()
             .baseUrl("https://vcloud.evoila.io/api")
@@ -23,7 +17,7 @@ public class APIAuthService {
 
 
     //TODO log for SOS-39
-    public String getBearerToken() throws InterruptedException, TimeoutException {
+    public String getBearerToken() {
         try {
             var propFileName = "logindata.properties";
             var prop = new Properties();
@@ -44,23 +38,9 @@ public class APIAuthService {
                 return entity.getHeaders().getFirst("X-VMWARE-VCLOUD-ACCESS-TOKEN");
             }
 
-        } catch (WebClientResponseException e) {
-            switch (e.getStatusCode()) {
-                case GATEWAY_TIMEOUT:
-                case REQUEST_TIMEOUT:
-                    sleep(1000);
-                    retries++;
-                    getBearerToken();
-                    break;
-                default:
-                    throw e;
-            }
-            if(retries > 5){
-               throw new TimeoutException("Maximum number of failed login attempts exceeded. Server might be unreachable.");
-            }
-        }
-        catch (IOException ex){
-
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
         }
         return "";
     }

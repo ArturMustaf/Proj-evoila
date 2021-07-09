@@ -84,7 +84,7 @@ class VAppRepositoryTest {
         assertNotEquals(vAppInitialName, vAppRepository.findById(vApp.getId()).orElse(null).getName());
     }
 
-    //ToDo findAllVAppsByVdcID
+
 
     @Test
     @Transactional

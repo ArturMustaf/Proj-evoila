@@ -29,32 +29,29 @@ class VDCStorageProfileRepositoryTest {
     VDCStorageProfileRepository storageProfileRepository;
 
     @Test
-    void testGeneration(){
+    void testGeneration() {
         Assertions.assertNotNull(storageProfileRepository);
     }
 
     @Test
     @Transactional
-    void createVDCStorageProfile(){
+    void createVDCStorageProfile() {
         List<VDCStorageProfile> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var vdcStorageProfile = new VDCStorageProfile();
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, Charset.forName("UTF-8"));
-            vdcStorageProfile.setId(generatedString);
+            vdcStorageProfile.setId(",.Äüöttz");
             entities.add(vdcStorageProfile);
         }
         storageProfileRepository.saveAll(entities);
-        var vdcStorageProfilesInRepository= storageProfileRepository.findAll();
-        for(var vdcStorageProfile : vdcStorageProfilesInRepository){
+        var vdcStorageProfilesInRepository = storageProfileRepository.findAll();
+        for (var vdcStorageProfile : vdcStorageProfilesInRepository) {
             Assertions.assertTrue(entities.contains(vdcStorageProfile));
         }
     }
 
     @Test
     @Transactional
-    void readVDCStorageProfile(){
+    void readVDCStorageProfile() {
         var vdcStorageProfile = new VDCStorageProfile();
         vdcStorageProfile.setId("testID");
         storageProfileRepository.save(vdcStorageProfile);
@@ -63,7 +60,7 @@ class VDCStorageProfileRepositoryTest {
 
     @Test
     @Transactional
-    void deleteVDCStorageProfile(){
+    void deleteVDCStorageProfile() {
         var vdcStorageProfile = new VDCStorageProfile();
         vdcStorageProfile.setId("testID");
         storageProfileRepository.save(vdcStorageProfile);
@@ -74,7 +71,7 @@ class VDCStorageProfileRepositoryTest {
 
     @Test
     @Transactional
-    void updateVDCStorageProfile(){
+    void updateVDCStorageProfile() {
         var vdcStorageProfile = new VDCStorageProfile();
         vdcStorageProfile.setName("testName");
         var vdcStorageProfileInitialName = vdcStorageProfile.getName();
@@ -82,28 +79,51 @@ class VDCStorageProfileRepositoryTest {
         storageProfileRepository.save(vdcStorageProfile);
         Assertions.assertNotNull(storageProfileRepository.findById(vdcStorageProfile.getId()));
         var vdcStorageProfileReturned = storageProfileRepository.findById(vdcStorageProfile.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
-        vdcStorageProfileReturned.setName(generatedString);
+
+        vdcStorageProfileReturned.setName(",.Äüöttz");
         storageProfileRepository.save(vdcStorageProfileReturned);
         assertNotEquals(vdcStorageProfileInitialName, storageProfileRepository.findById(vdcStorageProfile.getId()).orElse(null).getName());
     }
 
-    //ToDo findAllVDCStorageProfilesByVdcID
+
+    @Test
+    @Transactional
+    void findAllVDCStorageProfilesByVdcID() {
+        var vdcId="vdc,.-öÜ";
+        var entities = new ArrayList<VDCStorageProfile>();
+        for (int i = 0; i < 40; i++) {
+            var vdcStorageProfile = new VDCStorageProfile();
+            vdcStorageProfile.setVdcID(vdcId);
+            vdcStorageProfile.setId("äö-." + i);
+            entities.add(vdcStorageProfile);
+        }
+        for (int i = 0; i < 10; i++) {
+            var vdcStorageProfile = new VDCStorageProfile();
+            vdcStorageProfile.setVdcID(i+"");
+            vdcStorageProfile.setId("test:" + i);
+            entities.add(vdcStorageProfile);
+        }
+        storageProfileRepository.saveAll(entities);
+        var vdcStorageProfilesInRepository = storageProfileRepository.findAllByVdcID(vdcId);
+        Assertions.assertEquals(40, vdcStorageProfilesInRepository.size());
+
+    }
+
+
     @Test
     @Transactional
     void findAllVDCStorageProfiles() {
         var entities = new ArrayList<VDCStorageProfile>();
-        for(int i = 0; i < 50; i++){
+        for (int i = 0; i < 50; i++) {
             var vdcStorageProfile = new VDCStorageProfile();
-            vdcStorageProfile.setId("erg-."+i);
+            vdcStorageProfile.setId("erg-." + i);
             entities.add(vdcStorageProfile);
         }
         storageProfileRepository.saveAll(entities);
-        var vdcStorageProfilesInRepository= storageProfileRepository.findAll();
-        for(var vdcStorageProfile : vdcStorageProfilesInRepository){
+        var vdcStorageProfilesInRepository = storageProfileRepository.findAll();
+        for (var vdcStorageProfile : vdcStorageProfilesInRepository) {
             Assertions.assertTrue(entities.contains(vdcStorageProfile));
         }
     }
+
 }

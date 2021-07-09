@@ -29,29 +29,29 @@ class VDCRepositoryTest {
     VDCRepository vdcRepository;
 
     @Test
-    void testGeneration(){
+    void testGeneration() {
         Assertions.assertNotNull(vdcRepository);
     }
 
     @Test
     @Transactional
-    void createVDC(){
+    void createVDC() {
         List<VDC> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var vdc = new VDC();
-            vdc.setId("1-ÄöOtsdhjs"+i);
+            vdc.setId("1-ÄöOtsdhjs" + i);
             entities.add(vdc);
         }
         vdcRepository.saveAll(entities);
-        var vdcsInRepository= vdcRepository.findAll();
-        for(var vdc : vdcsInRepository){
+        var vdcsInRepository = vdcRepository.findAll();
+        for (var vdc : vdcsInRepository) {
             Assertions.assertTrue(entities.contains(vdc));
         }
     }
 
     @Test
     @Transactional
-    void readVDC(){
+    void readVDC() {
         var vdc = new VDC();
         vdc.setId("testID");
         vdcRepository.save(vdc);
@@ -60,7 +60,7 @@ class VDCRepositoryTest {
 
     @Test
     @Transactional
-    void updateVDC(){
+    void updateVDC() {
         var vdc = new VDC();
         vdc.setName("testName");
         var vdcInitialName = vdc.getName();
@@ -77,46 +77,39 @@ class VDCRepositoryTest {
     @Test
     @Transactional
     void findAllVDCsByOrgID() {
-        String orgID="Test-;RÄ";
+        String orgID = "Test-;RÄ";
         var entities = new ArrayList<VDC>();
-        for(int i = 0; i < 30; i++){
+        for (int i = 0; i < 30; i++) {
             var vdc = new VDC();
-            vdc.setId("Test546 "+i);
+            vdc.setId("Test546 " + i);
             vdc.setOrgID(orgID);
             entities.add(vdc);
         }
-        for(int i = 0; i < 20; i++){
+        for (int i = 0; i < 20; i++) {
             var vdc = new VDC();
-            vdc.setId("Test "+i);
-            vdc.setOrgID("f5"+i);
+            vdc.setId("Test " + i);
+            vdc.setOrgID("f5" + i);
             entities.add(vdc);
         }
         vdcRepository.saveAll(entities);
-        var vdcsInRepository= vdcRepository.findAllByOrgID(orgID);
+        var vdcsInRepository = vdcRepository.findAllByOrgID(orgID);
 
-            Assertions.assertEquals(30, vdcsInRepository.size() );
+        Assertions.assertEquals(30, vdcsInRepository.size());
 
     }
-
-
-
-
-
-
-
 
     @Test
     @Transactional
     void findAllVDCs() {
         var entities = new ArrayList<VDC>();
-        for(int i = 0; i < 50; i++){
+        for (int i = 0; i < 50; i++) {
             var vdc = new VDC();
-            vdc.setId("Test "+i);
+            vdc.setId("Test " + i);
             entities.add(vdc);
         }
         vdcRepository.saveAll(entities);
-        var vdcsInRepository= vdcRepository.findAll();
-        for(var vdc : vdcsInRepository){
+        var vdcsInRepository = vdcRepository.findAll();
+        for (var vdc : vdcsInRepository) {
             Assertions.assertTrue(entities.contains(vdc));
         }
     }

@@ -81,7 +81,30 @@ class VDCComputeCapacityRepositoryTest {
         assertNotEquals(vdcComputeCapacityInitialCpuAllocated, computeCapacityRepository.findById(vdcComputeCapacity.getId()).orElse(null).getCpuAllocated());
     }
 
-    //ToDo findAllVDCComputeCapacitiesByVdcID
+
+    @Test
+    @Transactional
+    void findAllVDCComputeCapacitiesByVdcID() {
+        String vdcId="vdc-ä3";
+        var entities = new ArrayList<VDCComputeCapacity>();
+        for(int i = 0; i < 20; i++){
+            var vdcComputeCapacity = new VDCComputeCapacity();
+            vdcComputeCapacity.setVdcID(vdcId);
+            entities.add(vdcComputeCapacity);
+        }  for(int i = 0; i < 50; i++){
+            var vdcComputeCapacity = new VDCComputeCapacity();
+            entities.add(vdcComputeCapacity);
+        }
+        computeCapacityRepository.saveAll(entities);
+        var computeCapacitiesInRepository= computeCapacityRepository.findAllByVdcID(vdcId);
+        Assertions.assertEquals(20, computeCapacitiesInRepository.size());
+
+    }
+
+
+
+
+
     @Test
     @Transactional
     void findAllVDCComputeCapacities() {

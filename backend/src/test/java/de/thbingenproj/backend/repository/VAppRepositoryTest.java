@@ -39,10 +39,7 @@ class VAppRepositoryTest {
         List<VApp> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var vApp = new VApp();
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, Charset.forName("UTF-8"));
-            vApp.setId(generatedString);
+            vApp.setId("r-!./dÄö"+i);
             entities.add(vApp);
         }
         vAppRepository.saveAll(entities);
@@ -82,10 +79,7 @@ class VAppRepositoryTest {
         vAppRepository.save(vApp);
         Assertions.assertNotNull(vAppRepository.findById(vApp.getId()));
         var vAppReturned = vAppRepository.findById(vApp.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
-        vAppReturned.setName(generatedString);
+        vAppReturned.setName("d.-34ge");
         vAppRepository.save(vAppReturned);
         assertNotEquals(vAppInitialName, vAppRepository.findById(vApp.getId()).orElse(null).getName());
     }
@@ -97,10 +91,7 @@ class VAppRepositoryTest {
         var entities = new ArrayList<VApp>();
         for(int i = 0; i < 50; i++){
             var vApp = new VApp();
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, Charset.forName("UTF-8"));
-            vApp.setId(generatedString);
+            vApp.setId("qedwqr-.;."+ i);
             entities.add(vApp);
         }
         vAppRepository.saveAll(entities);

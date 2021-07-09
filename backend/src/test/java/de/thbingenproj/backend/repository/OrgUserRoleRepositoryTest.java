@@ -40,10 +40,7 @@ class OrgUserRoleRoleRepositoryTest {
         List<OrgUserRole> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var orgUserRole = new OrgUserRole();
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, Charset.forName("UTF-8"));
-            orgUserRole.setId(generatedString);
+            orgUserRole.setId("H-.!2"+ i);
             entities.add(orgUserRole);
         }
         orgUserRoleRepository.saveAll(entities);
@@ -72,10 +69,7 @@ class OrgUserRoleRoleRepositoryTest {
         orgUserRoleRepository.save(UserRole);
         Assertions.assertNotNull(orgUserRoleRepository.findById(UserRole.getId()));
         var orgUserRoleReturned = orgUserRoleRepository.findById(UserRole.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
-        orgUserRoleReturned.setName(generatedString);
+        orgUserRoleReturned.setName("hös3");
         orgUserRoleRepository.save(orgUserRoleReturned);
         assertNotEquals(orgUserRoleInitialName, orgUserRoleRepository.findById(UserRole.getId()).orElse(null).getName());
     }

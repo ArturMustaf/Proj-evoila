@@ -40,10 +40,7 @@ class OrgNetworkRepositoryTest {
         List<OrgNetwork> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var orgNetwork = new OrgNetwork();
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, Charset.forName("UTF-8"));
-            orgNetwork.setId(generatedString);
+            orgNetwork.setId("w-.-:w"+ i);
             entities.add(orgNetwork);
         }
         orgNetworkRepository.saveAll(entities);
@@ -72,10 +69,7 @@ class OrgNetworkRepositoryTest {
         orgNetworkRepository.save(orgNetwork);
         Assertions.assertNotNull(orgNetworkRepository.findById(orgNetwork.getId()));
         var orgNetworkReturned = orgNetworkRepository.findById(orgNetwork.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
-        orgNetworkReturned.setName(generatedString);
+        orgNetworkReturned.setName("eg-.;-");
         orgNetworkRepository.save(orgNetworkReturned);
         assertNotEquals(orgNetworkInitialName, orgNetworkRepository.findById(orgNetwork.getId()).orElse(null).getName());
     }

@@ -40,10 +40,7 @@ class OrgUserRepositoryTest {
         List<OrgUser> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var orgUser = new OrgUser();
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, Charset.forName("UTF-8"));
-            orgUser.setId(generatedString);
+            orgUser.setId("Test.,_ " +i);
             entities.add(orgUser);
         }
         orgUserRepository.saveAll(entities);
@@ -72,10 +69,7 @@ class OrgUserRepositoryTest {
         orgUserRepository.save(orgUser);
         Assertions.assertNotNull(orgUserRepository.findById(orgUser.getId()));
         var orgUserReturned = orgUserRepository.findById(orgUser.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
-        orgUserReturned.setName(generatedString);
+        orgUserReturned.setName("ÄöUq1,.-:");
         orgUserRepository.save(orgUserReturned);
         assertNotEquals(orgInitialName, orgUserRepository.findById(orgUser.getId()).orElse(null).getName());
     }

@@ -39,10 +39,7 @@ class VDCRepositoryTest {
         List<VDC> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var vdc = new VDC();
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, Charset.forName("UTF-8"));
-            vdc.setId(generatedString);
+            vdc.setId("1-ÄöOtsdhjs"+i);
             entities.add(vdc);
         }
         vdcRepository.saveAll(entities);
@@ -71,10 +68,8 @@ class VDCRepositoryTest {
         vdcRepository.save(vdc);
         Assertions.assertNotNull(vdcRepository.findById(vdc.getId()));
         var vdcReturned = vdcRepository.findById(vdc.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
-        vdcReturned.setName(generatedString);
+
+        vdcReturned.setName("1-ÄöOÄutd");
         vdcRepository.save(vdcReturned);
         assertNotEquals(vdcInitialName, vdcRepository.findById(vdc.getId()).orElse(null).getName());
     }
@@ -86,10 +81,7 @@ class VDCRepositoryTest {
         var entities = new ArrayList<VDC>();
         for(int i = 0; i < 50; i++){
             var vdc = new VDC();
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, Charset.forName("UTF-8"));
-            vdc.setId(generatedString);
+            vdc.setId("Test "+i);
             entities.add(vdc);
         }
         vdcRepository.saveAll(entities);

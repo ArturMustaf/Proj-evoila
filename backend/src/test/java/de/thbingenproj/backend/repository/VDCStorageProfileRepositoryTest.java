@@ -97,10 +97,7 @@ class VDCStorageProfileRepositoryTest {
         var entities = new ArrayList<VDCStorageProfile>();
         for(int i = 0; i < 50; i++){
             var vdcStorageProfile = new VDCStorageProfile();
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, Charset.forName("UTF-8"));
-            vdcStorageProfile.setId(generatedString);
+            vdcStorageProfile.setId("erg-."+i);
             entities.add(vdcStorageProfile);
         }
         storageProfileRepository.saveAll(entities);

@@ -39,10 +39,8 @@ class OrganizationRepositoryTest {
         List<Organization> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var org = new Organization();
-            byte[] array = new byte[7]; // length is bounded by 7
-            new Random().nextBytes(array);
-            String generatedString = new String(array, Charset.forName("UTF-8"));
-            org.setId(generatedString);
+
+            org.setId("1-ÄöOtsdhj" +i);
             entities.add(org);
         }
         organizationRepository.saveAll(entities);
@@ -71,10 +69,7 @@ class OrganizationRepositoryTest {
         organizationRepository.save(organization);
         Assertions.assertNotNull(organizationRepository.findById(organization.getId()));
         var orgReturned = organizationRepository.findById(organization.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
-        orgReturned.setName(generatedString);
+        orgReturned.setName("1-ÄöOtsdhj");
         organizationRepository.save(orgReturned);
         assertNotEquals(orgInitialName, organizationRepository.findById(organization.getId()).orElse(null).getName());
     }

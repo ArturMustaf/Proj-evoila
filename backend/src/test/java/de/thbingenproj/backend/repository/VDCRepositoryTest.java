@@ -74,10 +74,40 @@ class VDCRepositoryTest {
         assertNotEquals(vdcInitialName, vdcRepository.findById(vdc.getId()).orElse(null).getName());
     }
 
-    //ToDo find all by org ID
     @Test
     @Transactional
-    void findAllVDCsBy() {
+    void findAllVDCsByOrgID() {
+        String orgID="Test-;RÄ";
+        var entities = new ArrayList<VDC>();
+        for(int i = 0; i < 30; i++){
+            var vdc = new VDC();
+            vdc.setId("Test546 "+i);
+            vdc.setOrgID(orgID);
+            entities.add(vdc);
+        }
+        for(int i = 0; i < 20; i++){
+            var vdc = new VDC();
+            vdc.setId("Test "+i);
+            vdc.setOrgID("f5"+i);
+            entities.add(vdc);
+        }
+        vdcRepository.saveAll(entities);
+        var vdcsInRepository= vdcRepository.findAllByOrgID(orgID);
+
+            Assertions.assertEquals(30, vdcsInRepository.size() );
+
+    }
+
+
+
+
+
+
+
+
+    @Test
+    @Transactional
+    void findAllVDCs() {
         var entities = new ArrayList<VDC>();
         for(int i = 0; i < 50; i++){
             var vdc = new VDC();

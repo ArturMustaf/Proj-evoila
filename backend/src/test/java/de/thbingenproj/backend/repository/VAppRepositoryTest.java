@@ -2,6 +2,7 @@ package de.thbingenproj.backend.repository;
 
 import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entity.VApp;
+import de.thbingenproj.backend.entity.VDC;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,36 +23,35 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 @ExtendWith(BeforeEvery.class)
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
-
 class VAppRepositoryTest {
 
     @Autowired
     VAppRepository vAppRepository;
 
     @Test
-    void testGeneration(){
+    void testGeneration() {
         Assertions.assertNotNull(vAppRepository);
     }
 
     @Test
     @Transactional
-    void createVApp(){
+    void createVApp() {
         List<VApp> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var vApp = new VApp();
-            vApp.setId("r-!./dÄö"+i);
+            vApp.setId("r-!./dÄö" + i);
             entities.add(vApp);
         }
         vAppRepository.saveAll(entities);
-        var vAppsInRepository= vAppRepository.findAll();
-        for(var vApp : vAppsInRepository){
+        var vAppsInRepository = vAppRepository.findAll();
+        for (var vApp : vAppsInRepository) {
             Assertions.assertTrue(entities.contains(vApp));
         }
     }
 
     @Test
     @Transactional
-    void readVApp(){
+    void readVApp() {
         var vApp = new VApp();
         vApp.setId("testID");
         vAppRepository.save(vApp);
@@ -60,7 +60,7 @@ class VAppRepositoryTest {
 
     @Test
     @Transactional
-    void deleteVApp(){
+    void deleteVApp() {
         var vApp = new VApp();
         vApp.setId("testID");
         vAppRepository.save(vApp);
@@ -71,7 +71,7 @@ class VAppRepositoryTest {
 
     @Test
     @Transactional
-    void updateVApp(){
+    void updateVApp() {
         var vApp = new VApp();
         vApp.setName("testName");
         var vAppInitialName = vApp.getName();
@@ -85,18 +85,43 @@ class VAppRepositoryTest {
     }
 
     //ToDo findAllVAppsByVdcID
+
+    @Test
+    @Transactional
+    void findAllVAppsByVdcIDy() {
+        String vdcID = "!,Test-;RÄ";
+        var entities = new ArrayList<VApp>();
+        for (int i = 0; i < 30; i++) {
+            var vApp = new VApp();
+            vApp.setId("Test546 " + i);
+            vApp.setVdcID(vdcID);
+            entities.add(vApp);
+        }
+        for (int i = 0; i < 20; i++) {
+            var vApp = new VApp();
+            vApp.setId("Test " + i);
+            vApp.setVdcID("f5" + i);
+            entities.add(vApp);
+        }
+        vAppRepository.saveAll(entities);
+        var vAppsInRepository = vAppRepository.findAllByVdcID(vdcID);
+
+        Assertions.assertEquals(30, vAppsInRepository.size());
+
+    }
+
     @Test
     @Transactional
     void findAllVApps() {
         var entities = new ArrayList<VApp>();
-        for(int i = 0; i < 50; i++){
+        for (int i = 0; i < 50; i++) {
             var vApp = new VApp();
-            vApp.setId("qedwqr-.;."+ i);
+            vApp.setId("qedwqr-.;." + i);
             entities.add(vApp);
         }
         vAppRepository.saveAll(entities);
-        var vAppsInRepository= vAppRepository.findAll();
-        for(var vApp : vAppsInRepository){
+        var vAppsInRepository = vAppRepository.findAll();
+        for (var vApp : vAppsInRepository) {
             Assertions.assertTrue(entities.contains(vApp));
         }
     }

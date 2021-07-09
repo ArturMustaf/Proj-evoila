@@ -1,7 +1,6 @@
 package de.thbingenproj.backend.entities.repositories.util.demo_set_creator.vcloud;
 
 import de.thbingenproj.backend.entity.VDC;
-import de.thbingenproj.backend.entity.VDCComputeCapacity;
 import org.springframework.stereotype.Service;
 
 @Service

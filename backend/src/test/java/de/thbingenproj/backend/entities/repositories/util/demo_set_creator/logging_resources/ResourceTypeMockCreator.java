@@ -7,10 +7,7 @@ import de.thbingenproj.backend.entities.ressources.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 /**

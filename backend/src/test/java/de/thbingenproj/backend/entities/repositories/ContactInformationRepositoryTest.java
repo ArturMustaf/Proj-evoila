@@ -5,7 +5,6 @@ import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.user_
 import de.thbingenproj.backend.entities.user.contact_information.ContactInformation;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

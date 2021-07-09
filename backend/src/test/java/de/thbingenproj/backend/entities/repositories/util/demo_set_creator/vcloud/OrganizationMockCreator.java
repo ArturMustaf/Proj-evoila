@@ -1,6 +1,5 @@
 package de.thbingenproj.backend.entities.repositories.util.demo_set_creator.vcloud;
 
-import de.thbingenproj.backend.entity.OrgNetwork;
 import de.thbingenproj.backend.entity.Organization;
 import org.springframework.stereotype.Service;
 

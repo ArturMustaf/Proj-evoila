@@ -1,14 +1,7 @@
 package de.thbingenproj.backend.entities.repositories.util.demo_set_creator.vcloud;
 
-import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.dataset.DataCreator;
-import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.dataset.DataTypes;
-import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.user_information.ContactInformationMockCreator;
-import de.thbingenproj.backend.entities.user.Customer;
 import de.thbingenproj.backend.entity.OrgNetwork;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 public class OrgNetworkMockCreator {

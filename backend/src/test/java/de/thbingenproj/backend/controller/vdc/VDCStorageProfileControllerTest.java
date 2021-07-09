@@ -3,7 +3,6 @@ package de.thbingenproj.backend.controller.vdc;
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
-import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.vcloud.VDCMockCreator;
 import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.vcloud.VDCStorageProfileMockCreator;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.Assert;
@@ -18,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

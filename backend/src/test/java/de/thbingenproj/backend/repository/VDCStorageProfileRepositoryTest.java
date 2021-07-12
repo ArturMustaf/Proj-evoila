@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -92,13 +93,19 @@ class VDCStorageProfileRepositoryTest {
         for (int i = 0; i < 40; i++) {
             var vdcStorageProfile = new VDCStorageProfile();
             vdcStorageProfile.setVdcID(vdcId);
-            vdcStorageProfile.setId("äö-." + i);
+            boolean useLetters = true;
+            boolean useNumbers = true;
+            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            vdcStorageProfile.setId(generatedString);
             entities.add(vdcStorageProfile);
         }
         for (int i = 0; i < 10; i++) {
             var vdcStorageProfile = new VDCStorageProfile();
             vdcStorageProfile.setVdcID(i+"");
-            vdcStorageProfile.setId("test:" + i);
+            boolean useLetters = true;
+            boolean useNumbers = true;
+            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            vdcStorageProfile.setId(generatedString);
             entities.add(vdcStorageProfile);
         }
         storageProfileRepository.saveAll(entities);
@@ -114,7 +121,10 @@ class VDCStorageProfileRepositoryTest {
         var entities = new ArrayList<VDCStorageProfile>();
         for (int i = 0; i < 50; i++) {
             var vdcStorageProfile = new VDCStorageProfile();
-            vdcStorageProfile.setId("erg-." + i);
+            boolean useLetters = true;
+            boolean useNumbers = true;
+            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            vdcStorageProfile.setId(generatedString);
             entities.add(vdcStorageProfile);
         }
         storageProfileRepository.saveAll(entities);

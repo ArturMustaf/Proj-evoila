@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -79,13 +80,19 @@ class VDCRepositoryTest {
         var entities = new ArrayList<VDC>();
         for (int i = 0; i < 30; i++) {
             var vdc = new VDC();
-            vdc.setId("Test546 " + i);
+            boolean useLetters = true;
+            boolean useNumbers = true;
+            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            vdc.setId(generatedString);
             vdc.setOrgID(orgID);
             entities.add(vdc);
         }
         for (int i = 0; i < 20; i++) {
             var vdc = new VDC();
-            vdc.setId("Test " + i);
+            boolean useLetters = true;
+            boolean useNumbers = true;
+            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            vdc.setId(generatedString);
             vdc.setOrgID("f5" + i);
             entities.add(vdc);
         }
@@ -102,7 +109,10 @@ class VDCRepositoryTest {
         var entities = new ArrayList<VDC>();
         for (int i = 0; i < 50; i++) {
             var vdc = new VDC();
-            vdc.setId("Test " + i);
+            boolean useLetters = true;
+            boolean useNumbers = true;
+            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            vdc.setId(generatedString);
             entities.add(vdc);
         }
         vdcRepository.saveAll(entities);

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -89,13 +90,19 @@ class VAppRepositoryTest {
         var entities = new ArrayList<VApp>();
         for (int i = 0; i < 30; i++) {
             var vApp = new VApp();
-            vApp.setId("Test546 " + i);
+            boolean useLetters = true;
+            boolean useNumbers = true;
+            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            vApp.setId(generatedString);
             vApp.setVdcID(vdcID);
             entities.add(vApp);
         }
         for (int i = 0; i < 20; i++) {
             var vApp = new VApp();
-            vApp.setId("Test " + i);
+            boolean useLetters = true;
+            boolean useNumbers = true;
+            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            vApp.setId(generatedString);
             vApp.setVdcID("f5" + i);
             entities.add(vApp);
         }
@@ -112,7 +119,10 @@ class VAppRepositoryTest {
         var entities = new ArrayList<VApp>();
         for (int i = 0; i < 50; i++) {
             var vApp = new VApp();
-            vApp.setId("qedwqr-.;." + i);
+            boolean useLetters = true;
+            boolean useNumbers = true;
+            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            vApp.setId(generatedString);
             entities.add(vApp);
         }
         vAppRepository.saveAll(entities);

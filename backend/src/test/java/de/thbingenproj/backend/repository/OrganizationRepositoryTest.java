@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -37,8 +38,11 @@ class OrganizationRepositoryTest {
         List<Organization> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var org = new Organization();
+            boolean useLetters = true;
+            boolean useNumbers = true;
+            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
 
-            org.setId("1ÄöOtsdhj" +i);
+            org.setId(generatedString);
             entities.add(org);
         }
         organizationRepository.saveAll(entities);

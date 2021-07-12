@@ -9,12 +9,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -39,7 +37,6 @@ class SearchControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void getCustomers() throws Exception{
         mockMvc.perform(get("/search/customers/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
@@ -48,7 +45,6 @@ class SearchControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void getContactInformation() throws Exception{
         mockMvc.perform(get("/search/contact_information/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
@@ -57,7 +53,6 @@ class SearchControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void getProjects() throws Exception{
         mockMvc.perform(get("/search/projects/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
@@ -66,7 +61,6 @@ class SearchControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void getResourceType() throws Exception{
         mockMvc.perform(get("/search/resourcetypes/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
@@ -75,7 +69,6 @@ class SearchControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getCustomersWithWrongRole() throws Exception{
         mockMvc.perform(get("/search/customers/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -83,7 +76,6 @@ class SearchControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getContactInformationWithWrongRole() throws Exception{
         mockMvc.perform(get("/search/contact_information/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -91,7 +83,6 @@ class SearchControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getProjectsWithWrongRole() throws Exception{
         mockMvc.perform(get("/search/projects/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -99,35 +90,30 @@ class SearchControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getResourceTypeWithWrongRole() throws Exception{
         mockMvc.perform(get("/search/resourcetypes/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
     @Test
     void getCustomersWithNoAuth() throws Exception{
         mockMvc.perform(get("/search/customers/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     void getContactInformationWithNoAuth() throws Exception{
         mockMvc.perform(get("/search/contact_information/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     void getProjectsWithNoAuth() throws Exception{
         mockMvc.perform(get("/search/projects/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     void getResourceTypeWithNoAuth() throws Exception{
         mockMvc.perform(get("/search/resourcetypes/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 }

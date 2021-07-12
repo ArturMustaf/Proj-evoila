@@ -1,30 +1,25 @@
 package com.crawler.service;
 
-import org.junit.jupiter.api.Test;
+import com.crawler.extensions.PostgresTest;
+import org.junit.jupiter.api.Assertions;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
+import org.springframework.test.context.ContextConfiguration;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 
 
 @SpringBootTest
+@ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 class APIAuthServiceTest {
 
     static final APIAuthService authService = new APIAuthService();
 
-    @Test
-    void getBearerTokenBadRequest() {
-        Exception exception = assertThrows(WebClientResponseException.class, () -> {
-            authService.getBearerToken("falscherUsername", "falschesPasswort");
-        });
-        assertTrue(exception.getMessage().contains("400"));
+//    @Test
+//    Clientside only test
+    void getBearerToken() throws InterruptedException, TimeoutException, IOException {
+        var token = authService.getBearerToken();
+        Assertions.assertNotNull(token);
     }
 
-    @Test
-    void getBearerTokenUnauthorized() {
-        Exception exception = assertThrows(WebClientResponseException.class, () -> {
-            authService.getBearerToken("falscherUsername@test", "falschesPasswort");
-        });
-        assertTrue(exception.getMessage().contains("401"));
-    }
 }

@@ -31,4 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Logindata ###
 /src/main/resources/logindata.properties
+/src/main/resources/arangodb.properties

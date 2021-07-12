@@ -1,8 +1,6 @@
 package com.crawler.configuration;
 
 import com.crawler.extensions.PostgresTest;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;

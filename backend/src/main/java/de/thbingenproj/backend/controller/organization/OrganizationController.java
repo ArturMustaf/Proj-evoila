@@ -33,7 +33,7 @@ public class OrganizationController {
     }
 
     @GetMapping("/admin/organizations")
-    public List<Organization> getAllOrganization() {
+    public List<Organization> getAllOrganizations() {
         return this.organizationRepository.findAll();
     }
 }

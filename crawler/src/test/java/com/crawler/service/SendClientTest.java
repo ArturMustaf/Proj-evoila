@@ -1,8 +1,8 @@
 package com.crawler.service;
 
-import com.crawler.entity.*;
+import com.crawler.postgres.entity.*;
 import com.crawler.extensions.PostgresTest;
-import com.crawler.repository.*;
+import com.crawler.postgres.repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.mockwebserver.MockResponse;

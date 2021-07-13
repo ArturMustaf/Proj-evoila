@@ -1,10 +1,10 @@
 package com.crawler.service;
 
-import com.crawler.entity.*;
-import com.crawler.model.*;
-import com.crawler.record.OrgRecord;
-import com.crawler.record.VAppRecord;
-import com.crawler.repository.*;
+import com.crawler.postgres.entity.*;
+import com.crawler.postgres.model.*;
+import com.crawler.postgres.record.OrgRecord;
+import com.crawler.postgres.record.VAppRecord;
+import com.crawler.postgres.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

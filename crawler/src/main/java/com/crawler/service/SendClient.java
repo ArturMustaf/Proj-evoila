@@ -1,7 +1,7 @@
 package com.crawler.service;
 
-import com.crawler.entity.*;
-import com.crawler.repository.*;
+import com.crawler.postgres.entity.*;
+import com.crawler.postgres.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;

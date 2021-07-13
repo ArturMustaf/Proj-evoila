@@ -18,7 +18,7 @@ public class OrgNetworkController {
     @Autowired
     ModelMapper modelMapper;
 
-    @PostMapping("/create/orgNetwork")
+    @PostMapping("/create/org-networks")
     public OrgNetwork postOrgNetwork(@RequestBody OrgNetworkDTO orgNetwork){
         return this.orgNetworkRepository.save(modelMapper.map(orgNetwork, OrgNetwork.class));
     }

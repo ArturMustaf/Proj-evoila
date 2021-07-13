@@ -3,9 +3,9 @@ package de.thbingenproj.backend.controller.vdc;
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
-import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.vcloud.VDCComputeCapacityMockCreator;
+import de.thbingenproj.backend.entity.VDCComputeCapacity;
 import de.thbingenproj.backend.extensions.BeforeEvery;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,18 +33,35 @@ class VDCComputeCapacityControllerTest {
     private VDCComputeCapacityController vdcComputeCapacityController;
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private VDCComputeCapacityMockCreator vdcComputeCapacityMockCreator;
+
+    //ToDo set missing property values or delete commented out set()-methods for mock object
+    private VDCComputeCapacity createVDCComputeCapacity() {
+        VDCComputeCapacity vdcComputeCapacity = new VDCComputeCapacity();
+        vdcComputeCapacity.setId(0L);
+        vdcComputeCapacity.setCpuUnits("MHz");
+        //vdcComputeCapacity.setCpuLimit();
+        //vdcComputeCapacity.setCpuAllocated();
+        //vdcComputeCapacity.setCpuReserved();
+        //vdcComputeCapacity.setCpuUsed();
+        //vdcComputeCapacity.setMemoryUsed();
+        //vdcComputeCapacity.setMemoryLimit();
+        //vdcComputeCapacity.setMemoryAllocated();
+        //vdcComputeCapacity.setMemoryReserved();
+        //vdcComputeCapacity.setMemoryUsed();
+        //vdcComputeCapacity.setDate();
+        //vdcComputeCapacity.setVdcID();
+        return vdcComputeCapacity;
+    }
 
     @Test
     void testCreation() {
-        Assert.assertNotNull(vdcComputeCapacityController);
+        Assertions.assertNotNull(vdcComputeCapacityController);
     }
 
     @Test
     @WithMockKeycloakAuth("ROLE_admin")
     void postVDCComputeCapacity() throws Exception {
-        var vdcComputeCapacity = vdcComputeCapacityMockCreator.createVDCComputeCapacity();
+        var vdcComputeCapacity = createVDCComputeCapacity();
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(vdcComputeCapacity);
         mockMvc.perform(post("/create/vdc-compute-capacities")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
@@ -55,7 +72,7 @@ class VDCComputeCapacityControllerTest {
     @Test
     @WithMockKeycloakAuth("ROLE_user")
     void givenPostVDCComputeCapacityURIWithUserRole_whenMockMVC_thenResponseForbidden() throws Exception {
-        var vdcComputeCapacity = vdcComputeCapacityMockCreator.createVDCComputeCapacity();
+        var vdcComputeCapacity = createVDCComputeCapacity();
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(vdcComputeCapacity);
         mockMvc.perform(post("/create/vdc-compute-capacities")
                 .contentType(MediaType.APPLICATION_JSON).content(json))

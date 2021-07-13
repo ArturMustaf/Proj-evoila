@@ -3,9 +3,9 @@ package de.thbingenproj.backend.controller.vdc;
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
-import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.vcloud.VDCStorageProfileMockCreator;
+import de.thbingenproj.backend.entity.VDCStorageProfile;
 import de.thbingenproj.backend.extensions.BeforeEvery;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,18 +33,32 @@ class VDCStorageProfileControllerTest {
     private VDCStorageProfileController vdcStorageProfileController;
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private VDCStorageProfileMockCreator vdcStorageProfileMockCreator;
+
+    //ToDo set missing property values or delete commented out set()-methods for mock object
+    public VDCStorageProfile createVDCStorageProfile() {
+        VDCStorageProfile vdcStorageProfile = new VDCStorageProfile();
+        vdcStorageProfile.setId("urn:vcloud:vdcstorageProfile:eb6aacbd-f0d8-4a07-8248-1de28151e98f");
+        vdcStorageProfile.setHref("https://vcloud.example.com/api/vdcStorageProfile/eb6aacbd-f0d8-4a07-8248-1de28151e98f");
+        vdcStorageProfile.setName("profile");
+        //vdcStorageProfile.setVdcID();
+        //vdcStorageProfile.setDate();
+        vdcStorageProfile.setEnabled(Boolean.FALSE.toString());
+        vdcStorageProfile.setUnits("MB");
+        vdcStorageProfile.setMaxLimit(Long.valueOf(301).toString());
+        //vdcStorageProfile.setStorageUsedMB();
+        //vdcStorageProfile.setIopsAllocated();
+        return vdcStorageProfile;
+    }
 
     @Test
     void testCreation() {
-        Assert.assertNotNull(vdcStorageProfileController);
+        Assertions.assertNotNull(vdcStorageProfileController);
     }
 
     @Test
     @WithMockKeycloakAuth("ROLE_admin")
     void postVDCStorageProfile() throws Exception {
-        var vdcStorageProfile = vdcStorageProfileMockCreator.createVDCStorageProfile();
+        var vdcStorageProfile = createVDCStorageProfile();
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(vdcStorageProfile);
         mockMvc.perform(post("/create/vdc-storage-profiles")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
@@ -55,7 +69,7 @@ class VDCStorageProfileControllerTest {
     @Test
     @WithMockKeycloakAuth("ROLE_user")
     void givenPostVDCStorageProfileURIWithUserRole_whenMockMVC_thenResponseForbidden() throws Exception {
-        var vdcStorageProfile = vdcStorageProfileMockCreator.createVDCStorageProfile();
+        var vdcStorageProfile = createVDCStorageProfile();
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(vdcStorageProfile);
         mockMvc.perform(post("/create/vdc-storage-profiles")
                 .contentType(MediaType.APPLICATION_JSON).content(json))

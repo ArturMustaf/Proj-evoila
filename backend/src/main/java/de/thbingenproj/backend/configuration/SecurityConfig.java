@@ -101,14 +101,14 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .antMatchers("/search/**").hasRole("admin")
                 .antMatchers("/admin/**").hasRole("admin")
                 .antMatchers("/vdcs/**").hasRole("user")
-                .antMatchers("/org-networks/**").hasAnyRole("user", "admin")
-                .antMatchers("/org-users/**").hasAnyRole("user", "admin")
-                .antMatchers("/org-user-roles/**").hasAnyRole("user", "admin")
-                .antMatchers("/organizations/**").hasAnyRole("user", "admin")
-                .antMatchers("/vapps/**").hasAnyRole("user", "admin")
-                .antMatchers("/vdc-compute-capacities/**").hasAnyRole("user", "admin")
-                .antMatchers("/vdcs/**").hasAnyRole("user", "admin")
-                .antMatchers("/vdc-storage-profiles/**").hasAnyRole("user", "admin")
+                .antMatchers("/org-networks/**").hasAnyRole("user")
+                .antMatchers("/org-users/**").hasAnyRole("user")
+                .antMatchers("/org-user-roles/**").hasAnyRole("user")
+                .antMatchers("/organizations/**").hasAnyRole("user")
+                .antMatchers("/vapps/**").hasAnyRole("user")
+                .antMatchers("/vdc-compute-capacities/**").hasAnyRole("user")
+                .antMatchers("/vdcs/**").hasAnyRole("user")
+                .antMatchers("/vdc-storage-profiles/**").hasAnyRole("user")
                 .anyRequest().hasRole("user");
     }
 

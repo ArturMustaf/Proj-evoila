@@ -90,18 +90,14 @@ class VAppRepositoryTest {
         var entities = new ArrayList<VApp>();
         for (int i = 0; i < 30; i++) {
             var vApp = new VApp();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
             vApp.setId(generatedString);
             vApp.setVdcID(vdcID);
             entities.add(vApp);
         }
         for (int i = 0; i < 20; i++) {
             var vApp = new VApp();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
             vApp.setId(generatedString);
             vApp.setVdcID("f5" + i);
             entities.add(vApp);
@@ -119,9 +115,7 @@ class VAppRepositoryTest {
         var entities = new ArrayList<VApp>();
         for (int i = 0; i < 50; i++) {
             var vApp = new VApp();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
             vApp.setId(generatedString);
             entities.add(vApp);
         }

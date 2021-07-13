@@ -80,18 +80,14 @@ class VDCRepositoryTest {
         var entities = new ArrayList<VDC>();
         for (int i = 0; i < 30; i++) {
             var vdc = new VDC();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
             vdc.setId(generatedString);
             vdc.setOrgID(orgID);
             entities.add(vdc);
         }
         for (int i = 0; i < 20; i++) {
             var vdc = new VDC();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
             vdc.setId(generatedString);
             vdc.setOrgID("f5" + i);
             entities.add(vdc);
@@ -109,9 +105,7 @@ class VDCRepositoryTest {
         var entities = new ArrayList<VDC>();
         for (int i = 0; i < 50; i++) {
             var vdc = new VDC();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
             vdc.setId(generatedString);
             entities.add(vdc);
         }

@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.transaction.Transactional;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -85,7 +85,7 @@ class CustomerRepositoryTest extends PostgresTest {
         var customerReturned = customerRepository.findById(customer.getId()).orElse(null);
         byte[] array = new byte[7]; // length is bounded by 7
         new Random().nextBytes(array);
-        var generatedString = new String(array, Charset.forName("UTF-8"));
+        var generatedString = new String(array, StandardCharsets.UTF_8);
         customerReturned.setUserId(generatedString);
         customerRepository.save(customerReturned);
         assertNotEquals(contactInitialID, customer.getUserId());
@@ -121,7 +121,7 @@ class CustomerRepositoryTest extends PostgresTest {
         var customer = customerMockCreator.createUser();
         byte[] array = new byte[7]; // length is bounded by 7
         new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
+        String generatedString = new String(array, StandardCharsets.UTF_8);
         customer.setUserId(generatedString);
         customerRepository.save(customer);
         Assert.assertNotNull(customerRepository.findCustomerByUserId(generatedString));

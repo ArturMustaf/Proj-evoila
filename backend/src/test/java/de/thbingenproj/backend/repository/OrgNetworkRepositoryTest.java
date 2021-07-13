@@ -39,9 +39,7 @@ class OrgNetworkRepositoryTest {
         List<OrgNetwork> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var orgNetwork = new OrgNetwork();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
             orgNetwork.setId(generatedString);
             entities.add(orgNetwork);
         }

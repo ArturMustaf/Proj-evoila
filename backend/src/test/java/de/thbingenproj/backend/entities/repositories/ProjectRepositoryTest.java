@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.transaction.Transactional;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -79,7 +79,7 @@ class ProjectRepositoryTest {
         var customerReturned = projectRepository.findById(project.getId()).orElse(null);
         byte[] array = new byte[7]; // length is bounded by 7
         new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
+        String generatedString = new String(array, StandardCharsets.UTF_8);
         customerReturned.setName(generatedString);
         projectRepository.save(customerReturned);
         assertNotEquals(projectInitialName, project.getName());

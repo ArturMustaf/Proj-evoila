@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.transaction.Transactional;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -76,7 +76,7 @@ class ContactInformationRepositoryTest {
         var contactInformationReturned = contactInformationRepository.findById(contactInformation.getId()).orElse(null);
         byte[] array = new byte[7]; // length is bounded by 7
         new Random().nextBytes(array);
-        var generatedString = new String(array, Charset.forName("UTF-8"));
+        var generatedString = new String(array, StandardCharsets.UTF_8);
         contactInformationReturned.setEmail(generatedString);
         contactInformationRepository.save(contactInformationReturned);
         assertNotEquals(contactInitialMail, contactInformation.getEmail());

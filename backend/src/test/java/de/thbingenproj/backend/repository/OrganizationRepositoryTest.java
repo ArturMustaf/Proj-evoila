@@ -38,9 +38,7 @@ class OrganizationRepositoryTest {
         List<Organization> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var org = new Organization();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
 
             org.setId(generatedString);
             entities.add(org);

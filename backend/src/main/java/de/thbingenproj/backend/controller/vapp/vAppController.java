@@ -30,7 +30,7 @@ public class vAppController {
     }
 
     @GetMapping("/vdcs/{id}/vapps")
-    public List<VApp> getAllVAppByVdcID(@PathVariable String id) {
+    public List<VApp> getAllVAppsByVdcID(@PathVariable String id) {
         return this.vAppRepository.findAllByVdcID(id);
     }
 

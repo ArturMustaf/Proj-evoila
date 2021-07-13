@@ -76,7 +76,6 @@ class VAppControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(vApp);
         mockMvc.perform(post("/create/vapps")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -87,7 +86,6 @@ class VAppControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(vApp);
         mockMvc.perform(post("/create/vapps")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -95,7 +93,6 @@ class VAppControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getVApp() throws Exception {
         mockMvc.perform(get("/vapps/0"))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -103,7 +100,6 @@ class VAppControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getAllVAppByVdcID() throws Exception {
         mockMvc.perform(get("/vdcs/0/vapps"))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -111,7 +107,6 @@ class VAppControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void getAllVApp() throws Exception {
         mockMvc.perform(get("/admin/vapps"))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -119,7 +114,6 @@ class VAppControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void givenGetAllVAppURIWithUserRole_whenMockMVC_thenResponseForbidden() throws Exception {
         mockMvc.perform(get("/admin/vapps"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 }

@@ -65,7 +65,6 @@ class VDCComputeCapacityControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(vdcComputeCapacity);
         mockMvc.perform(post("/create/vdc-compute-capacities")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -76,7 +75,6 @@ class VDCComputeCapacityControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(vdcComputeCapacity);
         mockMvc.perform(post("/create/vdc-compute-capacities")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -84,7 +82,6 @@ class VDCComputeCapacityControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getVDCComputeCapacity() throws Exception {
         mockMvc.perform(get("/vdc-compute-capacities/0"))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -92,7 +89,6 @@ class VDCComputeCapacityControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getAllVDCComputeCapacityByVDCID() throws Exception {
         mockMvc.perform(get("/vdcs/0/vdc-compute-capacities"))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 }

@@ -56,7 +56,6 @@ class OrgNetworkControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(orgNetwork);
         mockMvc.perform(post("/create/org-networks")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -67,7 +66,6 @@ class OrgNetworkControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(orgNetwork);
         mockMvc.perform(post("/create/org-networks")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -75,7 +73,6 @@ class OrgNetworkControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getOrgNetworkByID() throws Exception {
         mockMvc.perform(get("/org-networks/0"))
-            .andDo(print())
             .andExpect(status().isOk());
     }
 
@@ -83,7 +80,6 @@ class OrgNetworkControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getAllOrgNetworkByVdcID() throws Exception {
         mockMvc.perform(get("/vdcs/0/org-networks"))
-            .andDo(print())
             .andExpect(status().isOk());
     }
 
@@ -91,7 +87,6 @@ class OrgNetworkControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void getAllOrgNetwork() throws Exception {
         mockMvc.perform(get("/admin/org-networks"))
-            .andDo(print())
             .andExpect(status().isOk());
     }
 
@@ -99,7 +94,6 @@ class OrgNetworkControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void givenGetAllOrgNetworkURIWithUserRole_whenMockMVC_thenResponseForbidden() throws Exception {
         mockMvc.perform(get("/admin/org-networks"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 }

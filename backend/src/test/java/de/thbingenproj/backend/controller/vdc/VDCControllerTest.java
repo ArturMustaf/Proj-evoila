@@ -58,7 +58,6 @@ class VDCControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(vdc);
         mockMvc.perform(post("/create/vdcs")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -69,7 +68,6 @@ class VDCControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(vdc);
         mockMvc.perform(post("/create/vdcs")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -77,7 +75,6 @@ class VDCControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getVDC() throws Exception {
         mockMvc.perform(get("/vdcs/0"))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -85,7 +82,6 @@ class VDCControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getAllVDCByOrganizationID() throws Exception {
         mockMvc.perform(get("/organizations/0/vdcs"))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 }

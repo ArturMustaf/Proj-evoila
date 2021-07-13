@@ -62,7 +62,6 @@ class VDCStorageProfileControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(vdcStorageProfile);
         mockMvc.perform(post("/create/vdc-storage-profiles")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -73,7 +72,6 @@ class VDCStorageProfileControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(vdcStorageProfile);
         mockMvc.perform(post("/create/vdc-storage-profiles")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -81,7 +79,6 @@ class VDCStorageProfileControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getVDCStorageProfile() throws Exception {
         mockMvc.perform(get("/vdc-storage-profiles/0"))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -89,7 +86,6 @@ class VDCStorageProfileControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getAllVDCStorageProfileByVdcID() throws Exception {
         mockMvc.perform(get("/vdcs/0/vdc-storage-profiles"))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 }

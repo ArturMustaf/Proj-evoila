@@ -64,7 +64,6 @@ class OrgUserControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(orgUser);
         mockMvc.perform(post("/create/org-users")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -75,7 +74,6 @@ class OrgUserControllerTest {
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(orgUser);
         mockMvc.perform(post("/create/org-users")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -83,7 +81,6 @@ class OrgUserControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getOrgUser() throws Exception {
         mockMvc.perform(get("/org-users/0"))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -91,7 +88,6 @@ class OrgUserControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getAllOrgUserByOrgID() throws Exception {
         mockMvc.perform(get("/admin/organizations/0/org-users"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -99,7 +95,6 @@ class OrgUserControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void getAllOrgUser() throws Exception {
         mockMvc.perform(get("/admin/org-users"))
-                .andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -107,7 +102,6 @@ class OrgUserControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void givenGetAllOrgUserURIWithUserRole_whenMockMVC_thenResponseForbidden() throws Exception {
         mockMvc.perform(get("/admin/org-users"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 }

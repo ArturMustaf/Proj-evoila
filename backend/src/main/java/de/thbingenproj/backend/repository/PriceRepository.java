@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.ArrayList;
 
-public interface PriceRepository extends CrudRepository <Price,Long> {
+public interface PriceRepository extends CrudRepository <Price,String> {
     ArrayList<Price> findAll();
     ArrayList<Price>findAllByVdcID(String vdcID);
 

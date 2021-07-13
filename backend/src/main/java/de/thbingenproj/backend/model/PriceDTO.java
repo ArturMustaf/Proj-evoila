@@ -8,7 +8,7 @@ import java.util.Date;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PriceDTO {
-    long id;
+    String id;
     Date start;
     Date end;
     String vdcID;

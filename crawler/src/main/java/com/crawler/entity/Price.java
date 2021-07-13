@@ -14,7 +14,7 @@ import java.util.Date;
 @Entity
 public class Price {
     @Id
-    long id;
+    String id;
     Date start;
     Date end;
     String vdcID;

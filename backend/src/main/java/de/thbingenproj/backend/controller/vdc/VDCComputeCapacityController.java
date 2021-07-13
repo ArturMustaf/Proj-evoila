@@ -23,7 +23,7 @@ public class VDCComputeCapacityController {
     }
 
     @GetMapping("/vdc-compute-capacities/{id}")
-    public VDCComputeCapacity getVDCComputeCapacity(@PathVariable long id) {
+    public VDCComputeCapacity getVDCComputeCapacities(@PathVariable long id) {
         return this.VDCComputeCapacityRepository.findById(id).orElse(null);
     }
 

@@ -29,7 +29,7 @@ public class OrgNetworkController {
     }
 
     @GetMapping("/vdcs/{id}/org-networks")
-    public List<OrgNetwork> getAllOrgNetworkByVdcID(@PathVariable String id) {
+    public List<OrgNetwork> getAllOrgNetworksByVdcID(@PathVariable String id) {
         return this.orgNetworkRepository.findAllByVdcID(id);
     }
 

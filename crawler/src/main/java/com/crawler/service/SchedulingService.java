@@ -4,8 +4,11 @@ import com.crawler.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
+@Service
 public class SchedulingService {
     //TODO add ArangoDB Bean
     @Autowired
@@ -29,10 +32,11 @@ public class SchedulingService {
     @Autowired
     VAppRepository vAppRepository;
     Logger logger = LoggerFactory.getLogger(SchedulingService.class);
+
     /**
      * Pulls all wanted Data from vCloud Director API and from ArangoDB
      */
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(cron = "1 1 * * * *")
     public void pullAllData(){
         //TODO add ArangoDB calls
         try{
@@ -49,7 +53,7 @@ public class SchedulingService {
      * Deletes actually send data to safe space
      * If sending fails keeps data and retries sending them on next call
      */
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(cron = "2 1 * * * *")
     public void sendAllData(){
         //TODO send arango data
         logger.info("Started sending all data to backend");
@@ -61,5 +65,4 @@ public class SchedulingService {
         }
         logger.info("finished sending");
     }
-
 }

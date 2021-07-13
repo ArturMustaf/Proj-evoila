@@ -8,5 +8,5 @@ import java.util.ArrayList;
 
 @RepositoryRestResource
 public interface VDCStorageProfileRepository extends CrudRepository<VDCStorageProfile, String> {
-    ArrayList<VDCStorageProfile> findAllByVdcID(String vdcID);
+    List<VDCStorageProfile> findAllByVdcID(String vdcID);
 }

@@ -35,7 +35,7 @@ public class vAppController {
     }
 
     @GetMapping("/admin/vapps")
-    public List<VApp> getAllVApp() {
+    public List<VApp> getAllVApps() {
         return this.vAppRepository.findAll();
     }
 }

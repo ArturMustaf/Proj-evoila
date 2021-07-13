@@ -5,20 +5,18 @@ import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.user_
 import de.thbingenproj.backend.entities.user.contact_information.ContactInformation;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import javax.transaction.Transactional;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @ExtendWith(BeforeEvery.class)
 @SpringBootTest
@@ -75,9 +73,7 @@ class ContactInformationRepositoryTest {
         contactInformationRepository.save(contactInformation);
         Assert.assertNotNull(contactInformationRepository.findById(contactInformation.getId()));
         var contactInformationReturned = contactInformationRepository.findById(contactInformation.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        var generatedString = new String(array, Charset.forName("UTF-8"));
+        var generatedString = RandomStringUtils.randomAlphanumeric(10);
         contactInformationReturned.setEmail(generatedString);
         contactInformationRepository.save(contactInformationReturned);
         assertNotEquals(contactInitialMail, contactInformation.getEmail());

@@ -16,7 +16,6 @@ public class APIAuthService {
             .build();
 
 
-    //TODO log for SOS-39
     public String getBearerToken() {
         try {
             var propFileName = "logindata.properties";

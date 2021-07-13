@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+/**
+ * Class to schedule the retrieval and sending of data
+ */
 @Service
 public class SchedulingService {
     //TODO add ArangoDB Bean
@@ -31,7 +34,7 @@ public class SchedulingService {
     VDCStorageProfileRepository storageProfileRepository;
     @Autowired
     VAppRepository vAppRepository;
-    Logger logger = LoggerFactory.getLogger(SchedulingService.class);
+    final Logger logger = LoggerFactory.getLogger(SchedulingService.class);
 
     /**
      * Pulls all wanted Data from vCloud Director API and from ArangoDB
@@ -49,9 +52,7 @@ public class SchedulingService {
     }
 
     /**
-     * Tries to send all data to backend
-     * Deletes actually send data to safe space
-     * If sending fails keeps data and retries sending them on next call
+     * Sends all stored data to backend
      */
     @Scheduled(cron = "2 1 * * * *")
     public void sendAllData(){

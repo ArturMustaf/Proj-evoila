@@ -36,7 +36,7 @@ public class APIClient {
     @Autowired
     VAppRepository vAppRepository;
 
-    Logger logger = LoggerFactory.getLogger(APIClient.class);
+    final Logger logger = LoggerFactory.getLogger(APIClient.class);
     static final APIAuthService authService = new APIAuthService();
 
     final WebClient client = WebClient.builder()
@@ -167,7 +167,6 @@ public class APIClient {
                 .retrieve().bodyToMono(VDCStorageProfileDTO.class)
                 .block();
     }
-
 
     public VAppRecord getAllVApps(){
         var vApps = client.get().uri("/vApps/query")

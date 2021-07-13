@@ -28,7 +28,7 @@ public class KeycloakAuthService {
     WebClient webClient = WebClient.builder()
             .baseUrl("http://hatkeinehaende.de:9080/auth/realms/TH-Bingen/protocol/openid-connect/token")
             .build();
-    Logger logger = LoggerFactory.getLogger(KeycloakAuthService.class);
+    final Logger logger = LoggerFactory.getLogger(KeycloakAuthService.class);
     /**
      * posts to keycloak and retrieves an access token for the used client
      * @return access_token

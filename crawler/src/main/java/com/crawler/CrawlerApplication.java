@@ -12,13 +12,18 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 public class CrawlerApplication {
     @Autowired
-    SchedulingService ss;
+    SchedulingService schedulingService;
     public static void main(String[] args) {
         SpringApplication.run(CrawlerApplication.class, args);
     }
+
+
+    /**
+     * Fires the scheduled pull and send methods on init
+     */
     @EventListener(ApplicationReadyEvent.class)
     public void doAfterInit() {
-        ss.pullAllData();
-        ss.sendAllData();
+        schedulingService.pullAllData();
+        schedulingService.sendAllData();
     }
 }

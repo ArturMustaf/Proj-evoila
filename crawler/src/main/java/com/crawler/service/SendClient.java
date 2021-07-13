@@ -48,8 +48,12 @@ public class SendClient {
             .baseUrl("http://hatkeinehaende.de/create")
                 .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
                 .build();
-    Logger logger = LoggerFactory.getLogger(SendClient.class);
+    final Logger logger = LoggerFactory.getLogger(SendClient.class);
 
+    /**
+     * Posts all entities of organizations that are found and deletes the actually sent entities.
+     * @return a list of sent organizations
+     */
     public List<Organization> postAllOrganizations() {
         var allOrganizations = organizationRepository.findAll();
         var postedOrganizations = new ArrayList<Organization>();
@@ -70,6 +74,10 @@ public class SendClient {
         organizationRepository.deleteAll(postedOrganizations);
         return postedOrganizations;
     }
+    /**
+     * Posts all entities of organization users that are found and deletes the actually sent entities.
+     * @return a list of sent organization users
+     */
     public List<OrgUser> postAllOrgUsers() {
         ArrayList<OrgUser> allOrgUsers =  orgUserRepository.findAll();
         var postedOrganizationUsers = new ArrayList<OrgUser>();
@@ -90,6 +98,10 @@ public class SendClient {
         orgUserRepository.deleteAll(postedOrganizationUsers);
         return postedOrganizationUsers;
     }
+    /**
+     * Posts all entities of user roles that are found and deletes the actually sent entities.
+     * @return a list of sent user roles
+     */
     public List<OrgUserRole> postAllUserRoles(){
         ArrayList<OrgUserRole> allOrgUserRoles= orgUserRoleRepository.findAll();
         var postedOrganizationUserRoles = new ArrayList<OrgUserRole>();
@@ -110,6 +122,10 @@ public class SendClient {
         orgUserRoleRepository.deleteAll(postedOrganizationUserRoles);
         return postedOrganizationUserRoles;
     }
+    /**
+     * Posts all entities of vdcs that are found and deletes the actually sent entities.
+     * @return a list of sent vdcs
+     */
     public List<VDC> postAllVDCs(){
         ArrayList<VDC> allVDCs = vdcRepository.findAll();
         var postedVDCs = new ArrayList<VDC>();
@@ -130,6 +146,10 @@ public class SendClient {
         vdcRepository.deleteAll(postedVDCs);
         return postedVDCs;
     }
+    /**
+     * Posts all entities of networks that are found and deletes the actually sent entities.
+     * @return a list of sent networks
+     */
     public List<OrgNetwork> postAllNetworks(){
         ArrayList<OrgNetwork> allOrgNetworks= orgNetworkRepository.findAll();
         var postedOrganizationNetworks = new ArrayList<OrgNetwork>();
@@ -150,6 +170,10 @@ public class SendClient {
         orgNetworkRepository.deleteAll(postedOrganizationNetworks);
         return postedOrganizationNetworks;
     }
+    /**
+     * Posts all entities of compute capacities that are found and deletes the actually sent entities.
+     * @return a list of sent compute capacities
+     */
     public List<VDCComputeCapacity> postAllComputeCapacities(){
         ArrayList<VDCComputeCapacity> allOrgComputeCapacities = computeCapacityRepository.findAll();
         var postedComputeCapacities= new ArrayList<VDCComputeCapacity>();
@@ -170,6 +194,10 @@ public class SendClient {
         computeCapacityRepository.deleteAll(postedComputeCapacities);
         return postedComputeCapacities;
     }
+    /**
+     * Posts all entities of storage profiles that are found and deletes the actually sent entities.
+     * @return a list of sent storage profiles
+     */
     public List<VDCStorageProfile> postAllStorageProfiles(){
         ArrayList<VDCStorageProfile> allStorageProfiles = storageProfileRepository.findAll();
         var postedStorageProfiles= new ArrayList<VDCStorageProfile>();
@@ -190,6 +218,10 @@ public class SendClient {
         storageProfileRepository.deleteAll(postedStorageProfiles);
         return postedStorageProfiles;
     }
+    /**
+     * Posts all entities of vapps that are found and deletes the actually sent entities.
+     * @return a list of sent vapps
+     */
     public List<VApp> postAllVApps(){
         ArrayList<VApp> allVApps = vAppRepository.findAll();
         var postedVApps = new ArrayList<VApp>();

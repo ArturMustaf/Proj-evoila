@@ -23,7 +23,7 @@ public class VDCController {
     }
 
     @GetMapping("/vdcs/{id}")
-    public VDC getVDC(@PathVariable String id) {
+    public VDC getVDCs(@PathVariable String id) {
         return this.VDCRepository.findById(id).orElse(null);
     }
 

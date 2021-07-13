@@ -29,12 +29,12 @@ public class OrgNetworkController {
     }
 
     @GetMapping("/vdcs/{id}/org-networks")
-    public List<OrgNetwork> getAllOrgNetworkByVdcID(@PathVariable String id) {
+    public List<OrgNetwork> getAllOrgNetworksByVdcID(@PathVariable String id) {
         return this.orgNetworkRepository.findAllByVdcID(id);
     }
 
     @GetMapping("/admin/org-networks")
-    public List<OrgNetwork> getAllOrgNetwork() {
+    public List<OrgNetwork> getAllOrgNetworks() {
         return this.orgNetworkRepository.findAll();
     }
 }

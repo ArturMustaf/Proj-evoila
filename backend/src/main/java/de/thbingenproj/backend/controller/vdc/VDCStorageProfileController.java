@@ -23,12 +23,12 @@ public class VDCStorageProfileController {
     }
 
     @GetMapping("/vdc-storage-profiles/{id}")
-    public VDCStorageProfile getVDCStorageProfile(@PathVariable String id) {
+    public VDCStorageProfile getVDCStorageProfiles(@PathVariable String id) {
         return this.VDCStorageProfileRepository.findById(id).orElse(null);
     }
 
     @GetMapping("/vdcs/{id}/vdc-storage-profiles")
-    public List<VDCStorageProfile> getAllVDCStorageProfileByVdcID(@PathVariable String id) {
+    public List<VDCStorageProfile> getAllVDCStorageProfilesByVdcID(@PathVariable String id) {
         return this.VDCStorageProfileRepository.findAllByVdcID(id);
     }
 }

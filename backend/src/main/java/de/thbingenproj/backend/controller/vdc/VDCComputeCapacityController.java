@@ -23,12 +23,12 @@ public class VDCComputeCapacityController {
     }
 
     @GetMapping("/vdc-compute-capacities/{id}")
-    public VDCComputeCapacity getVDCComputeCapacity(@PathVariable long id) {
+    public VDCComputeCapacity getVDCComputeCapacities(@PathVariable long id) {
         return this.VDCComputeCapacityRepository.findById(id).orElse(null);
     }
 
     @GetMapping("/vdcs/{id}/vdc-compute-capacities")
-    public List<VDCComputeCapacity> getAllVDCComputeCapacityByVDCID(@PathVariable String id) {
+    public List<VDCComputeCapacity> getAllVDCComputeCapacitiesByVDCID(@PathVariable String id) {
         return this.VDCComputeCapacityRepository.findAllByVdcID(id);
     }
 }

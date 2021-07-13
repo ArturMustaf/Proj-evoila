@@ -28,7 +28,7 @@ public class VDCController {
     }
 
     @GetMapping("/organizations/{orgID}/vdcs")
-    public List<VDC> getAllVDCByOrganizationID(@PathVariable String orgID) {
+    public List<VDC> getAllVDCsByOrganizationID(@PathVariable String orgID) {
         return this.VDCRepository.findAllByOrgID(orgID);
     }
 }

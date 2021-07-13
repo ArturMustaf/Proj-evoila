@@ -34,7 +34,7 @@ public class OrgNetworkController {
     }
 
     @GetMapping("/admin/org-networks")
-    public List<OrgNetwork> getAllOrgNetwork() {
+    public List<OrgNetwork> getAllOrgNetworks() {
         return this.orgNetworkRepository.findAll();
     }
 }

@@ -28,7 +28,7 @@ public class VDCComputeCapacityController {
     }
 
     @GetMapping("/vdcs/{id}/vdc-compute-capacities")
-    public List<VDCComputeCapacity> getAllVDCComputeCapacityByVDCID(@PathVariable String id) {
+    public List<VDCComputeCapacity> getAllVDCComputeCapacitiesByVDCID(@PathVariable String id) {
         return this.VDCComputeCapacityRepository.findAllByVdcID(id);
     }
 }

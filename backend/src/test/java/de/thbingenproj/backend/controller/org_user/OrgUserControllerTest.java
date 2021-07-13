@@ -3,9 +3,9 @@ package de.thbingenproj.backend.controller.org_user;
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
-import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.vcloud.OrgUserMockCreator;
+import de.thbingenproj.backend.entity.OrgUser;
 import de.thbingenproj.backend.extensions.BeforeEvery;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,19 +33,34 @@ class OrgUserControllerTest {
     private OrgUserController orgUserController;
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private OrgUserMockCreator orgUserMockCreator;
 
+    //ToDo set missing property values or delete commented out set()-methods for mock object
+    private OrgUser createOrgUser() {
+        OrgUser orgUser = new OrgUser();
+        orgUser.setId("id");
+        orgUser.setHref("href");
+        orgUser.setFullName("fullName");
+        orgUser.setIsEnabled(Boolean.TRUE.toString());
+        orgUser.setIsLocked(Boolean.TRUE.toString());
+        //orgUser.setName();
+        //orgUser.setEmailAddress();
+        //orgUser.setTelephone();
+        orgUser.setIsExternal(Boolean.TRUE.toString());
+        orgUser.setIsGroupRole(Boolean.TRUE.toString());
+        //orgUser.setOrgRoleID();
+        //orgUser.setOrgID();
+        return orgUser;
+    }
 
     @Test
     void testCreation() {
-        Assert.assertNotNull(orgUserController);
+        Assertions.assertNotNull(orgUserController);
     }
 
     @Test
     @WithMockKeycloakAuth("ROLE_admin")
     void postOrgUser() throws Exception {
-        var orgUser = orgUserMockCreator.createOrgUser();
+        var orgUser = createOrgUser();
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(orgUser);
         mockMvc.perform(post("/create/org-users")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
@@ -56,7 +71,7 @@ class OrgUserControllerTest {
     @Test
     @WithMockKeycloakAuth("ROLE_user")
     void givenPostOrgUserURIWithUserRole_whenMockMVC_thenResponseForbidden() throws Exception {
-        var orgUser = orgUserMockCreator.createOrgUser();
+        var orgUser = createOrgUser();
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(orgUser);
         mockMvc.perform(post("/create/org-users")
                 .contentType(MediaType.APPLICATION_JSON).content(json))

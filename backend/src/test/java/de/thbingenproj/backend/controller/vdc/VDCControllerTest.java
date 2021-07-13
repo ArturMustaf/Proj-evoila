@@ -3,9 +3,9 @@ package de.thbingenproj.backend.controller.vdc;
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
-import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.vcloud.VDCMockCreator;
+import de.thbingenproj.backend.entity.VDC;
 import de.thbingenproj.backend.extensions.BeforeEvery;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,18 +33,28 @@ class VDCControllerTest {
     private VDCController vdcController;
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private VDCMockCreator vdcMockCreator;
+
+    //ToDo set missing property values or delete commented out set()-methods for mock object
+    public VDC createVDC() {
+        VDC vdc = new VDC();
+        vdc.setId("urn:vcloud:vdc:afaafb99-228c-4838-ad07-5bf3aa649d42");
+        vdc.setName("Default vDC");
+        vdc.setHref("https://vcloud.example.com/api/vdc/afaafb99-228c-4838-ad07-5bf3aa649d42");
+        //vdc.setTasks();
+        vdc.setAllocationModel("AllocationVApp");
+        //vdc.setOrgID();
+        return vdc;
+    }
 
     @Test
     void testCreation() {
-        Assert.assertNotNull(vdcController);
+        Assertions.assertNotNull(vdcController);
     }
 
     @Test
     @WithMockKeycloakAuth("ROLE_admin")
     void postVDC() throws Exception {
-        var vdc = vdcMockCreator.createVDC();
+        var vdc = createVDC();
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(vdc);
         mockMvc.perform(post("/create/vdcs")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
@@ -55,7 +65,7 @@ class VDCControllerTest {
     @Test
     @WithMockKeycloakAuth("ROLE_user")
     void givenPostVDCComputeCapacityURIWithUserRole_whenMockMVC_thenResponseForbidden() throws Exception {
-        var vdc = vdcMockCreator.createVDC();
+        var vdc = createVDC();
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(vdc);
         mockMvc.perform(post("/create/vdcs")
                 .contentType(MediaType.APPLICATION_JSON).content(json))

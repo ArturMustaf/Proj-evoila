@@ -145,3 +145,5 @@ dist
 .idea/**/dbnavigator.xml
 
 BaseCrawler/src/main/resources/logindata.properties
+
+backend/src/test/resources/logindata.properties

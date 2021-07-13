@@ -3,6 +3,7 @@ version: '3'
 networks:
   web_backend:
   db_backend:
+  db_crawler:
 
 services:
   db:
@@ -11,6 +12,14 @@ services:
       POSTGRES_PASSWORD: 'postgres1234'
     networks:
       - db_backend
+    restart: always
+    
+  db2:
+    image: library/postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: 'postgres1234'
+    networks:
+      - db_crawler
     restart: always
 
   backend:

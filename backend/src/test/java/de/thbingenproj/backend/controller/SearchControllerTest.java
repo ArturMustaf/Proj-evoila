@@ -39,7 +39,6 @@ class SearchControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void getCustomers() throws Exception{
         mockMvc.perform(get("/search/customers/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
@@ -48,7 +47,6 @@ class SearchControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void getContactInformation() throws Exception{
         mockMvc.perform(get("/search/contact_information/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
@@ -57,7 +55,6 @@ class SearchControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void getProjects() throws Exception{
         mockMvc.perform(get("/search/projects/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
@@ -66,7 +63,6 @@ class SearchControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void getResourceType() throws Exception{
         mockMvc.perform(get("/search/resourcetypes/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
@@ -75,7 +71,6 @@ class SearchControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getCustomersWithWrongRole() throws Exception{
         mockMvc.perform(get("/search/customers/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -83,7 +78,6 @@ class SearchControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getContactInformationWithWrongRole() throws Exception{
         mockMvc.perform(get("/search/contact_information/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -91,7 +85,6 @@ class SearchControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getProjectsWithWrongRole() throws Exception{
         mockMvc.perform(get("/search/projects/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
@@ -99,35 +92,30 @@ class SearchControllerTest {
     @WithMockKeycloakAuth("ROLE_user")
     void getResourceTypeWithWrongRole() throws Exception{
         mockMvc.perform(get("/search/resourcetypes/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isForbidden());
     }
 
     @Test
     void getCustomersWithNoAuth() throws Exception{
         mockMvc.perform(get("/search/customers/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     void getContactInformationWithNoAuth() throws Exception{
         mockMvc.perform(get("/search/contact_information/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     void getProjectsWithNoAuth() throws Exception{
         mockMvc.perform(get("/search/projects/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     void getResourceTypeWithNoAuth() throws Exception{
         mockMvc.perform(get("/search/resourcetypes/test/0/10"))
-                .andDo(print())
                 .andExpect(status().isUnauthorized());
     }
 }

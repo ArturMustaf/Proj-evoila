@@ -2,10 +2,8 @@ package de.thbingenproj.backend.entities.repositories;
 
 import de.thbingenproj.backend.entities.prices.Project;
 import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
-import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.logging_resources.ResourceTypeMockCreator;
 import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.logging_resources.RessourceLogMockCreator;
 import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.user_information.ProjectMockCreator;
-import de.thbingenproj.backend.entities.user.Customer;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -20,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @ExtendWith(BeforeEvery.class)
 @SpringBootTest
@@ -98,8 +96,6 @@ class ProjectRepositoryTest {
         projectRepository.saveAll(entities);
         projectRepository.save(testEntity);
         Assert.assertNotNull(projectRepository.findAllLogs(testEntity.getId()));
-        var list = new ArrayList<>();
-        Assert.assertNotNull(list);
     }
 
     @Test

@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class CrawlerApplication {
     @Autowired
     SchedulingService schedulingService;
+
     public static void main(String[] args) {
         SpringApplication.run(CrawlerApplication.class, args);
     }

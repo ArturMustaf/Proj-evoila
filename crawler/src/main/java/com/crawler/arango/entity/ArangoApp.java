@@ -5,14 +5,19 @@ import com.arangodb.springframework.annotation.Document;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
-@Document("spaces")
+@Document("apps")
 @Data
-public class Space {
+public class ArangoApp {
     @Id
     String id;
     @ArangoId
     String arangoID;
+    String diskInMb;
+    String dt;
     String guid;
+    String instances;
+    String memoryInMb;
     String name;
     String org;
+    String space;
 }

@@ -1,4 +1,4 @@
-package com.crawler.postgres.entity;
+package de.thbingenproj.backend.entity;
 
 import lombok.Data;
 
@@ -7,12 +7,12 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class PostgresApp {
+public class App {
     @Id
     String id;
     String arangoID;
     String diskInMb;
-    String dt;
+    long dt;
     String guid;
     String instances;
     String memoryInMb;

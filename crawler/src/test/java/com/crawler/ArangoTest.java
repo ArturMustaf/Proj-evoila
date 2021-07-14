@@ -1,17 +1,12 @@
 package com.crawler;
 
-import com.crawler.arango.entity.OSB;
-import com.crawler.arango.entity.Space;
-import com.crawler.arango.repository.AppRepository;
-import com.crawler.arango.repository.OSBRepository;
-import com.crawler.arango.repository.SpaceRepository;
+import com.crawler.arango.repository.ArangoAppRepository;
+import com.crawler.arango.repository.ArangoOSBRepository;
+import com.crawler.arango.repository.ArangoSpaceRepository;
 import com.crawler.extensions.PostgresTest;
-import com.crawler.postgres.entity.PostgresApp;
-import com.crawler.postgres.entity.PostgresOSB;
-import com.crawler.postgres.entity.PostgresSpace;
-import com.crawler.postgres.repository.PostgresAppRepository;
-import com.crawler.postgres.repository.PostgresOSBRepository;
-import com.crawler.postgres.repository.PostgresSpaceRepository;
+import com.crawler.postgres.repository.AppRepository;
+import com.crawler.postgres.repository.OSBRepository;
+import com.crawler.postgres.repository.SpaceRepository;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,57 +15,39 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 
 @SpringBootTest
 @ComponentScan("com.crawler.configuration")
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 class ArangoTest {
     @Autowired
-    OSBRepository arangoOSBRepository;
+    ArangoOSBRepository arangoOSBRepository;
     @Autowired
-    AppRepository arangoAppRepository;
+    ArangoAppRepository arangoAppRepository;
     @Autowired
-    SpaceRepository arangoSpaceRepository;
+    ArangoSpaceRepository arangoSpaceRepository;
     @Autowired
-    PostgresOSBRepository postgresOSBRepository;
+    OSBRepository postgresOSBRepository;
     @Autowired
-    PostgresAppRepository postgresAppRepository;
+    AppRepository postgresAppRepository;
     @Autowired
-    PostgresSpaceRepository postgresSpaceRepository;
+    SpaceRepository postgresSpaceRepository;
     @Autowired
     ModelMapper modelMapper;
 
     @Test
     @Transactional
     void testSpaceRetrieval(){
-        var entities = new ArrayList<PostgresSpace>();
-        for(Space space: arangoSpaceRepository.findAll()){
-            entities.add(modelMapper.map(space, PostgresSpace.class));
-        }
-        postgresSpaceRepository.saveAll(entities);
-        System.out.println("OSBS: "+ postgresSpaceRepository.findAll());
     }
 
     @Test
     @Transactional
     void testOSBRetrieval(){
-        var entities = new ArrayList<PostgresOSB>();
-        for(OSB osb: arangoOSBRepository.findAll()){
-            entities.add(modelMapper.map(osb, PostgresOSB.class));
-        }
-        postgresOSBRepository.saveAll(entities);
-        System.out.println("OSBS: "+ postgresOSBRepository.findAll());
     }
 
     @Test
     @Transactional
     void testAppRetrieval(){
-        var entities = new ArrayList<PostgresApp>();
-        for(OSB osb: arangoOSBRepository.findAll()){
-            entities.add(modelMapper.map(osb, PostgresApp.class));
-        }
-        postgresAppRepository.saveAll(entities);
-        System.out.println("OSBS: "+ postgresAppRepository.findAll());
+
     }
 }

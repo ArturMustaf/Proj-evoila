@@ -1,4 +1,4 @@
-package com.crawler.postgres.entity;
+package de.thbingenproj.backend.entity;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class PostgresSpace {
+public class Space {
     @Id
     String id;
     String arangoID;

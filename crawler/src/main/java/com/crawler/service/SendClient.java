@@ -36,6 +36,12 @@ public class SendClient {
     VAppRepository vAppRepository;
     @Autowired
     KeycloakAuthService authService;
+    @Autowired
+    AppRepository appRepository;
+    @Autowired
+    SpaceRepository spaceRepository;
+    @Autowired
+    OSBRepository osbRepository;
 
     WebClient webClient = WebClient.builder()
             .baseUrl("http://hatkeinehaende.de/create")
@@ -63,6 +69,7 @@ public class SendClient {
             }
             return postedOrganizations;
     }
+
     public List<OrgUser> postAllOrgUsers(){
         ArrayList<OrgUser> allOrgUsers =  orgUserRepository.findAll();
         var postedOrganizationUsers = new ArrayList<OrgUser>();
@@ -77,6 +84,7 @@ public class SendClient {
         }
         return postedOrganizationUsers;
     }
+
     public List<OrgUserRole> postAllUserRoles(){
         ArrayList<OrgUserRole> allOrgUserRoles= orgUserRoleRepository.findAll();
         var postedOrganizationUserRoles = new ArrayList<OrgUserRole>();
@@ -91,6 +99,7 @@ public class SendClient {
         }
         return postedOrganizationUserRoles;
     }
+
     public List<VDC> postAllVDCs(){
         ArrayList<VDC> allVDCs = vdcRepository.findAll();
         var postedVDCs = new ArrayList<VDC>();
@@ -105,6 +114,7 @@ public class SendClient {
         }
         return postedVDCs;
     }
+
     public List<OrgNetwork> postAllNetworks(){
         ArrayList<OrgNetwork> allOrgNetworks= orgNetworkRepository.findAll();
         var postedOrganizationNetworks = new ArrayList<OrgNetwork>();
@@ -119,6 +129,7 @@ public class SendClient {
         }
         return postedOrganizationNetworks;
     }
+
     public List<VDCComputeCapacity> postAllComputeCapacities(){
         ArrayList<VDCComputeCapacity> allOrgComputeCapacities = computeCapacityRepository.findAll();
         var postedComputeCapacities= new ArrayList<VDCComputeCapacity>();
@@ -133,6 +144,7 @@ public class SendClient {
         }
         return postedComputeCapacities;
     }
+
     public List<VDCStorageProfile> postAllStorageProfiles(){
         ArrayList<VDCStorageProfile> allStorageProfiles = storageProfileRepository.findAll();
         var postedStorageProfiles= new ArrayList<VDCStorageProfile>();
@@ -147,6 +159,7 @@ public class SendClient {
         }
         return postedStorageProfiles;
     }
+
     public List<VApp> postAllVApps(){
         ArrayList<VApp> allVApps = vAppRepository.findAll();
         var postedVApps = new ArrayList<VApp>();
@@ -160,6 +173,54 @@ public class SendClient {
                     .block());
         }
         return postedVApps;
+    }
+
+    public List<App> postAllApps(){
+        var allApps = new ArrayList<App>();
+        allApps.addAll(appRepository.findAll());
+        var postedApps = new ArrayList<App>();
+        for (var app: allApps) {
+            postedApps.add(webClient.post()
+                    .uri("/apps")
+                    .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
+                    .body(Mono.just(app), App.class)
+                    .retrieve()
+                    .bodyToMono(App.class)
+                    .block());
+        }
+        return postedApps;
+    }
+
+    public List<OSB> postAllOSBs(){
+        var allOSBs = new ArrayList<OSB>();
+        allOSBs.addAll(osbRepository.findAll());
+        var postedOSBs = new ArrayList<OSB>();
+        for (var osb: allOSBs) {
+            postedOSBs.add(webClient.post()
+                    .uri("/osbs")
+                    .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
+                    .body(Mono.just(osb), OSB.class)
+                    .retrieve()
+                    .bodyToMono(OSB.class)
+                    .block());
+        }
+        return postedOSBs;
+    }
+
+    public List<Space> postAllSpaces(){
+        var allSpaces = new ArrayList<Space>();
+        allSpaces.addAll(spaceRepository.findAll());
+        var postedSpaces = new ArrayList<Space>();
+        for (var space: allSpaces) {
+            postedSpaces.add(webClient.post()
+                    .uri("/spaces")
+                    .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
+                    .body(Mono.just(space), Space.class)
+                    .retrieve()
+                    .bodyToMono(Space.class)
+                    .block());
+        }
+        return postedSpaces;
     }
 
 }

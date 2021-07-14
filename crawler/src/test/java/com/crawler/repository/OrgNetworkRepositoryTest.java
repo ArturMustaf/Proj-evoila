@@ -76,9 +76,7 @@ class OrgNetworkRepositoryTest {
         orgNetworkRepository.save(orgNetwork);
         Assertions.assertNotNull(orgNetworkRepository.findById(orgNetwork.getId()));
         var orgNetworkReturned = orgNetworkRepository.findById(orgNetwork.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, StandardCharsets.UTF_8);
+        String generatedString = RandomStringUtils.randomAlphanumeric(7);
         orgNetworkReturned.setName(generatedString);
         orgNetworkRepository.save(orgNetworkReturned);
         assertNotEquals(orgNetworkInitialName, orgNetworkRepository.findById(orgNetwork.getId()).orElse(null).getName());

@@ -75,9 +75,7 @@ class VDCRepositoryTest {
         vdcRepository.save(vdc);
         Assertions.assertNotNull(vdcRepository.findById(vdc.getId()));
         var vdcReturned = vdcRepository.findById(vdc.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, StandardCharsets.UTF_8);
+        String generatedString = RandomStringUtils.randomAlphanumeric(7);
         vdcReturned.setName(generatedString);
         vdcRepository.save(vdcReturned);
         assertNotEquals(vdcInitialName, vdcRepository.findById(vdc.getId()).orElse(null).getName());

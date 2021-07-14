@@ -75,9 +75,7 @@ class OrgUserRepositoryTest {
         orgUserRepository.save(orgUser);
         Assertions.assertNotNull(orgUserRepository.findById(orgUser.getId()));
         var orgUserReturned = orgUserRepository.findById(orgUser.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, StandardCharsets.UTF_8);
+        String generatedString = RandomStringUtils.randomAlphanumeric(7);
         orgUserReturned.setName(generatedString);
         orgUserRepository.save(orgUserReturned);
         assertNotEquals(orgInitialName, orgUserRepository.findById(orgUser.getId()).orElse(null).getName());

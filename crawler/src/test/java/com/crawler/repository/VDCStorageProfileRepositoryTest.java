@@ -76,9 +76,7 @@ class VDCStorageProfileRepositoryTest {
         storageProfileRepository.save(vdcStorageProfile);
         Assertions.assertNotNull(storageProfileRepository.findById(vdcStorageProfile.getId()));
         var vdcStorageProfileReturned = storageProfileRepository.findById(vdcStorageProfile.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, StandardCharsets.UTF_8);
+        String generatedString = RandomStringUtils.randomAlphanumeric(7);
         vdcStorageProfileReturned.setName(generatedString);
         storageProfileRepository.save(vdcStorageProfileReturned);
         assertNotEquals(vdcStorageProfileInitialName, storageProfileRepository.findById(vdcStorageProfile.getId()).orElse(null).getName());

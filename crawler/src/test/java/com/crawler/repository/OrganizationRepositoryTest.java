@@ -76,9 +76,7 @@ class OrganizationRepositoryTest {
         organizationRepository.save(organization);
         Assertions.assertNotNull(organizationRepository.findById(organization.getId()));
         var orgReturned = organizationRepository.findById(organization.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, StandardCharsets.UTF_8);
+        String generatedString = RandomStringUtils.randomAlphanumeric(7);
         orgReturned.setName(generatedString);
         organizationRepository.save(orgReturned);
         assertNotEquals(orgInitialName, organizationRepository.findById(organization.getId()).orElse(null).getName());

@@ -76,9 +76,7 @@ class VAppRepositoryTest {
         vAppRepository.save(vApp);
         Assertions.assertNotNull(vAppRepository.findById(vApp.getId()));
         var vAppReturned = vAppRepository.findById(vApp.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, StandardCharsets.UTF_8);
+        String generatedString = RandomStringUtils.randomAlphanumeric(7);
         vAppReturned.setName(generatedString);
         vAppRepository.save(vAppReturned);
         assertNotEquals(vAppInitialName, vAppRepository.findById(vApp.getId()).orElse(null).getName());

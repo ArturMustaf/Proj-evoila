@@ -76,9 +76,7 @@ class OrgUserRoleRoleRepositoryTest {
         orgUserRoleRepository.save(UserRole);
         Assertions.assertNotNull(orgUserRoleRepository.findById(UserRole.getId()));
         var orgUserRoleReturned = orgUserRoleRepository.findById(UserRole.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, StandardCharsets.UTF_8);
+        String generatedString = RandomStringUtils.randomAlphanumeric(7);
         orgUserRoleReturned.setName(generatedString);
         orgUserRoleRepository.save(orgUserRoleReturned);
         assertNotEquals(orgUserRoleInitialName, orgUserRoleRepository.findById(UserRole.getId()).orElse(null).getName());

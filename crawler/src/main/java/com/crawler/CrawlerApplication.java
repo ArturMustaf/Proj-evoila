@@ -24,7 +24,6 @@ public class CrawlerApplication {
      */
     @EventListener(ApplicationReadyEvent.class)
     public void doAfterInit() {
-        schedulingService.pullAllData();
-        schedulingService.sendAllData();
+        schedulingService.pullAndSendAllData();
     }
 }

@@ -37,10 +37,11 @@ public class SchedulingService {
     final Logger logger = LoggerFactory.getLogger(SchedulingService.class);
 
     /**
-     * Pulls all wanted Data from vCloud Director API and from ArangoDB
+     * <p>1. Pulls all wanted Data from vCloud Director API and from ArangoDB</p>
+     * <p>2. Sends all stored data to backend</p>
      */
     @Scheduled(cron = "1 1 * * * *")
-    public void pullAllData(){
+    public void pullAndSendAllData(){
         //TODO add ArangoDB calls
         try{
             apiClient.getAllOrgs();
@@ -49,13 +50,6 @@ public class SchedulingService {
             logger.error(e.getMessage());
         }
         logger.info("Successfully pulled all data");
-    }
-
-    /**
-     * Sends all stored data to backend
-     */
-    @Scheduled(cron = "2 1 * * * *")
-    public void sendAllData(){
         //TODO send arango data
         logger.info("Started sending all data to backend");
         try {

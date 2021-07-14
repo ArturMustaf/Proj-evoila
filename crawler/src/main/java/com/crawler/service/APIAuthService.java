@@ -1,5 +1,7 @@
 package com.crawler.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,7 +16,7 @@ public class APIAuthService {
             .baseUrl("https://vcloud.evoila.io/api")
             .defaultHeader("Accept", "application/*+JSON;version=34.0")
             .build();
-
+    final Logger logger = LoggerFactory.getLogger(APIAuthService.class);
 
     public String getBearerToken() {
         try {
@@ -38,7 +40,7 @@ public class APIAuthService {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
             return "";
         }
         return "";

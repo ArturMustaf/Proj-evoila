@@ -10,12 +10,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import javax.transaction.Transactional;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -83,9 +82,7 @@ class CustomerRepositoryTest extends PostgresTest {
         customerRepository.save(customer);
         Assert.assertNotNull(customerRepository.findById(customer.getId()));
         var customerReturned = customerRepository.findById(customer.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        var generatedString = new String(array, StandardCharsets.UTF_8);
+        var generatedString = RandomStringUtils.randomAlphanumeric(10);
         customerReturned.setUserId(generatedString);
         customerRepository.save(customerReturned);
         assertNotEquals(contactInitialID, customer.getUserId());
@@ -119,9 +116,7 @@ class CustomerRepositoryTest extends PostgresTest {
     @Transactional
     void findCustomerByUserId() {
         var customer = customerMockCreator.createUser();
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, StandardCharsets.UTF_8);
+        String generatedString = RandomStringUtils.randomAlphanumeric(10);
         customer.setUserId(generatedString);
         customerRepository.save(customer);
         Assert.assertNotNull(customerRepository.findCustomerByUserId(generatedString));

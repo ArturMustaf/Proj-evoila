@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import javax.transaction.Transactional;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +74,9 @@ class ContactInformationRepositoryTest {
         contactInformationRepository.save(contactInformation);
         Assert.assertNotNull(contactInformationRepository.findById(contactInformation.getId()));
         var contactInformationReturned = contactInformationRepository.findById(contactInformation.getId()).orElse(null);
+
         var generatedString = RandomStringUtils.randomAlphanumeric(10);
+
         contactInformationReturned.setEmail(generatedString);
         contactInformationRepository.save(contactInformationReturned);
         assertNotEquals(contactInitialMail, contactInformation.getEmail());

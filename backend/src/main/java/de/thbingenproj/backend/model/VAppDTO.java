@@ -1,0 +1,35 @@
+package de.thbingenproj.backend.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+
+
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class VAppDTO {
+    String id;
+    String href;
+    String name;
+    String description;
+    String creationDate;
+    String isAutoNature;
+    String isBusy;
+    String isDeployed;
+    String isEnabled;
+    String isExpired;
+    String isInMaintenanceMode;
+    String isPublic;
+    String memoryAllocationMB;
+    String numberOfCpus;
+    String ownerName;
+    String status;
+    String totalStorageAllocatedMb;
+    String vdcHRef;
+    String vdcName;
+    String vdcID;
+    String cpuAllocationMhz;
+    String storageKB;
+    String numberOfVMs;
+    String cpuAllocationInMhz;
+
+}

@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.Date;
 
 
 @Data
@@ -12,13 +11,15 @@ import java.util.Date;
 public class Price {
     @Id
     String id;
-    Date start;
-    Date end;
-    String vdcID;
-    //name of ressource memory, storage, cpu
-    String ressource;
+    //start date
+    long start;
+    //end date
+    long end;
+    //name of ressource e.g. memory, storage, cpu, manhour
+    String resourceID;
     //eg S,M,L
-    String ressourceSize;
-    String price;
+    String resourceSize;
+    //price in cent stored
+    long priceInCent;
 
 }

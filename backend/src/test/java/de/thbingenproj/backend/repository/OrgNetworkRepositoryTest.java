@@ -54,7 +54,7 @@ class OrgNetworkRepositoryTest {
     @Transactional
     void readOrgNetwork(){
         var orgNetwork = new OrgNetwork();
-        orgNetwork.setId("testID");
+        orgNetwork.setId(RandomStringUtils.randomAlphanumeric(10));
         orgNetworkRepository.save(orgNetwork);
         Assertions.assertNotNull(orgNetworkRepository.findById(orgNetwork.getId()));
     }
@@ -63,13 +63,13 @@ class OrgNetworkRepositoryTest {
     @Transactional
     void updateOrgNetwork(){
         var orgNetwork = new OrgNetwork();
-        orgNetwork.setName("testName");
+        orgNetwork.setName(RandomStringUtils.randomAlphanumeric(10));
         var orgNetworkInitialName = orgNetwork.getName();
-        orgNetwork.setId("testID");
+        orgNetwork.setId(RandomStringUtils.randomAlphanumeric(10));
         orgNetworkRepository.save(orgNetwork);
         Assertions.assertNotNull(orgNetworkRepository.findById(orgNetwork.getId()));
         var orgNetworkReturned = orgNetworkRepository.findById(orgNetwork.getId()).orElse(null);
-        orgNetworkReturned.setName("eg-.;-");
+        orgNetworkReturned.setName(RandomStringUtils.randomAlphanumeric(10));
         orgNetworkRepository.save(orgNetworkReturned);
         assertNotEquals(orgNetworkInitialName, orgNetworkRepository.findById(orgNetwork.getId()).orElse(null).getName());
     }

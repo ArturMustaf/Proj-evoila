@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -85,7 +86,7 @@ class VDCComputeCapacityRepositoryTest {
     @Test
     @Transactional
     void findAllVDCComputeCapacitiesByVdcID() {
-        String vdcId="vdc-ä3";
+        String vdcId= RandomStringUtils.randomAlphanumeric(10);
         var entities = new ArrayList<VDCComputeCapacity>();
         for(int i = 0; i < 20; i++){
             var vdcComputeCapacity = new VDCComputeCapacity();

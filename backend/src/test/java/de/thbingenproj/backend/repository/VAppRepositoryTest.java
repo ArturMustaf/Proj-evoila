@@ -36,7 +36,7 @@ class VAppRepositoryTest {
         List<VApp> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var vApp = new VApp();
-            vApp.setId("r-!./dÄö" + i);
+            vApp.setId(RandomStringUtils.randomAlphanumeric(10));
             entities.add(vApp);
         }
         vAppRepository.saveAll(entities);
@@ -50,7 +50,7 @@ class VAppRepositoryTest {
     @Transactional
     void readVApp() {
         var vApp = new VApp();
-        vApp.setId("testID");
+        vApp.setId(RandomStringUtils.randomAlphanumeric(10));
         vAppRepository.save(vApp);
         Assertions.assertNotNull(vAppRepository.findById(vApp.getId()));
     }
@@ -59,7 +59,7 @@ class VAppRepositoryTest {
     @Transactional
     void deleteVApp() {
         var vApp = new VApp();
-        vApp.setId("testID");
+        vApp.setId(RandomStringUtils.randomAlphanumeric(10));
         vAppRepository.save(vApp);
         Assertions.assertNotNull(vAppRepository.findById(vApp.getId()));
         vAppRepository.delete(vApp);
@@ -70,13 +70,13 @@ class VAppRepositoryTest {
     @Transactional
     void updateVApp() {
         var vApp = new VApp();
-        vApp.setName("testName");
+        vApp.setName(RandomStringUtils.randomAlphanumeric(10));
         var vAppInitialName = vApp.getName();
-        vApp.setId("testID");
+        vApp.setId(RandomStringUtils.randomAlphanumeric(10));
         vAppRepository.save(vApp);
         Assertions.assertNotNull(vAppRepository.findById(vApp.getId()));
         var vAppReturned = vAppRepository.findById(vApp.getId()).orElse(null);
-        vAppReturned.setName("d.-34ge");
+        vAppReturned.setName(RandomStringUtils.randomAlphanumeric(10));
         vAppRepository.save(vAppReturned);
         assertNotEquals(vAppInitialName, vAppRepository.findById(vApp.getId()).orElse(null).getName());
     }

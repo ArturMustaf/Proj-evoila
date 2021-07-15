@@ -4,9 +4,9 @@ import com.crawler.postgres.entity.OrgUserRole;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @RepositoryRestResource
 public interface OrgUserRoleRepository extends CrudRepository<OrgUserRole, String> {
-    ArrayList<OrgUserRole> findAll();
+    List<OrgUserRole> findAll();
 }

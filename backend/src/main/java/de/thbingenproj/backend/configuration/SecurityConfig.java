@@ -109,6 +109,9 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .antMatchers("/vdc-compute-capacities/**").hasAnyRole("user")
                 .antMatchers("/vdcs/**").hasAnyRole("user")
                 .antMatchers("/vdc-storage-profiles/**").hasAnyRole("user")
+                .antMatchers("/apps/**").hasAnyRole("user")
+                .antMatchers("/osbs/**").hasAnyRole("user")
+                .antMatchers("/spaces/**").hasAnyRole("user")
                 .anyRequest().hasRole("user");
     }
 

@@ -1,10 +1,10 @@
-package de.thbingenproj.backend.controller.org_user;
+package de.thbingenproj.backend.controller.vcloud;
 
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.thbingenproj.backend.controller.vcloud.OrgUserRoleController;
+import de.thbingenproj.backend.controller.vcloud.OrgUserController;
 import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
-import de.thbingenproj.backend.entity.OrgUserRole;
+import de.thbingenproj.backend.entity.OrgUser;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -27,80 +27,81 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 @AutoConfigureMockMvc
 @Transactional
-class OrgUserRoleControllerTest {
+class OrgUserControllerTest {
 
     @Autowired
-    private OrgUserRoleController orgUserRoleController;
+    private OrgUserController orgUserController;
     @Autowired
     private MockMvc mockMvc;
 
     //ToDo set missing property values or delete commented out set()-methods for mock object
-    private OrgUserRole createOrgUserRole() {
-        OrgUserRole orgUserRole = new OrgUserRole();
-        orgUserRole.setId("test-id");
-        //orgUserRole.setHref();
-        //orgUserRole.setName();
-        //orgUserRole.setOrgID();
-        return orgUserRole;
+    private OrgUser createOrgUser() {
+        OrgUser orgUser = new OrgUser();
+        orgUser.setId("id");
+        orgUser.setHref("href");
+        orgUser.setFullName("fullName");
+        orgUser.setIsEnabled(Boolean.TRUE.toString());
+        orgUser.setIsLocked(Boolean.TRUE.toString());
+        //orgUser.setName();
+        //orgUser.setEmailAddress();
+        //orgUser.setTelephone();
+        orgUser.setIsExternal(Boolean.TRUE.toString());
+        orgUser.setIsGroupRole(Boolean.TRUE.toString());
+        //orgUser.setOrgRoleID();
+        //orgUser.setOrgID();
+        return orgUser;
     }
 
     @Test
     void testCreation() {
-        Assertions.assertNotNull(orgUserRoleController);
+        Assertions.assertNotNull(orgUserController);
     }
 
     @Test
     @WithMockKeycloakAuth("ROLE_admin")
-    void postOrgUserRole() throws Exception {
-        var orgUserRole = createOrgUserRole();
-        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(orgUserRole);
-        mockMvc.perform(post("/create/org-user-roles")
+    void postOrgUser() throws Exception {
+        var orgUser = createOrgUser();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(orgUser);
+        mockMvc.perform(post("/create/org-users")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk());
     }
 
     @Test
     @WithMockKeycloakAuth("ROLE_user")
-    void givenPostOrgUserRoleURIWithUserRole_whenMockMVC_thenResponseForbidden() throws Exception {
-        var orgUserRole = createOrgUserRole();
-        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(orgUserRole);
-        mockMvc.perform(post("/create/org-user-roles")
+    void givenPostOrgUserURIWithUserRole_whenMockMVC_thenResponseForbidden() throws Exception {
+        var orgUser = createOrgUser();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(orgUser);
+        mockMvc.perform(post("/create/org-users")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     @WithMockKeycloakAuth("ROLE_user")
-    void getOrgUserRole() throws Exception {
-        mockMvc.perform(get("/org-user-roles/0"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    @WithMockKeycloakAuth("ROLE_admin")
-    void getAllOrgUserRoleByOrgID() throws Exception {
-        mockMvc.perform(get("/admin/organizations/0/org-user-roles"))
+    void getOrgUser() throws Exception {
+        mockMvc.perform(get("/org-users/0"))
                 .andExpect(status().isOk());
     }
 
     @Test
     @WithMockKeycloakAuth("ROLE_user")
-    void givenGetAllOrgUserRoleByOrgIDURIWithUserRole_whenMockMVC_thenResponseForbidden() throws Exception {
-        mockMvc.perform(get("/admin/organizations/0/org-user-roles"))
+    void getAllOrgUserByOrgID() throws Exception {
+        mockMvc.perform(get("/admin/organizations/0/org-users"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     @WithMockKeycloakAuth("ROLE_admin")
-    void getAllOrgUserRole() throws Exception {
-        mockMvc.perform(get("/admin/org-user-roles"))
+    void getAllOrgUser() throws Exception {
+        mockMvc.perform(get("/admin/org-users"))
                 .andExpect(status().isOk());
     }
 
     @Test
     @WithMockKeycloakAuth("ROLE_user")
-    void givenGetAllOrgUserRoleURIWithUserRole_whenMockMVC_thenResponseForbidden() throws Exception {
-        mockMvc.perform(get("/admin/org-user-roles"))
+    void givenGetAllOrgUserURIWithUserRole_whenMockMVC_thenResponseForbidden() throws Exception {
+        mockMvc.perform(get("/admin/org-users"))
                 .andExpect(status().isForbidden());
     }
 }

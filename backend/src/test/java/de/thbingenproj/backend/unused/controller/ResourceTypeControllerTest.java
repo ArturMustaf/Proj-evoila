@@ -1,4 +1,4 @@
-package de.thbingenproj.backend.controller;
+package de.thbingenproj.backend.unused.controller;
 
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
 import com.fasterxml.jackson.databind.ObjectMapper;

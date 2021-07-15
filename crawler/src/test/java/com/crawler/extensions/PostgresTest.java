@@ -6,7 +6,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 /**
- * Postgres connection to local postgress instance => useful for development
+ * Postgres connection to local postgres instance => useful for development
  */
 public abstract class PostgresTest {
     private static final PostgreSQLContainer postgres;

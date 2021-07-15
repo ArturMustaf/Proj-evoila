@@ -26,8 +26,8 @@ public class AppController {
         return this.appRepository.findById(id).orElse(null);
     }
 
-    @GetMapping("admin/apps/{id}")
-    public List<App> getAllSpaces(@PathVariable String id) {
+    @GetMapping("admin/apps")
+    public List<App> getAllSpaces() {
         return this.appRepository.findAll();
     }
 

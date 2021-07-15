@@ -11,7 +11,7 @@ public class OSBDTO {
     long dt;
     String name;
     String org;
-    String serviceOffering;
-    String servicePlan;
+    String serviceoffering;
+    String serviceplan;
     String space;
 }

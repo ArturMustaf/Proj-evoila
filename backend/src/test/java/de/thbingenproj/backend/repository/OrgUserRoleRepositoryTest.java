@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 @AutoConfigureMockMvc
-class OrgUserRoleRoleRepositoryTest {
+class OrgUserRoleRepositoryTest {
 
     @Autowired
     OrgUserRoleRepository orgUserRoleRepository;

@@ -1,7 +1,7 @@
 package com.crawler.postgres.repository;
 
-import com.crawler.postgres.entity.OrgUser;
 import com.crawler.extensions.PostgresTest;
+import com.crawler.postgres.entity.OrgUser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +10,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import javax.transaction.Transactional;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 class OrgUserRepositoryTest {
@@ -75,12 +72,10 @@ class OrgUserRepositoryTest {
         orgUserRepository.save(orgUser);
         Assertions.assertNotNull(orgUserRepository.findById(orgUser.getId()));
         var orgUserReturned = orgUserRepository.findById(orgUser.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
+        String generatedString = RandomStringUtils.randomAlphanumeric(7);
         orgUserReturned.setName(generatedString);
         orgUserRepository.save(orgUserReturned);
-        assertNotEquals(orgInitialName, orgUserRepository.findById(orgUser.getId()).orElse(null).getName());
+        Assertions.assertNotEquals(orgInitialName, orgUserRepository.findById(orgUser.getId()).orElse(null).getName());
     }
 
     @Test

@@ -2,7 +2,6 @@ package com.crawler.service;
 
 import com.crawler.arango.entity.ArangoApp;
 import com.crawler.arango.entity.ArangoOSB;
-import com.crawler.arango.entity.ArangoSpace;
 import com.crawler.arango.repository.ArangoAppRepository;
 import com.crawler.arango.repository.ArangoOSBRepository;
 import com.crawler.arango.repository.ArangoSpaceRepository;
@@ -51,14 +50,14 @@ public class ArangoService {
             .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
             .build();
 
-    void getAllArangoData(){
+    public void getAllArangoData(){
         var lastUpdate = getLastUpdate();
         retrieveAllSpaces();
         retrieveAllOSBsFromDate(lastUpdate);
         retrieveAllAppsFromDate(lastUpdate);
     }
 
-    long getLastUpdate(){
+    public long getLastUpdate(){
         long lastUpdate = 0;
         var response = webClient.get()
                 .uri("arango/lastUpdate")
@@ -80,20 +79,21 @@ public class ArangoService {
         return lastUpdate;
     }
 
-    List<Space> retrieveAllSpaces(){
+    public List<Space> retrieveAllSpaces(){
         var entities = new ArrayList<Space>();
-        for(ArangoSpace space: arangoSpaceRepository.findAll()){
+        for(var space: arangoSpaceRepository.findAll()){
             entities.add(modelMapper.map(space, Space.class));
         }
         postgresSpaceRepository.saveAll(entities);
         return entities;
     }
 
-    List<OSB> retrieveAllOSBsFromDate(long date){
+    public List<OSB> retrieveAllOSBsFromDate(long date){
         var entities = new ArrayList<OSB>();
-        var dateString = new Date(date).toString();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        var dateString = dateFormat.format(new Date(date));
         System.out.println(dateString);
-        for(ArangoOSB osb: arangoOSBRepository.findAllByDate(dateString)){
+        for(var osb: arangoOSBRepository.findAllByDate(dateString)){
             if(modelMapper.getTypeMap(ArangoOSB.class, OSB.class) == null){
                 PropertyMap<ArangoOSB, OSB> clientPropertyMap = new PropertyMap<ArangoOSB, OSB>() {
                     @Override
@@ -105,7 +105,6 @@ public class ArangoService {
             }
             var newOSB = modelMapper.map(osb, OSB.class);
             try {
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                 newOSB.setDt(dateFormat.parse(osb.getDt()).getTime());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -116,23 +115,24 @@ public class ArangoService {
         return entities;
     }
 
-    List<App> retrieveAllAppsFromDate(long date){
+    public List<App> retrieveAllAppsFromDate(long date){
         var entities = new ArrayList<App>();
-        var dateString = new Date(date).toString();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        var dateString = dateFormat.format(new Date(date));
         System.out.println(dateString);
-        for(ArangoApp app: arangoAppRepository.findAllByDate(dateString)){
+        for(var app: arangoAppRepository.findAllByDate(dateString)){
             if(modelMapper.getTypeMap(ArangoApp.class, App.class) == null){
-                PropertyMap<ArangoOSB, OSB> clientPropertyMap = new PropertyMap<ArangoOSB, OSB>() {
+                PropertyMap<ArangoApp, App> clientPropertyMap = new PropertyMap<ArangoApp, App>() {
                     @Override
                     protected void configure() {
                         skip(destination.getDt());
                     }
                 };
+
                 modelMapper.addMappings(clientPropertyMap);
             }
             var newApp = modelMapper.map(app, App.class);
             try {
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                 newApp.setDt(dateFormat.parse(app.getDt()).getTime());
             } catch (Exception e) {
                 e.printStackTrace();

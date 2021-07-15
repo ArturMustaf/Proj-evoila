@@ -1,4 +1,4 @@
-package de.thbingenproj.backend.controller.vapp;
+package de.thbingenproj.backend.controller.vcloud;
 
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
 import com.fasterxml.jackson.databind.ObjectMapper;

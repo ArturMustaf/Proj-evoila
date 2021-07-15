@@ -1,6 +1,7 @@
-package de.thbingenproj.backend.controller;
+package de.thbingenproj.backend.unused.controller;
 
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
+import de.thbingenproj.backend.controller.SearchController;
 import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.jupiter.api.Assertions;

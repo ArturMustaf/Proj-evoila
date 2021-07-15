@@ -4,9 +4,9 @@ import com.crawler.postgres.entity.VApp;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @RepositoryRestResource
 public interface VAppRepository extends CrudRepository<VApp, String> {
-    ArrayList<VApp> findAll();
+    List<VApp> findAll();
 }

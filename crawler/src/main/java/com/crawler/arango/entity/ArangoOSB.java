@@ -15,7 +15,7 @@ public class ArangoOSB {
     String dt;
     String name;
     String org;
-    String serviceOffering;
-    String servicePlan;
+    String serviceoffering;
+    String serviceplan;
     String space;
 }

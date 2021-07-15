@@ -1,9 +1,9 @@
 package de.thbingenproj.backend.services;
 
-import de.thbingenproj.backend.entities.prices.Project;
-import de.thbingenproj.backend.entities.ressources.ResourceType;
-import de.thbingenproj.backend.entities.user.Customer;
-import de.thbingenproj.backend.entities.user.contact_information.ContactInformation;
+import de.thbingenproj.backend.unused.entities.prices.Project;
+import de.thbingenproj.backend.unused.entities.ressources.ResourceType;
+import de.thbingenproj.backend.unused.entities.user.Customer;
+import de.thbingenproj.backend.unused.entities.user.contact_information.ContactInformation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.search.jpa.Search;

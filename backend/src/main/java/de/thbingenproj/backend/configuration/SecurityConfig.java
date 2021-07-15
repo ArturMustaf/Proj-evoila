@@ -99,6 +99,16 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .antMatchers("/create/**").hasRole("admin")
                 .antMatchers("/public/**").permitAll()
                 .antMatchers("/search/**").hasRole("admin")
+                .antMatchers("/admin/**").hasRole("admin")
+                .antMatchers("/vdcs/**").hasRole("user")
+                .antMatchers("/org-networks/**").hasAnyRole("user")
+                .antMatchers("/org-users/**").hasAnyRole("user")
+                .antMatchers("/org-user-roles/**").hasAnyRole("user")
+                .antMatchers("/organizations/**").hasAnyRole("user")
+                .antMatchers("/vapps/**").hasAnyRole("user")
+                .antMatchers("/vdc-compute-capacities/**").hasAnyRole("user")
+                .antMatchers("/vdcs/**").hasAnyRole("user")
+                .antMatchers("/vdc-storage-profiles/**").hasAnyRole("user")
                 .anyRequest().hasRole("user");
     }
 

@@ -1,6 +1,6 @@
 package de.thbingenproj.backend.extensions;
 
-import de.thbingenproj.backend.entities.repositories.container.ElasticTest;
+import de.thbingenproj.backend.unused.entities.repositories.container.ElasticTest;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.testcontainers.elasticsearch.ElasticsearchContainer;

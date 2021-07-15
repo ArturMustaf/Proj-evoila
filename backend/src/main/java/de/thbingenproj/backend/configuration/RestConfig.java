@@ -1,14 +1,14 @@
 package de.thbingenproj.backend.configuration;
 
-import de.thbingenproj.backend.entities.prices.Project;
-import de.thbingenproj.backend.entities.ressources.Event;
-import de.thbingenproj.backend.entities.ressources.ResourceLog;
-import de.thbingenproj.backend.entities.ressources.ResourceType;
-import de.thbingenproj.backend.entities.user.Customer;
-import de.thbingenproj.backend.entities.user.contact_information.Address;
-import de.thbingenproj.backend.entities.user.contact_information.ContactInformation;
-import de.thbingenproj.backend.entities.user.contact_information.PhoneNumber;
-import de.thbingenproj.backend.entities.user.contact_information.contact_types.Country;
+import de.thbingenproj.backend.unused.entities.prices.Project;
+import de.thbingenproj.backend.unused.entities.ressources.Event;
+import de.thbingenproj.backend.unused.entities.ressources.ResourceLog;
+import de.thbingenproj.backend.unused.entities.ressources.ResourceType;
+import de.thbingenproj.backend.unused.entities.user.Customer;
+import de.thbingenproj.backend.unused.entities.user.contact_information.Address;
+import de.thbingenproj.backend.unused.entities.user.contact_information.ContactInformation;
+import de.thbingenproj.backend.unused.entities.user.contact_information.PhoneNumber;
+import de.thbingenproj.backend.unused.entities.user.contact_information.contact_types.Country;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;

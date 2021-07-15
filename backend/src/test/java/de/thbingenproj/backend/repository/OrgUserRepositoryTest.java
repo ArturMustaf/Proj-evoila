@@ -1,6 +1,6 @@
 package de.thbingenproj.backend.repository;
 
-import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
+import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entity.OrgUser;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.jupiter.api.Assertions;
@@ -69,7 +69,7 @@ class OrgUserRepositoryTest {
         orgUserRepository.save(orgUser);
         Assertions.assertNotNull(orgUserRepository.findById(orgUser.getId()));
         var orgUserReturned = orgUserRepository.findById(orgUser.getId()).orElse(null);
-        orgUserReturned.setName("ÄöUq1,.-:");
+        orgUserReturned.setName(RandomStringUtils.randomAlphanumeric(10));
         orgUserRepository.save(orgUserReturned);
         assertNotEquals(orgInitialName, orgUserRepository.findById(orgUser.getId()).orElse(null).getName());
     }

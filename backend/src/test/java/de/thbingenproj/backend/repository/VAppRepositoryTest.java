@@ -1,6 +1,6 @@
 package de.thbingenproj.backend.repository;
 
-import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
+import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entity.VApp;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.jupiter.api.Assertions;
@@ -86,20 +86,20 @@ class VAppRepositoryTest {
     @Test
     @Transactional
     void findAllVAppsByVdcIDy() {
-        String vdcID = "!,Test-;RÄ";
         var entities = new ArrayList<VApp>();
+        var vdcID = RandomStringUtils.randomAlphanumeric(10);
         for (int i = 0; i < 30; i++) {
             var vApp = new VApp();
-            String generatedString = RandomStringUtils.random(10);
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             vApp.setId(generatedString);
             vApp.setVdcID(vdcID);
             entities.add(vApp);
         }
         for (int i = 0; i < 20; i++) {
             var vApp = new VApp();
-            String generatedString = RandomStringUtils.random(10);
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             vApp.setId(generatedString);
-            vApp.setVdcID("f5" + i);
+            vApp.setVdcID(RandomStringUtils.randomAlphanumeric(10));
             entities.add(vApp);
         }
         vAppRepository.saveAll(entities);
@@ -115,7 +115,7 @@ class VAppRepositoryTest {
         var entities = new ArrayList<VApp>();
         for (int i = 0; i < 50; i++) {
             var vApp = new VApp();
-            String generatedString = RandomStringUtils.random(10);
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             vApp.setId(generatedString);
             entities.add(vApp);
         }

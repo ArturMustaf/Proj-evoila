@@ -11,12 +11,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import javax.transaction.Transactional;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -77,9 +78,7 @@ class ProjectRepositoryTest {
         projectRepository.save(project);
         Assert.assertNotNull(projectRepository.findById(project.getId()));
         var customerReturned = projectRepository.findById(project.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
+        String generatedString = RandomStringUtils.randomAlphanumeric(10);
         customerReturned.setName(generatedString);
         projectRepository.save(customerReturned);
         assertNotEquals(projectInitialName, project.getName());

@@ -4,6 +4,8 @@ package com.crawler.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -26,7 +28,7 @@ public class KeycloakAuthService {
     WebClient webClient = WebClient.builder()
             .baseUrl("http://hatkeinehaende.de:9080/auth/realms/TH-Bingen/protocol/openid-connect/token")
             .build();
-
+    final Logger logger = LoggerFactory.getLogger(KeycloakAuthService.class);
     /**
      * posts to keycloak and retrieves an access token for the used client
      * @return access_token
@@ -47,7 +49,7 @@ public class KeycloakAuthService {
 
             var mapper = new ObjectMapper();
             MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-            formData.add("grant_type", prop.getProperty("grant_type"));
+            formData.add("grant_type", prop.getProperty("grantType"));
             formData.add("client_secret", prop.getProperty("clientSecret"));
             formData.add("client_id", prop.getProperty("clientID"));
             var response = webClient
@@ -63,11 +65,12 @@ public class KeycloakAuthService {
                 JsonNode accessToken = root.path("access_token");
                 return accessToken.toString();
             } else {
+                logger.warn("Returned access token was empty");
                 return "";
             }
         }
         catch (Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage());
             return "";
         }
     }

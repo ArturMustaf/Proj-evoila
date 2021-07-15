@@ -6,6 +6,8 @@ import com.crawler.record.OrgRecord;
 import com.crawler.record.VAppRecord;
 import com.crawler.repository.*;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -34,6 +36,7 @@ public class APIClient {
     @Autowired
     VAppRepository vAppRepository;
 
+    final Logger logger = LoggerFactory.getLogger(APIClient.class);
     static final APIAuthService authService = new APIAuthService();
 
     final WebClient client = WebClient.builder()
@@ -50,7 +53,6 @@ public class APIClient {
 
             if(entity != null){
                 var organizations = new ArrayList<Organization>();
-
                 for(OrganizationDTO organizationDTO : entity.getOrganizationRecord()){
                     var org = modelMapper.map(getOneOrgByID(getID(organizationDTO.getHref(), "org")), Organization.class);
                     organizations.add(org);
@@ -62,10 +64,9 @@ public class APIClient {
                 }
                 organizationRepository.saveAll(organizations);
             }
-
             return true;
-
         } catch (Exception e) {
+            logger.error(e.getMessage());
             return false;
         }
     }
@@ -166,7 +167,6 @@ public class APIClient {
                 .retrieve().bodyToMono(VDCStorageProfileDTO.class)
                 .block();
     }
-
 
     public VAppRecord getAllVApps(){
         var vApps = client.get().uri("/vApps/query")

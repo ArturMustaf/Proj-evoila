@@ -48,7 +48,6 @@ class SendClientTest {
     @Autowired
     ObjectMapper objectMapper;
 
-
     public static MockWebServer mockServer;
     @BeforeAll
     static void setUp() throws IOException {
@@ -95,7 +94,7 @@ class SendClientTest {
                     .setHeader("Content-Type", "application/json")
                     .setBody(objectMapper.writeValueAsString(org)));
         }
-        Assertions.assertIterableEquals(sendClient.postAllOrganizations(),organizations);
+        Assertions.assertIterableEquals(organizations,sendClient.postAllOrganizations());
     }
 
     @Test

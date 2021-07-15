@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import javax.transaction.Transactional;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -76,9 +76,7 @@ class OrgUserRoleRoleRepositoryTest {
         orgUserRoleRepository.save(UserRole);
         Assertions.assertNotNull(orgUserRoleRepository.findById(UserRole.getId()));
         var orgUserRoleReturned = orgUserRoleRepository.findById(UserRole.getId()).orElse(null);
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        String generatedString = new String(array, Charset.forName("UTF-8"));
+        String generatedString = RandomStringUtils.randomAlphanumeric(7);
         orgUserRoleReturned.setName(generatedString);
         orgUserRoleRepository.save(orgUserRoleReturned);
         assertNotEquals(orgUserRoleInitialName, orgUserRoleRepository.findById(UserRole.getId()).orElse(null).getName());

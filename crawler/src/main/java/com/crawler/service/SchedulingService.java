@@ -1,39 +1,25 @@
 package com.crawler.service;
 
-import com.crawler.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
 /**
  * Class to schedule the retrieval and sending of data
  */
-@Service
+@Configuration
+@EnableScheduling
 public class SchedulingService {
-    //TODO add ArangoDB Bean
     @Autowired
     APIClient apiClient;
     @Autowired
     SendClient sendClient;
     @Autowired
-    OrganizationRepository organizationRepository;
-    @Autowired
-    OrgUserRepository orgUserRepository;
-    @Autowired
-    OrgUserRoleRepository orgUserRoleRepository;
-    @Autowired
-    OrgNetworkRepository orgNetworkRepository;
-    @Autowired
-    VDCRepository vdcRepository;
-    @Autowired
-    VDCComputeCapacityRepository computeCapacityRepository;
-    @Autowired
-    VDCStorageProfileRepository storageProfileRepository;
-    @Autowired
-    VAppRepository vAppRepository;
+    ArangoService arangoService;
+
     final Logger logger = LoggerFactory.getLogger(SchedulingService.class);
 
     /**
@@ -42,22 +28,15 @@ public class SchedulingService {
      */
     @Scheduled(cron = "1 1 * * * *")
     public void pullAndSendAllData(){
-        //TODO add ArangoDB calls
-        try{
-            apiClient.getAllOrgs();
-        }
-        catch (Exception e){
-            logger.error(e.getMessage());
-        }
-        logger.info("Successfully pulled all data");
-        //TODO send arango data
+        logger.info("Starting to pull vCloud data");
+        logger.info("Starting to pull vCloud data");
+        apiClient.getAllOrgs();
+        logger.info("Successfully pulled all vCloud data");
+        logger.info("Starting to pull cloud foundry data");
+        arangoService.getAllArangoData();
+        logger.info("Successfully pulled all cloud foundry data");
         logger.info("Started sending all data to backend");
-        try {
-            sendClient.sendAll();
-        }
-        catch (Exception e) {
-            logger.error(e.getMessage());
-        }
+        sendClient.sendAll();
         logger.info("finished sending");
     }
 }

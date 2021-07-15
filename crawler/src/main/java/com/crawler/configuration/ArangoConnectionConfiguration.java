@@ -4,6 +4,7 @@ import com.arangodb.ArangoDB;
 import com.arangodb.springframework.annotation.EnableArangoRepositories;
 import com.arangodb.springframework.config.ArangoConfiguration;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 /**
@@ -15,7 +16,8 @@ import org.springframework.context.annotation.Configuration;
  * arangodb.password=
  */
 @Configuration
-@EnableArangoRepositories
+@EnableArangoRepositories(basePackages = "com.crawler.arango")
+@EnableJpaRepositories(basePackages = "com.crawler.postgres")
 public class ArangoConnectionConfiguration implements ArangoConfiguration {
     @Override
     public ArangoDB.Builder arango() {

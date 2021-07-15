@@ -26,8 +26,18 @@ public class AppController {
         return this.appRepository.findById(id).orElse(null);
     }
 
+    @GetMapping("organizations/{id}/apps")
+    public List<App> getAllAppsByOrg(@PathVariable String id) {
+        return this.appRepository.findAllByOrg(id);
+    }
+
+    @GetMapping("spaces/{id}/apps")
+    public List<App> getAllAppBySpace(@PathVariable String id) {
+        return this.appRepository.findAllBySpace(id);
+    }
+
     @GetMapping("admin/apps")
-    public List<App> getAllSpaces() {
+    public List<App> getAllApps() {
         return this.appRepository.findAll();
     }
 

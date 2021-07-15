@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class VAppControllerTest {
 
     @Autowired
-    private de.thbingenproj.backend.controller.vcloud.vAppController vAppController;
+    private de.thbingenproj.backend.controller.vcloud.VAppController vAppController;
     @Autowired
     private MockMvc mockMvc;
 

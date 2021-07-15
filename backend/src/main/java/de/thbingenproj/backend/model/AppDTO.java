@@ -2,11 +2,8 @@ package de.thbingenproj.backend.model;
 
 import lombok.Data;
 
-import javax.persistence.Id;
-
 @Data
 public class AppDTO {
-    @Id
     String id;
     String arangoID;
     String diskInMb;

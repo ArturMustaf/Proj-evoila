@@ -12,23 +12,23 @@ import java.util.List;
 @RestController
 public class VDCController {
     @Autowired
-    private VDCRepository VDCRepository;
+    private VDCRepository vdcRepository;
 
     @Autowired
     ModelMapper modelMapper;
 
     @PostMapping("/create/vdcs")
-    public VDC postVDC(@RequestBody VDCDTO VDC){
-        return this.VDCRepository.save(modelMapper.map(VDC, VDC.class));
+    public VDC postVDC(@RequestBody VDCDTO vdc){
+        return this.vdcRepository.save(modelMapper.map(vdc, VDC.class));
     }
 
     @GetMapping("/vdcs/{id}")
     public VDC getVDCs(@PathVariable String id) {
-        return this.VDCRepository.findById(id).orElse(null);
+        return this.vdcRepository.findById(id).orElse(null);
     }
 
     @GetMapping("/organizations/{orgID}/vdcs")
     public List<VDC> getAllVDCsByOrganizationID(@PathVariable String orgID) {
-        return this.VDCRepository.findAllByOrgID(orgID);
+        return this.vdcRepository.findAllByOrgID(orgID);
     }
 }

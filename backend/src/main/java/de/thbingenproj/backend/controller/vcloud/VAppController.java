@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class vAppController {
+public class VAppController {
     @Autowired
     VAppRepository vAppRepository;
 

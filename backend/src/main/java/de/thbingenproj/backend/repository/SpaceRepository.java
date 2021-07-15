@@ -9,4 +9,5 @@ import java.util.List;
 @RepositoryRestResource
 public interface SpaceRepository extends CrudRepository<Space, String> {
     List<Space> findAll();
+    List<Space> findAllByOrg(String org);
 }

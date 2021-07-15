@@ -26,8 +26,13 @@ public class SpaceController {
         return this.spaceRepository.findById(id).orElse(null);
     }
 
-    @GetMapping("admin/spaces/{id}")
-    public List<Space> getAllSpaces(@PathVariable String id) {
+    @GetMapping("organizations/{id}/spaces")
+    public List<Space> getAllSpacesByOrg(@PathVariable String id) {
+        return this.spaceRepository.findAllByOrg(id);
+    }
+
+    @GetMapping("admin/spaces")
+    public List<Space> getAllSpaces() {
         return this.spaceRepository.findAll();
     }
 }

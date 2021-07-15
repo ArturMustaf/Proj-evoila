@@ -12,23 +12,23 @@ import java.util.List;
 @RestController
 public class VDCStorageProfileController {
     @Autowired
-    VDCStorageProfileRepository VDCStorageProfileRepository;
+    VDCStorageProfileRepository vdcStorageProfileRepository;
 
     @Autowired
     ModelMapper modelMapper;
 
     @PostMapping("/create/vdc-storage-profiles")
     public VDCStorageProfile postVDCStorageProfile(@RequestBody VDCStorageProfileDTO vdcStorageProfile){
-        return this.VDCStorageProfileRepository.save(modelMapper.map(vdcStorageProfile, VDCStorageProfile.class));
+        return this.vdcStorageProfileRepository.save(modelMapper.map(vdcStorageProfile, VDCStorageProfile.class));
     }
 
     @GetMapping("/vdc-storage-profiles/{id}")
     public VDCStorageProfile getVDCStorageProfiles(@PathVariable String id) {
-        return this.VDCStorageProfileRepository.findById(id).orElse(null);
+        return this.vdcStorageProfileRepository.findById(id).orElse(null);
     }
 
     @GetMapping("/vdcs/{id}/vdc-storage-profiles")
     public List<VDCStorageProfile> getAllVDCStorageProfilesByVdcID(@PathVariable String id) {
-        return this.VDCStorageProfileRepository.findAllByVdcID(id);
+        return this.vdcStorageProfileRepository.findAllByVdcID(id);
     }
 }

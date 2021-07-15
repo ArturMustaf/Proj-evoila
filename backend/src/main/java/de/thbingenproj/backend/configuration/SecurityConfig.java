@@ -89,30 +89,20 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
+        final var ADMIN = "admin";
+        final var USER = "user";
         // TODO Remove csrf disable => needed currently for post / put mappings
         http.cors().configurationSource(corsConfigurationSource()).and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .sessionAuthenticationStrategy(sessionAuthenticationStrategy())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/costs/**").hasRole("user")
-                .antMatchers("/create/**").hasRole("admin")
                 .antMatchers("/public/**").permitAll()
-                .antMatchers("/search/**").hasRole("admin")
-                .antMatchers("/admin/**").hasRole("admin")
-                .antMatchers("/vdcs/**").hasRole("user")
-                .antMatchers("/org-networks/**").hasAnyRole("user")
-                .antMatchers("/org-users/**").hasAnyRole("user")
-                .antMatchers("/org-user-roles/**").hasAnyRole("user")
-                .antMatchers("/organizations/**").hasAnyRole("user")
-                .antMatchers("/vapps/**").hasAnyRole("user")
-                .antMatchers("/vdc-compute-capacities/**").hasAnyRole("user")
-                .antMatchers("/vdcs/**").hasAnyRole("user")
-                .antMatchers("/vdc-storage-profiles/**").hasAnyRole("user")
-                .antMatchers("/apps/**").hasAnyRole("user")
-                .antMatchers("/osbs/**").hasAnyRole("user")
-                .antMatchers("/spaces/**").hasAnyRole("user")
-                .anyRequest().hasRole("user");
+                .antMatchers("/search/**").hasRole(ADMIN)
+                .antMatchers("/admin/**").hasRole(ADMIN)
+                .antMatchers("/arango/**").hasRole(ADMIN)
+                .antMatchers("/create/**").hasRole(ADMIN)
+                .anyRequest().hasRole(USER);
     }
 
     @Bean

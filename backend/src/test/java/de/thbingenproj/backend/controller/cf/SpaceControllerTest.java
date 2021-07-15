@@ -14,9 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -41,6 +41,7 @@ class SpaceControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void postSpace() throws Exception {
         var space = new Space();
+        space.setId(RandomStringUtils.randomAlphanumeric(10));
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(space);
         mockMvc.perform(post("/create/spaces")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
@@ -48,7 +49,7 @@ class SpaceControllerTest {
     }
 
     @Test
-    @WithMockKeycloakAuth("ROLE_admin")
+    @WithMockKeycloakAuth("ROLE_user")
     void getSpace() throws Exception{
         mockMvc.perform(get("/spaces/0"))
                 .andExpect(status().isOk())
@@ -65,6 +66,14 @@ class SpaceControllerTest {
 
     @Test
     @WithMockKeycloakAuth("ROLE_user")
+    void getAllSpacesByOrg() throws Exception {
+        mockMvc.perform(get("/organizations/0/spaces"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("")));
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
     void postSpaceWithWrongRole() throws Exception {
         var space = new Space();
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(space);
@@ -74,18 +83,24 @@ class SpaceControllerTest {
     }
 
     @Test
-    @WithMockKeycloakAuth("ROLE_user")
+    @WithMockKeycloakAuth("ROLE_admin")
     void getSpaceWithWrongRole() throws Exception{
         mockMvc.perform(get("/spaces/0"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    @WithMockKeycloakAuth("ROLE_admin")
+    @WithMockKeycloakAuth("ROLE_user")
     void getAllSpacesWithWrongRole() throws Exception{
         mockMvc.perform(get("/admin/spaces"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("")));
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_admin")
+    void getAllSpacesByOrgWithWrongRole() throws Exception {
+        mockMvc.perform(get("/organizations/0/spaces"))
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -106,7 +121,12 @@ class SpaceControllerTest {
     @Test
     void getAllSpacesWithNoAuth() throws Exception{
         mockMvc.perform(get("/admin/spaces"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("")));
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void getAllSpacesByOrgWithNoAuth() throws Exception {
+        mockMvc.perform(get("/organizations/0/spaces"))
+                .andExpect(status().isUnauthorized());
     }
 }

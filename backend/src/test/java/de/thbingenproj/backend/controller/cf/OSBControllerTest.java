@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -40,6 +41,7 @@ class OSBControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void postOSB() throws Exception {
         var osb = new OSB();
+        osb.setId(RandomStringUtils.randomAlphanumeric(10));
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(osb);
         mockMvc.perform(post("/create/osbs")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
@@ -47,7 +49,7 @@ class OSBControllerTest {
     }
 
     @Test
-    @WithMockKeycloakAuth("ROLE_admin")
+    @WithMockKeycloakAuth("ROLE_user")
     void getOSB() throws Exception{
         mockMvc.perform(get("/osbs/0"))
                 .andExpect(status().isOk())
@@ -64,6 +66,22 @@ class OSBControllerTest {
 
     @Test
     @WithMockKeycloakAuth("ROLE_user")
+    void getAllOSBsByOrg() throws Exception {
+        mockMvc.perform(get("/organizations/0/osbs"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("")));
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void getAllOSBsBySpace() throws Exception {
+        mockMvc.perform(get("/spaces/0/osbs"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("")));
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
     void postOSBWithWrongRole() throws Exception {
         var osb = new OSB();
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(osb);
@@ -73,18 +91,31 @@ class OSBControllerTest {
     }
 
     @Test
-    @WithMockKeycloakAuth("ROLE_user")
+    @WithMockKeycloakAuth("ROLE_admin")
     void getOSBWithWrongRole() throws Exception{
         mockMvc.perform(get("/osbs/0"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    @WithMockKeycloakAuth("ROLE_admin")
+    @WithMockKeycloakAuth("ROLE_user")
     void getAllOSBsWithWrongRole() throws Exception{
         mockMvc.perform(get("/admin/osbs"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("")));
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_admin")
+    void getAllOSBsByOrgWithWrongRole() throws Exception {
+        mockMvc.perform(get("/organizations/0/osbs"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_admin")
+    void getAllOSBsBySpaceWithWrongRole() throws Exception {
+        mockMvc.perform(get("/spaces/0/osbs"))
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -105,7 +136,18 @@ class OSBControllerTest {
     @Test
     void getAllOSBsWithNoAuth() throws Exception{
         mockMvc.perform(get("/admin/osbs"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("")));
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void getAllOSBsByOrgWithNoAuth() throws Exception {
+        mockMvc.perform(get("/organizations/0/osbs"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void getAllOSBsBySpaceWithNoAuth() throws Exception {
+        mockMvc.perform(get("/spaces/0/osbs"))
+                .andExpect(status().isUnauthorized());
     }
 }

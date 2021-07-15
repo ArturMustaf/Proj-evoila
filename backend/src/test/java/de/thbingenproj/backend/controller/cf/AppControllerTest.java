@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -39,6 +40,7 @@ class AppControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void postApp() throws Exception {
         var app = new App();
+        app.setId(RandomStringUtils.randomAlphanumeric(10));
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(app);
         mockMvc.perform(post("/create/apps")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
@@ -46,7 +48,7 @@ class AppControllerTest {
     }
 
     @Test
-    @WithMockKeycloakAuth("ROLE_admin")
+    @WithMockKeycloakAuth("ROLE_user")
     void getApp() throws Exception{
         mockMvc.perform(get("/apps/0"))
                 .andExpect(status().isOk())
@@ -60,7 +62,23 @@ class AppControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
-    
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void getAllAppsByOrg() throws Exception {
+        mockMvc.perform(get("/organizations/0/apps"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("")));
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void getAllAppsBySpace() throws Exception {
+        mockMvc.perform(get("/spaces/0/apps"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("")));
+    }
+
     @Test
     @WithMockKeycloakAuth("ROLE_user")
     void postAppWithWrongRole() throws Exception {
@@ -72,18 +90,31 @@ class AppControllerTest {
     }
 
     @Test
-    @WithMockKeycloakAuth("ROLE_user")
+    @WithMockKeycloakAuth("ROLE_admin")
     void getAppWithWrongRole() throws Exception{
         mockMvc.perform(get("/apps/0"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    @WithMockKeycloakAuth("ROLE_admin")
+    @WithMockKeycloakAuth("ROLE_user")
     void getAllAppsWithWrongRole() throws Exception{
         mockMvc.perform(get("/admin/apps"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("")));
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_admin")
+    void getAllAppsByOrgWithWrongRole() throws Exception {
+        mockMvc.perform(get("/organizations/0/apps"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_admin")
+    void getAllAppsBySpaceWithWrongRole() throws Exception {
+        mockMvc.perform(get("/spaces/0/apps"))
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -104,7 +135,19 @@ class AppControllerTest {
     @Test
     void getAllAppsWithNoAuth() throws Exception{
         mockMvc.perform(get("/admin/apps"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("")));
+                .andExpect(status().isUnauthorized());
     }
+
+    @Test
+    void getAllAppsByOrgWithNoAuth() throws Exception {
+        mockMvc.perform(get("/organizations/0/apps"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void getAllAppsBySpaceWithNoAuth() throws Exception {
+        mockMvc.perform(get("/spaces/0/apps"))
+                .andExpect(status().isUnauthorized());
+    }
+
 }

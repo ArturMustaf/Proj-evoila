@@ -162,7 +162,7 @@ public class SearchService {
             fullTextQuery.setFirstResult(from);
             fullTextQuery.setMaxResults(size);
 
-            return new SearchResult<>((List<ContactInformation>) fullTextQuery.getResultList(), fullTextQuery.getResultSize());
+            return new SearchResult<>(fullTextQuery.getResultList(), fullTextQuery.getResultSize());
         }
         var dataQuery = qb.keyword()
                 .onFields("email", "numbers.number")
@@ -185,7 +185,7 @@ public class SearchService {
         fullTextQuery.setFirstResult(from);
         fullTextQuery.setMaxResults(size);
 
-        return new SearchResult<>((List<ContactInformation>) fullTextQuery.getResultList(), fullTextQuery.getResultSize());
+        return new SearchResult<>(fullTextQuery.getResultList(), fullTextQuery.getResultSize());
     }
 
     /**
@@ -210,7 +210,7 @@ public class SearchService {
             fullTextQuery.setFirstResult(from);
             fullTextQuery.setMaxResults(size);
 
-            return new SearchResult<>((List<ResourceType>) fullTextQuery.getResultList(), fullTextQuery.getResultSize());
+            return new SearchResult<>(fullTextQuery.getResultList(), fullTextQuery.getResultSize());
         }
         var dataQuery = qb.keyword()
                 .onFields("type", "shortDescription", "fullDescription")
@@ -224,7 +224,7 @@ public class SearchService {
         fullTextQuery.setFirstResult(from);
         fullTextQuery.setMaxResults(size);
 
-        return new SearchResult<>((List<ResourceType>) fullTextQuery.getResultList(), fullTextQuery.getResultSize());
+        return new SearchResult<>(fullTextQuery.getResultList(), fullTextQuery.getResultSize());
     }
 
 }

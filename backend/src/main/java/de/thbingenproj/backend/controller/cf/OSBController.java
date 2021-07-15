@@ -22,12 +22,22 @@ public class OSBController {
     }
 
     @GetMapping("osbs/{id}")
-    public OSB getSpace(@PathVariable String id) {
+    public OSB getOSB(@PathVariable String id) {
         return this.osbRepository.findById(id).orElse(null);
     }
 
-    @GetMapping("admin/osbs/{id}")
-    public List<OSB> getAllSpaces(@PathVariable String id) {
+    @GetMapping("organizations/{id}/osbs")
+    public List<OSB> getAllOSBsByOrg(@PathVariable String id) {
+        return this.osbRepository.findAllByOrg(id);
+    }
+
+    @GetMapping("spaces/{id}/osbs")
+    public List<OSB> getAllOSBsBySpace(@PathVariable String id) {
+        return this.osbRepository.findAllBySpace(id);
+    }
+
+    @GetMapping("admin/osbs")
+    public List<OSB> getAllOSBs() {
         return this.osbRepository.findAll();
     }
 }

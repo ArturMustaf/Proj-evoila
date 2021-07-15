@@ -26,15 +26,11 @@ public class ArangoController {
         try {
             var osb = osbRepository.findTopByOrderByDtDesc();
             var app = appRepository.findTopByOrderByDtDesc();
-            if(osb != null){
-                if (lastUpdate < osb.getDt()){
-                    lastUpdate = osb.getDt();
-                }
+            if(osb != null && (lastUpdate < osb.getDt())){
+                lastUpdate = osb.getDt();
             }
-            if(app != null){
-                if (lastUpdate < app.getDt()) {
-                    lastUpdate = app.getDt();
-                }
+            if(app != null && (lastUpdate < app.getDt())){
+                lastUpdate = app.getDt();
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -15,6 +15,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -44,6 +46,7 @@ public class ArangoService {
     ModelMapper modelMapper;
     @Autowired
     KeycloakAuthService authService;
+    final Logger logger = LoggerFactory.getLogger(ArangoService.class);
 
     WebClient webClient = WebClient.builder()
             .baseUrl("http://hatkeinehaende.de/")
@@ -73,7 +76,7 @@ public class ArangoService {
                 JsonNode update = root.path("lastUpdate");
                 lastUpdate = Long.parseLong(update.toString());
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
         }
         return lastUpdate;
@@ -92,7 +95,6 @@ public class ArangoService {
         var entities = new ArrayList<OSB>();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         var dateString = dateFormat.format(new Date(date));
-        System.out.println(dateString);
         for(var osb: arangoOSBRepository.findAllByDate(dateString)){
             if(modelMapper.getTypeMap(ArangoOSB.class, OSB.class) == null){
                 PropertyMap<ArangoOSB, OSB> clientPropertyMap = new PropertyMap<ArangoOSB, OSB>() {
@@ -119,7 +121,6 @@ public class ArangoService {
         var entities = new ArrayList<App>();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         var dateString = dateFormat.format(new Date(date));
-        System.out.println(dateString);
         for(var app: arangoAppRepository.findAllByDate(dateString)){
             if(modelMapper.getTypeMap(ArangoApp.class, App.class) == null){
                 PropertyMap<ArangoApp, App> clientPropertyMap = new PropertyMap<ArangoApp, App>() {
@@ -135,7 +136,7 @@ public class ArangoService {
             try {
                 newApp.setDt(dateFormat.parse(app.getDt()).getTime());
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e.getMessage());
             }
             entities.add(newApp);
         }

@@ -12,23 +12,23 @@ import java.util.List;
 @RestController
 public class VDCComputeCapacityController {
     @Autowired
-    VDCComputeCapacityRepository VDCComputeCapacityRepository;
+    VDCComputeCapacityRepository vdcComputeCapacityRepository;
 
     @Autowired
     ModelMapper modelMapper;
 
     @PostMapping("/create/vdc-compute-capacities")
-    public VDCComputeCapacity postVDCComputeCapacity(@RequestBody VDCComputeCapacityDTO VDCComputeCapacity){
-        return this.VDCComputeCapacityRepository.save(modelMapper.map(VDCComputeCapacity, VDCComputeCapacity.class));
+    public VDCComputeCapacity postVDCComputeCapacity(@RequestBody VDCComputeCapacityDTO vdcComputeCapacity){
+        return this.vdcComputeCapacityRepository.save(modelMapper.map(vdcComputeCapacity, VDCComputeCapacity.class));
     }
 
     @GetMapping("/vdc-compute-capacities/{id}")
     public VDCComputeCapacity getVDCComputeCapacities(@PathVariable long id) {
-        return this.VDCComputeCapacityRepository.findById(id).orElse(null);
+        return this.vdcComputeCapacityRepository.findById(id).orElse(null);
     }
 
     @GetMapping("/vdcs/{id}/vdc-compute-capacities")
     public List<VDCComputeCapacity> getAllVDCComputeCapacitiesByVDCID(@PathVariable String id) {
-        return this.VDCComputeCapacityRepository.findAllByVdcID(id);
+        return this.vdcComputeCapacityRepository.findAllByVdcID(id);
     }
 }

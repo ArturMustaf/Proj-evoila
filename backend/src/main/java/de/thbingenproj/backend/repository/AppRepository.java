@@ -10,4 +10,6 @@ import java.util.List;
 public interface AppRepository extends CrudRepository<App, String> {
     App findTopByOrderByDtDesc();
     List<App> findAll();
+    List<App> findAllByOrg(String org);
+    List<App> findAllBySpace(String space);
 }

@@ -16,6 +16,7 @@ import java.util.Map;
  * Class to generate testing data for Events
  */
 public class EventMockCreator {
+    @Autowired
     DataCreator creator;
     Map<EventType, Event> events = new HashMap<>();
 

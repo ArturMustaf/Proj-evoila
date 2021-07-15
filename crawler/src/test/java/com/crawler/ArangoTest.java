@@ -9,6 +9,7 @@ import com.crawler.postgres.repository.OSBRepository;
 import com.crawler.postgres.repository.SpaceRepository;
 import com.crawler.service.ArangoService;
 import com.crawler.service.SchedulingService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
-
-import javax.transaction.Transactional;
 
 @SpringBootTest
 @ComponentScan("com.crawler.configuration")
@@ -42,23 +41,35 @@ class ArangoTest {
     ArangoService arangoService;
 
     @Test
-    @Transactional
-    void testSpaceRetrieval(){
-        arangoService.retrieveAllSpaces();
-        System.out.println(postgresSpaceRepository.findAll());
+    void testCreation(){
+        Assertions.assertNotNull(arangoAppRepository);
+        Assertions.assertNotNull(arangoService);
+        Assertions.assertNotNull(arangoOSBRepository);
+        Assertions.assertNotNull(arangoSpaceRepository);
+        Assertions.assertNotNull(postgresAppRepository);
+        Assertions.assertNotNull(postgresOSBRepository);
+        Assertions.assertNotNull(postgresSpaceRepository);
+        Assertions.assertNotNull(modelMapper);
     }
 
-    @Test
-    @Transactional
-    void testOSBRetrieval(){
-        arangoService.retrieveAllOSBsFromDate(0);
-        System.out.println(postgresOSBRepository.findAll());
-    }
-
-    @Test
-    @Transactional
-    void testAppRetrieval(){
-        arangoService.retrieveAllAppsFromDate(0);
-        System.out.println(postgresAppRepository.findAll());
-    }
+//    @Test
+//    @Transactional
+//    void testSpaceRetrieval(){
+//        arangoService.retrieveAllSpaces();
+//        System.out.println(postgresSpaceRepository.findAll());
+//    }
+//
+//    @Test
+//    @Transactional
+//    void testOSBRetrieval(){
+//        arangoService.retrieveAllOSBsFromDate(0);
+//        System.out.println(postgresOSBRepository.findAll());
+//    }
+//
+//    @Test
+//    @Transactional
+//    void testAppRetrieval(){
+//        arangoService.retrieveAllAppsFromDate(0);
+//        System.out.println(postgresAppRepository.findAll());
+//    }
 }

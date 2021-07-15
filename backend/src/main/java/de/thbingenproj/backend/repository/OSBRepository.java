@@ -10,4 +10,6 @@ import java.util.List;
 public interface OSBRepository extends CrudRepository<OSB, String> {
     OSB findTopByOrderByDtDesc();
     List<OSB> findAll();
+    List<OSB> findAllByOrg(String org);
+    List<OSB> findAllBySpace(String space);
 }

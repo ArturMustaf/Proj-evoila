@@ -69,7 +69,7 @@ class OrgUserRepositoryTest {
         orgUserRepository.save(orgUser);
         Assertions.assertNotNull(orgUserRepository.findById(orgUser.getId()));
         var orgUserReturned = orgUserRepository.findById(orgUser.getId()).orElse(null);
-        orgUserReturned.setName("ÄöUq1,.-:");
+        orgUserReturned.setName(RandomStringUtils.randomAlphanumeric(10));
         orgUserRepository.save(orgUserReturned);
         assertNotEquals(orgInitialName, orgUserRepository.findById(orgUser.getId()).orElse(null).getName());
     }

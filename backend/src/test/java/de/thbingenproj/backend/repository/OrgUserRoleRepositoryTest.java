@@ -54,7 +54,7 @@ class OrgUserRoleRepositoryTest {
     @Transactional
     void readOrgUserRole(){
         var UserRole = new OrgUserRole();
-        UserRole.setId("testID");
+        UserRole.setId(RandomStringUtils.randomAlphanumeric(10));
         orgUserRoleRepository.save(UserRole);
         Assertions.assertNotNull(orgUserRoleRepository.findById(UserRole.getId()));
     }
@@ -63,13 +63,13 @@ class OrgUserRoleRepositoryTest {
     @Transactional
     void updateOrgUserRole(){
         var UserRole = new OrgUserRole();
-        UserRole.setName("testName");
+        UserRole.setName(RandomStringUtils.randomAlphanumeric(10));
         var orgUserRoleInitialName = UserRole.getName();
-        UserRole.setId("testID");
+        UserRole.setId(RandomStringUtils.randomAlphanumeric(10));
         orgUserRoleRepository.save(UserRole);
         Assertions.assertNotNull(orgUserRoleRepository.findById(UserRole.getId()));
         var orgUserRoleReturned = orgUserRoleRepository.findById(UserRole.getId()).orElse(null);
-        orgUserRoleReturned.setName("hös3");
+        orgUserRoleReturned.setName(RandomStringUtils.randomAlphanumeric(10));
         orgUserRoleRepository.save(orgUserRoleReturned);
         assertNotEquals(orgUserRoleInitialName, orgUserRoleRepository.findById(UserRole.getId()).orElse(null).getName());
     }

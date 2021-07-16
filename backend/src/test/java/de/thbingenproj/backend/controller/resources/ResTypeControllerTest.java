@@ -2,10 +2,9 @@ package de.thbingenproj.backend.controller.resources;
 
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
-import de.thbingenproj.backend.entities.ressources.ResourceType;
 import de.thbingenproj.backend.entity.ResType;
 import de.thbingenproj.backend.extensions.BeforeEvery;
+import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,7 +54,7 @@ public class ResTypeControllerTest {
     @Test
     @WithMockKeycloakAuth("ROLE_user")
     void postResourceTypeWithWrongRole() throws Exception {
-        var resourceType = new ResourceType();
+        var resourceType = new ResType();
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
         mockMvc.perform(post("/create/resource-types")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
@@ -95,7 +94,7 @@ public class ResTypeControllerTest {
 
     @Test
     void postResourceTypeWithNoAuth() throws Exception {
-        var resourceType = new ResourceType();
+        var resourceType = new ResType();
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
         mockMvc.perform(post("/create/resourceTypes")
                 .contentType(MediaType.APPLICATION_JSON).content(json))

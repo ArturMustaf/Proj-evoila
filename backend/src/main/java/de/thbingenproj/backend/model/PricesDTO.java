@@ -10,9 +10,9 @@ import java.util.Date;
 public class PricesDTO {
     String id;
     //start date
-    long start;
+    long startDate;
     //end date
-    long end;
+    long endDate;
     //name of ressource e.g. memory, storage, cpu, manhour
     String resourceID;
     //eg S,M,L

@@ -24,11 +24,13 @@ public class PricesController {
 
     @PostMapping("/create/resources/{id}/prices")
     public Prices updatePrice(@RequestBody PricesDTO price, @PathVariable String id) {
-        var currPrice = pricesRepository.findByResourceIDAndEndIsNull(id);
-        long currTime = System.currentTimeMillis();
-        currPrice.setEnd(currTime);
-        //save updated pirce
-        this.pricesRepository.save(currPrice);
+        var currPrice = pricesRepository.findByResourceIDAndEndDateIsNull(id);
+        if (currPrice != null) {
+            long currTime = System.currentTimeMillis();
+            currPrice.setEndDate(currTime);
+            //save updated pirce
+            this.pricesRepository.save(currPrice);
+        }
         return this.pricesRepository.save(modelMapper.map(price, Prices.class));
     }
 
@@ -43,7 +45,7 @@ public class PricesController {
         return this.pricesRepository.findAll();
     }
 
-    @GetMapping("/ressources/{resourceID}/prices")
+    @GetMapping("/resources/{resourceID}/prices")
     public List<Prices> getAllPricesByRessourceId(@PathVariable String resourceID) {
         return this.pricesRepository.findAllByResourceID(resourceID);
     }

@@ -60,14 +60,7 @@ public class ResTypeControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isForbidden());
     }
-
-    @Test
-    @WithMockKeycloakAuth("ROLE_admin")
-    void getResourceType() throws Exception {
-        mockMvc.perform(get("/resource-types/0"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("")));
-    }
+    
 
     @Test
     @WithMockKeycloakAuth("ROLE_user")

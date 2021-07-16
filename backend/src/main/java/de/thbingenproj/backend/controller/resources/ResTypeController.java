@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+/**
+ * Controller which offers functionality for the frontend to read resource types from the backend
+ */
 @RestController
 public class ResTypeController {
     @Autowired
@@ -17,16 +19,27 @@ public class ResTypeController {
     @Autowired
     ModelMapper modelMapper;
 
+    /**
+     * stores a new resourceType
+     * @param  resourceType that should be safed
+     * @return the saved ResType object or error
+     */
     @PostMapping("/create/resource-types")
     public ResType postResourceType(@RequestBody ResTypeDTO resourceType) {
         return this.resTypeRepository.save(modelMapper.map(resourceType, ResType.class));
     }
-
+    /**
+     * @param  id of the resourceType
+     * @return ResType object
+     */
     @GetMapping("/resource-types/{id}")
     public ResType getResourceType(@PathVariable String id) {
         return this.resTypeRepository.findById(id).orElse(null);
     }
 
+    /**
+     * @return all resTypes
+     */
     @GetMapping("/admin/resource-types")
     public List<ResType> getAllResourceTypes() {
         return this.resTypeRepository.findAll();

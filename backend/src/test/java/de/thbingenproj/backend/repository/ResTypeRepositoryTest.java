@@ -17,12 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-@Transactional
+
 @ExtendWith(BeforeEvery.class)
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 @AutoConfigureMockMvc
-public class ResourceRepositoryTypeTest {
+public class ResTypeRepositoryTest {
     @Autowired
     ResTypeRepository resTypeRepository;
 

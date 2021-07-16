@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Controller which offers functionality for the frontend to read resource  from the backend
  */
@@ -58,10 +60,50 @@ public class ResourceController {
     /**
      * returns all resources used or in use of a vdc
      * @param  vdcID of the organization
-     * @return resource objects
+     * @return resource objects of vdc
      */
     @GetMapping("/resources/vdcs/{vdcID}")
     public List<Resource> getALlResourcesByVdcID(@PathVariable String vdcID) {
         return this.resourceRepository.findAllByVdcID(vdcID);
+    }
+
+    /**
+     * returns all resources used or in use of an organization in a specific time interval
+     * @param  orgID of the organization
+     * @param from start date
+     * @param until end date
+     * @return resource objects of vdc
+     */
+    @GetMapping("/resources/organizations/{orgID}/{from}/{until}")
+    public List<Resource>getResourcesByOrgIdInGivenTime(@PathVariable String orgID, @PathVariable long from, @PathVariable long until){
+        var allResources=getALlResourcesByOrgID(orgID);
+        allResources.stream()
+                .filter(resource -> (resource.getStartDate()<until&&  resource.getEndDate()> from )
+                        || (resource.getStartDate()>from && resource.getStartDate()<until)
+                        ||(resource.getStartDate()<until && resource.getEndDate()==0))
+                .collect(Collectors.toList());
+
+        return allResources;
+
+    }
+    /**
+     * returns all resources used or in use of a vdc in a specific time interval
+     * @param vdcID of the organization
+     * @param from start date
+     * @param until end date
+     * @return resource objects of vdc
+     */
+
+    @GetMapping("/resources/vdcs/{vdcID}/{from}/{until}")
+    public List<Resource>getResourcesByVdcIdInGivenTime(@PathVariable String vdcID, @PathVariable long from, @PathVariable long until){
+        var allResources=getALlResourcesByOrgID(vdcID);
+        allResources.stream()
+                .filter(resource -> (resource.getStartDate()<until&&  resource.getEndDate()> from )
+                        || (resource.getStartDate()>from && resource.getStartDate()<until)
+                        ||(resource.getStartDate()<until && resource.getEndDate()==0))
+                .collect(Collectors.toList());
+
+        return allResources;
+
     }
 }

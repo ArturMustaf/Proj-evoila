@@ -2,7 +2,6 @@ package de.thbingenproj.backend.repository;
 
 import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entity.Resource;
-import de.thbingenproj.backend.entity.ResourceType;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 @Transactional
 @ExtendWith(BeforeEvery.class)
 @SpringBootTest
@@ -27,13 +27,14 @@ public class ResourceRepositoryTest {
     @Autowired
     ResourceRepository resourceRepository;
 
+    @Transactional
     @Test
     void testGeneration() {
         Assertions.assertNotNull(resourceRepository);
     }
 
+    @Transactional
     @Test
-
     void createResource() {
         List<Resource> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
@@ -44,13 +45,13 @@ public class ResourceRepositoryTest {
         }
         resourceRepository.saveAll(entities);
         var ResourcesInRepository = resourceRepository.findAll();
-        for (var res :ResourcesInRepository ) {
+        for (var res : ResourcesInRepository) {
             Assertions.assertTrue(entities.contains(res));
         }
     }
 
     @Test
-
+    @Transactional
     void readResourceType() {
         var resource = new Resource();
         resource.setId("testID");
@@ -59,7 +60,7 @@ public class ResourceRepositoryTest {
     }
 
     @Test
-
+    @Transactional
     void updateResourceType() {
         var resource = new Resource();
         resource.setOrgID("Ä-Ü.aqe");

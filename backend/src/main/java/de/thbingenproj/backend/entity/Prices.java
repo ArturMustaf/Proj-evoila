@@ -8,7 +8,7 @@ import javax.persistence.Id;
 
 @Data
 @Entity
-public class Price {
+public class Prices {
     @Id
     String id;
     //start date

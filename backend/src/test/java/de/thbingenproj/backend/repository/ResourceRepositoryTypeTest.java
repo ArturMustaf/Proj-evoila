@@ -1,7 +1,7 @@
 package de.thbingenproj.backend.repository;
 
 import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
-import de.thbingenproj.backend.entity.ResourceType;
+import de.thbingenproj.backend.entity.ResType;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -17,58 +17,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
+@Transactional
 @ExtendWith(BeforeEvery.class)
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 @AutoConfigureMockMvc
 public class ResourceRepositoryTypeTest {
     @Autowired
-    ResourceTypeRepository resourceTypeRepository;
+    ResTypeRepository resTypeRepository;
 
     @Test
     void testGeneration() {
-        Assertions.assertNotNull(resourceTypeRepository);
+        Assertions.assertNotNull(resTypeRepository);
     }
 
     @Test
     @Transactional
     void createResourceType() {
-        List<ResourceType> entities = new ArrayList<>();
+        List<ResType> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
-            var resourceType = new ResourceType();
+            var resourceType = new ResType();
             String generatedString = RandomStringUtils.random(10);
             resourceType.setId(generatedString);
             entities.add(resourceType);
         }
-        resourceTypeRepository.saveAll(entities);
-        var repositoryTypeInRepository = resourceTypeRepository.findAll();
+        resTypeRepository.saveAll(entities);
+        var repositoryTypeInRepository = resTypeRepository.findAll();
         for (var type : repositoryTypeInRepository) {
             Assertions.assertTrue(entities.contains(type));
         }
     }
-
-    @Test
     @Transactional
+    @Test
     void readResourceType() {
-        var resourceType = new ResourceType();
+        var resourceType = new ResType();
         resourceType.setId("testID");
-        resourceTypeRepository.save(resourceType);
-        Assertions.assertNotNull(resourceTypeRepository.findById(resourceType.getId()));
+        resTypeRepository.save(resourceType);
+        Assertions.assertNotNull(resTypeRepository.findById(resourceType.getId()));
     }
-
-    @Test
     @Transactional
+    @Test
     void updateResourceType() {
-        var resourceType = new ResourceType();
+        var resourceType = new ResType();
         resourceType.setTypeOfResource("CPU");
         var orgInitialName = resourceType.getTypeOfResource();
         resourceType.setId("testID");
-        resourceTypeRepository.save(resourceType);
-        Assertions.assertNotNull(resourceTypeRepository.findById(resourceType.getId()));
-        var orgUserReturned = resourceTypeRepository.findById(resourceType.getId()).orElse(null);
+        resTypeRepository.save(resourceType);
+        Assertions.assertNotNull(resTypeRepository.findById(resourceType.getId()));
+        var orgUserReturned = resTypeRepository.findById(resourceType.getId()).orElse(null);
         orgUserReturned.setTypeOfResource("ÄöUq1,.-:");
-        resourceTypeRepository.save(orgUserReturned);
-        assertNotEquals(orgInitialName, resourceTypeRepository.findById(resourceType.getId()).orElse(null).getTypeOfResource());
+        resTypeRepository.save(orgUserReturned);
+        assertNotEquals(orgInitialName, resTypeRepository.findById(resourceType.getId()).orElse(null).getTypeOfResource());
     }
 }

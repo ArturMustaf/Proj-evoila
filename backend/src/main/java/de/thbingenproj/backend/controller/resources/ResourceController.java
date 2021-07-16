@@ -17,7 +17,7 @@ public class ResourceController {
     @Autowired
     ModelMapper modelMapper;
 
-    @PostMapping("/admin/create/prices")
+    @PostMapping("/create/resources")
     public Resource postResource(@RequestBody ResourceDTO resource) {
         return this.resourceRepository.save(modelMapper.map(resource, Resource.class));
     }
@@ -33,12 +33,12 @@ public class ResourceController {
     }
 
     //findyOrgID
-    @GetMapping("/resources/{orgID}")
+    @GetMapping("/resources/organizations/{orgID}")
     public List<Resource> getALlResourcesByOrgID(@PathVariable String orgID){
         return this.resourceRepository.findAllByOrgID(orgID);
     }
     //findByVDCID
-    @GetMapping("/resources/{vdcID}")
+    @GetMapping("/resources/vdcs/{vdcID}")
     public List<Resource> getALlResourcesByVdcID(@PathVariable String vdcID) {
         return this.resourceRepository.findAllByVdcID(vdcID);
     }

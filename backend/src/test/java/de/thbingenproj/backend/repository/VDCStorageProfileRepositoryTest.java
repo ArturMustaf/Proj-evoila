@@ -1,6 +1,6 @@
 package de.thbingenproj.backend.repository;
 
-import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
+import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entity.VDCStorageProfile;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.jupiter.api.Assertions;
@@ -38,7 +38,7 @@ class VDCStorageProfileRepositoryTest {
         List<VDCStorageProfile> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var vdcStorageProfile = new VDCStorageProfile();
-            vdcStorageProfile.setId(",.Äüöttz");
+            vdcStorageProfile.setId(RandomStringUtils.randomAlphanumeric(10));
             entities.add(vdcStorageProfile);
         }
         storageProfileRepository.saveAll(entities);
@@ -52,7 +52,7 @@ class VDCStorageProfileRepositoryTest {
     @Transactional
     void readVDCStorageProfile() {
         var vdcStorageProfile = new VDCStorageProfile();
-        vdcStorageProfile.setId("testID");
+        vdcStorageProfile.setId(RandomStringUtils.randomAlphanumeric(10));
         storageProfileRepository.save(vdcStorageProfile);
         Assertions.assertNotNull(storageProfileRepository.findById(vdcStorageProfile.getId()));
     }
@@ -61,7 +61,7 @@ class VDCStorageProfileRepositoryTest {
     @Transactional
     void deleteVDCStorageProfile() {
         var vdcStorageProfile = new VDCStorageProfile();
-        vdcStorageProfile.setId("testID");
+        vdcStorageProfile.setId(RandomStringUtils.randomAlphanumeric(10));
         storageProfileRepository.save(vdcStorageProfile);
         Assertions.assertNotNull(storageProfileRepository.findById(vdcStorageProfile.getId()));
         storageProfileRepository.delete(vdcStorageProfile);
@@ -72,14 +72,14 @@ class VDCStorageProfileRepositoryTest {
     @Transactional
     void updateVDCStorageProfile() {
         var vdcStorageProfile = new VDCStorageProfile();
-        vdcStorageProfile.setName("testName");
+        vdcStorageProfile.setName(RandomStringUtils.randomAlphanumeric(10));
         var vdcStorageProfileInitialName = vdcStorageProfile.getName();
-        vdcStorageProfile.setId("testID");
+        vdcStorageProfile.setId(RandomStringUtils.randomAlphanumeric(10));
         storageProfileRepository.save(vdcStorageProfile);
         Assertions.assertNotNull(storageProfileRepository.findById(vdcStorageProfile.getId()));
         var vdcStorageProfileReturned = storageProfileRepository.findById(vdcStorageProfile.getId()).orElse(null);
 
-        vdcStorageProfileReturned.setName(",.Äüöttz");
+        vdcStorageProfileReturned.setName(RandomStringUtils.randomAlphanumeric(10));
         storageProfileRepository.save(vdcStorageProfileReturned);
         assertNotEquals(vdcStorageProfileInitialName, storageProfileRepository.findById(vdcStorageProfile.getId()).orElse(null).getName());
     }
@@ -88,23 +88,19 @@ class VDCStorageProfileRepositoryTest {
     @Test
     @Transactional
     void findAllVDCStorageProfilesByVdcID() {
-        var vdcId="vdc,.-öÜ";
+        var vdcId=RandomStringUtils.randomAlphanumeric(10);
         var entities = new ArrayList<VDCStorageProfile>();
         for (int i = 0; i < 40; i++) {
             var vdcStorageProfile = new VDCStorageProfile();
             vdcStorageProfile.setVdcID(vdcId);
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
             vdcStorageProfile.setId(generatedString);
             entities.add(vdcStorageProfile);
         }
         for (int i = 0; i < 10; i++) {
             var vdcStorageProfile = new VDCStorageProfile();
-            vdcStorageProfile.setVdcID(i+"");
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            vdcStorageProfile.setVdcID(RandomStringUtils.randomAlphanumeric(10));
+            String generatedString = RandomStringUtils.random(10);
             vdcStorageProfile.setId(generatedString);
             entities.add(vdcStorageProfile);
         }
@@ -121,9 +117,7 @@ class VDCStorageProfileRepositoryTest {
         var entities = new ArrayList<VDCStorageProfile>();
         for (int i = 0; i < 50; i++) {
             var vdcStorageProfile = new VDCStorageProfile();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
             vdcStorageProfile.setId(generatedString);
             entities.add(vdcStorageProfile);
         }

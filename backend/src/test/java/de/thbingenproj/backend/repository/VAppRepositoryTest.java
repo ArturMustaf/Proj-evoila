@@ -1,6 +1,6 @@
 package de.thbingenproj.backend.repository;
 
-import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
+import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entity.VApp;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.jupiter.api.Assertions;
@@ -36,7 +36,7 @@ class VAppRepositoryTest {
         List<VApp> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var vApp = new VApp();
-            vApp.setId("r-!./dÄö" + i);
+            vApp.setId(RandomStringUtils.randomAlphanumeric(10));
             entities.add(vApp);
         }
         vAppRepository.saveAll(entities);
@@ -50,7 +50,7 @@ class VAppRepositoryTest {
     @Transactional
     void readVApp() {
         var vApp = new VApp();
-        vApp.setId("testID");
+        vApp.setId(RandomStringUtils.randomAlphanumeric(10));
         vAppRepository.save(vApp);
         Assertions.assertNotNull(vAppRepository.findById(vApp.getId()));
     }
@@ -59,7 +59,7 @@ class VAppRepositoryTest {
     @Transactional
     void deleteVApp() {
         var vApp = new VApp();
-        vApp.setId("testID");
+        vApp.setId(RandomStringUtils.randomAlphanumeric(10));
         vAppRepository.save(vApp);
         Assertions.assertNotNull(vAppRepository.findById(vApp.getId()));
         vAppRepository.delete(vApp);
@@ -70,13 +70,13 @@ class VAppRepositoryTest {
     @Transactional
     void updateVApp() {
         var vApp = new VApp();
-        vApp.setName("testName");
+        vApp.setName(RandomStringUtils.randomAlphanumeric(10));
         var vAppInitialName = vApp.getName();
-        vApp.setId("testID");
+        vApp.setId(RandomStringUtils.randomAlphanumeric(10));
         vAppRepository.save(vApp);
         Assertions.assertNotNull(vAppRepository.findById(vApp.getId()));
         var vAppReturned = vAppRepository.findById(vApp.getId()).orElse(null);
-        vAppReturned.setName("d.-34ge");
+        vAppReturned.setName(RandomStringUtils.randomAlphanumeric(10));
         vAppRepository.save(vAppReturned);
         assertNotEquals(vAppInitialName, vAppRepository.findById(vApp.getId()).orElse(null).getName());
     }
@@ -86,24 +86,20 @@ class VAppRepositoryTest {
     @Test
     @Transactional
     void findAllVAppsByVdcIDy() {
-        String vdcID = "!,Test-;RÄ";
         var entities = new ArrayList<VApp>();
+        var vdcID = RandomStringUtils.randomAlphanumeric(10);
         for (int i = 0; i < 30; i++) {
             var vApp = new VApp();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             vApp.setId(generatedString);
             vApp.setVdcID(vdcID);
             entities.add(vApp);
         }
         for (int i = 0; i < 20; i++) {
             var vApp = new VApp();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             vApp.setId(generatedString);
-            vApp.setVdcID("f5" + i);
+            vApp.setVdcID(RandomStringUtils.randomAlphanumeric(10));
             entities.add(vApp);
         }
         vAppRepository.saveAll(entities);
@@ -119,9 +115,7 @@ class VAppRepositoryTest {
         var entities = new ArrayList<VApp>();
         for (int i = 0; i < 50; i++) {
             var vApp = new VApp();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             vApp.setId(generatedString);
             entities.add(vApp);
         }

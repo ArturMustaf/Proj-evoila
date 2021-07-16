@@ -1,6 +1,6 @@
 package de.thbingenproj.backend.repository;
 
-import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
+import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entity.OrgUser;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.jupiter.api.Assertions;
@@ -39,9 +39,7 @@ class OrgUserRepositoryTest {
         List<OrgUser> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var orgUser = new OrgUser();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
             orgUser.setId(generatedString);
             entities.add(orgUser);
         }
@@ -56,7 +54,7 @@ class OrgUserRepositoryTest {
     @Transactional
     void readOrgUser(){
         var orgUser = new OrgUser();
-        orgUser.setId("testID");
+        orgUser.setId(RandomStringUtils.randomAlphanumeric(10));
         orgUserRepository.save(orgUser);
         Assertions.assertNotNull(orgUserRepository.findById(orgUser.getId()));
     }
@@ -65,13 +63,13 @@ class OrgUserRepositoryTest {
     @Transactional
     void updateOrgUser(){
         var orgUser = new OrgUser();
-        orgUser.setName("testName");
+        orgUser.setName(RandomStringUtils.randomAlphanumeric(10));
         var orgInitialName = orgUser.getName();
-        orgUser.setId("testID");
+        orgUser.setId(RandomStringUtils.randomAlphanumeric(10));
         orgUserRepository.save(orgUser);
         Assertions.assertNotNull(orgUserRepository.findById(orgUser.getId()));
         var orgUserReturned = orgUserRepository.findById(orgUser.getId()).orElse(null);
-        orgUserReturned.setName("ÄöUq1,.-:");
+        orgUserReturned.setName(RandomStringUtils.randomAlphanumeric(10));
         orgUserRepository.save(orgUserReturned);
         assertNotEquals(orgInitialName, orgUserRepository.findById(orgUser.getId()).orElse(null).getName());
     }

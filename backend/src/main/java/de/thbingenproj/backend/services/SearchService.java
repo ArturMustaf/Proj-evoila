@@ -1,9 +1,9 @@
 package de.thbingenproj.backend.services;
 
-import de.thbingenproj.backend.entities.prices.Project;
-import de.thbingenproj.backend.entities.ressources.ResourceType;
-import de.thbingenproj.backend.entities.user.Customer;
-import de.thbingenproj.backend.entities.user.contact_information.ContactInformation;
+import de.thbingenproj.backend.unused.entities.prices.Project;
+import de.thbingenproj.backend.unused.entities.ressources.ResourceType;
+import de.thbingenproj.backend.unused.entities.user.Customer;
+import de.thbingenproj.backend.unused.entities.user.contact_information.ContactInformation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.search.jpa.Search;
@@ -162,7 +162,7 @@ public class SearchService {
             fullTextQuery.setFirstResult(from);
             fullTextQuery.setMaxResults(size);
 
-            return new SearchResult<>((List<ContactInformation>) fullTextQuery.getResultList(), fullTextQuery.getResultSize());
+            return new SearchResult<>(fullTextQuery.getResultList(), fullTextQuery.getResultSize());
         }
         var dataQuery = qb.keyword()
                 .onFields("email", "numbers.number")
@@ -185,7 +185,7 @@ public class SearchService {
         fullTextQuery.setFirstResult(from);
         fullTextQuery.setMaxResults(size);
 
-        return new SearchResult<>((List<ContactInformation>) fullTextQuery.getResultList(), fullTextQuery.getResultSize());
+        return new SearchResult<>(fullTextQuery.getResultList(), fullTextQuery.getResultSize());
     }
 
     /**
@@ -210,7 +210,7 @@ public class SearchService {
             fullTextQuery.setFirstResult(from);
             fullTextQuery.setMaxResults(size);
 
-            return new SearchResult<>((List<ResourceType>) fullTextQuery.getResultList(), fullTextQuery.getResultSize());
+            return new SearchResult<>(fullTextQuery.getResultList(), fullTextQuery.getResultSize());
         }
         var dataQuery = qb.keyword()
                 .onFields("type", "shortDescription", "fullDescription")
@@ -224,7 +224,7 @@ public class SearchService {
         fullTextQuery.setFirstResult(from);
         fullTextQuery.setMaxResults(size);
 
-        return new SearchResult<>((List<ResourceType>) fullTextQuery.getResultList(), fullTextQuery.getResultSize());
+        return new SearchResult<>(fullTextQuery.getResultList(), fullTextQuery.getResultSize());
     }
 
 }

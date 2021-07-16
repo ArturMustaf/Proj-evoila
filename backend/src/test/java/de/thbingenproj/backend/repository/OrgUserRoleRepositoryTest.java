@@ -1,6 +1,6 @@
 package de.thbingenproj.backend.repository;
 
-import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
+import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entity.OrgUserRole;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.jupiter.api.Assertions;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 @AutoConfigureMockMvc
-class OrgUserRoleRoleRepositoryTest {
+class OrgUserRoleRepositoryTest {
 
     @Autowired
     OrgUserRoleRepository orgUserRoleRepository;
@@ -39,9 +39,7 @@ class OrgUserRoleRoleRepositoryTest {
         List<OrgUserRole> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var orgUserRole = new OrgUserRole();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
             orgUserRole.setId(generatedString);
             entities.add(orgUserRole);
         }
@@ -56,7 +54,7 @@ class OrgUserRoleRoleRepositoryTest {
     @Transactional
     void readOrgUserRole(){
         var UserRole = new OrgUserRole();
-        UserRole.setId("testID");
+        UserRole.setId(RandomStringUtils.randomAlphanumeric(10));
         orgUserRoleRepository.save(UserRole);
         Assertions.assertNotNull(orgUserRoleRepository.findById(UserRole.getId()));
     }
@@ -65,13 +63,13 @@ class OrgUserRoleRoleRepositoryTest {
     @Transactional
     void updateOrgUserRole(){
         var UserRole = new OrgUserRole();
-        UserRole.setName("testName");
+        UserRole.setName(RandomStringUtils.randomAlphanumeric(10));
         var orgUserRoleInitialName = UserRole.getName();
-        UserRole.setId("testID");
+        UserRole.setId(RandomStringUtils.randomAlphanumeric(10));
         orgUserRoleRepository.save(UserRole);
         Assertions.assertNotNull(orgUserRoleRepository.findById(UserRole.getId()));
         var orgUserRoleReturned = orgUserRoleRepository.findById(UserRole.getId()).orElse(null);
-        orgUserRoleReturned.setName("hös3");
+        orgUserRoleReturned.setName(RandomStringUtils.randomAlphanumeric(10));
         orgUserRoleRepository.save(orgUserRoleReturned);
         assertNotEquals(orgUserRoleInitialName, orgUserRoleRepository.findById(UserRole.getId()).orElse(null).getName());
     }

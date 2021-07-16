@@ -1,7 +1,9 @@
 package com.crawler.service;
 
-import com.crawler.entity.*;
-import com.crawler.repository.*;
+import com.crawler.postgres.entity.*;
+import com.crawler.postgres.repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -36,130 +38,304 @@ public class SendClient {
     VAppRepository vAppRepository;
     @Autowired
     KeycloakAuthService authService;
+    @Autowired
+    AppRepository appRepository;
+    @Autowired
+    SpaceRepository spaceRepository;
+    @Autowired
+    OSBRepository osbRepository;
 
-    WebClient webClient = WebClient.builder()
-            .baseUrl("http://hatkeinehaende.de/create")
-                .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
-                .build();
     /**
      * base URL depends on the env you want to connect to
      * currently its always directed to prod
      * for local deployment it needs to be changed to "http://localhost:8080/create"
      * for prod its "http://hatkeinehaende.de/create"
      */
+    WebClient webClient = WebClient.builder()
+            .baseUrl("http://hatkeinehaende.de/create")
+                .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
+                .build();
+    final Logger logger = LoggerFactory.getLogger(SendClient.class);
 
-
-    public List<Organization> postAllOrganizations(){
-            var allOrganizations = organizationRepository.findAll();
-            var postedOrganizations = new ArrayList<Organization>();
-            for (var org : allOrganizations) {
-                postedOrganizations.add(webClient.post()
+    /**
+     * Posts all entities of organizations that are found and deletes the actually sent entities.
+     * @return a list of sent organizations
+     */
+    public List<Organization> postAllOrganizations() {
+        var entities = organizationRepository.findAll();
+        var postedEntities = new ArrayList<Organization>();
+        for (var entity : entities) {
+            try {
+                postedEntities.add(webClient.post()
                         .uri("/organizations")
                         .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
-                        .body(Mono.just(org), Organization.class)
+                        .body(Mono.just(entity), Organization.class)
                         .retrieve()
                         .bodyToMono(Organization.class)
                         .block());
             }
-            return postedOrganizations;
+            catch (Exception e) {
+                logger.error(e.getMessage());
+            }
+        }
+        organizationRepository.deleteAll(postedEntities);
+        return postedEntities;
     }
-    public List<OrgUser> postAllOrgUsers(){
-        ArrayList<OrgUser> allOrgUsers =  orgUserRepository.findAll();
-        var postedOrganizationUsers = new ArrayList<OrgUser>();
-        for (var orgUser: allOrgUsers) {
-            postedOrganizationUsers.add(webClient.post()
+    /**
+     * Posts all entities of organization users that are found and deletes the actually sent entities.
+     * @return a list of sent organization users
+     */
+    public List<OrgUser> postAllOrgUsers() {
+        var entities =  orgUserRepository.findAll();
+        var postedEntities = new ArrayList<OrgUser>();
+        for (var entity: entities) {
+            try {
+            postedEntities.add(webClient.post()
                     .uri("/org-users")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
-                    .body(Mono.just(orgUser), OrgUser.class)
+                    .body(Mono.just(entity), OrgUser.class)
                     .retrieve()
                     .bodyToMono(OrgUser.class)
                     .block());
+            }
+            catch (Exception e) {
+                logger.error(e.getMessage());
+            }
         }
-        return postedOrganizationUsers;
+        orgUserRepository.deleteAll(postedEntities);
+        return postedEntities;
     }
+    /**
+     * Posts all entities of user roles that are found and deletes the actually sent entities.
+     * @return a list of sent user roles
+     */
     public List<OrgUserRole> postAllUserRoles(){
-        ArrayList<OrgUserRole> allOrgUserRoles= orgUserRoleRepository.findAll();
-        var postedOrganizationUserRoles = new ArrayList<OrgUserRole>();
-        for (var orgUserRole: allOrgUserRoles) {
-            postedOrganizationUserRoles.add(webClient.post()
-                    .uri("/org-user-roles")
-                    .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
-                    .body(Mono.just(orgUserRole), OrgUserRole.class)
-                    .retrieve()
-                    .bodyToMono(OrgUserRole.class)
-                    .block());
+        var entities= orgUserRoleRepository.findAll();
+        var postedEntities = new ArrayList<OrgUserRole>();
+        for (var entity: entities) {
+            try {
+                postedEntities.add(webClient.post()
+                        .uri("/org-user-roles")
+                        .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
+                        .body(Mono.just(entity), OrgUserRole.class)
+                        .retrieve()
+                        .bodyToMono(OrgUserRole.class)
+                        .block());
+            }
+            catch (Exception e) {
+                logger.error(e.getMessage());
+            }
         }
-        return postedOrganizationUserRoles;
+        orgUserRoleRepository.deleteAll(postedEntities);
+        return postedEntities;
     }
+    /**
+     * Posts all entities of vdcs that are found and deletes the actually sent entities.
+     * @return a list of sent vdcs
+     */
     public List<VDC> postAllVDCs(){
-        ArrayList<VDC> allVDCs = vdcRepository.findAll();
-        var postedVDCs = new ArrayList<VDC>();
-        for (var vdc: allVDCs) {
-            postedVDCs.add(webClient.post()
+        var entities = vdcRepository.findAll();
+        var postedEntities = new ArrayList<VDC>();
+        for (var entity: entities) {
+            try {
+            postedEntities.add(webClient.post()
                     .uri("/vdcs")
                     .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
-                    .body(Mono.just(vdc), VDC.class)
+                    .body(Mono.just(entity), VDC.class)
                     .retrieve()
                     .bodyToMono(VDC.class)
                     .block());
+            }
+            catch (Exception e) {
+                logger.error(e.getMessage());
+            }
         }
-        return postedVDCs;
+        vdcRepository.deleteAll(postedEntities);
+        return postedEntities;
     }
+    /**
+     * Posts all entities of networks that are found and deletes the actually sent entities.
+     * @return a list of sent networks
+     */
     public List<OrgNetwork> postAllNetworks(){
-        ArrayList<OrgNetwork> allOrgNetworks= orgNetworkRepository.findAll();
-        var postedOrganizationNetworks = new ArrayList<OrgNetwork>();
-        for (var orgNetwork: allOrgNetworks) {
-            postedOrganizationNetworks.add(webClient.post()
-                    .uri("/orgNetwork")
-                    .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
-                    .body(Mono.just(orgNetwork), OrgNetwork.class)
-                    .retrieve()
-                    .bodyToMono(OrgNetwork.class)
-                    .block());
+        var entities= orgNetworkRepository.findAll();
+        var postedEntities = new ArrayList<OrgNetwork>();
+        for (var entity : entities) {
+            try {
+                postedEntities.add(webClient.post()
+                        .uri("/org-networks")
+                        .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
+                        .body(Mono.just(entity), OrgNetwork.class)
+                        .retrieve()
+                        .bodyToMono(OrgNetwork.class)
+                        .block());
+                }
+                catch (Exception e) {
+                logger.error(e.getMessage());
+                }
         }
-        return postedOrganizationNetworks;
+        orgNetworkRepository.deleteAll(postedEntities);
+        return postedEntities;
     }
+    /**
+     * Posts all entities of compute capacities that are found and deletes the actually sent entities.
+     * @return a list of sent compute capacities
+     */
     public List<VDCComputeCapacity> postAllComputeCapacities(){
-        ArrayList<VDCComputeCapacity> allOrgComputeCapacities = computeCapacityRepository.findAll();
-        var postedComputeCapacities= new ArrayList<VDCComputeCapacity>();
-        for (var computeCapacity: allOrgComputeCapacities) {
-            postedComputeCapacities.add(webClient.post()
-                    .uri("/computeCapacity")
-                    .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
-                    .body(Mono.just(computeCapacity), VDCComputeCapacity.class)
-                    .retrieve()
-                    .bodyToMono(VDCComputeCapacity.class)
-                    .block());
+        var entities = computeCapacityRepository.findAll();
+        var postedEntities = new ArrayList<VDCComputeCapacity>();
+        for (var entity : entities) {
+            try {
+                postedEntities.add(webClient.post()
+                        .uri("/vdc-compute-capacities")
+                        .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
+                        .body(Mono.just(entity ), VDCComputeCapacity.class)
+                        .retrieve()
+                        .bodyToMono(VDCComputeCapacity.class)
+                        .block());
+            }
+            catch (Exception e) {
+                logger.error(e.getMessage());
+            }
         }
-        return postedComputeCapacities;
+        computeCapacityRepository.deleteAll(postedEntities);
+        return postedEntities;
     }
+    /**
+     * Posts all entities of storage profiles that are found and deletes the actually sent entities.
+     * @return a list of sent storage profiles
+     */
     public List<VDCStorageProfile> postAllStorageProfiles(){
-        ArrayList<VDCStorageProfile> allStorageProfiles = storageProfileRepository.findAll();
-        var postedStorageProfiles= new ArrayList<VDCStorageProfile>();
-        for (var storageProfile: allStorageProfiles) {
-            postedStorageProfiles.add(webClient.post()
-                    .uri("/storageProfile")
-                    .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
-                    .body(Mono.just(storageProfile), VDCStorageProfile.class)
-                    .retrieve()
-                    .bodyToMono(VDCStorageProfile.class)
-                    .block());
+        var entities = storageProfileRepository.findAll();
+        var postedEntities= new ArrayList<VDCStorageProfile>();
+        for (var entity : entities) {
+            try {
+                postedEntities.add(webClient.post()
+                        .uri("/vdc-storage-profiles")
+                        .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
+                        .body(Mono.just(entity ), VDCStorageProfile.class)
+                        .retrieve()
+                        .bodyToMono(VDCStorageProfile.class)
+                        .block());
+            }
+            catch (Exception e) {
+                logger.error(e.getMessage());
+            }
         }
-        return postedStorageProfiles;
+        storageProfileRepository.deleteAll(postedEntities);
+        return postedEntities;
     }
+    /**
+     * Posts all entities of vapps that are found and deletes the actually sent entities.
+     * @return a list of sent vapps
+     */
     public List<VApp> postAllVApps(){
-        ArrayList<VApp> allVApps = vAppRepository.findAll();
-        var postedVApps = new ArrayList<VApp>();
-        for (var vApp: allVApps) {
-            postedVApps.add(webClient.post()
-                    .uri("/vapps")
-                    .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
-                    .body(Mono.just(vApp), VApp.class)
-                    .retrieve()
-                    .bodyToMono(VApp.class)
-                    .block());
+        var entities = vAppRepository.findAll();
+        var postedEntities = new ArrayList<VApp>();
+        for (var entity: entities) {
+            try {
+                postedEntities.add(webClient.post()
+                        .uri("/vapps")
+                        .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
+                        .body(Mono.just(entity), VApp.class)
+                        .retrieve()
+                        .bodyToMono(VApp.class)
+                        .block());
+            }
+            catch (Exception e){
+                logger.error(e.getMessage());
+            }
         }
-        return postedVApps;
+        vAppRepository.deleteAll(postedEntities);
+        return postedEntities;
     }
 
+    /**
+     * Posts all entities of apps that are found and deletes the actually sent entities.
+     * @return a list of sent apps
+     */
+    public List<App> postAllApps(){
+        var entities = appRepository.findAll();
+        var postedEntities = new ArrayList<App>();
+        for (var entity : entities) {
+            try {
+                postedEntities.add(webClient.post()
+                        .uri("/apps")
+                        .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
+                        .body(Mono.just(entity), App.class)
+                        .retrieve()
+                        .bodyToMono(App.class)
+                        .block());
+            }
+            catch (Exception e) {
+                logger.error(e.getMessage());
+            }
+        }
+        appRepository.deleteAll(postedEntities);
+        return postedEntities;
+    }
+
+    /**
+     * Posts all entities of osbs that are found and deletes the actually sent entities.
+     * @return a list of sent osbs
+     */
+    public List<OSB> postAllOSBs(){
+        var entities = osbRepository.findAll();
+        var postedEntities = new ArrayList<OSB>();
+        for (var entity : entities) {
+            try {
+                postedEntities.add(webClient.post()
+                        .uri("/osbs")
+                        .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
+                        .body(Mono.just(entity), OSB.class)
+                        .retrieve()
+                        .bodyToMono(OSB.class)
+                        .block());
+            }
+            catch (Exception e) {
+                logger.error(e.getMessage());
+            }
+        }
+        osbRepository.deleteAll(postedEntities);
+        return postedEntities;
+    }
+
+    /**
+     * Posts all entities of spaces that are found and deletes the actually sent entities.
+     * @return a list of sent spaces
+     */
+    public List<Space> postAllSpaces(){
+        var entities = spaceRepository.findAll();
+        var postedEntities = new ArrayList<Space>();
+        for (var entity : entities) {
+            try {
+                postedEntities.add(webClient.post()
+                        .uri("/spaces")
+                        .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
+                        .body(Mono.just(entity), Space.class)
+                        .retrieve()
+                        .bodyToMono(Space.class)
+                        .block());
+            }
+            catch (Exception e) {
+                logger.error(e.getMessage());
+            }
+        }
+        spaceRepository.deleteAll(postedEntities);
+        return postedEntities;
+    }
+
+    public void sendAll(){
+        postAllStorageProfiles();
+        postAllComputeCapacities();
+        postAllUserRoles();
+        postAllVDCs();
+        postAllVApps();
+        postAllOrganizations();
+        postAllNetworks();
+        postAllOrgUsers();
+        postAllSpaces();
+        postAllOSBs();
+        postAllApps();
+    }
 }

@@ -1,6 +1,6 @@
 package de.thbingenproj.backend.repository;
 
-import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
+import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entity.Organization;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.jupiter.api.Assertions;
@@ -38,9 +38,7 @@ class OrganizationRepositoryTest {
         List<Organization> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var org = new Organization();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
 
             org.setId(generatedString);
             entities.add(org);
@@ -56,7 +54,7 @@ class OrganizationRepositoryTest {
     @Transactional
     void readOrg(){
         var organization = new Organization();
-        organization.setId("testID");
+        organization.setId(RandomStringUtils.randomAlphanumeric(10));
         organizationRepository.save(organization);
         Assertions.assertNotNull(organizationRepository.findById(organization.getId()));
     }
@@ -65,13 +63,13 @@ class OrganizationRepositoryTest {
     @Transactional
     void updateOrg(){
         var organization = new Organization();
-        organization.setName("testName");
+        organization.setName(RandomStringUtils.randomAlphanumeric(10));
         var orgInitialName = organization.getName();
-        organization.setId("testID");
+        organization.setId(RandomStringUtils.randomAlphanumeric(10));
         organizationRepository.save(organization);
         Assertions.assertNotNull(organizationRepository.findById(organization.getId()));
         var orgReturned = organizationRepository.findById(organization.getId()).orElse(null);
-        orgReturned.setName("1-ÄöOtsdhj");
+        orgReturned.setName(RandomStringUtils.randomAlphanumeric(10));
         organizationRepository.save(orgReturned);
         assertNotEquals(orgInitialName, organizationRepository.findById(organization.getId()).orElse(null).getName());
     }

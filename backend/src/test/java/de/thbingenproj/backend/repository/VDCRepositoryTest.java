@@ -1,6 +1,6 @@
 package de.thbingenproj.backend.repository;
 
-import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
+import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entity.VDC;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.jupiter.api.Assertions;
@@ -38,7 +38,7 @@ class VDCRepositoryTest {
         List<VDC> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var vdc = new VDC();
-            vdc.setId("1ÄöOtsdhjs" + i);
+            vdc.setId(RandomStringUtils.randomAlphanumeric(10));
             entities.add(vdc);
         }
         vdcRepository.saveAll(entities);
@@ -52,7 +52,7 @@ class VDCRepositoryTest {
     @Transactional
     void readVDC() {
         var vdc = new VDC();
-        vdc.setId("testID");
+        vdc.setId(RandomStringUtils.randomAlphanumeric(10));
         vdcRepository.save(vdc);
         Assertions.assertNotNull(vdcRepository.findById(vdc.getId()));
     }
@@ -61,14 +61,14 @@ class VDCRepositoryTest {
     @Transactional
     void updateVDC() {
         var vdc = new VDC();
-        vdc.setName("testName");
+        vdc.setName(RandomStringUtils.randomAlphanumeric(10));
         var vdcInitialName = vdc.getName();
-        vdc.setId("testID");
+        vdc.setId(RandomStringUtils.randomAlphanumeric(10));
         vdcRepository.save(vdc);
         Assertions.assertNotNull(vdcRepository.findById(vdc.getId()));
         var vdcReturned = vdcRepository.findById(vdc.getId()).orElse(null);
 
-        vdcReturned.setName("1-ÄöOÄutd");
+        vdcReturned.setName(RandomStringUtils.randomAlphanumeric(10));
         vdcRepository.save(vdcReturned);
         assertNotEquals(vdcInitialName, vdcRepository.findById(vdc.getId()).orElse(null).getName());
     }
@@ -76,24 +76,20 @@ class VDCRepositoryTest {
     @Test
     @Transactional
     void findAllVDCsByOrgID() {
-        String orgID = "Test-;RÄ";
+        String orgID = RandomStringUtils.randomAlphanumeric(10);
         var entities = new ArrayList<VDC>();
         for (int i = 0; i < 30; i++) {
             var vdc = new VDC();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
             vdc.setId(generatedString);
             vdc.setOrgID(orgID);
             entities.add(vdc);
         }
         for (int i = 0; i < 20; i++) {
             var vdc = new VDC();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
             vdc.setId(generatedString);
-            vdc.setOrgID("f5" + i);
+            vdc.setOrgID(RandomStringUtils.randomAlphanumeric(10));
             entities.add(vdc);
         }
         vdcRepository.saveAll(entities);
@@ -109,9 +105,7 @@ class VDCRepositoryTest {
         var entities = new ArrayList<VDC>();
         for (int i = 0; i < 50; i++) {
             var vdc = new VDC();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
             vdc.setId(generatedString);
             entities.add(vdc);
         }

@@ -1,6 +1,6 @@
 package de.thbingenproj.backend.repository;
 
-import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
+import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entity.OrgNetwork;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.jupiter.api.Assertions;
@@ -39,9 +39,7 @@ class OrgNetworkRepositoryTest {
         List<OrgNetwork> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var orgNetwork = new OrgNetwork();
-            boolean useLetters = true;
-            boolean useNumbers = true;
-            String generatedString = RandomStringUtils.random(10, useLetters, useNumbers);
+            String generatedString = RandomStringUtils.random(10);
             orgNetwork.setId(generatedString);
             entities.add(orgNetwork);
         }
@@ -56,7 +54,7 @@ class OrgNetworkRepositoryTest {
     @Transactional
     void readOrgNetwork(){
         var orgNetwork = new OrgNetwork();
-        orgNetwork.setId("testID");
+        orgNetwork.setId(RandomStringUtils.randomAlphanumeric(10));
         orgNetworkRepository.save(orgNetwork);
         Assertions.assertNotNull(orgNetworkRepository.findById(orgNetwork.getId()));
     }
@@ -65,13 +63,13 @@ class OrgNetworkRepositoryTest {
     @Transactional
     void updateOrgNetwork(){
         var orgNetwork = new OrgNetwork();
-        orgNetwork.setName("testName");
+        orgNetwork.setName(RandomStringUtils.randomAlphanumeric(10));
         var orgNetworkInitialName = orgNetwork.getName();
-        orgNetwork.setId("testID");
+        orgNetwork.setId(RandomStringUtils.randomAlphanumeric(10));
         orgNetworkRepository.save(orgNetwork);
         Assertions.assertNotNull(orgNetworkRepository.findById(orgNetwork.getId()));
         var orgNetworkReturned = orgNetworkRepository.findById(orgNetwork.getId()).orElse(null);
-        orgNetworkReturned.setName("eg-.;-");
+        orgNetworkReturned.setName(RandomStringUtils.randomAlphanumeric(10));
         orgNetworkRepository.save(orgNetworkReturned);
         assertNotEquals(orgNetworkInitialName, orgNetworkRepository.findById(orgNetwork.getId()).orElse(null).getName());
     }

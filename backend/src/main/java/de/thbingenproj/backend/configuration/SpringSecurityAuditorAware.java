@@ -1,6 +1,6 @@
 package de.thbingenproj.backend.configuration;
 
-import de.thbingenproj.backend.entities.user.agent.Agent;
+import de.thbingenproj.backend.unused.entities.user.agent.Agent;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

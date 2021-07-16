@@ -1,7 +1,4 @@
 package de.thbingenproj.backend.model;
-
-import de.thbingenproj.backend.record.StorageProfileRecord;
-import de.thbingenproj.backend.record.VDCNetworkRecord;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
@@ -17,6 +14,5 @@ public class VDCDTO {
     String allocationModel;
     String orgID;
     VDCComputeCapacityDTO computeCapacity;
-    StorageProfileRecord vdcStorageProfiles;
-    VDCNetworkRecord availableNetworks;
+
 }

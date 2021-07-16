@@ -2,8 +2,8 @@ package de.thbingenproj.backend.controller.keycloak;
 
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.thbingenproj.backend.entities.repositories.container.PostgresTest;
-import de.thbingenproj.backend.entities.repositories.util.demo_set_creator.user_information.CustomerMockCreator;
+import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
+import de.thbingenproj.backend.unused.entities.repositories.util.demo_set_creator.user_information.CustomerMockCreator;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;

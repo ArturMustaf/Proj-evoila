@@ -60,7 +60,7 @@ jobs:
         with:
           java-version: 11.0.5
 
-      - name: Build backend with maven
+      - name: Build crawler with maven
         working-directory: ./crawler
         run: mvn -B spring-boot:build-image -Dspring-boot.build-image.imageName=crawler:$environment -P $environment --file pom.xml
 

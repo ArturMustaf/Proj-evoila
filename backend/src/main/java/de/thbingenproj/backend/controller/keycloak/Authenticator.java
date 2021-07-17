@@ -1,8 +1,8 @@
 package de.thbingenproj.backend.controller.keycloak;
 
-import de.thbingenproj.backend.entities.repositories.CustomerRepository;
-import de.thbingenproj.backend.entities.user.Customer;
-import de.thbingenproj.backend.entities.user.CustomerDTO;
+import de.thbingenproj.backend.unused.entities.repositories.CustomerRepository;
+import de.thbingenproj.backend.unused.entities.user.Customer;
+import de.thbingenproj.backend.unused.entities.user.CustomerDTO;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

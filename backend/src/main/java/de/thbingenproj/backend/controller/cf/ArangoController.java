@@ -20,6 +20,10 @@ public class ArangoController {
     ModelMapper modelMapper;
 
 
+    /**
+     * Finds the latest entry date of any CF resource
+     * @return last updated date
+     */
     @GetMapping("arango/lastUpdate")
     public long lastUpdate() {
         long lastUpdate = 0;

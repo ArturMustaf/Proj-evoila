@@ -149,3 +149,5 @@ BaseCrawler/src/main/resources/logindata.properties
 backend/src/test/resources/logindata.properties
 
 crawler/src/test/resources/arangodb.properties
+
+backend/src/main/resources/logindata.properties

@@ -12,49 +12,43 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
+@PropertySource("classpath:logindata.properties")
 @Service
 public class SyncUserService {
     @Autowired
     OrgUserRepository orgUserRepository;
     @Autowired
     ModelMapper modelMapper;
+    @Autowired
+    Environment env;
     Keycloak keycloak;
     RealmResource realmResource;
 
-    void initKeycloak() throws IOException {
-        var propFileName = "logindata.properties";
-        var prop = new Properties();
-        var inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
-
-        if (inputStream != null) {
-            prop.load(inputStream);
-        } else {
-            throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath / resources. Please create the file and set granttype, clientid and clientsecret.");
-        }
-
+    @PostConstruct
+    public void initKeycloak()  {
         keycloak = KeycloakBuilder.builder()
-                .serverUrl(prop.getProperty("keycloak.URI"))
+                .serverUrl(env.getProperty("kc.URI")+"auth")
                 .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
-                .realm(prop.getProperty("keycloak.realm"))
-                .clientId(prop.getProperty("keycloak.clientID"))
-                .clientSecret(prop.getProperty("keycloak.clientSecret"))
+                .realm(env.getProperty("kc.realm"))
+                .clientId(env.getProperty("kc.clientID"))
+                .clientSecret(env.getProperty("kc.clientSecret"))
                 .resteasyClient(
                         new ResteasyClientBuilder()
                                 .connectionPoolSize(10).build()
                 ).build();
         keycloak.tokenManager().getAccessToken();
-        realmResource = keycloak.realm(prop.getProperty("keycloak.realm"));
+        realmResource = keycloak.realm(env.getProperty("kc.realm"));
     }
 
-    void syncAll() {
+    public void syncAll() {
         var repoList = getAllRepository();
         for(OrgUser orgUser : repoList){
             syncUserKeycloak(orgUser);
@@ -69,7 +63,7 @@ public class SyncUserService {
         return orgUserRepository.findAll();
     }
 
-    void syncUserKeycloak(OrgUser user) {
+    public void syncUserKeycloak(OrgUser user) {
         var userRepresentation = new UserRepresentation();
         if(keycloakUserExists(user)){
             var list = getAllKeycloak();
@@ -96,7 +90,21 @@ public class SyncUserService {
         setOrgUserID(user);
     }
 
-    boolean keycloakUserExists(OrgUser user) {
+    public boolean deleteUserKeycloak(OrgUser user){
+        boolean deleted = false;
+        if(keycloakUserExists(user)){
+            var list = getAllKeycloak();
+            for(UserRepresentation usRep : list){
+                if(usRep.getUsername().equals(user.getName()) || usRep.getId().equals(user.getId())){
+                    realmResource.users().delete(usRep.getId());
+                    deleted = true;
+                }
+            }
+        }
+        return deleted;
+    }
+
+    public boolean keycloakUserExists(OrgUser user) {
         var list = getAllKeycloak();
         for(UserRepresentation userRepresentation : list){
             if(userRepresentation.getUsername().equals(user.getName()) || userRepresentation.getId().equals(user.getId())){
@@ -106,7 +114,7 @@ public class SyncUserService {
         return false;
     }
 
-    void setOrgUserID(OrgUser user){
+    public void setOrgUserID(OrgUser user){
         var list = getAllKeycloak();
         for(UserRepresentation userRepresentation : list){
             if(user.getName().equals(userRepresentation.getUsername())){

@@ -16,8 +16,9 @@ export class DataCommunicatorService {
 
   }
 
-  async getOrganization(id: string): Promise<OrganizationModel> {
-    return await this.httpService.get<OrganizationModel>(environment.backend.address + "/organizations/" + id).toPromise();
+  async getOrganization(id: string): Promise<OrganizationModel[]> {
+    console.log("getOrg");
+    return await this.httpService.get<OrganizationModel[]>(environment.backend.address + "admin/organizations").toPromise();
   }
   async getVDCsByOrgID(id: string): Promise<VdcModel[]> {
     return await this.httpService.get<VdcModel[]>(environment.backend.address + "/organizations/" + id + "/vdcs").toPromise();

@@ -31,7 +31,7 @@ jobs:
         shell: bash
         run: echo "environment=prod" >> $GITHUB_ENV
         if: env.branch == 'release'
-        
+          
       - name: Set up JDK 11.0.5
         uses: actions/setup-java@v1
         with:
@@ -66,7 +66,7 @@ jobs:
         shell: bash
         run: echo "environment=prod" >> $GITHUB_ENV
         if: env.branch == 'release'
-        
+                
       - name: Set up JDK 11.0.5
         uses: actions/setup-java@v1
         with:

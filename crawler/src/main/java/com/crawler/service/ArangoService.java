@@ -11,23 +11,26 @@ import com.crawler.postgres.entity.Space;
 import com.crawler.postgres.repository.AppRepository;
 import com.crawler.postgres.repository.OSBRepository;
 import com.crawler.postgres.repository.SpaceRepository;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import javax.annotation.PostConstruct;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@PropertySource("classpath:logindata.properties")
 @Service
 public class ArangoService {
     @Autowired
@@ -46,13 +49,24 @@ public class ArangoService {
     ModelMapper modelMapper;
     @Autowired
     KeycloakAuthService authService;
+    @Autowired
+    private Environment env;
+    @Value("${backend.baseURL}")
+    private String baseURL;
     final Logger logger = LoggerFactory.getLogger(ArangoService.class);
 
-    WebClient webClient = WebClient.builder()
-            .baseUrl("http://hatkeinehaende.de/")
-            .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
-            .build();
+    WebClient webClient;
 
+    @PostConstruct
+    void initWebclient(){
+        webClient  = WebClient.builder()
+                .baseUrl(baseURL)
+                .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
+                .build();
+    }
+    /**
+     * Calls all functions to retrieve data
+     */
     public void getAllArangoData(){
         var lastUpdate = getLastUpdate();
         retrieveAllSpaces();
@@ -60,6 +74,10 @@ public class ArangoService {
         retrieveAllAppsFromDate(lastUpdate);
     }
 
+    /**
+     * Gets the last date of any update in backend
+     * @return last update date as long
+     */
     public long getLastUpdate(){
         long lastUpdate = 0;
         var response = webClient.get()
@@ -70,18 +88,15 @@ public class ArangoService {
                 .block();
 
         if(response != null){
-            try{
-                var mapper = new ObjectMapper();
-                JsonNode root = mapper.readTree(response.getBody());
-                JsonNode update = root.path("lastUpdate");
-                lastUpdate = Long.parseLong(update.toString());
-            } catch (Exception e) {
-                logger.error(e.getMessage());
-            }
+            lastUpdate = Long.parseLong(response.getBody());
         }
         return lastUpdate;
     }
 
+    /**
+     * Gets all spaces
+     * @return list of all spaces
+     */
     public List<Space> retrieveAllSpaces(){
         var entities = new ArrayList<Space>();
         for(var space: arangoSpaceRepository.findAll()){
@@ -91,6 +106,11 @@ public class ArangoService {
         return entities;
     }
 
+    /**
+     * Gets all osbs after specified date
+     * @param date date of the last update
+     * @return list of all osbs
+     */
     public List<OSB> retrieveAllOSBsFromDate(long date){
         var entities = new ArrayList<OSB>();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -117,6 +137,11 @@ public class ArangoService {
         return entities;
     }
 
+    /**
+     * Gets all apps after specified date
+     * @param date date of last update
+     * @return list of all apps
+     */
     public List<App> retrieveAllAppsFromDate(long date){
         var entities = new ArrayList<App>();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");

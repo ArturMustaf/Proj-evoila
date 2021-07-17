@@ -62,7 +62,7 @@ jobs:
 
       - name: Build backend with maven
         working-directory: ./crawler
-        run: mvn -B spring-boot:build-image -Dspring-boot.build-image.imageName=backend:$environment -P $environment --file pom.xml
+        run: mvn -B spring-boot:build-image -Dspring-boot.build-image.imageName=crawler:$environment -P $environment --file pom.xml
 
   frontend-build-image:
     runs-on: [ self-hosted, linux ]

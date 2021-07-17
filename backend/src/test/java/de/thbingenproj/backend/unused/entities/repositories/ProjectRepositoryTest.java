@@ -6,6 +6,7 @@ import de.thbingenproj.backend.unused.entities.repositories.util.demo_set_creato
 import de.thbingenproj.backend.unused.entities.repositories.util.demo_set_creator.user_information.ProjectMockCreator;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import org.junit.Assert;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+@Disabled
 @ExtendWith(BeforeEvery.class)
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})

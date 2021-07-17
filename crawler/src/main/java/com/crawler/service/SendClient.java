@@ -5,11 +5,15 @@ import com.crawler.postgres.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +22,8 @@ import java.util.List;
  * Requests to backend need to be authorized with a bearer token from Keycloak this is handled with
  * @see KeycloakAuthService
  */
+
+@PropertySource("classpath:logindata.properties")
 @Service
 public class SendClient {
     @Autowired
@@ -44,6 +50,8 @@ public class SendClient {
     SpaceRepository spaceRepository;
     @Autowired
     OSBRepository osbRepository;
+    @Value("${backend.baseURL}")
+    String baseURL;
 
     /**
      * base URL depends on the env you want to connect to
@@ -51,12 +59,16 @@ public class SendClient {
      * for local deployment it needs to be changed to "http://localhost:8080/create"
      * for prod its "http://hatkeinehaende.de/create"
      */
-    WebClient webClient = WebClient.builder()
-            .baseUrl("http://hatkeinehaende.de/create")
-                .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
-                .build();
+    WebClient webClient;
     final Logger logger = LoggerFactory.getLogger(SendClient.class);
 
+    @PostConstruct
+    void initWebclient(){
+        webClient = WebClient.builder()
+                .baseUrl(baseURL+"create")
+                .defaultHeader(MediaType.APPLICATION_JSON_VALUE)
+                .build();
+    }
     /**
      * Posts all entities of organizations that are found and deletes the actually sent entities.
      * @return a list of sent organizations
@@ -68,13 +80,16 @@ public class SendClient {
             try {
                 postedEntities.add(webClient.post()
                         .uri("/organizations")
-                        .headers(h -> h.setBearerAuth(authService.getKeycloakBearerToken()))
+                        .headers(h -> h.setBearerAuth(""+authService.getKeycloakBearerToken()))
                         .body(Mono.just(entity), Organization.class)
                         .retrieve()
                         .bodyToMono(Organization.class)
                         .block());
             }
-            catch (Exception e) {
+            catch (WebClientResponseException e) {
+                System.out.println("header:"+ e.getHeaders());
+                System.out.println("body: "+e.getResponseBodyAsString());
+                System.out.println("request: "+e.getRequest().getHeaders());
                 logger.error(e.getMessage());
             }
         }

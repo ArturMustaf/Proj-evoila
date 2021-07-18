@@ -54,7 +54,7 @@ class OrgUserRepositoryTest {
     @Transactional
     void readOrgUser(){
         var orgUser = new OrgUser();
-        orgUser.setId("testID");
+        orgUser.setId(RandomStringUtils.randomAlphanumeric(10));
         orgUserRepository.save(orgUser);
         Assertions.assertNotNull(orgUserRepository.findById(orgUser.getId()));
     }
@@ -63,9 +63,9 @@ class OrgUserRepositoryTest {
     @Transactional
     void updateOrgUser(){
         var orgUser = new OrgUser();
-        orgUser.setName("testName");
+        orgUser.setName(RandomStringUtils.randomAlphanumeric(10));
         var orgInitialName = orgUser.getName();
-        orgUser.setId("testID");
+        orgUser.setId(RandomStringUtils.randomAlphanumeric(10));
         orgUserRepository.save(orgUser);
         Assertions.assertNotNull(orgUserRepository.findById(orgUser.getId()));
         var orgUserReturned = orgUserRepository.findById(orgUser.getId()).orElse(null);

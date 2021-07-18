@@ -102,7 +102,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasRole(ADMIN)
                 .antMatchers("/arango/**").hasRole(ADMIN)
                 .antMatchers("/create/**").hasRole(ADMIN)
-                .anyRequest().hasRole(USER);
+                .anyRequest().hasAnyRole(USER);
     }
 
     @Bean

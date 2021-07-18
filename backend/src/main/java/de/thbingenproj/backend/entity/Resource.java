@@ -1,0 +1,21 @@
+package de.thbingenproj.backend.entity;
+
+import lombok.Data;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+@Data
+public class Resource {
+    @Id
+    String id;
+    //resource do not need a vdcID
+    String vdcID;
+    String orgID;
+    String resourceTypeID;
+    long startDate;
+    long endDate;
+
+
+}

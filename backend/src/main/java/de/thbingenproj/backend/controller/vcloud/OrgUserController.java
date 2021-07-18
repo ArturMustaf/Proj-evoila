@@ -32,12 +32,12 @@ public class OrgUserController {
     }
 
     @GetMapping("/admin/organizations/{id}/org-users")
-    public List<OrgUser> getAllOrgUserByOrgID(@PathVariable String id) {
+    public List<OrgUser> getAllOrgUsersByOrgID(@PathVariable String id) {
         return this.orgUserRepository.findAllByOrgID(id);
     }
 
     @GetMapping("/admin/org-users")
-    public List<OrgUser> getAllOrgUser() {
+    public List<OrgUser> getAllOrgUsers() {
         return this.orgUserRepository.findAll();
     }
 }

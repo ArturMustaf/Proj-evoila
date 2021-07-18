@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @PropertySource("classpath:logindata.properties")
 @Service
@@ -87,7 +86,12 @@ public class SyncUserService {
             var credList = new ArrayList<CredentialRepresentation>();
             credList.add(credentialRepresentation);
             userRepresentation.setCredentials(credList);
-            realmResource.users().create(userRepresentation);
+            try (var test = realmResource.users().create(userRepresentation)) {
+                var entity = test.readEntity(UserRepresentation.class);
+                user.setUserID(entity.getId());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         setIDs(user);
     }
@@ -115,7 +119,6 @@ public class SyncUserService {
         }
         return false;
     }
-
     public boolean setIDs(OrgUser user){
         var keycloakUsers = realmResource.users().list();
         for(UserRepresentation userRepresentation: keycloakUsers){

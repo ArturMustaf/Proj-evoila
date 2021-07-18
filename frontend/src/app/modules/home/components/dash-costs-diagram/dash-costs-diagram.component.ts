@@ -3,16 +3,13 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'app-dash-costs-diagram',
   templateUrl: './dash-costs-diagram.component.html',
-  styleUrls: ['./dash-costs-diagram.component.css']
+  styleUrls: ['./dash-costs-diagram.component.scss']
 })
 export class DashCostsDiagramComponent implements OnInit {
 
   @Input() data;
 
-  single: any[];
-  multi: any[];
-
-  view: any[] = [700, 400];
+  view: any[] = [700, 300];
 
   // options
   showXAxis = true;
@@ -29,7 +26,6 @@ export class DashCostsDiagramComponent implements OnInit {
   };
 
   constructor() {
-    Object.assign(this, this.data);
   }
 
   ngOnInit(): void {

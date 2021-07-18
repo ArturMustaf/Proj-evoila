@@ -16,7 +16,7 @@ export class DashComponent implements OnInit {
   resources: ResourceModel[];
   prices: PricesModel[];
   costsOfCurrentMonth: any[];
-  costsOfCurrentMonth_TEST_VALUES = [{"name": "current month", "value": 1234567}];
+  costsOfCurrentMonth_TEST_VALUES = [{"name": "last month", "value": 3450}, {"name": "current month", "value": 1234}];
   dateNow: Date = new Date();
 
   constructor(private navService: NavService, private communicator: DataCommunicatorService) {

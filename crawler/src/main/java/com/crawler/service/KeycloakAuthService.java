@@ -27,15 +27,13 @@ import javax.annotation.PostConstruct;
 public class KeycloakAuthService {
     @Autowired
     private Environment env;
-    @Value("${keycloak.tokenURI}")
+    @Value("${kc.tokenURI}")
     private String baseURL;
     /**
      * Keycloak url: http://hatkeinehaende.de:9080
      * Path to receive access token: /auth/realms/TH-Bingen/protocol/openid-connect/token
      */
-    WebClient webClient = WebClient.builder()
-            .baseUrl(baseURL)
-            .build();
+    WebClient webClient;
 
     @PostConstruct
     void initWebclient(){
@@ -55,9 +53,10 @@ public class KeycloakAuthService {
         try{
             var mapper = new ObjectMapper();
             MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-            formData.add("grant_type", env.getProperty("keycloak.grantType"));
-            formData.add("client_secret", env.getProperty("keycloak.clientSecret"));
-            formData.add("client_id", env.getProperty("keycloak.clientID"));
+            formData.add("grant_type", env.getProperty("kc.grantType"));
+            formData.add("client_secret", env.getProperty("kc.clientSecret"));
+            formData.add("client_id", env.getProperty("kc.clientID"));
+
             var response = webClient
                     .post()
                     .contentType(MediaType.APPLICATION_FORM_URLENCODED)

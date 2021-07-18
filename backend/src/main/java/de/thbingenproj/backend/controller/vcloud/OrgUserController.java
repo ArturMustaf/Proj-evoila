@@ -3,6 +3,7 @@ package de.thbingenproj.backend.controller.vcloud;
 import de.thbingenproj.backend.entity.OrgUser;
 import de.thbingenproj.backend.model.OrgUserDTO;
 import de.thbingenproj.backend.repository.OrgUserRepository;
+import de.thbingenproj.backend.services.SyncUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +14,16 @@ import java.util.List;
 public class OrgUserController {
     @Autowired
     OrgUserRepository orgUserRepository;
-
+    @Autowired
+    SyncUserService syncUserService;
     @Autowired
     ModelMapper modelMapper;
 
     @PostMapping("/create/org-users")
     public OrgUser postOrgUser(@RequestBody OrgUserDTO orgUser){
-        return this.orgUserRepository.save(modelMapper.map(orgUser, OrgUser.class));
+        var user = this.orgUserRepository.save(modelMapper.map(orgUser, OrgUser.class));
+        syncUserService.syncAll();
+        return user;
     }
 
     @GetMapping("/org-users/{id}")
@@ -28,12 +32,12 @@ public class OrgUserController {
     }
 
     @GetMapping("/admin/organizations/{id}/org-users")
-    public List<OrgUser> getAllOrgUserByOrgID(@PathVariable String id) {
+    public List<OrgUser> getAllOrgUsersByOrgID(@PathVariable String id) {
         return this.orgUserRepository.findAllByOrgID(id);
     }
 
     @GetMapping("/admin/org-users")
-    public List<OrgUser> getAllOrgUser() {
+    public List<OrgUser> getAllOrgUsers() {
         return this.orgUserRepository.findAll();
     }
 }

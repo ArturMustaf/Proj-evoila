@@ -28,12 +28,12 @@ public class OrgUserRoleController {
     }
 
     @GetMapping("/admin/organizations/{id}/org-user-roles")
-    public List<OrgUserRole> getAllOrgUserRoleByOrgID(@PathVariable String id) {
+    public List<OrgUserRole> getAllOrgUserRolesByOrgID(@PathVariable String id) {
         return this.orgUserRoleRepository.findAllByOrgID(id);
     }
 
     @GetMapping("/admin/org-user-roles")
-    public List<OrgUserRole> getAllOrgUserRole() {
+    public List<OrgUserRole> getAllOrgUserRoles() {
         return this.orgUserRoleRepository.findAll();
     }
 }

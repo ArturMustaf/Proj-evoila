@@ -54,7 +54,7 @@ class OrganizationRepositoryTest {
     @Transactional
     void readOrg(){
         var organization = new Organization();
-        organization.setId("testID");
+        organization.setId(RandomStringUtils.randomAlphanumeric(10));
         organizationRepository.save(organization);
         Assertions.assertNotNull(organizationRepository.findById(organization.getId()));
     }
@@ -63,13 +63,13 @@ class OrganizationRepositoryTest {
     @Transactional
     void updateOrg(){
         var organization = new Organization();
-        organization.setName("testName");
+        organization.setName(RandomStringUtils.randomAlphanumeric(10));
         var orgInitialName = organization.getName();
-        organization.setId("testID");
+        organization.setId(RandomStringUtils.randomAlphanumeric(10));
         organizationRepository.save(organization);
         Assertions.assertNotNull(organizationRepository.findById(organization.getId()));
         var orgReturned = organizationRepository.findById(organization.getId()).orElse(null);
-        orgReturned.setName("1-ÄöOtsdhj");
+        orgReturned.setName(RandomStringUtils.randomAlphanumeric(10));
         organizationRepository.save(orgReturned);
         assertNotEquals(orgInitialName, organizationRepository.findById(organization.getId()).orElse(null).getName());
     }

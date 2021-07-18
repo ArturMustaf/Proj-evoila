@@ -69,14 +69,14 @@ public class ResourceController {
 
     /**
      * returns all resources used or in use of an organization in a specific time interval
-     * @param  orgID of the organization
+     * @param  id of the organization
      * @param from start date
      * @param until end date
      * @return resource objects of vdc
      */
-    @GetMapping("/resources/organizations/{orgID}/{from}/{until}")
-    public List<Resource>getResourcesByOrgIdInGivenTime(@PathVariable String orgID, @PathVariable long from, @PathVariable long until){
-        var allResources=getALlResourcesByOrgID(orgID);
+    @GetMapping("/organizations/{id}/resources/{from}/{until}")
+    public List<Resource>getResourcesByOrgIdInGivenTime(@PathVariable String id, @PathVariable long from, @PathVariable long until){
+        var allResources=getALlResourcesByOrgID(id);
         allResources.stream()
                 .filter(resource -> (resource.getStartDate()<until&&  resource.getEndDate()> from )
                         || (resource.getStartDate()>from && resource.getStartDate()<until)

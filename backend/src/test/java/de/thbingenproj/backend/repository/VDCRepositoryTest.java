@@ -80,14 +80,14 @@ class VDCRepositoryTest {
         var entities = new ArrayList<VDC>();
         for (int i = 0; i < 30; i++) {
             var vdc = new VDC();
-            String generatedString = RandomStringUtils.random(10);
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             vdc.setId(generatedString);
             vdc.setOrgID(orgID);
             entities.add(vdc);
         }
         for (int i = 0; i < 20; i++) {
             var vdc = new VDC();
-            String generatedString = RandomStringUtils.random(10);
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             vdc.setId(generatedString);
             vdc.setOrgID(RandomStringUtils.randomAlphanumeric(10));
             entities.add(vdc);
@@ -105,7 +105,7 @@ class VDCRepositoryTest {
         var entities = new ArrayList<VDC>();
         for (int i = 0; i < 50; i++) {
             var vdc = new VDC();
-            String generatedString = RandomStringUtils.random(10);
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             vdc.setId(generatedString);
             entities.add(vdc);
         }

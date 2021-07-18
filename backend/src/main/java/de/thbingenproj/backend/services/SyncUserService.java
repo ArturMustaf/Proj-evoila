@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @PropertySource("classpath:logindata.properties")
 @Service
@@ -89,6 +90,7 @@ public class SyncUserService {
             userRepresentation.setCredentials(credList);
             realmResource.users().create(userRepresentation);
         }
+        recreateUser(user);
     }
 
     public boolean deleteUserKeycloak(OrgUser user){
@@ -113,5 +115,18 @@ public class SyncUserService {
             }
         }
         return false;
+    }
+
+    public void recreateUser(OrgUser user){
+        var kcUsers = realmResource.users().list();
+        for(UserRepresentation userRepresentation : kcUsers){
+            if(Optional.ofNullable(userRepresentation.getUsername()).orElse("").equals(user.getName()) || userRepresentation.getUsername().equals(user.getEmailAddress()) || Optional.ofNullable(userRepresentation.getEmail()).orElse("").equals(user.getEmailAddress())){
+                if(!userRepresentation.getId().equals(user.getId())){
+                    var newOrgUser = modelMapper.map(user, OrgUser.class);
+                    orgUserRepository.save(newOrgUser);
+                    orgUserRepository.delete(user);
+                }
+            }
+        }
     }
 }

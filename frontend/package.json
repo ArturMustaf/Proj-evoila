@@ -26,6 +26,7 @@
     "@clr/angular": "^5.3.0",
     "@clr/icons": "^5.3.0",
     "@clr/ui": "^5.3.0",
+    "@swimlane/ngx-charts": "^18.0.1",
     "@webcomponents/custom-elements": "^1.4.3",
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "chart.js": "^2.9.4",

@@ -27,8 +27,8 @@ import { ProjectViewComponent } from './components/project-view/project-view.com
     TicketsComponent,
     TicketDisplayComponent,
     SingleVDCComponent,
-    ProjectViewComponent
-
+    ProjectViewComponent,
+    DashCostsDiagramComponent
   ],
   imports: [
     CommonModule,

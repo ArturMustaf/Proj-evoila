@@ -20,4 +20,5 @@ public class OrgUserDTO {
     String orgRoleID;
     String orgID;
     OrgUserRoleDTO role;
+    String userID;
 }

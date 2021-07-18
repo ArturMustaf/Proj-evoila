@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @PropertySource("classpath:logindata.properties")
 @Service
@@ -79,7 +78,6 @@ public class SyncUserService {
         } else {
             userRepresentation.setEmail(user.getEmailAddress());
             userRepresentation.setUsername(user.getName());
-            userRepresentation.setId(user.getId());
             userRepresentation.setEnabled(true);
             var credentialRepresentation = new CredentialRepresentation();
             credentialRepresentation.setTemporary(true);
@@ -88,9 +86,13 @@ public class SyncUserService {
             var credList = new ArrayList<CredentialRepresentation>();
             credList.add(credentialRepresentation);
             userRepresentation.setCredentials(credList);
-            realmResource.users().create(userRepresentation);
+            try (var test = realmResource.users().create(userRepresentation)) {
+                var entity = test.readEntity(UserRepresentation.class);
+                user.setUserID(entity.getId());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        recreateUser(user);
     }
 
     public boolean deleteUserKeycloak(OrgUser user){
@@ -115,18 +117,5 @@ public class SyncUserService {
             }
         }
         return false;
-    }
-
-    public void recreateUser(OrgUser user){
-        var kcUsers = realmResource.users().list();
-        for(UserRepresentation userRepresentation : kcUsers){
-            if(Optional.ofNullable(userRepresentation.getUsername()).orElse("").equals(user.getName()) || userRepresentation.getUsername().equals(user.getEmailAddress()) || Optional.ofNullable(userRepresentation.getEmail()).orElse("").equals(user.getEmailAddress())){
-                if(!userRepresentation.getId().equals(user.getId())){
-                    var newOrgUser = modelMapper.map(user, OrgUser.class);
-                    orgUserRepository.save(newOrgUser);
-                    orgUserRepository.delete(user);
-                }
-            }
-        }
     }
 }

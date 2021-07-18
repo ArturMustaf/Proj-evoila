@@ -40,4 +40,9 @@ public class OrgUserController {
     public List<OrgUser> getAllOrgUsers() {
         return this.orgUserRepository.findAll();
     }
+
+    @DeleteMapping("/delete/org-users/{id}")
+    public void deleteOrgUser(@PathVariable String id){
+        orgUserRepository.deleteById(id);
+    }
 }

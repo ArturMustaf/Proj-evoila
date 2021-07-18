@@ -15,16 +15,21 @@ import {PricesModel} from '../../../../shared/models/prices-models/prices-model'
 export class DashComponent implements OnInit {
   resources: ResourceModel[];
   prices: PricesModel[];
-  totalCostsInCent: number = 0;
+  costsOfCurrentMonth: any[];
+  costsOfCurrentMonth_TEST_VALUES = [{"name": "current month", "value": 1234567}];
   dateNow: Date = new Date();
 
   constructor(private navService: NavService, private communicator: DataCommunicatorService) {
     navService.isAdmin = false;
-    //communicator.getOrganization("1").then((res) => console.log(res));
+    communicator.getOrganization("1").then((res) => console.log(res));
     communicator.getVDCsByOrgID("dcf38302-f549-405b-8a03-23f23f4962af").then((res) => console.log(res));
+    //this.setupCosts();
+  }
+
+  setupCosts() {
     this.requestAllResourcesOfCurrentMonth();
     this.requestAllPricesOfCurrentMonth();
-    this.aggregateTotalCostOfAllPricesOfCurrentMonth();
+    this.aggregateTotalCostsOfAllPricesForCurrentMonth();
   }
 
   requestAllResourcesOfCurrentMonth() : void {
@@ -48,20 +53,22 @@ export class DashComponent implements OnInit {
     return new Date(this.dateNow.getFullYear(), this.dateNow.getMonth(), 1).getMilliseconds();
   }
 
-  aggregateTotalCostOfAllPricesOfCurrentMonth(): void {
+  aggregateTotalCostsOfAllPricesForCurrentMonth(): void {
     let from = this.getFirstDayOfCurrentMonthInMS();
     let until = this.dateNow.getMilliseconds();
+    let totalCostsInCent = 0;
     this.prices.forEach( price => {
       let timeOfCurrentMonthInMS = until - from;
-      let timeOfPriceInGivenTimeInMS = timeOfCurrentMonthInMS;
+      let timeOfPriceOfCurrentMonthInMS = timeOfCurrentMonthInMS;
       if (price.startDate < from) {
-        timeOfPriceInGivenTimeInMS -= (from - price.startDate);
+        timeOfPriceOfCurrentMonthInMS -= (from - price.startDate);
       }
       if (price.endDate > until) {
-        timeOfPriceInGivenTimeInMS -= (price.endDate - until);
+        timeOfPriceOfCurrentMonthInMS -= (price.endDate - until);
       }
-      this.totalCostsInCent += (timeOfPriceInGivenTimeInMS / timeOfCurrentMonthInMS) * price.priceInCent;
+      totalCostsInCent += (timeOfPriceOfCurrentMonthInMS / timeOfCurrentMonthInMS) * price.priceInCent;
     });
+    this.costsOfCurrentMonth.push({"name": "current month", "value": totalCostsInCent});
   }
 
 

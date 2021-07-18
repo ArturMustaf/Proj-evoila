@@ -16,6 +16,7 @@ import {TicketsComponent} from './components/tickets/tickets.component';
 import {TicketDisplayComponent} from './components/tickets/display/ticketdisplay.component';
 import { SingleVDCComponent } from './components/single-vdc/single-vdc.component';
 import { ProjectViewComponent } from './components/project-view/project-view.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 
 @NgModule({
@@ -30,13 +31,14 @@ import { ProjectViewComponent } from './components/project-view/project-view.com
     ProjectViewComponent,
     DashCostsDiagramComponent
   ],
-  imports: [
-    CommonModule,
-    ClarityModule,
-    HomeRoutingModule,
-    FormsModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        ClarityModule,
+        HomeRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxChartsModule
+    ]
 })
 export class HomeModule {
 }

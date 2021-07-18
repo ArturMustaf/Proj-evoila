@@ -22,13 +22,17 @@ public class OrgUserController {
     @PostMapping("/create/org-users")
     public OrgUser postOrgUser(@RequestBody OrgUserDTO orgUser){
         var user = this.orgUserRepository.save(modelMapper.map(orgUser, OrgUser.class));
-        syncUserService.syncAll();
         return user;
     }
 
     @GetMapping("/org-users/{id}")
     public OrgUser getOrgUser(@PathVariable String id) {
         return this.orgUserRepository.findById(id).orElse(null);
+    }
+
+    @GetMapping("/org-users/sync")
+    public void syncUser(){
+        syncUserService.syncAll();
     }
 
     @GetMapping("/admin/organizations/{id}/org-users")

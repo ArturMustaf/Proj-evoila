@@ -39,7 +39,7 @@ class OrgUserRepositoryTest {
         List<OrgUser> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var orgUser = new OrgUser();
-            String generatedString = RandomStringUtils.random(10);
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             orgUser.setId(generatedString);
             entities.add(orgUser);
         }

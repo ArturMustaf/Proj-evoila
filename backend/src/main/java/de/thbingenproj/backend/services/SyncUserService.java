@@ -1,7 +1,6 @@
 package de.thbingenproj.backend.services;
 
 import de.thbingenproj.backend.entity.OrgUser;
-import de.thbingenproj.backend.model.OrgUserDTO;
 import de.thbingenproj.backend.repository.OrgUserRepository;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @PropertySource("classpath:logindata.properties")
 @Service
@@ -74,10 +74,13 @@ public class SyncUserService {
             }
             userRepresentation.setUsername(user.getName());
             userRepresentation.setEmail(user.getEmailAddress());
+            userRepresentation.setId(user.getId());
             realmResource.users().get(userRepresentation.getId()).update(userRepresentation);
         } else {
             userRepresentation.setEmail(user.getEmailAddress());
             userRepresentation.setUsername(user.getName());
+            userRepresentation.setId(user.getId());
+            userRepresentation.setEnabled(true);
             var credentialRepresentation = new CredentialRepresentation();
             credentialRepresentation.setTemporary(true);
             credentialRepresentation.setType("password");
@@ -87,7 +90,7 @@ public class SyncUserService {
             userRepresentation.setCredentials(credList);
             realmResource.users().create(userRepresentation);
         }
-        setOrgUserID(user);
+        recreateUser(user);
     }
 
     public boolean deleteUserKeycloak(OrgUser user){
@@ -107,23 +110,22 @@ public class SyncUserService {
     public boolean keycloakUserExists(OrgUser user) {
         var list = getAllKeycloak();
         for(UserRepresentation userRepresentation : list){
-            if(userRepresentation.getUsername().equals(user.getName()) || userRepresentation.getId().equals(user.getId())){
+            if(userRepresentation.getId().equals(user.getId())){
                 return true;
             }
         }
         return false;
     }
 
-    public void setOrgUserID(OrgUser user){
-        var list = getAllKeycloak();
-        for(UserRepresentation userRepresentation : list){
-            if(user.getName().equals(userRepresentation.getUsername())){
-                OrgUserDTO newUser = modelMapper.map(user, OrgUserDTO.class);
-                newUser.setId(userRepresentation.getId());
-                if(orgUserRepository.findById(user.getId()).isPresent()){
-                    orgUserRepository.deleteById(user.getId());
+    public void recreateUser(OrgUser user){
+        var kcUsers = realmResource.users().list();
+        for(UserRepresentation userRepresentation : kcUsers){
+            if(Optional.ofNullable(userRepresentation.getUsername()).orElse("").equals(user.getName()) || userRepresentation.getUsername().equals(user.getEmailAddress()) || Optional.ofNullable(userRepresentation.getEmail()).orElse("").equals(user.getEmailAddress())){
+                if(!userRepresentation.getId().equals(user.getId())){
+                    var newOrgUser = modelMapper.map(user, OrgUser.class);
+                    orgUserRepository.save(newOrgUser);
+                    orgUserRepository.delete(user);
                 }
-                orgUserRepository.save(modelMapper.map(newUser, OrgUser.class));
             }
         }
     }

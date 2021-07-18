@@ -28,6 +28,7 @@ public class KeycloakAuthService {
     @Autowired
     private Environment env;
     @Value("${kc.tokenURI}")
+
     private String baseURL;
     /**
      * Keycloak url: http://hatkeinehaende.de:9080
@@ -58,6 +59,7 @@ public class KeycloakAuthService {
             formData.add("grant_type", env.getProperty("kc.grantType"));
             formData.add("client_secret", env.getProperty("kc.clientSecret"));
             formData.add("client_id", env.getProperty("kc.clientID"));
+
             var response = webClient
                     .post()
                     .contentType(MediaType.APPLICATION_FORM_URLENCODED)

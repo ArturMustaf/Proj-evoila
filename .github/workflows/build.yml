@@ -63,11 +63,11 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11.0.5
-          
+
       - name: copy file
         shell: bash
         run:  cp /home/thbingenproj/actions-runner/data/logindata.properties /home/thbingenproj/actions-runner/_work/Proj-evoila/Proj-evoila/crawler/src/main/resources && cp /home/thbingenproj/actions-runner/data/arangodb.properties /home/thbingenproj/actions-runner/_work/Proj-evoila/Proj-evoila/crawler/src/main/resources
-       
+
       - name: Build crawler with maven
         working-directory: ./crawler
         run: mvn -B spring-boot:build-image -Dspring-boot.build-image.imageName=crawler:$environment -P $environment --file pom.xml

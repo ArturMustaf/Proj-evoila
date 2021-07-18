@@ -117,6 +117,10 @@ public class SyncUserService {
     public void setOrgUserID(OrgUser user){
         var list = getAllKeycloak();
         for(UserRepresentation userRepresentation : list){
+            System.out.println(user);
+            System.out.println(user.getName());
+            System.out.println(userRepresentation);
+            System.out.println(userRepresentation.getUsername());
             if(user.getName().equals(userRepresentation.getUsername())){
                 OrgUserDTO newUser = modelMapper.map(user, OrgUserDTO.class);
                 newUser.setId(userRepresentation.getId());

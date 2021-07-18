@@ -28,15 +28,12 @@ public class KeycloakAuthService {
     @Autowired
     private Environment env;
     @Value("${kc.tokenURI}")
-
     private String baseURL;
     /**
      * Keycloak url: http://hatkeinehaende.de:9080
      * Path to receive access token: /auth/realms/TH-Bingen/protocol/openid-connect/token
      */
-    WebClient webClient = WebClient.builder()
-            .baseUrl(baseURL)
-            .build();
+    WebClient webClient;
 
     @PostConstruct
     void initWebclient(){

@@ -1,7 +1,6 @@
 package de.thbingenproj.backend.services;
 
 import de.thbingenproj.backend.entity.OrgUser;
-import de.thbingenproj.backend.model.OrgUserDTO;
 import de.thbingenproj.backend.repository.OrgUserRepository;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
@@ -74,10 +73,13 @@ public class SyncUserService {
             }
             userRepresentation.setUsername(user.getName());
             userRepresentation.setEmail(user.getEmailAddress());
+            userRepresentation.setId(user.getId());
             realmResource.users().get(userRepresentation.getId()).update(userRepresentation);
         } else {
             userRepresentation.setEmail(user.getEmailAddress());
             userRepresentation.setUsername(user.getName());
+            userRepresentation.setId(user.getId());
+            userRepresentation.setEnabled(true);
             var credentialRepresentation = new CredentialRepresentation();
             credentialRepresentation.setTemporary(true);
             credentialRepresentation.setType("password");
@@ -87,7 +89,6 @@ public class SyncUserService {
             userRepresentation.setCredentials(credList);
             realmResource.users().create(userRepresentation);
         }
-        setOrgUserID(user);
     }
 
     public boolean deleteUserKeycloak(OrgUser user){
@@ -107,28 +108,10 @@ public class SyncUserService {
     public boolean keycloakUserExists(OrgUser user) {
         var list = getAllKeycloak();
         for(UserRepresentation userRepresentation : list){
-            if(userRepresentation.getUsername().equals(user.getName()) || userRepresentation.getId().equals(user.getId())){
+            if(userRepresentation.getId().equals(user.getId())){
                 return true;
             }
         }
         return false;
-    }
-
-    public void setOrgUserID(OrgUser user){
-        var list = getAllKeycloak();
-        for(UserRepresentation userRepresentation : list){
-            System.out.println(user);
-            System.out.println(user.getName());
-            System.out.println(userRepresentation);
-            System.out.println(userRepresentation.getUsername());
-            if(user.getName().equals(userRepresentation.getUsername())){
-                OrgUserDTO newUser = modelMapper.map(user, OrgUserDTO.class);
-                newUser.setId(userRepresentation.getId());
-                if(orgUserRepository.findById(user.getId()).isPresent()){
-                    orgUserRepository.deleteById(user.getId());
-                }
-                orgUserRepository.save(modelMapper.map(newUser, OrgUser.class));
-            }
-        }
     }
 }

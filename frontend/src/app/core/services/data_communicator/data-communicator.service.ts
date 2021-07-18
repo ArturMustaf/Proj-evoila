@@ -6,6 +6,8 @@ import {VdcModel} from '../../../shared/models/vdc-models/vdc-model';
 import {VdcComputeCapacity} from '../../../shared/models/vdc-models/vdc-compute-capacity';
 import {VdcStorageProfile} from '../../../shared/models/vdc-models/vdc-storage-profile';
 import {VappModel} from '../../../shared/models/vapp-models/vapp-model';
+import {ResourceModel} from '../../../shared/models/resource-models/resource-model';
+import {PricesModel} from '../../../shared/models/prices-models/prices-model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +34,12 @@ export class DataCommunicatorService {
   async getVdcStorageCapacityByVdcID(id: string): Promise<VdcStorageProfile> {
     return await this.httpService.get<VdcStorageProfile>(environment.backend.address + "/vdcs/" + id +"/vdc-storage-profiles").toPromise();
   }
-
+  async getResourcesByOrgIDInGivenTime(id: string, from: number, until: number): Promise<ResourceModel[]> {
+    return await this.httpService.get<ResourceModel[]>(
+      environment.backend.address + "/organizations/" + id + "/resources/" + from + "/" + until).toPromise();
+  }
+  async getPricesByResourceIDInGivenTime(id: string, from: number, until: number): Promise<PricesModel[]> {
+    return await this.httpService.get<PricesModel[]>(
+      environment.backend.address + "/resources/" + id + "/prices/" + from + "/" + until).toPromise();
+  }
 }

@@ -1,7 +1,6 @@
 package de.thbingenproj.backend.controller.price;
 
 import de.thbingenproj.backend.entity.Prices;
-import de.thbingenproj.backend.entity.Resource;
 import de.thbingenproj.backend.model.PricesDTO;
 import de.thbingenproj.backend.repository.PricesRepository;
 import org.modelmapper.ModelMapper;
@@ -74,7 +73,15 @@ public class PricesController {
         return this.pricesRepository.findAllByResourceID(resourceID);
     }
 
-
+    @GetMapping("/resources/{id}/prices/{from}/{until}")
+    public List<Prices>getResourcesByVdcIdInGivenTime(@PathVariable String id, @PathVariable long from, @PathVariable long until) {
+        return getAllPricesByRessourceId(id)
+                .stream()
+                .filter(resource -> (resource.getStartDate()< until &&  resource.getEndDate() > from )
+                        || (resource.getStartDate() > from && resource.getStartDate() < until)
+                        ||(resource.getStartDate() < until && resource.getEndDate() == 0))
+                .collect(Collectors.toList());
+    }
 }
 
 

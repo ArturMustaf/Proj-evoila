@@ -2,9 +2,7 @@ package de.thbingenproj.backend.repository;
 
 
 import de.thbingenproj.backend.entity.Prices;
-import de.thbingenproj.backend.entity.ResType;
 import de.thbingenproj.backend.extensions.BeforeEvery;
-import de.thbingenproj.backend.unused.entities.repositories.PriceRepository;
 import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -27,11 +25,11 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 @AutoConfigureMockMvc
 public class PriceRepositoryTest {
     @Autowired
-    PricesRepository resTypeRepository;
+    PricesRepository pricesRepository;
 
     @Test
     void testGeneration() {
-        Assertions.assertNotNull(resTypeRepository);
+        Assertions.assertNotNull(pricesRepository);
     }
 
     @Test
@@ -44,8 +42,8 @@ public class PriceRepositoryTest {
             prices.setId(generatedString);
             entities.add(prices);
         }
-        resTypeRepository.saveAll(entities);
-        var repositoryTypeInRepository = resTypeRepository.findAll();
+        pricesRepository.saveAll(entities);
+        var repositoryTypeInRepository = pricesRepository.findAll();
         for (var type : repositoryTypeInRepository) {
             Assertions.assertTrue(entities.contains(type));
         }
@@ -55,8 +53,8 @@ public class PriceRepositoryTest {
     void readResourceType() {
         var prices = new Prices();
         prices.setId("testID");
-        resTypeRepository.save(prices);
-        Assertions.assertNotNull(resTypeRepository.findById(prices.getId()));
+        pricesRepository.save(prices);
+        Assertions.assertNotNull(pricesRepository.findById(prices.getId()));
     }
     @Transactional
     @Test
@@ -65,12 +63,75 @@ public class PriceRepositoryTest {
         resourceType.setResourceSize("500MB");
         var orgInitialName = resourceType.getResourceSize();
         resourceType.setId("testID");
-        resTypeRepository.save(resourceType);
-        Assertions.assertNotNull(resTypeRepository.findById(resourceType.getId()));
-        var orgUserReturned = resTypeRepository.findById(resourceType.getId()).orElse(null);
+        pricesRepository.save(resourceType);
+        Assertions.assertNotNull(pricesRepository.findById(resourceType.getId()));
+        var orgUserReturned = pricesRepository.findById(resourceType.getId()).orElse(null);
         orgUserReturned.setResourceSize("10000MB");
-        resTypeRepository.save(orgUserReturned);
-        assertNotEquals(orgInitialName, resTypeRepository.findById(resourceType.getId()).orElse(null).getResourceSize());
+        pricesRepository.save(orgUserReturned);
+        assertNotEquals(orgInitialName, pricesRepository.findById(resourceType.getId()).orElse(null).getResourceSize());
+    }
+    @Transactional
+    @Test
+    void findAllPricesByVdcIDTest() {
+        String priceID= RandomStringUtils.randomAlphanumeric(10);
+        var entities = new ArrayList<Prices>();
+        for(int i = 0; i < 20; i++){
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(7));
+            prices.setVdcID(priceID);
+            entities.add(prices);
+        }  for(int i = 0; i < 50; i++){
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(10));
+            prices.setVdcID(RandomStringUtils.randomAlphanumeric(7));
+            entities.add(prices);
+        }
+       pricesRepository.saveAll(entities);
+        var allByVdcID=pricesRepository.findAllByVdcID(priceID);
+        Assertions.assertEquals(20, allByVdcID.size());
+
+    }
+    @Transactional
+    @Test
+    void findAllPricesByOrgIDTest() {
+        String orgID= RandomStringUtils.randomAlphanumeric(10);
+        var entities = new ArrayList<Prices>();
+        for(int i = 0; i < 20; i++){
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(7));
+            prices.setVdcID(orgID);
+            entities.add(prices);
+        }  for(int i = 0; i < 50; i++){
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(10));
+            prices.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            entities.add(prices);
+        }
+        pricesRepository.saveAll(entities);
+        var allByVdcID=pricesRepository.findAllByOrgID(orgID);
+        Assertions.assertEquals(20, allByVdcID.size());
+
+    }
+    @Transactional
+    @Test
+    void findAllPricesByResourceIDTest() {
+        String resourceID= RandomStringUtils.randomAlphanumeric(10);
+        var entities = new ArrayList<Prices>();
+        for(int i = 0; i < 20; i++){
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(7));
+            prices.setResourceID(resourceID);
+            entities.add(prices);
+        }  for(int i = 0; i < 50; i++){
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(10));
+            prices.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            entities.add(prices);
+        }
+        pricesRepository.saveAll(entities);
+        var allByVdcID=pricesRepository.findAllByResourceID(resourceID);
+        Assertions.assertEquals(20, allByVdcID.size());
+
     }
 
 }

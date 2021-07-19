@@ -1,6 +1,7 @@
 package de.thbingenproj.backend.repository;
 
 import de.thbingenproj.backend.controller.resources.ResourceController;
+import de.thbingenproj.backend.entity.Prices;
 import de.thbingenproj.backend.entity.Resource;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
@@ -76,6 +77,47 @@ public class ResourceRepositoryTest {
         resourceRepository.save(orgUserReturned);
         assertNotEquals(orgInitialName, resourceRepository.findById(resource.getId()).orElse(null).getOrgID());
     }
+    @Transactional
+    @Test
+    void findAllResourcesByVdcIDTest() {
+        String vdcID= RandomStringUtils.randomAlphanumeric(10);
+        var entities = new ArrayList<Resource>();
+        for(int i = 0; i < 20; i++){
+            var resource = new Resource();
+            resource.setId(RandomStringUtils.randomAlphanumeric(7));
+            resource.setVdcID(vdcID);
+            entities.add(resource);
+        }  for(int i = 0; i < 50; i++){
+            var resource = new Resource();
+            resource.setId(RandomStringUtils.randomAlphanumeric(10));
+            resource.setVdcID(RandomStringUtils.randomAlphanumeric(7));
+            entities.add(resource);
+        }
+        resourceRepository.saveAll(entities);
+        var allByVdcID=resourceRepository.findAllByVdcID(vdcID);
+        Assertions.assertEquals(20, allByVdcID.size());
 
+    }
+    @Transactional
+    @Test
+    void findAllPricesByOrgIDTest() {
+        String orgID= RandomStringUtils.randomAlphanumeric(10);
+        var entities = new ArrayList<Resource>();
+        for(int i = 0; i < 20; i++){
+            var resource = new Resource();
+            resource.setId(RandomStringUtils.randomAlphanumeric(7));
+            resource.setOrgID(orgID);
+            entities.add(resource);
+        }  for(int i = 0; i < 50; i++){
+            var resource = new Resource();
+            resource.setId(RandomStringUtils.randomAlphanumeric(10));
+            resource.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            entities.add(resource);
+        }
+       resourceRepository.saveAll(entities);
+        var allByOrgID=resourceRepository.findAllByOrgID(orgID);
+        Assertions.assertEquals(20, allByOrgID.size());
+
+    }
 
 }

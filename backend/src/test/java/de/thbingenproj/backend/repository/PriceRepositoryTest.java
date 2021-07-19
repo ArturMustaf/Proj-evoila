@@ -129,8 +129,8 @@ public class PriceRepositoryTest {
             entities.add(prices);
         }
         pricesRepository.saveAll(entities);
-        var allByVdcID=pricesRepository.findAllByResourceID(resourceID);
-        Assertions.assertEquals(20, allByVdcID.size());
+        var allByResourceID=pricesRepository.findAllByResourceID(resourceID);
+        Assertions.assertEquals(20, allByResourceID.size());
 
     }
 

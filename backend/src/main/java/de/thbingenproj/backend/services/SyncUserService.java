@@ -87,12 +87,7 @@ public class SyncUserService {
             var credList = new ArrayList<CredentialRepresentation>();
             credList.add(credentialRepresentation);
             userRepresentation.setCredentials(credList);
-            try (var test = realmResource.users().create(userRepresentation)) {
-                var entity = test.readEntity(UserRepresentation.class);
-                user.setUserID(entity.getId());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            realmResource.users().create(userRepresentation);
         }
         setIDs(user);
     }

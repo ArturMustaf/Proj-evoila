@@ -14,8 +14,6 @@ export class DashComponent implements OnInit {
 
   constructor(private navService: NavService, communicator: DataCommunicatorService) {
     navService.isAdmin = false;
-    //communicator.getOrganization("1").then((res) => console.log(res));
-    communicator.getVDCsByOrgID("dcf38302-f549-405b-8a03-23f23f4962af").then((res) => console.log(res));
   }
 
 

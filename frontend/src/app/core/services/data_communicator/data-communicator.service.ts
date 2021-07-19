@@ -10,6 +10,15 @@ import {VappModel} from '../../../shared/models/vapp-models/vapp-model';
 @Injectable({
   providedIn: 'root'
 })
+/**
+ * Class to get data that the current user is allowed to see
+ * Steps:
+ * User logs in
+ * Userdata gets called from keycloak
+ * With the userdata from keycloak the user is pulled from backend
+ * User from backend has orgID which leads to all vdcs the org owns
+ * the vdcid leads to vapps,storage and compute capacity
+ */
 export class DataCommunicatorService {
 
   constructor(private httpService: HttpClient) {
@@ -17,7 +26,6 @@ export class DataCommunicatorService {
   }
 
   async getOrganization(id: string): Promise<OrganizationModel[]> {
-    console.log("getOrg");
     return await this.httpService.get<OrganizationModel[]>(environment.backend.address + "admin/organizations").toPromise();
   }
   async getVDCsByOrgID(id: string): Promise<VdcModel[]> {

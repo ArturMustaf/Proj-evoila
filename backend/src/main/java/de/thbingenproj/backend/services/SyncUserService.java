@@ -87,7 +87,8 @@ public class SyncUserService {
             var credList = new ArrayList<CredentialRepresentation>();
             credList.add(credentialRepresentation);
             userRepresentation.setCredentials(credList);
-            realmResource.users().create(userRepresentation);
+            var response = realmResource.users().create(userRepresentation);
+            response.close();
         }
         setIDs(user);
     }
@@ -120,6 +121,7 @@ public class SyncUserService {
         for(UserRepresentation userRepresentation: keycloakUsers){
             if(Optional.ofNullable(userRepresentation.getUsername()).orElse("").equals(user.getName())){
                 user.setUserID(userRepresentation.getId());
+                orgUserRepository.save(user);
             }
         }
         return true;

@@ -21,5 +21,9 @@ public class Prices {
     String resourceSize;
     //price in cent stored
     long priceInCent;
-
+    //redudant to Resource but it is faster then asked from resources
+    //resource do not need a vdcID
+    String vdcID;
+    //resource must have an orgID
+    String orgID;
 }

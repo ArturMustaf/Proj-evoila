@@ -122,9 +122,36 @@ public class PricesControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void getAllPricesByOrgIDTest() throws Exception {
+        mockMvc.perform(get("/prices/organizations/0"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("")));
+    }
 
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void getAllPricesByVDCIDTest() throws Exception {
+        mockMvc.perform(get("/prices/vdcs/0"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("")));
+    }
 
-
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void getPricesByVdcIdInGivenTimeTest() throws Exception {
+        mockMvc.perform(get("/prices/vdcs/0/100/200"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("")));
+    }
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void getPricesByOrgIdInGivenTimeTest() throws Exception {
+        mockMvc.perform(get("/prices/organizations/0/100/200"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("")));
+    }
 
 
 

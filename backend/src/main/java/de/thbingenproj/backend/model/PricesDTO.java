@@ -19,5 +19,7 @@ public class PricesDTO {
     String resourceSize;
     //price in cent stored
     long priceInCent;
+    String vdcID;
+    String orgID;
 
 }

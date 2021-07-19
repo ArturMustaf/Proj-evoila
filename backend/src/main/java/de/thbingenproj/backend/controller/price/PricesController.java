@@ -73,7 +73,65 @@ public class PricesController {
     public List<Prices> getAllPricesByRessourceId(@PathVariable String resourceID) {
         return this.pricesRepository.findAllByResourceID(resourceID);
     }
+    /**
+     * returns all prices used or in use of an organization
+     * @param  orgID of the organization
+     * @return Prices objects
+     */
+    @GetMapping("/prices/organizations/{orgID}")
+    public List<Prices> getALlPricesByOrgID(@PathVariable String orgID){
+        return this.pricesRepository.findAllByOrgID(orgID);
+    }
 
+    /**
+     * returns all Prices used or in use of a vdc
+     * @param  vdcID of the organization
+     * @return Prices objects of vdc
+     */
+    @GetMapping("/prices/vdcs/{vdcID}")
+    public List<Prices> getALlPricesByVdcID(@PathVariable String vdcID) {
+        return this.pricesRepository.findAllByVdcID(vdcID);
+    }
+
+    /**
+     * returns all Prices used or in use of an organization in a specific time interval
+     * @param  orgID of the organization
+     * @param from start date
+     * @param until end date
+     * @return Prices objects of vdc
+     */
+    @GetMapping("/prices/organizations/{orgID}/{from}/{until}")
+    public List<Prices>getPricesByOrgIdInGivenTime(@PathVariable String orgID, @PathVariable long from, @PathVariable long until){
+        var allPrices=getALlPricesByOrgID(orgID);
+        allPrices.stream()
+                .filter(resource -> (resource.getStartDate()<until&&  resource.getEndDate()> from )
+                        || (resource.getStartDate()>from && resource.getStartDate()<until)
+                        ||(resource.getStartDate()<until && resource.getEndDate()==0))
+                .collect(Collectors.toList());
+
+        return allPrices;
+
+    }
+    /**
+     * returns all resources used or in use of a vdc in a specific time interval
+     * @param vdcID of the organization
+     * @param from start date
+     * @param until end date
+     * @return resource objects of vdc
+     */
+
+    @GetMapping("/prices/vdcs/{vdcID}/{from}/{until}")
+    public List<Prices>getPricesByVdcIdInGivenTime(@PathVariable String vdcID, @PathVariable long from, @PathVariable long until){
+        var allResources=getALlPricesByOrgID(vdcID);
+        allResources.stream()
+                .filter(resource -> (resource.getStartDate()<until&&  resource.getEndDate()> from )
+                        || (resource.getStartDate()>from && resource.getStartDate()<until)
+                        ||(resource.getStartDate()<until && resource.getEndDate()==0))
+                .collect(Collectors.toList());
+
+        return allResources;
+
+    }
 
 }
 

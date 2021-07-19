@@ -12,6 +12,7 @@ public class Resource {
     String id;
     //resource do not need a vdcID
     String vdcID;
+    //resource must have an orgID
     String orgID;
     String resourceTypeID;
     long startDate;

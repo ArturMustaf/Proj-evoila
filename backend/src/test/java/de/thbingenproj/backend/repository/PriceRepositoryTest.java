@@ -99,7 +99,7 @@ public class PriceRepositoryTest {
         for(int i = 0; i < 20; i++){
             var prices = new Prices();
             prices.setId(RandomStringUtils.randomAlphanumeric(7));
-            prices.setVdcID(orgID);
+            prices.setOrgID(orgID);
             entities.add(prices);
         }  for(int i = 0; i < 50; i++){
             var prices = new Prices();

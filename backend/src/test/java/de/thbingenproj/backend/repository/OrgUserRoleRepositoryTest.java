@@ -39,7 +39,7 @@ class OrgUserRoleRepositoryTest {
         List<OrgUserRole> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var orgUserRole = new OrgUserRole();
-            String generatedString = RandomStringUtils.random(10);
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             orgUserRole.setId(generatedString);
             entities.add(orgUserRole);
         }

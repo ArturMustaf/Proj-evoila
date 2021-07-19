@@ -93,14 +93,14 @@ class VDCStorageProfileRepositoryTest {
         for (int i = 0; i < 40; i++) {
             var vdcStorageProfile = new VDCStorageProfile();
             vdcStorageProfile.setVdcID(vdcId);
-            String generatedString = RandomStringUtils.random(10);
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             vdcStorageProfile.setId(generatedString);
             entities.add(vdcStorageProfile);
         }
         for (int i = 0; i < 10; i++) {
             var vdcStorageProfile = new VDCStorageProfile();
             vdcStorageProfile.setVdcID(RandomStringUtils.randomAlphanumeric(10));
-            String generatedString = RandomStringUtils.random(10);
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             vdcStorageProfile.setId(generatedString);
             entities.add(vdcStorageProfile);
         }
@@ -117,7 +117,7 @@ class VDCStorageProfileRepositoryTest {
         var entities = new ArrayList<VDCStorageProfile>();
         for (int i = 0; i < 50; i++) {
             var vdcStorageProfile = new VDCStorageProfile();
-            String generatedString = RandomStringUtils.random(10);
+            String generatedString = RandomStringUtils.randomAlphanumeric(10);
             vdcStorageProfile.setId(generatedString);
             entities.add(vdcStorageProfile);
         }

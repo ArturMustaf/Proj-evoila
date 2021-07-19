@@ -25,4 +25,5 @@ public class OrgUser {
     String isGroupRole;
     String orgRoleID;
     String orgID;
+    String userID;
 }

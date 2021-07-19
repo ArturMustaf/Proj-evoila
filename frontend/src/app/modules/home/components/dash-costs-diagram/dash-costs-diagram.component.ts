@@ -1,11 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, Input, AfterViewInit} from '@angular/core';
 
 @Component({
   selector: 'app-dash-costs-diagram',
   templateUrl: './dash-costs-diagram.component.html',
   styleUrls: ['./dash-costs-diagram.component.scss']
 })
-export class DashCostsDiagramComponent implements OnInit {
+
+export class DashCostsDiagramComponent implements AfterViewInit {
 
   @Input() data;
 
@@ -28,7 +29,7 @@ export class DashCostsDiagramComponent implements OnInit {
   constructor() {
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    (document.querySelector("header.legend-title") as HTMLElement).style.display = "none";
   }
-
 }

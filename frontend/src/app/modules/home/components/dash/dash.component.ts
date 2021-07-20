@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavService} from '../../../../core/services/nav/nav.service';
 import {DataCommunicatorService} from '../../../../core/services/data_communicator/data-communicator.service';
 import {ResourceModel} from '../../../../shared/models/resource-models/resource-model';
 import {PricesModel} from '../../../../shared/models/prices-models/prices-model';
+import {ResType} from '../../../../shared/models/resource-models/res-type-model';
 
 /**
  * Dashboard component
@@ -12,11 +13,12 @@ import {PricesModel} from '../../../../shared/models/prices-models/prices-model'
   templateUrl: './dash.component.html',
   styleUrls: ['./dash.component.scss']
 })
-export class DashComponent implements OnInit {
-  resources: ResourceModel[];
-  prices: PricesModel[];
+export class DashComponent {
+  allCurrentResources: ResourceModel[];
+  allCurrentResourceTypes: ResType[];
+  allCurrentPrices: PricesModel[];
   costsOfCurrentMonth: any[];
-  costsOfCurrentMonth_TEST_VALUES = [{"name": "last month", "value": 3450}, {"name": "current month", "value": 1234}];
+  costsOfCurrentMonth_TEST_VALUES = [{"name": "CPU", "value": 2300}, {"name": "Storage", "value": 1200}, {"name": "RAM", "value": 900}];
   dateNow: Date = new Date();
 
   constructor(private navService: NavService, private communicator: DataCommunicatorService) {
@@ -28,6 +30,7 @@ export class DashComponent implements OnInit {
 
   setupCosts() {
     this.requestAllResourcesOfCurrentMonth();
+    this.requestAllUniqueResourceTypesOfCurrentMonth();
     this.requestAllPricesOfCurrentMonth();
     this.aggregateTotalCostsOfAllPricesForCurrentMonth();
   }
@@ -36,14 +39,22 @@ export class DashComponent implements OnInit {
     this.communicator.getResourcesByOrgIDInGivenTime("dcf38302-f549-405b-8a03-23f23f4962af",
                                                         this.getFirstDayOfCurrentMonthInMS(),
                                                         this.dateNow.getMilliseconds()).then(
-                                                            resources => this.resources = resources);
+                                                            resources => this.allCurrentResources = resources);
+  }
+
+  requestAllUniqueResourceTypesOfCurrentMonth() : void {
+    let allCurrentResourceTypeIDs = this.allCurrentResources.map( resource => resource.resourceTypeID );
+    let allCurrentUniqueResourceTypeIDs = [... new Set(allCurrentResourceTypeIDs)].sort();
+    allCurrentUniqueResourceTypeIDs.forEach( resourceTypeID => {
+      this.communicator.getResType(resourceTypeID).then( resTypeResp => this.allCurrentResourceTypes.push(resTypeResp));
+    });
   }
 
   requestAllPricesOfCurrentMonth() : void {
-    this.resources.forEach( resource => {
+    this.allCurrentResources.forEach( resource => {
       this.communicator.getPricesByResourceIDInGivenTime(resource.id, this.getFirstDayOfCurrentMonthInMS(), this.dateNow.getMilliseconds()).then(
         pricesResp => pricesResp.forEach(
-          priceResp => this.prices.push(priceResp)
+          priceResp => this.allCurrentPrices.push(priceResp)
         )
       );
     });
@@ -57,7 +68,7 @@ export class DashComponent implements OnInit {
     let from = this.getFirstDayOfCurrentMonthInMS();
     let until = this.dateNow.getMilliseconds();
     let totalCostsInCent = 0;
-    this.prices.forEach( price => {
+    this.allCurrentPrices.forEach( price => {
       let timeOfCurrentMonthInMS = until - from;
       let timeOfPriceOfCurrentMonthInMS = timeOfCurrentMonthInMS;
       if (price.startDate < from) {
@@ -69,9 +80,5 @@ export class DashComponent implements OnInit {
       totalCostsInCent += (timeOfPriceOfCurrentMonthInMS / timeOfCurrentMonthInMS) * price.priceInCent;
     });
     this.costsOfCurrentMonth.push({"name": "current month", "value": totalCostsInCent});
-  }
-
-
-  ngOnInit(): void {
   }
 }

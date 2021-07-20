@@ -8,6 +8,7 @@ import {VdcStorageProfile} from '../../../shared/models/vdc-models/vdc-storage-p
 import {VappModel} from '../../../shared/models/vapp-models/vapp-model';
 import {ResourceModel} from '../../../shared/models/resource-models/resource-model';
 import {PricesModel} from '../../../shared/models/prices-models/prices-model';
+import {ResType} from '../../../shared/models/resource-models/res-type-model';
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +42,9 @@ export class DataCommunicatorService {
   async getPricesByResourceIDInGivenTime(id: string, from: number, until: number): Promise<PricesModel[]> {
     return await this.httpService.get<PricesModel[]>(
       environment.backend.address + "/resources/" + id + "/prices/" + from + "/" + until).toPromise();
+  }
+  async getResType(id: string): Promise<ResType> {
+    return await this.httpService.get<ResType>(
+      environment.backend.address + "/resource-types/" + id).toPromise();
   }
 }

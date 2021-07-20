@@ -100,18 +100,7 @@ public class PricesController {
      */
     @GetMapping("/organizations/prices/{id}/{from}/{until}")
     public List<Prices>getPricesByOrgIdInGivenTime(@PathVariable String id, @PathVariable long from, @PathVariable long until){
-    //  alternative but without query in repository
-    /*
-     var allPrices=getALlPricesByOrgID(id);
-        allPrices.stream()
-                .filter(prices -> (prices.getStartDate()<until&&  prices.getEndDate()> from )
-                        || (prices.getStartDate()>from && prices.getStartDate()<until)
-                        ||(prices.getStartDate()<until && prices.getEndDate()==0))
-                .collect(Collectors.toList());
-
-        return allPrices;
-         */
-     return this.pricesRepository.findAllByOrgIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNull(id, from,until,from,until,until);
+     return this.pricesRepository.findAllByVDCIDWithinTimeframe(id, from, until);
 
 
     }
@@ -125,18 +114,7 @@ public class PricesController {
 
     @GetMapping("/vdcs/prices/{id}/{from}/{until}")
     public List<Prices>getPricesByVdcIdInGivenTime(@PathVariable String id, @PathVariable long from, @PathVariable long until){
-        //  alternative but without query in repository
-      /*
-        var allPrices=getALlPricesByOrgID(id);
-        allPrices.stream()
-                .filter(prices -> (prices.getStartDate()<until&&  prices.getEndDate()> from )
-                        || (prices.getStartDate()>from && prices.getStartDate()<until)
-                        ||(prices.getStartDate()<until && prices.getEndDate()==0))
-                .collect(Collectors.toList());
-
-        return allPrices;
-*/
-        return this.pricesRepository.findAllByVdcIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNull(id, from,until,from,until,until);
+        return this.pricesRepository.findAllByVDCIDWithinTimeframe(id, from, until);
     }
 
 }

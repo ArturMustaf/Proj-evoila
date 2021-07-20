@@ -81,18 +81,7 @@ public class ResourceController {
      */
     @GetMapping("/organizations/resources/{id}/{from}/{until}")
     public List<Resource> getResourcesByOrgIdInGivenTime(@PathVariable String id, @PathVariable long from, @PathVariable long until) {
-        //  alternative but without query in repository
-      /*
-        var allResources=getALlResourcesByOrgID(id);
-        allResources.stream()
-                .filter(resource -> (resource.getStartDate()<until&&  resource.getEndDate()> from )
-                        || (resource.getStartDate()>from && resource.getStartDate()<until)
-                        ||(resource.getStartDate()<until && resource.getEndDate()==0))
-                .collect(Collectors.toList());
-
-        return allResources;
-*/
-       return this.resourceRepository.findAllByOrgIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNull(id, from, until,from, until,until);
+       return this.resourceRepository.findAllByOrgIDWithinTimeframe(id, from, until);
     }
 
     /**
@@ -106,18 +95,6 @@ public class ResourceController {
 
     @GetMapping("/vdcs/resources/{id}/{from}/{until}")
     public List<Resource> getResourcesByVdcIdInGivenTime(@PathVariable String id, @PathVariable long from, @PathVariable long until) {
-        //  alternative but without query in repository
-      /*
-        var allResources=getALlResourcesByVdcID(id);
-
-        allResources.stream()
-                .filter(resource -> (resource.getStartDate()<until&&  resource.getEndDate()> from )
-                        || (resource.getStartDate()>from && resource.getStartDate()<until)
-                        ||(resource.getStartDate()<until && resource.getEndDate()==0))
-                .collect(Collectors.toList());
-
-        return allResources;
-         */
-        return this.resourceRepository.findAllByVdcIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNull(id, from, until,from, until,until);
+        return this.resourceRepository.findAllByVDCIDWithinTimeframe(id, from, until);
     }
 }

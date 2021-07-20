@@ -135,11 +135,11 @@ public class PriceRepositoryTest {
     }
     @Transactional
     @Test
-    public void findAllByVdcIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNullTest() {
+    public void findAllByVdcIDWithinTimeframeTest() {
         var entities = new ArrayList<Prices>();
         long time=System.currentTimeMillis();
         String vdcID=RandomStringUtils.randomAlphanumeric(7);
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             var prices = new Prices();
             prices.setId(RandomStringUtils.randomAlphanumeric(7));
             prices.setVdcID(vdcID);
@@ -213,15 +213,13 @@ public class PriceRepositoryTest {
         pricesRepository.saveAll(entities);
         long from=System.currentTimeMillis()-1000;
         long until= System.currentTimeMillis()+1000;
-        var allByVdcID = pricesRepository.findAllByVdcIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNull(vdcID, from,until,from,until,until);
-        for (var prices: allByVdcID){
-            System.out.println(prices);
-            //should be 30
-        }
+        var allByVdcID = pricesRepository.findAllByVDCIDWithinTimeframe(vdcID, from, until);
+        //should be 30
+    Assertions.assertEquals(30, allByVdcID.size());
     }
     @Transactional
     @Test
-    public void findAllByOrgIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNullTest() {
+    public void findAllByOrgIDWithinTimeframeTest() {
         var entities = new ArrayList<Prices>();
         long time=System.currentTimeMillis();
         String orgID=RandomStringUtils.randomAlphanumeric(7);
@@ -302,11 +300,12 @@ public class PriceRepositoryTest {
         pricesRepository.saveAll(entities);
         long from=System.currentTimeMillis()-1000;
         long until= System.currentTimeMillis()+1000;
-        var allByVdcID = pricesRepository.findAllByVdcIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNull(orgID, from,until,from,until,until);
-        for (var res: allByVdcID){
-            System.out.println(res);
-        }
+        var allByOrgID = pricesRepository.findAllByOrgIDWithinTimeframe(orgID, from, until);
+
         //should be 30
+        Assertions.assertEquals(30, allByOrgID.size());
+
+
     }
 
 }

@@ -138,7 +138,7 @@ public class PricesController {
 
         return allPrices;
 */
-        return this.pricesRepository.findAllByOrgIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNull(id, from,until,from,until,until);
+        return this.pricesRepository.findAllByVdcIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNull(id, from,until,from,until,until);
     }
 
 }

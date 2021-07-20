@@ -12,9 +12,10 @@ public interface PricesRepository extends CrudRepository<Prices, String> {
     List<Prices> findAll();
     List<Prices> findAllByResourceID(String resourceID);
     Prices findByResourceIDAndEndDateIsNull(String resourceID);
-
     List<Prices> findAllByVdcID(String vdcID);
-
     List<Prices> findAllByOrgID(String orgID);
+    //add EndateBefore r.StartDate and isNull
+    List<Prices> findAllByVdcIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNull(String vdcID,long starDate, long endDate,long starDate1, long endDate1, long startDate3 );
+    List<Prices>findAllByOrgIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNull(String orgID,long starDate, long endDate,long starDate1, long endDate1, long startDate3 );
 
 }

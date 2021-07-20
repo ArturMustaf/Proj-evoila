@@ -66,71 +66,79 @@ public class PricesController {
         return this.pricesRepository.findAll();
     }
     /**
-     * @param resourceID id of the resource
+     * @param id id of the resource
      * @return all prices of the requested resource object or null
      */
-    @GetMapping("/resources/{resourceID}/prices")
-    public List<Prices> getAllPricesByRessourceId(@PathVariable String resourceID) {
-        return this.pricesRepository.findAllByResourceID(resourceID);
+    @GetMapping("/resources/{id}/prices")
+    public List<Prices> getAllPricesByRessourceId(@PathVariable String id) {
+        return this.pricesRepository.findAllByResourceID(id);
     }
     /**
      * returns all prices used or in use of an organization
-     * @param  orgID of the organization
+     * @param  id of the organization
      * @return Prices objects
      */
-    @GetMapping("/prices/organizations/{orgID}")
-    public List<Prices> getALlPricesByOrgID(@PathVariable String orgID){
-        return this.pricesRepository.findAllByOrgID(orgID);
+    @GetMapping("/prices/organizations/{id}")
+    public List<Prices> getALlPricesByOrgID(@PathVariable String id){
+        return this.pricesRepository.findAllByOrgID(id);
     }
 
     /**
      * returns all Prices used or in use of a vdc
-     * @param  vdcID of the organization
+     * @param  id of the organization
      * @return Prices objects of vdc
      */
-    @GetMapping("/prices/vdcs/{vdcID}")
-    public List<Prices> getALlPricesByVdcID(@PathVariable String vdcID) {
-        return this.pricesRepository.findAllByVdcID(vdcID);
+    @GetMapping("/vdcs/prices/{id}")
+    public List<Prices> getALlPricesByVdcID(@PathVariable String id) {
+        return this.pricesRepository.findAllByVdcID(id);
     }
 
     /**
      * returns all Prices used or in use of an organization in a specific time interval
-     * @param  orgID of the organization
+     * @param  id of the organization
      * @param from start date
      * @param until end date
      * @return Prices objects of vdc
      */
-    @GetMapping("/prices/organizations/{orgID}/{from}/{until}")
-    public List<Prices>getPricesByOrgIdInGivenTime(@PathVariable String orgID, @PathVariable long from, @PathVariable long until){
-        var allPrices=getALlPricesByOrgID(orgID);
+    @GetMapping("/organizations/prices/{id}/{from}/{until}")
+    public List<Prices>getPricesByOrgIdInGivenTime(@PathVariable String id, @PathVariable long from, @PathVariable long until){
+    //  alternative but without query in repository
+    /*
+     var allPrices=getALlPricesByOrgID(id);
         allPrices.stream()
-                .filter(resource -> (resource.getStartDate()<until&&  resource.getEndDate()> from )
-                        || (resource.getStartDate()>from && resource.getStartDate()<until)
-                        ||(resource.getStartDate()<until && resource.getEndDate()==0))
+                .filter(prices -> (prices.getStartDate()<until&&  prices.getEndDate()> from )
+                        || (prices.getStartDate()>from && prices.getStartDate()<until)
+                        ||(prices.getStartDate()<until && prices.getEndDate()==0))
                 .collect(Collectors.toList());
 
         return allPrices;
+         */
+     return this.pricesRepository.findAllByOrgIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNull(id, from,until,from,until,until);
+
 
     }
     /**
-     * returns all resources used or in use of a vdc in a specific time interval
-     * @param vdcID of the organization
+     * returns all prices used or in use of a vdc in a specific time interval
+     * @param id of the vdc
      * @param from start date
      * @param until end date
-     * @return resource objects of vdc
+     * @return prices objects of vdc
      */
 
-    @GetMapping("/prices/vdcs/{vdcID}/{from}/{until}")
-    public List<Prices>getPricesByVdcIdInGivenTime(@PathVariable String vdcID, @PathVariable long from, @PathVariable long until){
-        var allResources=getALlPricesByOrgID(vdcID);
-        allResources.stream()
-                .filter(resource -> (resource.getStartDate()<until&&  resource.getEndDate()> from )
-                        || (resource.getStartDate()>from && resource.getStartDate()<until)
-                        ||(resource.getStartDate()<until && resource.getEndDate()==0))
+    @GetMapping("/vdcs/prices/{id}/{from}/{until}")
+    public List<Prices>getPricesByVdcIdInGivenTime(@PathVariable String id, @PathVariable long from, @PathVariable long until){
+        //  alternative but without query in repository
+      /*
+        var allPrices=getALlPricesByOrgID(id);
+        allPrices.stream()
+                .filter(prices -> (prices.getStartDate()<until&&  prices.getEndDate()> from )
+                        || (prices.getStartDate()>from && prices.getStartDate()<until)
+                        ||(prices.getStartDate()<until && prices.getEndDate()==0))
                 .collect(Collectors.toList());
 
-        return allResources;
-
+        return allPrices;
+*/
+        return this.pricesRepository.findAllByOrgIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNull(id, from,until,from,until,until);
     }
 
 }

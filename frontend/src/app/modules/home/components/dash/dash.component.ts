@@ -14,18 +14,20 @@ import {VdcModel} from '../../../../shared/models/vdc-models/vdc-model';
   styleUrls: ['./dash.component.scss']
 })
 export class DashComponent implements OnInit {
-  userID: string;
-  orgUser: OrgUserModel;
-  vdc: VdcModel;
   constructor(private navService: NavService, private communicator: DataCommunicatorService, private keycloakService: KeycloakService) {
     navService.isAdmin = false;
-
-    this.userID = keycloakService.getKeycloakInstance().subject;
-
-    console.log("hello" + this.orgUser);
-    communicator.getVDCsByOrgID(this.orgUser.orgID).then((res) => console.log(res));
+    this.test();
   }
-
+  async test() {
+    var userID = this.keycloakService.getKeycloakInstance().subject;
+    var orgUser = await this.communicator.getCurrentOrgUserByUserID(userID);
+    var vdcList = await this.communicator.getVDCsByOrgID(orgUser.orgID);
+    vdcList.forEach(vdc => this.communicator.getVAppsByVdcID(vdc.id).then((res) => console.log(res)));
+    vdcList.forEach(vdc => this.communicator.getVdcComputeCapacityByVdcID(vdc.id).then((res) => console.log(res)));
+    vdcList.forEach(vdc => this.communicator.getVdcStorageCapacityByVdcID(vdc.id).then((res) => console.log(res)));
+    console.log(orgUser);
+    console.log(vdcList);
+  }
   ngOnInit(): void {
   }
 }

@@ -1,7 +1,5 @@
 package de.thbingenproj.backend.repository;
 
-import de.thbingenproj.backend.controller.resources.ResourceController;
-import de.thbingenproj.backend.entity.Prices;
 import de.thbingenproj.backend.entity.Resource;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;

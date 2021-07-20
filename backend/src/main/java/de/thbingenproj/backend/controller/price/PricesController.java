@@ -1,7 +1,6 @@
 package de.thbingenproj.backend.controller.price;
 
 import de.thbingenproj.backend.entity.Prices;
-import de.thbingenproj.backend.entity.Resource;
 import de.thbingenproj.backend.model.PricesDTO;
 import de.thbingenproj.backend.repository.PricesRepository;
 import org.modelmapper.ModelMapper;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Controller which offers functionality for the frontend to read and post prices to the backend

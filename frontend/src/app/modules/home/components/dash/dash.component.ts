@@ -4,6 +4,9 @@ import {DataCommunicatorService} from '../../../../core/services/data_communicat
 import {KeycloakService} from 'keycloak-angular';
 import {OrgUserModel} from '../../../../shared/models/org-user-models/org-user-model';
 import {VdcModel} from '../../../../shared/models/vdc-models/vdc-model';
+import {VdcComputeCapacity} from '../../../../shared/models/vdc-models/vdc-compute-capacity';
+import {VdcStorageProfile} from '../../../../shared/models/vdc-models/vdc-storage-profile';
+import {Observable} from 'rxjs';
 
 /**
  * Dashboard component
@@ -13,21 +16,38 @@ import {VdcModel} from '../../../../shared/models/vdc-models/vdc-model';
   templateUrl: './dash.component.html',
   styleUrls: ['./dash.component.scss']
 })
+
 export class DashComponent implements OnInit {
+  orgUser: OrgUserModel = {
+    emailAddress: '',
+    fullName: '',
+    href: '',
+    id: '',
+    isEnabled: '',
+    isExternal: '',
+    isGroupRole: '',
+    isLocked: '',
+    name: '',
+    orgID: '',
+    orgRoleID: '',
+    telephone: '',
+    userID: ''
+  };
+  vdcList: VdcModel[] = [];
   constructor(private navService: NavService, private communicator: DataCommunicatorService, private keycloakService: KeycloakService) {
-    navService.isAdmin = false;
-    this.test();
   }
-  async test() {
-    var userID = this.keycloakService.getKeycloakInstance().subject;
-    var orgUser = await this.communicator.getCurrentOrgUserByUserID(userID);
-    var vdcList = await this.communicator.getVDCsByOrgID(orgUser.orgID);
-    vdcList.forEach(vdc => this.communicator.getVAppsByVdcID(vdc.id).then((res) => console.log(res)));
-    vdcList.forEach(vdc => this.communicator.getVdcComputeCapacityByVdcID(vdc.id).then((res) => console.log(res)));
-    vdcList.forEach(vdc => this.communicator.getVdcStorageCapacityByVdcID(vdc.id).then((res) => console.log(res)));
-    console.log(orgUser);
-    console.log(vdcList);
+
+  onClick(){
+    setTimeout(() => console.log(this.orgUser));
+    setTimeout(() => console.log(this.vdcList));
   }
+  getUserDing(id: string){
+    this.communicator.getCurrentOrgUserByOrgKeycloakID(id)
+      .subscribe(data => this.communicator.getVDCsByOrgID(data.orgID)
+        .subscribe(data2 => this.vdcList = data2));
+  }
+
   ngOnInit(): void {
+    this.getUserDing(this.keycloakService.getKeycloakInstance().subject);
   }
 }

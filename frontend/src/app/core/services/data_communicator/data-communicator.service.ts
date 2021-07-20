@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable } from '@angular/core';
 import {environment} from '../../../../environments/environment';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
 import {OrganizationModel} from '../../../shared/models/organization-models/organization-model';
 import {VdcModel} from '../../../shared/models/vdc-models/vdc-model';
 import {VdcComputeCapacity} from '../../../shared/models/vdc-models/vdc-compute-capacity';
@@ -24,10 +26,21 @@ import {OrgUserModel} from '../../../shared/models/org-user-models/org-user-mode
  */
 export class DataCommunicatorService {
 
-  constructor(private httpService: HttpClient) {
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+  constructor(private http: HttpClient) {
 
   }
+  getCurrentOrgUserByOrgKeycloakID(id: string): Observable<OrgUserModel> {
+    return this.http.get<OrgUserModel>(environment.backend.address + "/org-users/keycloak/"+ id);
+  }
+  getVDCsByOrgID(id: string): Observable<VdcModel[]> {
+    return this.http.get<VdcModel[]>(environment.backend.address + "/organizations/" + id + "/vdcs");
+  }
 
+
+/*
   async getCurrentOrgUserByUserID(id: string): Promise<OrgUserModel>{
     return this.httpService.get<OrgUserModel>(environment.backend.address + "/org-users/keycloak/"+ id ).toPromise();
   }
@@ -45,5 +58,5 @@ export class DataCommunicatorService {
   }
   async getVdcStorageCapacityByVdcID(id: string): Promise<VdcStorageProfile> {
     return this.httpService.get<VdcStorageProfile>(environment.backend.address + "/vdcs/" + id +"/vdc-storage-profiles").toPromise();
-  }
+  }*/
 }

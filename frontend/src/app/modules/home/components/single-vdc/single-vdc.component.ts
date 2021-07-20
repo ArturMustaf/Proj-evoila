@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {VdcModel} from '../../../../shared/models/vdc-models/vdc-model';
 
 
 @Component({
@@ -7,8 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./single-vdc.component.scss']
 })
 export class SingleVDCComponent implements OnInit {
-
-  constructor() { }
+  vdc: VdcModel;
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

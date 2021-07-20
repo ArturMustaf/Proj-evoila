@@ -51,7 +51,6 @@ public class ResourceControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void postResourceTest() throws Exception {
         var resource = new Resource();
-        resource.setId(RandomStringUtils.randomAlphanumeric(10));
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resource);
         mockMvc.perform(post("/create/resources")
                 .contentType(MediaType.APPLICATION_JSON).content(json))

@@ -15,6 +15,7 @@ import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -37,8 +38,6 @@ public class ResTypeRepositoryTest {
         List<ResType> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var resourceType = new ResType();
-            String generatedString = RandomStringUtils.random(10);
-            resourceType.setId(generatedString);
             entities.add(resourceType);
         }
         resTypeRepository.saveAll(entities);
@@ -51,7 +50,8 @@ public class ResTypeRepositoryTest {
     @Test
     void readResourceType() {
         var resourceType = new ResType();
-        resourceType.setId("testID");
+        Random random=new Random();
+        resourceType.setId(random.nextInt());
         resTypeRepository.save(resourceType);
         Assertions.assertNotNull(resTypeRepository.findById(resourceType.getId()));
     }
@@ -59,13 +59,14 @@ public class ResTypeRepositoryTest {
     @Test
     void updateResourceType() {
         var resourceType = new ResType();
-        resourceType.setTypeOfResource("CPU");
+        resourceType.setTypeOfResource(RandomStringUtils.randomAlphanumeric(5));
         var orgInitialName = resourceType.getTypeOfResource();
-        resourceType.setId("testID");
+        Random random=new Random();
+        resourceType.setId(random.nextInt());
         resTypeRepository.save(resourceType);
         Assertions.assertNotNull(resTypeRepository.findById(resourceType.getId()));
         var orgUserReturned = resTypeRepository.findById(resourceType.getId()).orElse(null);
-        orgUserReturned.setTypeOfResource("ÄöUq1,.-:");
+        orgUserReturned.setTypeOfResource(RandomStringUtils.randomAlphanumeric(5));
         resTypeRepository.save(orgUserReturned);
         assertNotEquals(orgInitialName, resTypeRepository.findById(resourceType.getId()).orElse(null).getTypeOfResource());
     }

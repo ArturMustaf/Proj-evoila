@@ -11,13 +11,13 @@ import javax.persistence.Id;
 @Data
 public class Resource {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    String id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    long id;
     //resource do not need a vdcID
     String vdcID;
     //resource must have an orgID
     String orgID;
-    String resourceTypeID;
+    long resourceTypeID;
     long startDate;
     long endDate;
 

@@ -13,14 +13,13 @@ import javax.persistence.Id;
 @Entity
 public class Prices {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    String id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    long id;
     //start date
     long startDate;
     //end date
     long endDate;
-    //name of ressource e.g. memory, storage, cpu, manhour
-    String resourceID;
+    long resourceID;
     //eg S,M,L
     String resourceSize;
     //price in cent stored

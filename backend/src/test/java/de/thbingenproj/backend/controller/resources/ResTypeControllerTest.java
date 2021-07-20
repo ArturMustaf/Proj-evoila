@@ -44,7 +44,6 @@ public class ResTypeControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void postResourceType() throws Exception {
         var resourceType = new ResType();
-        resourceType.setId(RandomStringUtils.randomAlphanumeric(10));
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
         mockMvc.perform(post("/create/resource-types")
                 .contentType(MediaType.APPLICATION_JSON).content(json))

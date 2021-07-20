@@ -33,7 +33,7 @@ public class ResTypeController {
      * @return ResType object
      */
     @GetMapping("/resource-types/{id}")
-    public ResType getResourceType(@PathVariable String id) {
+    public ResType getResourceType(@PathVariable long id) {
         return this.resTypeRepository.findById(id).orElse(null);
     }
 

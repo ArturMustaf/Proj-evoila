@@ -16,6 +16,7 @@ import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -38,8 +39,6 @@ public class PriceRepositoryTest {
         List<Prices> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var prices = new Prices();
-            String generatedString = RandomStringUtils.random(10);
-            prices.setId(generatedString);
             entities.add(prices);
         }
         pricesRepository.saveAll(entities);
@@ -52,7 +51,7 @@ public class PriceRepositoryTest {
     @Test
     void readResourceType() {
         var prices = new Prices();
-        prices.setId("testID");
+
         pricesRepository.save(prices);
         Assertions.assertNotNull(pricesRepository.findById(prices.getId()));
     }
@@ -60,34 +59,33 @@ public class PriceRepositoryTest {
     @Test
     void updateResourceType() {
         var resourceType = new Prices();
-        resourceType.setResourceSize("500MB");
+        resourceType.setResourceSize(RandomStringUtils.randomAlphanumeric(5));
         var orgInitialName = resourceType.getResourceSize();
-        resourceType.setId("testID");
+        Random random=new Random();
+        resourceType.setId(random.nextInt());
         pricesRepository.save(resourceType);
         Assertions.assertNotNull(pricesRepository.findById(resourceType.getId()));
         var orgUserReturned = pricesRepository.findById(resourceType.getId()).orElse(null);
-        orgUserReturned.setResourceSize("10000MB");
+        orgUserReturned.setResourceSize(RandomStringUtils.randomAlphanumeric(8));
         pricesRepository.save(orgUserReturned);
         assertNotEquals(orgInitialName, pricesRepository.findById(resourceType.getId()).orElse(null).getResourceSize());
     }
     @Transactional
     @Test
     void findAllPricesByVdcIDTest() {
-        String priceID= RandomStringUtils.randomAlphanumeric(10);
+        String vdcID= RandomStringUtils.randomAlphanumeric(10);
         var entities = new ArrayList<Prices>();
         for(int i = 0; i < 20; i++){
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(7));
-            prices.setVdcID(priceID);
+            prices.setVdcID(vdcID);
             entities.add(prices);
         }  for(int i = 0; i < 50; i++){
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(10));
             prices.setVdcID(RandomStringUtils.randomAlphanumeric(7));
             entities.add(prices);
         }
        pricesRepository.saveAll(entities);
-        var allByVdcID=pricesRepository.findAllByVdcID(priceID);
+        var allByVdcID=pricesRepository.findAllByVdcID(vdcID);
         Assertions.assertEquals(20, allByVdcID.size());
 
     }
@@ -98,12 +96,10 @@ public class PriceRepositoryTest {
         var entities = new ArrayList<Prices>();
         for(int i = 0; i < 20; i++){
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(7));
             prices.setOrgID(orgID);
             entities.add(prices);
         }  for(int i = 0; i < 50; i++){
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(10));
             prices.setOrgID(RandomStringUtils.randomAlphanumeric(7));
             entities.add(prices);
         }
@@ -115,16 +111,16 @@ public class PriceRepositoryTest {
     @Transactional
     @Test
     void findAllPricesByResourceIDTest() {
-        String resourceID= RandomStringUtils.randomAlphanumeric(10);
+        Random random=new Random();
+        long resourceID= random.nextInt();
         var entities = new ArrayList<Prices>();
+
         for(int i = 0; i < 20; i++){
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(7));
-            prices.setResourceID(resourceID);
+            prices.setResourceID(random.nextInt());
             entities.add(prices);
         }  for(int i = 0; i < 50; i++){
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(10));
             prices.setOrgID(RandomStringUtils.randomAlphanumeric(7));
             entities.add(prices);
         }
@@ -141,7 +137,6 @@ public class PriceRepositoryTest {
         String vdcID=RandomStringUtils.randomAlphanumeric(7);
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(7));
             prices.setVdcID(vdcID);
             prices.setStartDate(time - 5000);
             prices.setEndDate(time + 5000);
@@ -150,14 +145,12 @@ public class PriceRepositoryTest {
         }
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(7));
             prices.setVdcID(vdcID);
             prices.setStartDate(time);
             entities.add(prices);
         }
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(7));
             prices.setVdcID(vdcID);
             prices.setStartDate(time);
             prices.setEndDate(time + 2);
@@ -165,7 +158,6 @@ public class PriceRepositoryTest {
         }
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(7));
             prices.setVdcID(vdcID);
             prices.setStartDate(time - 5000);
             prices.setEndDate(time - 2000);
@@ -174,7 +166,6 @@ public class PriceRepositoryTest {
         }
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(7));
             prices.setVdcID(vdcID);
             prices.setStartDate(time + 3000);
             prices.setEndDate(time + 20000);
@@ -184,7 +175,6 @@ public class PriceRepositoryTest {
         //random vdcID
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(10));
             prices.setOrgID(RandomStringUtils.random(7));
             prices.setVdcID(RandomStringUtils.random(7));
             prices.setStartDate(time -5000);
@@ -193,7 +183,6 @@ public class PriceRepositoryTest {
         }
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(10));
             prices.setOrgID(RandomStringUtils.random(7));
             prices.setVdcID(RandomStringUtils.random(7));
             prices.setStartDate(time);
@@ -202,7 +191,6 @@ public class PriceRepositoryTest {
         }
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(10));
             prices.setOrgID(RandomStringUtils.random(7));
             prices.setVdcID(RandomStringUtils.random(7));
             prices.setStartDate(time+ 500);
@@ -225,7 +213,6 @@ public class PriceRepositoryTest {
         String orgID=RandomStringUtils.randomAlphanumeric(7);
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(7));
             prices.setOrgID(orgID);
             prices.setStartDate(time - 5000);
             prices.setEndDate(time + 5000);
@@ -234,14 +221,12 @@ public class PriceRepositoryTest {
         }
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(7));
             prices.setOrgID(orgID);
             prices.setStartDate(time);
             entities.add(prices);
         }
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(10));
             prices.setOrgID(orgID);
             prices.setStartDate(time);
             prices.setEndDate(time + 2);
@@ -250,7 +235,6 @@ public class PriceRepositoryTest {
 
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(7));
             prices.setOrgID(orgID);
             prices.setStartDate(time - 5000);
             prices.setEndDate(time - 2000);
@@ -260,7 +244,6 @@ public class PriceRepositoryTest {
 
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(7));
             prices.setOrgID(orgID);
             prices.setStartDate(time + 3000);
             prices.setEndDate(time + 20000);
@@ -271,7 +254,6 @@ public class PriceRepositoryTest {
         //random orgId
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(10));
             prices.setOrgID(RandomStringUtils.random(7));
             prices.setVdcID(RandomStringUtils.random(7));
             prices.setStartDate(time -5000);
@@ -280,7 +262,6 @@ public class PriceRepositoryTest {
         }
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(10));
             prices.setOrgID(RandomStringUtils.random(7));
             prices.setVdcID(RandomStringUtils.random(7));
             prices.setStartDate(time);
@@ -289,7 +270,6 @@ public class PriceRepositoryTest {
         }
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setId(RandomStringUtils.randomAlphanumeric(10));
             prices.setOrgID(RandomStringUtils.random(7));
             prices.setVdcID(RandomStringUtils.random(7));
             prices.setStartDate(time+ 500);

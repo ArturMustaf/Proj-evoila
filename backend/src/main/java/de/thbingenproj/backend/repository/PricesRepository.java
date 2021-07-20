@@ -7,10 +7,10 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 @RepositoryRestResource
-public interface PricesRepository extends CrudRepository<Prices, String> {
+public interface PricesRepository extends CrudRepository<Prices, Long> {
     List<Prices> findAll();
-    List<Prices> findAllByResourceID(String resourceID);
-    Prices findByResourceIDAndEndDateIsNull(String resourceID);
+    List<Prices> findAllByResourceID(long resourceID);
+    Prices findByResourceIDAndEndDateIsNull(long resourceID);
     List<Prices> findAllByVdcID(String vdcID);
     List<Prices> findAllByOrgID(String orgID);
     // findaAll ById, StartDate between from until || EndDate between from until || EnDate before from && until==null (0)

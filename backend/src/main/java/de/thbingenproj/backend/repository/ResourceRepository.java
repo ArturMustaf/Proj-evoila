@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 @RepositoryRestResource
-public interface ResourceRepository extends CrudRepository<Resource, String> {
+public interface ResourceRepository extends CrudRepository<Resource, Long> {
     List<Resource> findAll();
     List<Resource> findAllByVdcID(String vdcID);
     List<Resource> findAllByOrgID(String orgID);

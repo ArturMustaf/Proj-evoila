@@ -6,13 +6,13 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PricesDTO {
-    String id;
+   long id;
     //start date
     long startDate;
     //end date
     long endDate;
     //name of ressource e.g. memory, storage, cpu, manhour
-    String resourceID;
+    long resourceID;
     //eg S,M,L
     String resourceSize;
     //price in cent stored

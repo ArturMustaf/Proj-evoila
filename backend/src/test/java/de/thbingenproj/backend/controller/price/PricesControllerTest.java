@@ -52,7 +52,6 @@ public class PricesControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void postPricesTest() throws Exception {
         var prices = new Prices();
-        prices.setId(RandomStringUtils.randomAlphanumeric(10));
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(prices);
         mockMvc.perform(post("/create/prices")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
@@ -73,7 +72,6 @@ public class PricesControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void postUpdatePricesTest() throws Exception {
         var prices = new Prices();
-        prices.setId(RandomStringUtils.randomAlphanumeric(10));
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(prices);
         mockMvc.perform(post("/create/resources/0/prices")
                 .contentType(MediaType.APPLICATION_JSON).content(json))

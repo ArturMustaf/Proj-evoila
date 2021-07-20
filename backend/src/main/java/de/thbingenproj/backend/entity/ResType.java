@@ -11,8 +11,8 @@ import javax.persistence.Id;
 @Entity
 public class ResType {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    String id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    long id;
     //any type of resource e.g. cpu, manhour
     String typeOfResource;
     //short description what this resource is about

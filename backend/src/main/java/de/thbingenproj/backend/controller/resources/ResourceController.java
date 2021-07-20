@@ -36,7 +36,7 @@ public class ResourceController {
      * @return resource object
      */
     @GetMapping("/resources/{id}")
-    public Resource getResource(@PathVariable String id) {
+    public Resource getResource(@PathVariable long id) {
         return this.resourceRepository.findById(id).orElse(null);
     }
 

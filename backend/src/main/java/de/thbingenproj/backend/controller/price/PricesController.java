@@ -36,7 +36,7 @@ public class PricesController {
      * @return the updated price object or error
      */
     @PostMapping("/create/resources/{id}/prices")
-    public Prices updatePrice(@RequestBody PricesDTO price, @PathVariable String id) {
+    public Prices updatePrice(@RequestBody PricesDTO price, @PathVariable long id) {
         var currPrice = pricesRepository.findByResourceIDAndEndDateIsNull(id);
         if (currPrice != null) {
             long currTime = System.currentTimeMillis();
@@ -52,7 +52,7 @@ public class PricesController {
      * @return the requested price object or null
      */
     @GetMapping("/prices/{id}")
-    public Prices getPrice(@PathVariable String id) {
+    public Prices getPrice(@PathVariable long id) {
         return this.pricesRepository.findById(id).orElse(null);
     }
     /**
@@ -68,7 +68,7 @@ public class PricesController {
      * @return all prices of the requested resource object or null
      */
     @GetMapping("/resources/{id}/prices")
-    public List<Prices> getAllPricesByRessourceId(@PathVariable String id) {
+    public List<Prices> getAllPricesByRessourceId(@PathVariable long id) {
         return this.pricesRepository.findAllByResourceID(id);
     }
     /**

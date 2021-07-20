@@ -62,7 +62,6 @@ public class PriceRepositoryTest {
         resourceType.setResourceSize(RandomStringUtils.randomAlphanumeric(5));
         var orgInitialName = resourceType.getResourceSize();
         Random random=new Random();
-        resourceType.setId(random.nextInt());
         pricesRepository.save(resourceType);
         Assertions.assertNotNull(pricesRepository.findById(resourceType.getId()));
         var orgUserReturned = pricesRepository.findById(resourceType.getId()).orElse(null);
@@ -117,10 +116,11 @@ public class PriceRepositoryTest {
 
         for(int i = 0; i < 20; i++){
             var prices = new Prices();
-            prices.setResourceID(random.nextInt());
+            prices.setResourceID(resourceID);
             entities.add(prices);
         }  for(int i = 0; i < 50; i++){
             var prices = new Prices();
+            prices.setResourceID(random.nextInt());
             prices.setOrgID(RandomStringUtils.randomAlphanumeric(7));
             entities.add(prices);
         }

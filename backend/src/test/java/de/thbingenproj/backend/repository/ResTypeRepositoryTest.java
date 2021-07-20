@@ -62,7 +62,6 @@ public class ResTypeRepositoryTest {
         resourceType.setTypeOfResource(RandomStringUtils.randomAlphanumeric(5));
         var orgInitialName = resourceType.getTypeOfResource();
         Random random=new Random();
-        resourceType.setId(random.nextInt());
         resTypeRepository.save(resourceType);
         Assertions.assertNotNull(resTypeRepository.findById(resourceType.getId()));
         var orgUserReturned = resTypeRepository.findById(resourceType.getId()).orElse(null);

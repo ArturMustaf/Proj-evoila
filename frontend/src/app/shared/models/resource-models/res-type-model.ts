@@ -1,4 +1,4 @@
-export interface ResType {
+export interface ResTypeModel {
   id: string;
   typeOfResource: string;
   description: string;

@@ -3,7 +3,7 @@ import {NavService} from '../../../../core/services/nav/nav.service';
 import {DataCommunicatorService} from '../../../../core/services/data_communicator/data-communicator.service';
 import {ResourceModel} from '../../../../shared/models/resource-models/resource-model';
 import {PricesModel} from '../../../../shared/models/prices-models/prices-model';
-import {ResType} from '../../../../shared/models/resource-models/res-type-model';
+import {ResTypeModel} from '../../../../shared/models/resource-models/res-type-model';
 
 /**
  * Dashboard component
@@ -15,9 +15,9 @@ import {ResType} from '../../../../shared/models/resource-models/res-type-model'
 })
 export class DashComponent {
   allCurrentResources: ResourceModel[];
-  allCurrentResourceTypes: ResType[];
+  allCurrentResourceTypes: ResTypeModel[];
   allCurrentPrices: PricesModel[];
-  costsOfCurrentMonth: any[];
+  costsDataForDiagram: {name: string, value: number}[];
   costsOfCurrentMonth_TEST_VALUES = [{"name": "CPU", "value": 2300}, {"name": "Storage", "value": 1200}, {"name": "RAM", "value": 900}];
   dateNow: Date = new Date();
 
@@ -29,20 +29,23 @@ export class DashComponent {
   }
 
   setupCosts() {
-    this.requestAllResourcesOfCurrentMonth();
-    this.requestAllUniqueResourceTypesOfCurrentMonth();
-    this.requestAllPricesOfCurrentMonth();
-    this.aggregateTotalCostsOfAllPricesForCurrentMonth();
+    this.requestAllCurrentResources();
+    this.requestAllUniqueCurrentResourceTypes();
+    this.requestAllCurrentPrices();
+    this.aggregateCurrentTotalCostsPerResType();
+    this.costsDataForDiagram.sort(function(costObjA, costObjB) {
+      return costObjB.value - costObjA.value;
+    });
   }
 
-  requestAllResourcesOfCurrentMonth() : void {
+  requestAllCurrentResources() : void {
     this.communicator.getResourcesByOrgIDInGivenTime("dcf38302-f549-405b-8a03-23f23f4962af",
                                                         this.getFirstDayOfCurrentMonthInMS(),
                                                         this.dateNow.getMilliseconds()).then(
                                                             resources => this.allCurrentResources = resources);
   }
 
-  requestAllUniqueResourceTypesOfCurrentMonth() : void {
+  requestAllUniqueCurrentResourceTypes() : void {
     let allCurrentResourceTypeIDs = this.allCurrentResources.map( resource => resource.resourceTypeID );
     let allCurrentUniqueResourceTypeIDs = [... new Set(allCurrentResourceTypeIDs)].sort();
     allCurrentUniqueResourceTypeIDs.forEach( resourceTypeID => {
@@ -50,7 +53,7 @@ export class DashComponent {
     });
   }
 
-  requestAllPricesOfCurrentMonth() : void {
+  requestAllCurrentPrices() : void {
     this.allCurrentResources.forEach( resource => {
       this.communicator.getPricesByResourceIDInGivenTime(resource.id, this.getFirstDayOfCurrentMonthInMS(), this.dateNow.getMilliseconds()).then(
         pricesResp => pricesResp.forEach(
@@ -64,21 +67,18 @@ export class DashComponent {
     return new Date(this.dateNow.getFullYear(), this.dateNow.getMonth(), 1).getMilliseconds();
   }
 
-  aggregateTotalCostsOfAllPricesForCurrentMonth(): void {
+  aggregateCurrentTotalCostsPerResType(): void {
     let from = this.getFirstDayOfCurrentMonthInMS();
     let until = this.dateNow.getMilliseconds();
-    let totalCostsInCent = 0;
-    this.allCurrentPrices.forEach( price => {
-      let timeOfCurrentMonthInMS = until - from;
-      let timeOfPriceOfCurrentMonthInMS = timeOfCurrentMonthInMS;
-      if (price.startDate < from) {
-        timeOfPriceOfCurrentMonthInMS -= (from - price.startDate);
-      }
-      if (price.endDate > until) {
-        timeOfPriceOfCurrentMonthInMS -= (price.endDate - until);
-      }
-      totalCostsInCent += (timeOfPriceOfCurrentMonthInMS / timeOfCurrentMonthInMS) * price.priceInCent;
+    this.allCurrentResourceTypes.forEach( resType => {
+      let allCurrentPricesOfType = this.allCurrentPrices.filter( price => price.resourceID == resType.id );
+      let totalCostForResourcesOfType = allCurrentPricesOfType.reduce( function(previous, current) {
+        let timeOfPriceForCurrentMonthInHours = (until - from) / (1000 * 60 * 60);
+        return previous + (current.priceInCent * timeOfPriceForCurrentMonthInHours);
+      }, 0) ;
+      this.costsDataForDiagram.push( {"name" : resType.typeOfResource, "value" : totalCostForResourcesOfType} );
     });
-    this.costsOfCurrentMonth.push({"name": "current month", "value": totalCostsInCent});
   }
 }
+
+

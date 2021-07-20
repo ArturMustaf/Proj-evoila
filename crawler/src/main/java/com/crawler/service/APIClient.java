@@ -171,6 +171,7 @@ public class APIClient {
             vdc.setOrgID(orgID);
             var computeCapacity = vdc.getComputeCapacity();
             computeCapacity.setDate(System.currentTimeMillis());
+            computeCapacity.setVdcID(vdc.getId());
             computeCapacities.add(modelMapper.map(computeCapacity, VDCComputeCapacity.class));
             var vdcStorageProfiles = vdc.getVdcStorageProfiles().getVdcStorageProfile();
             for (VDCStorageProfileDTO storageProfileDTO : vdcStorageProfiles){

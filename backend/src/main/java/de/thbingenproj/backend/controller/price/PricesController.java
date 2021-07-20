@@ -100,7 +100,7 @@ public class PricesController {
      */
     @GetMapping("/organizations/prices/{id}/{from}/{until}")
     public List<Prices>getPricesByOrgIdInGivenTime(@PathVariable String id, @PathVariable long from, @PathVariable long until){
-     return this.pricesRepository.findAllByVDCIDWithinTimeframe(id, from, until);
+     return this.pricesRepository.findAllByOrgIDWithinTimeframe(id, from, until);
 
 
     }
@@ -118,5 +118,4 @@ public class PricesController {
     }
 
 }
-
 

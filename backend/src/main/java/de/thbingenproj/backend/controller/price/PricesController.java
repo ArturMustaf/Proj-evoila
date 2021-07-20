@@ -76,7 +76,7 @@ public class PricesController {
      * @param  id of the organization
      * @return Prices objects
      */
-    @GetMapping("/prices/organizations/{id}")
+    @GetMapping("/organizations/prices/{id}")
     public List<Prices> getALlPricesByOrgID(@PathVariable String id){
         return this.pricesRepository.findAllByOrgID(id);
     }

@@ -55,7 +55,7 @@ public class ResourceController {
      * @param id of the organization
      * @return resource objects
      */
-    @GetMapping("/resources/organizations/{id}")
+    @GetMapping("/organizations/resources/{id}")
     public List<Resource> getALlResourcesByOrgID(@PathVariable String id) {
         return this.resourceRepository.findAllByOrgID(id);
     }
@@ -66,7 +66,7 @@ public class ResourceController {
      * @param id of the organization
      * @return resource objects of vdc
      */
-    @GetMapping("/resources/vdcs/{id}")
+    @GetMapping("/vdcs/resources/{id}")
     public List<Resource> getALlResourcesByVdcID(@PathVariable String id) {
         return this.resourceRepository.findAllByVdcID(id);
     }

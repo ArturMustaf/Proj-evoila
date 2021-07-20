@@ -87,7 +87,7 @@ public class ResourceControllerTest {
     @Test
     @WithMockKeycloakAuth("ROLE_user")
     void getAllResourcesByOrgIDTest() throws Exception {
-        mockMvc.perform(get("/resources/organizations/0"))
+        mockMvc.perform(get("/organizations/resources/0"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
@@ -95,7 +95,7 @@ public class ResourceControllerTest {
     @Test
     @WithMockKeycloakAuth("ROLE_user")
     void getAllResourcesByVDCIDTest() throws Exception {
-        mockMvc.perform(get("/resources/vdcs/0"))
+        mockMvc.perform(get("/vdcs/resources/0"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
@@ -103,14 +103,14 @@ public class ResourceControllerTest {
     @Test
     @WithMockKeycloakAuth("ROLE_user")
     void getResourcesByVdcIdInGivenTimeTest() throws Exception {
-        mockMvc.perform(get("/resources/vdcs/0/100/200"))
+        mockMvc.perform(get("/vdcs/resources/0/100/200"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
     @Test
     @WithMockKeycloakAuth("ROLE_user")
     void getResourcesByOrgIdInGivenTimeTest() throws Exception {
-        mockMvc.perform(get("/resources/organizations/0/100/200"))
+        mockMvc.perform(get("/organizations/resources/0/100/200"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }

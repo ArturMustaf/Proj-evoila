@@ -39,6 +39,6 @@ public class VDCComputeCapacityController {
 
     @GetMapping("/vdcs/{id}/vdc-compute-capacities/latest")
     public VDCComputeCapacity getLatestComputeCapacitiesByVDCID(@PathVariable String id) {
-        return this.vdcComputeCapacityRepository.findByVdcIDTopByOrderByDate(id);
+        return this.vdcComputeCapacityRepository.findTopByVdcIDOrderByDateDesc(id);
     }
 }

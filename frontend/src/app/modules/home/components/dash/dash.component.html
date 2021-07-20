@@ -11,16 +11,15 @@
     <div class="card-header">Costs</div>
     <div class="card-block" style="overflow: auto">
       <app-costs-diagram></app-costs-diagram>
-      <button class="btn btn-primary" (click)="onClick()">teafawfawfawf</button>
     </div>
     </div>
   </div>
   <div class="card clr-col-md item-vdcs" style="height: 100%; margin-top: 0; overflow: auto">
     <div class="card-header">VDCs</div>
     <div class="card-block" style="overflow-y: auto">
-      <app-single-vdc></app-single-vdc>
-      <app-single-vdc></app-single-vdc>
-      <app-single-vdc></app-single-vdc>
+      <li *ngFor="let vdc of this.vdcList">
+        <app-single-vdc></app-single-vdc>
+      </li>
     </div>
   </div>
 </div>

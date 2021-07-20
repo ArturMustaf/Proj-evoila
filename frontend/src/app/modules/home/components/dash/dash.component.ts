@@ -37,17 +37,13 @@ export class DashComponent implements OnInit {
   constructor(private navService: NavService, private communicator: DataCommunicatorService, private keycloakService: KeycloakService) {
   }
 
-  onClick(){
-    setTimeout(() => console.log(this.orgUser));
-    setTimeout(() => console.log(this.vdcList));
-  }
-  getUserDing(id: string){
-    this.communicator.getCurrentOrgUserByOrgKeycloakID(id)
-      .subscribe(data => this.communicator.getVDCsByOrgID(data.orgID)
-        .subscribe(data2 => this.vdcList = data2));
+  getCurrentUserFromBackend(){
+    let userID = this.keycloakService.getKeycloakInstance().subject;
+    this.communicator.getCurrentOrgUserByOrgKeycloakID(userID)
+      .subscribe(data => this.communicator.getVDCsByOrgID(data.orgID).subscribe(res => this.vdcList = res));
   }
 
   ngOnInit(): void {
-    this.getUserDing(this.keycloakService.getKeycloakInstance().subject);
+    this.getCurrentUserFromBackend();
   }
 }

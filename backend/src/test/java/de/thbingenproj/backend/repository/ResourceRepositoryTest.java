@@ -158,24 +158,24 @@ public class ResourceRepositoryTest {
     //random vdcID
     for (int i = 0; i < 10; i++) {
         var resource = new Resource();
-        resource.setOrgID(RandomStringUtils.random(7));
-        resource.setVdcID(RandomStringUtils.random(7));
+        resource.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+        resource.setVdcID(RandomStringUtils.randomAlphanumeric(7));
         resource.setStartDate(time -5000);
         resource.setEndDate(time +20);
         entities.add(resource);
     }
     for (int i = 0; i < 10; i++) {
         var resource = new Resource();
-        resource.setOrgID(RandomStringUtils.random(7));
-        resource.setVdcID(RandomStringUtils.random(7));
+        resource.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+        resource.setVdcID(RandomStringUtils.randomAlphanumeric(7));
         resource.setStartDate(time);
         resource.setEndDate(time + 2);
         entities.add(resource);
     }
     for (int i = 0; i < 10; i++) {
         var resource = new Resource();
-        resource.setOrgID(RandomStringUtils.random(7));
-        resource.setVdcID(RandomStringUtils.random(7));
+        resource.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+        resource.setVdcID(RandomStringUtils.randomAlphanumeric(7));
         resource.setStartDate(time+ 500);
         resource.setEndDate(time + 5000);
         entities.add(resource);

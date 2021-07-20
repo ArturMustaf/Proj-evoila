@@ -175,24 +175,24 @@ public class PriceRepositoryTest {
         //random vdcID
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setOrgID(RandomStringUtils.random(7));
-            prices.setVdcID(RandomStringUtils.random(7));
+            prices.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            prices.setVdcID(RandomStringUtils.randomAlphanumeric(7));
             prices.setStartDate(time -5000);
             prices.setEndDate(time +20);
             entities.add(prices);
         }
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setOrgID(RandomStringUtils.random(7));
-            prices.setVdcID(RandomStringUtils.random(7));
+            prices.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            prices.setVdcID(RandomStringUtils.randomAlphanumeric(7));
             prices.setStartDate(time);
             prices.setEndDate(time + 2);
             entities.add(prices);
         }
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setOrgID(RandomStringUtils.random(7));
-            prices.setVdcID(RandomStringUtils.random(7));
+            prices.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            prices.setVdcID(RandomStringUtils.randomAlphanumeric(7));
             prices.setStartDate(time+ 500);
             prices.setEndDate(time + 5000);
             entities.add(prices);
@@ -254,24 +254,24 @@ public class PriceRepositoryTest {
         //random orgId
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setOrgID(RandomStringUtils.random(7));
-            prices.setVdcID(RandomStringUtils.random(7));
+            prices.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            prices.setVdcID(RandomStringUtils.randomAlphanumeric(7));
             prices.setStartDate(time -5000);
             prices.setEndDate(time +20);
             entities.add(prices);
         }
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setOrgID(RandomStringUtils.random(7));
-            prices.setVdcID(RandomStringUtils.random(7));
+            prices.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            prices.setVdcID(RandomStringUtils.randomAlphanumeric(7));
             prices.setStartDate(time);
             prices.setEndDate(time + 2);
             entities.add(prices);
         }
         for (int i = 0; i < 10; i++) {
             var prices = new Prices();
-            prices.setOrgID(RandomStringUtils.random(7));
-            prices.setVdcID(RandomStringUtils.random(7));
+            prices.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            prices.setVdcID(RandomStringUtils.randomAlphanumeric(7));
             prices.setStartDate(time+ 500);
             prices.setEndDate(time + 5000);
             entities.add(prices);

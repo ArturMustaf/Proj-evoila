@@ -2,6 +2,7 @@ package de.thbingenproj.backend.repository;
 
 
 import de.thbingenproj.backend.entity.Prices;
+import de.thbingenproj.backend.entity.Resource;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import org.junit.jupiter.api.Assertions;
@@ -132,6 +133,134 @@ public class PriceRepositoryTest {
         var allByResourceID=pricesRepository.findAllByResourceID(resourceID);
         Assertions.assertEquals(20, allByResourceID.size());
 
+    }
+    @Transactional
+    @Test
+    public void findAllByVdcIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNullTest() {
+        var entities = new ArrayList<Prices>();
+        long time=System.currentTimeMillis();
+        String vdcID=RandomStringUtils.randomAlphanumeric(7);
+        for (int i = 0; i < 20; i++) {
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(7));
+            prices.setVdcID(vdcID);
+            prices.setStartDate(time - 5000);
+            prices.setEndDate(time + 5000);
+
+            entities.add(prices);
+        }
+        for (int i = 0; i < 10; i++) {
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(7));
+            prices.setVdcID(vdcID);
+            prices.setId(RandomStringUtils.randomAlphanumeric(10));
+            prices.setStartDate(time);
+            entities.add(prices);
+        }
+        for (int i = 0; i < 10; i++) {
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(10));
+            prices.setId(RandomStringUtils.randomAlphanumeric(7));
+            prices.setVdcID(vdcID);
+            prices.setStartDate(time);
+            prices.setEndDate(time + 2);
+            entities.add(prices);
+        }
+        for (int i = 0; i < 10; i++) {
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(7));
+            prices.setVdcID(vdcID);
+            prices.setStartDate(time - 5000);
+            prices.setEndDate(time - 2000);
+
+            entities.add(prices);
+        }
+        for (int i = 0; i < 10; i++) {
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(7));
+            prices.setVdcID(vdcID);
+            prices.setStartDate(time + 3000);
+            prices.setEndDate(time + 20000);
+
+            entities.add(prices);
+        }
+        pricesRepository.saveAll(entities);
+        long from=System.currentTimeMillis()-1000;
+        long until= System.currentTimeMillis()+1000;
+        var allByVdcID = pricesRepository.findAllByVdcIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNull(vdcID, from,until,from,until,until);
+        for (var prices: allByVdcID){
+            System.out.println(prices);
+            //should be 30
+        }
+    }
+    @Transactional
+    @Test
+    public void findAllByOrgIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNullTest() {
+        var entities = new ArrayList<Prices>();
+        long time=System.currentTimeMillis();
+        String orgID=RandomStringUtils.randomAlphanumeric(7);
+        for (int i = 0; i < 10; i++) {
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(7));
+            prices.setOrgID(orgID);
+            prices.setStartDate(time - 5000);
+            prices.setEndDate(time + 5000);
+
+            entities.add(prices);
+        }
+        for (int i = 0; i < 10; i++) {
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(7));
+            prices.setOrgID(orgID);
+            prices.setId(RandomStringUtils.randomAlphanumeric(10));
+            prices.setStartDate(time);
+            entities.add(prices);
+        }
+        for (int i = 0; i < 10; i++) {
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(10));
+            prices.setId(RandomStringUtils.randomAlphanumeric(7));
+            prices.setOrgID(orgID);
+            prices.setStartDate(time);
+            prices.setEndDate(time + 2);
+            entities.add(prices);
+        }
+        for (int i = 0; i < 10; i++) {
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(10));
+            prices.setId(RandomStringUtils.randomAlphanumeric(7));
+            prices.setOrgID(RandomStringUtils.random(7));
+            prices.setStartDate(time);
+            prices.setEndDate(time + 2);
+            entities.add(prices);
+        }
+        for (int i = 0; i < 10; i++) {
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(7));
+            prices.setOrgID(orgID);
+            prices.setStartDate(time - 5000);
+            prices.setEndDate(time - 2000);
+
+            entities.add(prices);
+        }
+
+        for (int i = 0; i < 10; i++) {
+            var prices = new Prices();
+            prices.setId(RandomStringUtils.randomAlphanumeric(7));
+            prices.setOrgID(orgID);
+            prices.setStartDate(time + 3000);
+            prices.setEndDate(time + 20000);
+
+            entities.add(prices);
+        }
+        pricesRepository.saveAll(entities);
+        long from=System.currentTimeMillis()-1000;
+        long until= System.currentTimeMillis()+1000;
+        var allByVdcID = pricesRepository.findAllByVdcIDAndStartDateIsBetweenOrEndDateIsBetweenOrEndDateBeforeAndEndDateIsNull(orgID, from,until,from,until,until);
+        for (var res: allByVdcID){
+            System.out.println(res);
+        }
+        //should be 30
     }
 
 }

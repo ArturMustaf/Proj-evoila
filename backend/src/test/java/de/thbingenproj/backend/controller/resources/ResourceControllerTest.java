@@ -4,6 +4,7 @@ import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMo
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
+import de.thbingenproj.backend.entity.ResType;
 import de.thbingenproj.backend.entity.Resource;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import de.thbingenproj.backend.repository.ResourceRepository;
@@ -113,6 +114,61 @@ public class ResourceControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
-
-
+    @Test
+    void postResourceWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/create/resources")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getResourceWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/resources/0")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void  getAllResourcesWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/admin/resources")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getALlResourcesByOrgIDWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/organizations/resources/0")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getALlResourcesByVdcIDWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/vdcs/resources/0")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getResourcesByOrgIdInGivenTimeWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/organizations/resources/0/200025/534631")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getResourcesByVdcIdInGivenTimeWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/vdcs/resources//0/200025/534631")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
 }
+

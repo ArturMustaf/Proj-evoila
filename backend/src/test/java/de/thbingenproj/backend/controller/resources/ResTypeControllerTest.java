@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
+
 
 
 import javax.transaction.Transactional;
@@ -84,14 +84,7 @@ public class ResTypeControllerTest {
                 .andExpect(status().isUnauthorized());
     }
 
-    @Test
-    void postResourceTypeWithNoAuth() throws Exception {
-        var resourceType = new ResType();
-        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
-        mockMvc.perform(post("/create/resourceTypes")
-                .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().isUnauthorized());
-    }
+
 
     @Test
     @WithMockKeycloakAuth("ROLE_user")
@@ -107,7 +100,22 @@ public class ResTypeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
-
+    @Test
+    void postResourceTypeWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/create/resourceTypes")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getAllResourceTypeWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/admin/resource-types")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
 }
 
 

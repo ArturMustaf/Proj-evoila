@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.thbingenproj.backend.entity.Prices;
 
+import de.thbingenproj.backend.entity.ResType;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import org.junit.Assert;
@@ -151,8 +152,79 @@ public class PricesControllerTest {
                 .andExpect(content().string(containsString("")));
     }
 
-
-
+    //no auth tests
+    @Test
+    void postPriceWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/create/prices")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void updatePriceWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/create/resources/5/prices")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getPriceWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/prices/8")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getAllPriceWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/admin/prices")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getAllPricesByRessourceIdWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/resources/8/prices")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getAllPricesByOrgIDWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/organizations/prices/0")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getAllPricesByVdcIdWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/vdcs/prices/0")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getPricesByOrgIdInGivenTimeWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/organizations/prices/0/200/5890")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getPricesByVdcIDInGivenTimeWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/vdcs/prices/0/200/5890")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
 }
 
 

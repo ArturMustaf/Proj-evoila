@@ -3,13 +3,12 @@
     <div class="card-header">
       <div class="clr-row">
         <div class="clr-col-3">
-          <h4 cds-text="heading medium" style="margin-block-start: 0; margin-block-end: 0"><a routerLink="./" style="color: black">VDCNAME</a></h4>
+          <h4 cds-text="heading medium" style="margin-block-start: 0; margin-block-end: 0"><a routerLink="./" style="color: black">{{vdc.name}}</a></h4>
         </div>
         <div class="clr-col-9">
             <p style="margin-top: 0">
               <clr-icon shape="map-marker"></clr-icon>
-              <!-- toDo get VCNAME -->
-              vd Location
+              {{vdc.href}}
             </p>
         </div>
       </div>
@@ -18,42 +17,35 @@
     <div class="card-block">
       <div class="clr-row">
         <div class="clr-col-3">
-          <!-- toDo get vApps running -->
           <p>
             <span class="RessourceTitle"> vApps  </span>
             <br>
-            <span>0 out of 0 running </span>
+            <span>{{vApps.length}}</span>
           </p>
-          <!-- toDo get VMs running -->
           <p>
             <span class="RessourceTitle">VMs</span>
             <br>
-            <span>0 out of 0 running </span>
+            <span>{{vApps.length}}</span>
           </p>
         </div>
-
-
         <div class="clr-col-9">
           <div class="clr-row">
             <div class="clr-col">
               <h5 class="RessourceTitle">CPU</h5>
               <clr-icon shape="cpu" size="36"></clr-icon>
-              <p>0 Mhz</p>
+              <p>{{computeCapacity.cpuUsed}}/{{computeCapacity.cpuLimit}} Mhz</p>
 
             </div>
             <div class="clr-col">
               <h5 class="RessourceTitle">Memory</h5>
               <clr-icon shape="memory" size="36"></clr-icon>
-              <p>0 MB</p>
-
+              <p>{{computeCapacity.memoryUsed}}/{{computeCapacity.memoryLimit}}MB</p>
             </div>
 
             <div class="clr-col">
               <h5 class="RessourceTitle">Storage</h5>
               <clr-icon shape="storage" size="36"></clr-icon>
-              <p><span> 0 GB</span>
-                <br>
-                <span>1 TB allocated</span></p>
+              <p>{{storageProfile.storageUsedMB}}/{{storageProfile.maxLimit}} MB</p>
             </div>
           </div>
         </div>

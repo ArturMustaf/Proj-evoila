@@ -38,25 +38,13 @@ export class DataCommunicatorService {
   getVDCsByOrgID(id: string): Observable<VdcModel[]> {
     return this.http.get<VdcModel[]>(environment.backend.address + "/organizations/" + id + "/vdcs");
   }
-
-
-/*
-  async getCurrentOrgUserByUserID(id: string): Promise<OrgUserModel>{
-    return this.httpService.get<OrgUserModel>(environment.backend.address + "/org-users/keycloak/"+ id ).toPromise();
+  getVAppsByVdcID(id: string): Observable<VappModel[]>{
+    return this.http.get<VappModel[]>(environment.backend.address + "/vdcs/" + id +"/vapps");
   }
-  async getOrganization(id: string): Promise<OrganizationModel[]> {
-    return this.httpService.get<OrganizationModel[]>(environment.backend.address + "admin/organizations").toPromise();
+  getLatestVdcComputeCapacityByVdcID(id: string): Observable<VdcComputeCapacity> {
+    return this.http.get<VdcComputeCapacity>(environment.backend.address + "/vdcs/" + id + "/vdc-compute-capacities/latest");
   }
-  async getVDCsByOrgID(id: string): Promise<VdcModel[]> {
-    return this.httpService.get<VdcModel[]>(environment.backend.address + "/organizations/" + id + "/vdcs").toPromise();
+  getVdcStorageCapacityByVdcID(id: string): Observable<VdcStorageProfile> {
+    return this.http.get<VdcStorageProfile>(environment.backend.address + "/vdcs/" + id +"/vdc-storage-profiles/latest");
   }
-  async getVAppsByVdcID(id: string): Promise<VappModel[]> {
-    return this.httpService.get<VappModel[]>(environment.backend.address + "/vdcs/" + id +"/vapps").toPromise();
-  }
-  async getVdcComputeCapacityByVdcID(id: string): Promise<VdcComputeCapacity> {
-    return this.httpService.get<VdcComputeCapacity>(environment.backend.address + "/vdcs/" + id + "/vdc-compute-capacities").toPromise();
-  }
-  async getVdcStorageCapacityByVdcID(id: string): Promise<VdcStorageProfile> {
-    return this.httpService.get<VdcStorageProfile>(environment.backend.address + "/vdcs/" + id +"/vdc-storage-profiles").toPromise();
-  }*/
 }

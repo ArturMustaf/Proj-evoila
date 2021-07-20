@@ -18,7 +18,7 @@
     <div class="card-header">VDCs</div>
     <div class="card-block" style="overflow-y: auto">
       <li *ngFor="let vdc of this.vdcList">
-        <app-single-vdc></app-single-vdc>
+        <app-single-vdc [vdc]="vdc"></app-single-vdc>
       </li>
     </div>
   </div>

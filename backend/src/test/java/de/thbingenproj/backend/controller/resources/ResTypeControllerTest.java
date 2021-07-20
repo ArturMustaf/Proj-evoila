@@ -16,7 +16,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 
-
 import javax.transaction.Transactional;
 
 import static org.hamcrest.Matchers.containsString;
@@ -59,7 +58,7 @@ public class ResTypeControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isForbidden());
     }
-    
+
 
     @Test
     @WithMockKeycloakAuth("ROLE_user")
@@ -71,20 +70,10 @@ public class ResTypeControllerTest {
 
 
     @Test
-    @WithMockKeycloakAuth("ROLE_user")
-    void getResourceTypeWithWrongRole() throws Exception {
-        mockMvc.perform(get("/create/resource-types/0"))
-                .andExpect(status().isForbidden());
-    }
-
-
-    @Test
     void getResourceTypeWithNoAuth() throws Exception {
-        mockMvc.perform(get("/create/resource-types/0"))
+        mockMvc.perform(get("/resource-types/0"))
                 .andExpect(status().isUnauthorized());
     }
-
-
 
     @Test
     @WithMockKeycloakAuth("ROLE_user")
@@ -100,6 +89,7 @@ public class ResTypeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
+
     @Test
     void postResourceTypeWithNoAuth() throws Exception {
         var resourceType = new ResType();
@@ -108,6 +98,7 @@ public class ResTypeControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isUnauthorized());
     }
+
     @Test
     void getAllResourceTypeWithNoAuth() throws Exception {
         var resourceType = new ResType();

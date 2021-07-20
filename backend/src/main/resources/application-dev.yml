@@ -30,4 +30,4 @@ keycloak:
   resource: backendClient
   principal-attribute: preferred_username
   cors: true
-  ssl-required: false
+  ssl-required: none

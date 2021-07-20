@@ -27,6 +27,10 @@ public class VDCController {
         return this.vdcRepository.findById(id).orElse(null);
     }
 
+    @GetMapping("/admin/vdcs")
+    public List<VDC> getAllVDCs() {
+        return this.vdcRepository.findAll();
+    }
     @GetMapping("/organizations/{orgID}/vdcs")
     public List<VDC> getAllVDCsByOrganizationID(@PathVariable String orgID) {
         return this.vdcRepository.findAllByOrgID(orgID);

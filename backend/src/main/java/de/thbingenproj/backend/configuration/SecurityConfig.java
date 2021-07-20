@@ -29,7 +29,6 @@ import java.util.Arrays;
 
 @KeycloakConfiguration
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
-
     private final KeycloakClientRequestFactory keycloakClientRequestFactory;
 
 

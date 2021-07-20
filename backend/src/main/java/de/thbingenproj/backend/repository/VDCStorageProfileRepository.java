@@ -9,4 +9,5 @@ import java.util.List;
 @RepositoryRestResource
 public interface VDCStorageProfileRepository extends CrudRepository<VDCStorageProfile, String> {
     List<VDCStorageProfile> findAllByVdcID(String vdcID);
+    List<VDCStorageProfile> findAll();
 }

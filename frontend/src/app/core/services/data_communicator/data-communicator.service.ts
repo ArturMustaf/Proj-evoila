@@ -6,6 +6,7 @@ import {VdcModel} from '../../../shared/models/vdc-models/vdc-model';
 import {VdcComputeCapacity} from '../../../shared/models/vdc-models/vdc-compute-capacity';
 import {VdcStorageProfile} from '../../../shared/models/vdc-models/vdc-storage-profile';
 import {VappModel} from '../../../shared/models/vapp-models/vapp-model';
+import {OrgUserModel} from '../../../shared/models/org-user-models/org-user-model';
 import {ResourceModel} from '../../../shared/models/resource-models/resource-model';
 import {PricesModel} from '../../../shared/models/prices-models/prices-model';
 import {ResTypeModel} from '../../../shared/models/resource-models/res-type-model';
@@ -13,27 +14,38 @@ import {ResTypeModel} from '../../../shared/models/resource-models/res-type-mode
 @Injectable({
   providedIn: 'root'
 })
+/**
+ * Class to get data that the current user is allowed to see
+ * Steps:
+ * User logs in
+ * Userdata gets called from keycloak
+ * With the userdata from keycloak the user is pulled from backend
+ * User from backend has orgID which leads to all vdcs the org owns<
+ * the vdcid leads to vapps,storage and compute capacity
+ */
 export class DataCommunicatorService {
 
   constructor(private httpService: HttpClient) {
 
   }
 
+  async getCurrentOrgUserByUserID(id: string): Promise<OrgUserModel>{
+    return this.httpService.get<OrgUserModel>(environment.backend.address + "/org-users/keycloak/"+ id ).toPromise();
+  }
   async getOrganization(id: string): Promise<OrganizationModel[]> {
-    console.log("getOrg");
-    return await this.httpService.get<OrganizationModel[]>(environment.backend.address + "admin/organizations").toPromise();
+    return this.httpService.get<OrganizationModel[]>(environment.backend.address + "admin/organizations").toPromise();
   }
   async getVDCsByOrgID(id: string): Promise<VdcModel[]> {
-    return await this.httpService.get<VdcModel[]>(environment.backend.address + "/organizations/" + id + "/vdcs").toPromise();
+    return this.httpService.get<VdcModel[]>(environment.backend.address + "/organizations/" + id + "/vdcs").toPromise();
   }
   async getVAppsByVdcID(id: string): Promise<VappModel[]> {
-    return await this.httpService.get<VappModel[]>(environment.backend.address + "/vdcs/" + id +"/vapps").toPromise();
+    return this.httpService.get<VappModel[]>(environment.backend.address + "/vdcs/" + id +"/vapps").toPromise();
   }
   async getVdcComputeCapacityByVdcID(id: string): Promise<VdcComputeCapacity> {
-    return await this.httpService.get<VdcComputeCapacity>(environment.backend.address + "/vdcs/" + id + "/vdc-compute-capacities").toPromise();
+    return this.httpService.get<VdcComputeCapacity>(environment.backend.address + "/vdcs/" + id + "/vdc-compute-capacities").toPromise();
   }
   async getVdcStorageCapacityByVdcID(id: string): Promise<VdcStorageProfile> {
-    return await this.httpService.get<VdcStorageProfile>(environment.backend.address + "/vdcs/" + id +"/vdc-storage-profiles").toPromise();
+    return this.httpService.get<VdcStorageProfile>(environment.backend.address + "/vdcs/" + id +"/vdc-storage-profiles").toPromise();
   }
   async getResourcesByOrgIDInGivenTime(id: string, from: number, until: number): Promise<ResourceModel[]> {
     return await this.httpService.get<ResourceModel[]>(

@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {KeycloakService} from 'keycloak-angular';
-
 import {KeycloakProfile} from 'keycloak-js';
 
 @Injectable({
   providedIn: 'root'
 })
 /**
- * AuthentificationService this services stores user information from keycloak
+ * AuthenticationService this services stores user information from keycloak
  */
 export class AuthServiceService {
   private profile: KeycloakProfile;

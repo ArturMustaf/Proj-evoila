@@ -29,6 +29,10 @@ public class OrgUserController {
     public OrgUser getOrgUser(@PathVariable String id) {
         return this.orgUserRepository.findById(id).orElse(null);
     }
+    @GetMapping("/org-users/keycloak/{id}")
+    public OrgUser getOrgUserByUserID(@PathVariable String id) {
+        return this.orgUserRepository.findOrgUserByUserID(id);
+    }
 
     @GetMapping("/org-users/sync")
     public void syncUser(){
@@ -49,4 +53,5 @@ public class OrgUserController {
     public void deleteOrgUser(@PathVariable String id){
         orgUserRepository.deleteById(id);
     }
+
 }

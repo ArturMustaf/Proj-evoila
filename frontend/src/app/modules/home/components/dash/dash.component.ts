@@ -4,6 +4,9 @@ import {DataCommunicatorService} from '../../../../core/services/data_communicat
 import {ResourceModel} from '../../../../shared/models/resource-models/resource-model';
 import {PricesModel} from '../../../../shared/models/prices-models/prices-model';
 import {ResTypeModel} from '../../../../shared/models/resource-models/res-type-model';
+import {KeycloakService} from 'keycloak-angular';
+import {OrgUserModel} from '../../../../shared/models/org-user-models/org-user-model';
+import {VdcModel} from '../../../../shared/models/vdc-models/vdc-model';
 
 /**
  * Dashboard component
@@ -21,7 +24,7 @@ export class DashComponent {
   costsOfCurrentMonth_TEST_VALUES = [{"name": "CPU", "value": 2300}, {"name": "Storage", "value": 1200}, {"name": "RAM", "value": 900}];
   dateNow: Date = new Date();
 
-  constructor(private navService: NavService, private communicator: DataCommunicatorService) {
+  constructor(private navService: NavService, private communicator: DataCommunicatorService, private keycloakService: KeycloakService) {
     navService.isAdmin = false;
     communicator.getOrganization("1").then((res) => console.log(res));
     communicator.getVDCsByOrgID("dcf38302-f549-405b-8a03-23f23f4962af").then((res) => console.log(res));
@@ -54,13 +57,24 @@ export class DashComponent {
   }
 
   requestAllCurrentPrices() : void {
-    this.allCurrentResources.forEach( resource => {
+    this.allCurrentResources.forEach(resource => {
       this.communicator.getPricesByResourceIDInGivenTime(resource.id, this.getFirstDayOfCurrentMonthInMS(), this.dateNow.getMilliseconds()).then(
         pricesResp => pricesResp.forEach(
           priceResp => this.allCurrentPrices.push(priceResp)
         )
       );
     });
+  }
+
+  async test() {
+    var userID = this.keycloakService.getKeycloakInstance().subject;
+    var orgUser = await this.communicator.getCurrentOrgUserByUserID(userID);
+    var vdcList = await this.communicator.getVDCsByOrgID(orgUser.orgID);
+    vdcList.forEach(vdc => this.communicator.getVAppsByVdcID(vdc.id).then((res) => console.log(res)));
+    vdcList.forEach(vdc => this.communicator.getVdcComputeCapacityByVdcID(vdc.id).then((res) => console.log(res)));
+    vdcList.forEach(vdc => this.communicator.getVdcStorageCapacityByVdcID(vdc.id).then((res) => console.log(res)));
+    console.log(orgUser);
+    console.log(vdcList);
   }
 
   getFirstDayOfCurrentMonthInMS() : number {

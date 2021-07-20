@@ -172,6 +172,35 @@ public class ResourceRepositoryTest {
 
         entities.add(resource);
     }
+    //random vdcID
+    for (int i = 0; i < 10; i++) {
+        var resource = new Resource();
+        resource.setId(RandomStringUtils.randomAlphanumeric(10));
+        resource.setOrgID(RandomStringUtils.random(7));
+        resource.setVdcID(RandomStringUtils.random(7));
+        resource.setStartDate(time -5000);
+        resource.setEndDate(time +20);
+        entities.add(resource);
+    }
+    for (int i = 0; i < 10; i++) {
+        var resource = new Resource();
+        resource.setId(RandomStringUtils.randomAlphanumeric(10));
+        resource.setOrgID(RandomStringUtils.random(7));
+        resource.setVdcID(RandomStringUtils.random(7));
+        resource.setStartDate(time);
+        resource.setEndDate(time + 2);
+        entities.add(resource);
+    }
+    for (int i = 0; i < 10; i++) {
+        var resource = new Resource();
+        resource.setId(RandomStringUtils.randomAlphanumeric(10));
+        resource.setOrgID(RandomStringUtils.random(7));
+        resource.setVdcID(RandomStringUtils.random(7));
+        resource.setStartDate(time+ 500);
+        resource.setEndDate(time + 5000);
+        entities.add(resource);
+    }
+
             resourceRepository.saveAll(entities);
             long from=System.currentTimeMillis()-1000;
             long until= System.currentTimeMillis()+1000;
@@ -238,6 +267,34 @@ public class ResourceRepositoryTest {
             resource.setStartDate(time + 3000);
             resource.setEndDate(time + 20000);
 
+            entities.add(resource);
+        }
+        //random orgID
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setId(RandomStringUtils.randomAlphanumeric(10));
+            resource.setOrgID(RandomStringUtils.random(7));
+            resource.setVdcID(RandomStringUtils.random(7));
+            resource.setStartDate(time -5000);
+            resource.setEndDate(time +20);
+            entities.add(resource);
+        }
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setId(RandomStringUtils.randomAlphanumeric(10));
+            resource.setOrgID(RandomStringUtils.random(7));
+            resource.setVdcID(RandomStringUtils.random(7));
+            resource.setStartDate(time);
+            resource.setEndDate(time + 2);
+            entities.add(resource);
+        }
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setId(RandomStringUtils.randomAlphanumeric(10));
+            resource.setOrgID(RandomStringUtils.random(7));
+            resource.setVdcID(RandomStringUtils.random(7));
+            resource.setStartDate(time+ 500);
+            resource.setEndDate(time + 5000);
             entities.add(resource);
         }
         resourceRepository.saveAll(entities);

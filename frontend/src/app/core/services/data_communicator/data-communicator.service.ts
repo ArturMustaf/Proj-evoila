@@ -42,19 +42,19 @@ export class DataCommunicatorService {
   getVAppsByVdcID(id: string): Observable<VappModel[]>{
     return this.http.get<VappModel[]>(environment.backend.address + "/vdcs/" + id +"/vapps");
   }
-  getLatestVdcComputeCapacityByVdcID(id: string): Observable<VdcComputeCapacity> {
+  getLatestVdcComputeCapacityByVdcID(id: number): Observable<VdcComputeCapacity> {
     return this.http.get<VdcComputeCapacity>(environment.backend.address + "/vdcs/" + id + "/vdc-compute-capacities/latest");
   }
   getVdcStorageCapacityByVdcID(id: string): Observable<VdcStorageProfile> {
     return this.http.get<VdcStorageProfile>(environment.backend.address + "/vdcs/" + id +"/vdc-storage-profiles/latest");
   }
-  getResourcesByOrgIDInGivenTime(id: string, from: number, until: number): Observable<ResourceModel[]> {
+  getResourcesByOrgIDInGivenTime(id: number, from: number, until: number): Observable<ResourceModel[]> {
     return this.http.get<ResourceModel[]>(environment.backend.address + "/organizations/" + id + "/resources/" + from + "/" + until);
   }
-  getPricesByResourceIDInGivenTime(id: string, from: number, until: number): Observable<PricesModel[]> {
+  getPricesByResourceIDInGivenTime(id: number, from: number, until: number): Observable<PricesModel[]> {
     return this.http.get<PricesModel[]>(environment.backend.address + "/resources/" + id + "/prices/" + from + "/" + until);
   }
-  getResType(id: string): Observable<ResTypeModel> {
+  getResType(id: number): Observable<ResTypeModel> {
     return this.http.get<ResTypeModel>(environment.backend.address + "/resource-types/" + id);
   }
 }

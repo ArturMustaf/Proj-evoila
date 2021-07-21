@@ -23,9 +23,10 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 @AutoConfigureMockMvc
-public class ResourceRepositoryTest {
+class ResourceRepositoryTest {
     @Autowired
     ResourceRepository resourceRepository;
+
 
     @Transactional
     @Test
@@ -39,8 +40,6 @@ public class ResourceRepositoryTest {
         List<Resource> entities = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             var resource = new Resource();
-            String generatedString = RandomStringUtils.random(10);
-            resource.setId(generatedString);
             entities.add(resource);
         }
         resourceRepository.saveAll(entities);
@@ -54,7 +53,6 @@ public class ResourceRepositoryTest {
     @Transactional
     void readResourceType() {
         var resource = new Resource();
-        resource.setId("testID");
         resourceRepository.save(resource);
         Assertions.assertNotNull(resourceRepository.findById(resource.getId()));
     }
@@ -63,14 +61,223 @@ public class ResourceRepositoryTest {
     @Transactional
     void updateResourceType() {
         var resource = new Resource();
-        resource.setOrgID("Ä-Ü.aqe");
+        resource.setOrgID(RandomStringUtils.randomAlphanumeric(5));
         var orgInitialName = resource.getOrgID();
-        resource.setId("testID");
         resourceRepository.save(resource);
         Assertions.assertNotNull(resourceRepository.findById(resource.getId()));
         var orgUserReturned = resourceRepository.findById(resource.getId()).orElse(null);
-        orgUserReturned.setOrgID("ÄöUq1,.-:");
+        orgUserReturned.setOrgID(RandomStringUtils.randomAlphanumeric(5));
         resourceRepository.save(orgUserReturned);
         assertNotEquals(orgInitialName, resourceRepository.findById(resource.getId()).orElse(null).getOrgID());
     }
+
+    @Transactional
+    @Test
+    void findAllResourcesByVdcIDTest() {
+        String vdcID = RandomStringUtils.randomAlphanumeric(10);
+        var entities = new ArrayList<Resource>();
+        for (int i = 0; i < 20; i++) {
+            var resource = new Resource();
+            resource.setVdcID(vdcID);
+            entities.add(resource);
+        }
+        for (int i = 0; i < 50; i++) {
+            var resource = new Resource();
+            resource.setVdcID(RandomStringUtils.randomAlphanumeric(7));
+            entities.add(resource);
+        }
+        resourceRepository.saveAll(entities);
+        var allByVdcID = resourceRepository.findAllByVdcID(vdcID);
+        Assertions.assertEquals(20, allByVdcID.size());
+
+    }
+
+    @Transactional
+    @Test
+    void findAllPricesByOrgIDTest() {
+        String orgID = RandomStringUtils.randomAlphanumeric(10);
+        var entities = new ArrayList<Resource>();
+        for (int i = 0; i < 20; i++) {
+            var resource = new Resource();
+            resource.setOrgID(orgID);
+            entities.add(resource);
+        }
+        for (int i = 0; i < 50; i++) {
+            var resource = new Resource();
+            resource.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            entities.add(resource);
+        }
+        resourceRepository.saveAll(entities);
+        var allByOrgID = resourceRepository.findAllByOrgID(orgID);
+        Assertions.assertEquals(20, allByOrgID.size());
+
+    }
+
+    @Transactional
+    @Test
+    void findAllByVdcIDWithinTimeframeTest() {
+        var entities = new ArrayList<Resource>();
+        long time = System.currentTimeMillis();
+        String vdcID = RandomStringUtils.randomAlphanumeric(7);
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setVdcID(vdcID);
+            resource.setStartDate(time - 5000);
+            resource.setEndDate(time + 5000);
+
+            entities.add(resource);
+        }
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setVdcID(vdcID);
+            resource.setStartDate(time);
+            entities.add(resource);
+        }
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setVdcID(vdcID);
+            resource.setStartDate(time);
+            resource.setEndDate(time + 2);
+            entities.add(resource);
+        }
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setVdcID(vdcID);
+            resource.setStartDate(time - 5000);
+            resource.setEndDate(time - 2000);
+
+            entities.add(resource);
+        }
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setVdcID(vdcID);
+            resource.setStartDate(time + 3000);
+            resource.setEndDate(time + 20000);
+
+            entities.add(resource);
+        }
+        //random vdcID
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            resource.setVdcID(RandomStringUtils.randomAlphanumeric(7));
+            resource.setStartDate(time - 5000);
+            resource.setEndDate(time + 20);
+            entities.add(resource);
+        }
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            resource.setVdcID(RandomStringUtils.randomAlphanumeric(7));
+            resource.setStartDate(time);
+            resource.setEndDate(time + 2);
+            entities.add(resource);
+        }
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            resource.setVdcID(RandomStringUtils.randomAlphanumeric(7));
+            resource.setStartDate(time + 500);
+            resource.setEndDate(time + 5000);
+            entities.add(resource);
+        }
+
+        resourceRepository.saveAll(entities);
+        long from = System.currentTimeMillis() - 1000;
+        long until = System.currentTimeMillis() + 1000;
+        var allByVdcID = resourceRepository.findAllByVDCIDWithinTimeframe(vdcID, from, until);
+
+        //should be 30
+        Assertions.assertEquals(30, allByVdcID.size());
+
+
+    }
+
+    @Transactional
+    @Test
+    void findAllByOrgIDWithinTimeframeTest() {
+        var entities = new ArrayList<Resource>();
+        long time = System.currentTimeMillis();
+        String orgID = RandomStringUtils.randomAlphanumeric(7);
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setOrgID(orgID);
+            resource.setStartDate(time - 5000);
+            resource.setEndDate(time + 5000);
+
+            entities.add(resource);
+        }
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setOrgID(orgID);
+            resource.setStartDate(time);
+            entities.add(resource);
+        }
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setOrgID(orgID);
+            resource.setStartDate(time);
+            resource.setEndDate(time + 2);
+            entities.add(resource);
+        }
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            resource.setStartDate(time);
+            resource.setEndDate(time + 2);
+            entities.add(resource);
+        }
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setOrgID(orgID);
+            resource.setStartDate(time - 5000);
+            resource.setEndDate(time - 2000);
+
+            entities.add(resource);
+        }
+
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setOrgID(orgID);
+            resource.setStartDate(time + 3000);
+            resource.setEndDate(time + 20000);
+
+            entities.add(resource);
+        }
+        //random orgID
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            resource.setVdcID(RandomStringUtils.randomAlphanumeric(7));
+            resource.setStartDate(time - 5000);
+            resource.setEndDate(time + 20);
+            entities.add(resource);
+        }
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            resource.setVdcID(RandomStringUtils.randomAlphanumeric(7));
+            resource.setStartDate(time);
+            resource.setEndDate(time + 2);
+            entities.add(resource);
+        }
+        for (int i = 0; i < 10; i++) {
+            var resource = new Resource();
+            resource.setOrgID(RandomStringUtils.randomAlphanumeric(7));
+            resource.setVdcID(RandomStringUtils.randomAlphanumeric(7));
+            resource.setStartDate(time + 500);
+            resource.setEndDate(time + 5000);
+            entities.add(resource);
+        }
+        resourceRepository.saveAll(entities);
+        long from = System.currentTimeMillis() - 1000;
+        long until = System.currentTimeMillis() + 1000;
+        var allByOrgID = resourceRepository.findAllByOrgIDWithinTimeframe(orgID, from, until);
+
+
+        //should be 30
+        Assertions.assertEquals(30, allByOrgID.size());
+    }
 }
+
+

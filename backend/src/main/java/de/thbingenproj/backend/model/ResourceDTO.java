@@ -6,11 +6,11 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResourceDTO {
-    String id;
+    long id;
     //resource do not need a vdcID
     String vdcID;
     String orgID;
-    String resourceTypeID;
+    long resourceTypeID;
     long startDate;
     long endDate;
 }

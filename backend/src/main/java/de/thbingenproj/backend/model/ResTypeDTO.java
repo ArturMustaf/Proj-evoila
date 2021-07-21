@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResTypeDTO {
-    String id;
+    long id;
 
     //any type of resource e.g. cpu, manhour
     String typeOfResource;

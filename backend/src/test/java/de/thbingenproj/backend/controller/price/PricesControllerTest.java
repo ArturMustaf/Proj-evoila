@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.thbingenproj.backend.entity.Prices;
 
+import de.thbingenproj.backend.entity.ResType;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import org.junit.Assert;
@@ -52,7 +53,6 @@ public class PricesControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void postPricesTest() throws Exception {
         var prices = new Prices();
-        prices.setId(RandomStringUtils.randomAlphanumeric(10));
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(prices);
         mockMvc.perform(post("/create/prices")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
@@ -73,7 +73,6 @@ public class PricesControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void postUpdatePricesTest() throws Exception {
         var prices = new Prices();
-        prices.setId(RandomStringUtils.randomAlphanumeric(10));
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(prices);
         mockMvc.perform(post("/create/resources/0/prices")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
@@ -122,12 +121,152 @@ public class PricesControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void getAllPricesByOrgIDTest() throws Exception {
+        mockMvc.perform(get("/organizations/prices/0"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("")));
+    }
 
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void getAllPricesByVDCIDTest() throws Exception {
+        mockMvc.perform(get("/vdcs/prices/0"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("")));
+    }
 
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void getPricesByVdcIdInGivenTimeTest() throws Exception {
+        mockMvc.perform(get("/vdcs/prices/0/100/200"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("")));
+    }
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void getPricesByOrgIdInGivenTimeTest() throws Exception {
+        mockMvc.perform(get("/organizations/prices/0/100/200"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("")));
+    }
 
+    //no auth tests
+    @Test
+    void postPriceWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/create/prices")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void updatePriceWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/create/resources/5/prices")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getPriceWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/prices/8")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getAllPriceWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/admin/prices")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getAllPricesByRessourceIdWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/resources/8/prices")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getAllPricesByOrgIDWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/organizations/prices/0")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getAllPricesByVdcIdWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/vdcs/prices/0")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getPricesByOrgIdInGivenTimeWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/organizations/prices/0/200/5890")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getPricesByVdcIDInGivenTimeWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/vdcs/prices/0/200/5890")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
 
+    @Transactional
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getPriceTestsWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/prices/0"))
+                .andExpect(status().isForbidden());
+    }
 
+    @Transactional
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getAllPricesByRessourceIdWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/resources/5/prices"))
+                .andExpect(status().isForbidden());
+    }
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getAllPricesByOrgIDWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/organizations/prices/0"))
+                .andExpect(status().isForbidden());
+    }
 
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getAllPricesByVDCIDWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/vdcs/prices/0"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getPricesByVdcIdInGivenTimesWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/vdcs/prices/0/100/200"))
+                .andExpect(status().isForbidden());
+    }
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getPricesByOrgIdInGivenTimesWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/organizations/prices/0/100/200"))
+                .andExpect(status().isForbidden());
+    }
 }
 
 

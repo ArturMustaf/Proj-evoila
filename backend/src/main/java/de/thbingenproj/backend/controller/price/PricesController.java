@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Controller which offers functionality for the frontend to read and post prices to the backend
@@ -37,7 +36,7 @@ public class PricesController {
      * @return the updated price object or error
      */
     @PostMapping("/create/resources/{id}/prices")
-    public Prices updatePrice(@RequestBody PricesDTO price, @PathVariable String id) {
+    public Prices updatePrice(@RequestBody PricesDTO price, @PathVariable long id) {
         var currPrice = pricesRepository.findByResourceIDAndEndDateIsNull(id);
         if (currPrice != null) {
             long currTime = System.currentTimeMillis();
@@ -53,7 +52,7 @@ public class PricesController {
      * @return the requested price object or null
      */
     @GetMapping("/prices/{id}")
-    public Prices getPrice(@PathVariable String id) {
+    public Prices getPrice(@PathVariable long id) {
         return this.pricesRepository.findById(id).orElse(null);
     }
     /**
@@ -65,23 +64,58 @@ public class PricesController {
         return this.pricesRepository.findAll();
     }
     /**
-     * @param resourceID id of the resource
+     * @param id id of the resource
      * @return all prices of the requested resource object or null
      */
-    @GetMapping("/resources/{resourceID}/prices")
-    public List<Prices> getAllPricesByRessourceId(@PathVariable String resourceID) {
-        return this.pricesRepository.findAllByResourceID(resourceID);
+    @GetMapping("/resources/{id}/prices")
+    public List<Prices> getAllPricesByRessourceId(@PathVariable long id) {
+        return this.pricesRepository.findAllByResourceID(id);
+    }
+    /**
+     * returns all prices used or in use of an organization
+     * @param  id of the organization
+     * @return Prices objects
+     */
+    @GetMapping("/organizations/prices/{id}")
+    public List<Prices> getALlPricesByOrgID(@PathVariable String id){
+        return this.pricesRepository.findAllByOrgID(id);
     }
 
-    @GetMapping("/resources/{id}/prices/{from}/{until}")
-    public List<Prices>getResourcesByVdcIdInGivenTime(@PathVariable String id, @PathVariable long from, @PathVariable long until) {
-        return getAllPricesByRessourceId(id)
-                .stream()
-                .filter(resource -> (resource.getStartDate()< until &&  resource.getEndDate() > from )
-                        || (resource.getStartDate() > from && resource.getStartDate() < until)
-                        ||(resource.getStartDate() < until && resource.getEndDate() == 0))
-                .collect(Collectors.toList());
+    /**
+     * returns all Prices used or in use of a vdc
+     * @param  id of the organization
+     * @return Prices objects of vdc
+     */
+    @GetMapping("/vdcs/prices/{id}")
+    public List<Prices> getALlPricesByVdcID(@PathVariable String id) {
+        return this.pricesRepository.findAllByVdcID(id);
     }
+
+    /**
+     * returns all Prices used or in use of an organization in a specific time interval
+     * @param  id of the organization
+     * @param from start date
+     * @param until end date
+     * @return Prices objects of vdc
+     */
+    @GetMapping("/organizations/prices/{id}/{from}/{until}")
+    public List<Prices>getPricesByOrgIdInGivenTime(@PathVariable String id, @PathVariable long from, @PathVariable long until){
+     return this.pricesRepository.findAllByOrgIDWithinTimeframe(id, from, until);
+
+
+    }
+    /**
+     * returns all prices used or in use of a vdc in a specific time interval
+     * @param id of the vdc
+     * @param from start date
+     * @param until end date
+     * @return prices objects of vdc
+     */
+
+    @GetMapping("/vdcs/prices/{id}/{from}/{until}")
+    public List<Prices>getPricesByVdcIdInGivenTime(@PathVariable String id, @PathVariable long from, @PathVariable long until){
+        return this.pricesRepository.findAllByVDCIDWithinTimeframe(id, from, until);
+    }
+
 }
-
 

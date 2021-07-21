@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 
 import javax.transaction.Transactional;
@@ -44,23 +43,11 @@ public class ResTypeControllerTest {
     @WithMockKeycloakAuth("ROLE_admin")
     void postResourceType() throws Exception {
         var resourceType = new ResType();
-        resourceType.setId(RandomStringUtils.randomAlphanumeric(10));
         var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
         mockMvc.perform(post("/create/resource-types")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk());
     }
-
-    @Test
-    @WithMockKeycloakAuth("ROLE_user")
-    void postResourceTypeWithWrongRole() throws Exception {
-        var resourceType = new ResType();
-        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
-        mockMvc.perform(post("/create/resource-types")
-                .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().isForbidden());
-    }
-    
 
     @Test
     @WithMockKeycloakAuth("ROLE_user")
@@ -72,17 +59,11 @@ public class ResTypeControllerTest {
 
 
     @Test
-    @WithMockKeycloakAuth("ROLE_user")
-    void getResourceTypeWithWrongRole() throws Exception {
-        mockMvc.perform(get("/create/resource-types/0"))
-                .andExpect(status().isForbidden());
-    }
-
-
-    @Test
-    void getResourceTypeWithNoAuth() throws Exception {
-        mockMvc.perform(get("/create/resource-types/0"))
-                .andExpect(status().isUnauthorized());
+    @WithMockKeycloakAuth("ROLE_admin")
+    void getAllResourceTypes() throws Exception {
+        mockMvc.perform(get("/admin/resource-types"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("")));
     }
 
     @Test
@@ -93,22 +74,40 @@ public class ResTypeControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isUnauthorized());
     }
-
+    @Test
+    void getResourceTypeWithNoAuth() throws Exception {
+        mockMvc.perform(get("/resource-types/0"))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    void getAllResourceTypeWithNoAuth() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/admin/resource-types")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isUnauthorized());
+    }
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void postResourceTypeWithWrongRole() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/create/resource-types")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isForbidden());
+    }
     @Test
     @WithMockKeycloakAuth("ROLE_user")
     void getAllResourceTypesWithWrongRole() throws Exception {
         mockMvc.perform(get("/admin/resource-types/"))
                 .andExpect(status().isForbidden());
     }
-
     @Test
-    @WithMockKeycloakAuth("ROLE_admin")
-    void getAllResourceTypes() throws Exception {
-        mockMvc.perform(get("/admin/resource-types"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("")));
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getResourceTypeUserWithWrongRole() throws Exception {
+        mockMvc.perform(get("/resource-types/0"))
+                .andExpect(status().isForbidden());
     }
-
 }
 
 

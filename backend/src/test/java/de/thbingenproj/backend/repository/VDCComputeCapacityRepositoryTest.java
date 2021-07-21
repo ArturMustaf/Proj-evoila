@@ -90,14 +90,14 @@ class VDCComputeCapacityRepositoryTest {
         var entities = new ArrayList<VDCComputeCapacity>();
         for(int i = 0; i < 20; i++){
             var vdcComputeCapacity = new VDCComputeCapacity();
-            vdcComputeCapacity.setVdcID(vdcId);
+            vdcComputeCapacity.setVdcNumber(vdcId);
             entities.add(vdcComputeCapacity);
         }  for(int i = 0; i < 50; i++){
             var vdcComputeCapacity = new VDCComputeCapacity();
             entities.add(vdcComputeCapacity);
         }
         computeCapacityRepository.saveAll(entities);
-        var computeCapacitiesInRepository= computeCapacityRepository.findAllByVdcID(vdcId);
+        var computeCapacitiesInRepository= computeCapacityRepository.findAllByVdcNumber(vdcId);
         Assertions.assertEquals(20, computeCapacitiesInRepository.size());
 
     }

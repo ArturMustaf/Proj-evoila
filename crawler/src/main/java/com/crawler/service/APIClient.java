@@ -160,42 +160,42 @@ public class APIClient {
      * @return list of all vdcs
      */
     public List<VDC> getOrgVDCsByOrgID(String orgID){
-        var org = getOneOrgByID(orgID);
-        var entities = new ArrayList<VDC>();
-        var computeCapacities = new ArrayList<VDCComputeCapacity>();
-        var storageProfiles = new ArrayList<VDCStorageProfile>();
-        var vdcNetworks = new ArrayList<OrgNetwork>();
-        for(VDCDTO vdcDTO : org.getVdcs().getVdc()){
-            var vdc = getOneVDCByID(getID(vdcDTO.getHref(), "vdc"));
-            vdc.setId(vdc.getId().replace("urn:vcloud:vdc:", ""));
-            vdc.setOrgID(orgID);
-            var computeCapacity = vdc.getComputeCapacity();
-            computeCapacity.setDate(System.currentTimeMillis());
-            computeCapacity.setVdcID(vdc.getId());
-            computeCapacities.add(modelMapper.map(computeCapacity, VDCComputeCapacity.class));
-            var vdcStorageProfiles = vdc.getVdcStorageProfiles().getVdcStorageProfile();
-            for (VDCStorageProfileDTO storageProfileDTO : vdcStorageProfiles){
-                var storageProfile = modelMapper.map(getOneStorageProfileByID(getID(storageProfileDTO.getHref(),"vdcStorageProfile" )), VDCStorageProfile.class);
-                storageProfile.setId(storageProfile.getId().replace("urn:vcloud:vdcstorageProfile:", ""));
-                storageProfile.setDate(System.currentTimeMillis());
-                storageProfile.setVdcID(vdc.getId());
-                storageProfiles.add(storageProfile);
+            var org = getOneOrgByID(orgID);
+            var entities = new ArrayList<VDC>();
+            var computeCapacities = new ArrayList<VDCComputeCapacity>();
+            var storageProfiles = new ArrayList<VDCStorageProfile>();
+            var vdcNetworks = new ArrayList<OrgNetwork>();
+            for (VDCDTO vdcDTO : org.getVdcs().getVdc()) {
+                var vdc = getOneVDCByID(getID(vdcDTO.getHref(), "vdc"));
+                vdc.setId(vdc.getId().replace("urn:vcloud:vdc:", ""));
+                vdc.setOrgID(orgID);
+                var computeCapacity = vdc.getComputeCapacity();
+                computeCapacity.setDate(System.currentTimeMillis());
+                computeCapacity.setVdcNumber(vdc.getId());
+                computeCapacities.add(modelMapper.map(computeCapacity, VDCComputeCapacity.class));
+                var vdcStorageProfiles = vdc.getVdcStorageProfiles().getVdcStorageProfile();
+                for (VDCStorageProfileDTO storageProfileDTO : vdcStorageProfiles) {
+                    var storageProfile = modelMapper.map(getOneStorageProfileByID(getID(storageProfileDTO.getHref(), "vdcStorageProfile")), VDCStorageProfile.class);
+                    storageProfile.setId(storageProfile.getId().replace("urn:vcloud:vdcstorageProfile:", ""));
+                    storageProfile.setDate(System.currentTimeMillis());
+                    storageProfile.setVdcID(vdc.getId());
+                    storageProfiles.add(storageProfile);
+                }
+                var networkRecord = vdc.getAvailableNetworks().getNetwork();
+                for (OrgNetworkDTO networkDTO : networkRecord) {
+                    var network = modelMapper.map(networkDTO, OrgNetwork.class);
+                    network.setId(network.getId().replace("urn:vcloud:network:", ""));
+                    network.setOrgID(orgID);
+                    network.setVdcID(vdc.getId());
+                    vdcNetworks.add(network);
+                }
+                entities.add(modelMapper.map(vdc, VDC.class));
             }
-            var networkRecord = vdc.getAvailableNetworks().getNetwork();
-            for(OrgNetworkDTO networkDTO : networkRecord){
-                var network = modelMapper.map(networkDTO, OrgNetwork.class);
-                network.setId(network.getId().replace("urn:vcloud:network:" , ""));
-                network.setOrgID(orgID);
-                network.setVdcID(vdc.getId());
-                vdcNetworks.add(network);
-            }
-            entities.add(modelMapper.map(vdc, VDC.class));
-        }
-        orgNetworkRepository.saveAll(vdcNetworks);
-        storageProfileRepository.saveAll(storageProfiles);
-        vdcRepository.saveAll(entities);
-        computeCapacityRepository.saveAll(computeCapacities);
-        return entities;
+            orgNetworkRepository.saveAll(vdcNetworks);
+            storageProfileRepository.saveAll(storageProfiles);
+            vdcRepository.saveAll(entities);
+            computeCapacityRepository.saveAll(computeCapacities);
+            return entities;
     }
 
     /**

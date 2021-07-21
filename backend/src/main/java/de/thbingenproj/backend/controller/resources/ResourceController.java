@@ -79,7 +79,7 @@ public class ResourceController {
      * @param until end date
      * @return resource objects of vdc
      */
-    @GetMapping("/organizations/resources/{id}/{from}/{until}")
+    @GetMapping("/organizations/{id}/resources/{from}/{until}")
     public List<Resource> getResourcesByOrgIdInGivenTime(@PathVariable String id, @PathVariable long from, @PathVariable long until) {
        return this.resourceRepository.findAllByOrgIDWithinTimeframe(id, from, until);
     }

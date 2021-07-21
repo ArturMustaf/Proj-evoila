@@ -10,16 +10,20 @@
     <div class="card clr-row-md item-costs" style="height: 50%; margin-top: 0">
       <div class="card-header">Running costs in €</div>
       <div class="card-block">
-        <app-dash-costs-diagram [data]="costsOfCurrentMonth_TEST_VALUES"></app-dash-costs-diagram>
+        <div *ngIf="isDataReady">
+          <app-dash-costs-diagram [data]="costsDataForDiagram"></app-dash-costs-diagram>
+        </div>
       </div>
     </div>
   </div>
   <div class="card clr-col-md item-vdcs" style="height: 100%; margin-top: 0; overflow: auto">
     <div class="card-header">VDCs</div>
     <div class="card-block" style="overflow-y: auto">
+      <ul>
       <li *ngFor="let vdc of this.vdcList">
         <app-single-vdc [vdc]="vdc"></app-single-vdc>
       </li>
+      </ul>
     </div>
   </div>
 </div>

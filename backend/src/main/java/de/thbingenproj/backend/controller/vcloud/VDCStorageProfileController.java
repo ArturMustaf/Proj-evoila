@@ -35,4 +35,8 @@ public class VDCStorageProfileController {
     public List<VDCStorageProfile> getAllVDCStorageProfilesByVdcID(@PathVariable String id) {
         return this.vdcStorageProfileRepository.findAllByVdcID(id);
     }
+    @GetMapping("/vdcs/{id}/vdc-storage-profiles/latest")
+    public VDCStorageProfile getLatestVDCStorageProfilesByVdcID(@PathVariable String id) {
+        return this.vdcStorageProfileRepository.findTopByVdcIDOrderByDateDesc(id);
+    }
 }

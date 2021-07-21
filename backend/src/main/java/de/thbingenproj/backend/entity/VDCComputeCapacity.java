@@ -28,5 +28,5 @@ public class VDCComputeCapacity {
     long memoryReserved;
     long memoryUsed;
     long date;
-    String vdcID;
+    String vdcNumber;
 }

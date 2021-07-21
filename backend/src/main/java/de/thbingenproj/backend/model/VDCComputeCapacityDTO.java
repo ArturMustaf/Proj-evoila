@@ -17,6 +17,5 @@ public class VDCComputeCapacityDTO {
     long memoryReserved;
     long memoryUsed;
     long date;
-    String vdcID;
-
+    String vdcNumber;
 }

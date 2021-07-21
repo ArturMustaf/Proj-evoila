@@ -35,16 +35,16 @@ public class SpaceController {
     public Space getSpace(@PathVariable String id) {
         return this.spaceRepository.findById(id).orElse(null);
     }
-    
+
     /**
      * Returns all spaces for given organization via get request
      * @param id internal ID of the organization
      * @return all found Spaces
      */
-    @GetMapping("organizations/{id}/spaces")
+    /*@GetMapping("organizations/{id}/spaces")
     public List<Space> getAllSpacesByOrg(@PathVariable String id) {
         return this.spaceRepository.findAllByOrg(id);
-    }
+    }*/
     
     /**
      * Returns all spaces regardless of organization or space via get request

@@ -48,10 +48,10 @@ export class DataCommunicatorService {
     return this.http.get<VdcStorageProfile>(environment.backend.address + "/vdcs/" + id +"/vdc-storage-profiles/latest");
   }
   getSpacesByOrgName(id: string): Observable<SpaceModel[]> {
-    return this.http.get<SpaceModel[]>(environment.backend.address + "/organizations/" + id + "/spaces");
+    return this.http.get<SpaceModel[]>(environment.backend.address + "/organizations/" + id + "/apps/spaces");
   }
 
-  getLatestAppsByOrgIDAndSpaceID(orgID: string, spaceID: string): Observable<AppModel[]> {
-    return this.http.get<AppModel[]>(environment.backend.address + "organizations/" + orgID +"/spaces/ "+ spaceID +"/latest-app");
+  getLatestAppsByOrgIDAndSpaceName(orgID: string, spaceName: string): Observable<AppModel[]> {
+    return this.http.get<AppModel[]>(environment.backend.address + "/organizations/" + orgID +"/" +spaceName + "/latest-apps");
   }
 }

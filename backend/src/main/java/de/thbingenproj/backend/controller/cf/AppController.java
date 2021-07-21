@@ -66,20 +66,19 @@ public class AppController {
         return this.appRepository.findAll();
     }
 
-    @GetMapping("organizations/{orgID}/latest-app")
-    public List<App> getLatestAppsForSpace(@PathVariable String orgID) {
-        var spaceList = this.appRepository.findAllDistinctSpacesByOrg(orgID);
-        System.out.println(spaceList);
+    @GetMapping("/organizations/{orgID}/apps/spaces")
+    public List<String> getAllSpacesByOrgID(@PathVariable String orgID) {
+        return this.appRepository.findAllDistinctSpacesByOrg(orgID);
+    }
+
+    @GetMapping("organizations/{orgID}/{spaceName}/latest-apps")
+    public List<App> getLatestAppsForSpace(@PathVariable String orgID,@PathVariable String spaceName) {
         var appList = new ArrayList<String>();
         var sendList = new ArrayList<App>();
-        for (String space: spaceList) {
-            appList.addAll(this.appRepository.findAllGUIDBySpaceAndOrg(space, orgID));
-        }
-        System.out.println(appList);
+        appList.addAll(this.appRepository.findAllGUIDBySpaceAndOrg(spaceName, orgID));
         for (String app: appList) {
             sendList.add(this.appRepository.findTopByGuidOrderByDtDesc(app));
         }
-        System.out.println(sendList);
         return sendList;
     }
 }

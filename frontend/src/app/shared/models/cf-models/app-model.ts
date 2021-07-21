@@ -1,11 +1,11 @@
 export interface AppModel {
   id: string,
   arangoID: string;
-  diskInMb: string;
+  diskInMb: number;
   dt: number;
   guid: string;
-  instances: string;
-  memoryInMb: string;
+  instances: number;
+  memoryInMb: number;
   name: string;
   org: string;
   space: string;

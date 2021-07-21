@@ -22,7 +22,7 @@ public class CrawlerApplication {
     /**
      * Fires the scheduled pull and send methods on init
      */
-    @EventListener(ApplicationReadyEvent.class)
+    //@EventListener(ApplicationReadyEvent.class)
     public void doAfterInit() {
         schedulingService.pullAndSendAllData();
     }

@@ -220,7 +220,7 @@ public class ResourceRepositoryTest {
         }
         for (int i = 0; i < 10; i++) {
             var resource = new Resource();
-            resource.setOrgID(RandomStringUtils.random(7));
+            resource.setOrgID(RandomStringUtils.randomAlphanumeric(7));
             resource.setStartDate(time);
             resource.setEndDate(time + 2);
             entities.add(resource);

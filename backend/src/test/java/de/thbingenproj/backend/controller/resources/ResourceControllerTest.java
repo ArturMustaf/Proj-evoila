@@ -57,16 +57,14 @@ public class ResourceControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk());
     }
-
     @Test
-    @WithMockKeycloakAuth("ROLE_user")
-    void postResourceWithWrongRoleTest() throws Exception {
-        var resource = new Resource();
-        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resource);
-        mockMvc.perform(post("/create/resources")
-                .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().isForbidden());
+    @WithMockKeycloakAuth("ROLE_admin")
+    void getAllResourcesTest()throws Exception{
+        mockMvc.perform(get("/admin/resources"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("")));
     }
+
 
     @Test
     @WithMockKeycloakAuth("ROLE_user")
@@ -76,12 +74,6 @@ public class ResourceControllerTest {
                 .andExpect(content().string(containsString("")));
     }
 
-    @Test
-    @WithMockKeycloakAuth("ROLE_user")
-    void getAllResourcesWithWrongRoleTest() throws Exception {
-        mockMvc.perform(get("/admin/resources"))
-                .andExpect(status().isForbidden());
-    }
 
 
     @Test
@@ -114,6 +106,7 @@ public class ResourceControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
+    //no auth
     @Test
     void postResourceWithNoAuth() throws Exception {
         var resourceType = new ResType();
@@ -170,6 +163,22 @@ public class ResourceControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isUnauthorized());
     }
+    //wrong role
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void postResourceWithWrongRoleTest() throws Exception {
+        var resource = new Resource();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resource);
+        mockMvc.perform(post("/create/resources")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isForbidden());
+    }    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void getAllResourcesWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/admin/resources"))
+                .andExpect(status().isForbidden());
+    }
+
     @Test
     @WithMockKeycloakAuth("ROLE_noUser")
     void getResourceWithWrongRoleTest() throws Exception {
@@ -204,5 +213,6 @@ public class ResourceControllerTest {
         mockMvc.perform(get("/organizations/resources/0/100/200"))
                 .andExpect(status().isForbidden());
     }
+
 }
 

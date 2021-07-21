@@ -1,3 +1,4 @@
+//ToDo id und resourceID in long ändern
 export  interface PricesModel {
   id: string;
   startDate: number;

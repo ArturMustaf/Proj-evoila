@@ -48,16 +48,13 @@ export class DataCommunicatorService {
   getVdcStorageCapacityByVdcID(id: string): Observable<VdcStorageProfile> {
     return this.http.get<VdcStorageProfile>(environment.backend.address + "/vdcs/" + id +"/vdc-storage-profiles/latest");
   }
-  async getResourcesByOrgIDInGivenTime(id: string, from: number, until: number): Promise<ResourceModel[]> {
-    return await this.httpService.get<ResourceModel[]>(
-      environment.backend.address + "/organizations/" + id + "/resources/" + from + "/" + until).toPromise();
+  getResourcesByOrgIDInGivenTime(id: string, from: number, until: number): Observable<ResourceModel[]> {
+    return this.http.get<ResourceModel[]>(environment.backend.address + "/organizations/" + id + "/resources/" + from + "/" + until);
   }
-  async getPricesByResourceIDInGivenTime(id: string, from: number, until: number): Promise<PricesModel[]> {
-    return await this.httpService.get<PricesModel[]>(
-      environment.backend.address + "/resources/" + id + "/prices/" + from + "/" + until).toPromise();
+  getPricesByResourceIDInGivenTime(id: string, from: number, until: number): Observable<PricesModel[]> {
+    return this.http.get<PricesModel[]>(environment.backend.address + "/resources/" + id + "/prices/" + from + "/" + until);
   }
-  async getResType(id: string): Promise<ResTypeModel> {
-    return await this.httpService.get<ResTypeModel>(
-      environment.backend.address + "/resource-types/" + id).toPromise();
+  getResType(id: string): Observable<ResTypeModel> {
+    return this.http.get<ResTypeModel>(environment.backend.address + "/resource-types/" + id);
   }
 }

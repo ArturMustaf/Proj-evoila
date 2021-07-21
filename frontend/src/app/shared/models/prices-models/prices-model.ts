@@ -1,9 +1,13 @@
-//ToDo id und resourceID in long ändern
+/*
+ * vCloud Director Model for the response data when calling the corresponding spring rest controller
+ */
 export  interface PricesModel {
-  id: string;
+  id: number;
   startDate: number;
   endDate: number;
-  resourceID: string;
+  resourceID: number;
   resourceSize: string;
   priceInCent: number;
+  vdcID: string;
+  orgID: string;
 }

@@ -1,12 +1,11 @@
 /*
  * vCloud Director Model for the response data when calling the corresponding spring rest controller
  */
-//ToDo id in long ändern, resourceTypeID in long
 export interface ResourceModel {
-  id: string;
+  id: number;
   vdcID: string;
   orgID: string;
-  resourceTypeID: string;
+  resourceTypeID: number;
   startDate: number;
   endDate: number;
 }

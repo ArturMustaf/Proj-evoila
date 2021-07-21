@@ -170,5 +170,39 @@ public class ResourceControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isUnauthorized());
     }
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getResourceWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/resources/0"))
+                .andExpect(status().isForbidden());
+    }
+
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getAllResourcesByOrgIDWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/organizations/resources/0"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getAllResourcesByVDCIDWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/vdcs/resources/0"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getResourcesByVdcIdInGivenTimeWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/vdcs/resources/0/100/200"))
+                .andExpect(status().isForbidden());
+    }
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getResourcesByOrgIdInGivenTimeWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/organizations/resources/0/100/200"))
+                .andExpect(status().isForbidden());
+    }
 }
 

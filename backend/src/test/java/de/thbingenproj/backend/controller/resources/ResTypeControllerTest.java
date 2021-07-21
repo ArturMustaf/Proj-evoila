@@ -51,36 +51,12 @@ public class ResTypeControllerTest {
 
     @Test
     @WithMockKeycloakAuth("ROLE_user")
-    void postResourceTypeWithWrongRole() throws Exception {
-        var resourceType = new ResType();
-        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
-        mockMvc.perform(post("/create/resource-types")
-                .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().isForbidden());
-    }
-
-
-    @Test
-    @WithMockKeycloakAuth("ROLE_user")
     void getResourceTypeUser() throws Exception {
         mockMvc.perform(get("/resource-types/0"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }
 
-
-    @Test
-    void getResourceTypeWithNoAuth() throws Exception {
-        mockMvc.perform(get("/resource-types/0"))
-                .andExpect(status().isUnauthorized());
-    }
-
-    @Test
-    @WithMockKeycloakAuth("ROLE_user")
-    void getAllResourceTypesWithWrongRole() throws Exception {
-        mockMvc.perform(get("/admin/resource-types/"))
-                .andExpect(status().isForbidden());
-    }
 
     @Test
     @WithMockKeycloakAuth("ROLE_admin")
@@ -98,7 +74,11 @@ public class ResTypeControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isUnauthorized());
     }
-
+    @Test
+    void getResourceTypeWithNoAuth() throws Exception {
+        mockMvc.perform(get("/resource-types/0"))
+                .andExpect(status().isUnauthorized());
+    }
     @Test
     void getAllResourceTypeWithNoAuth() throws Exception {
         var resourceType = new ResType();
@@ -106,6 +86,27 @@ public class ResTypeControllerTest {
         mockMvc.perform(post("/admin/resource-types")
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isUnauthorized());
+    }
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void postResourceTypeWithWrongRole() throws Exception {
+        var resourceType = new ResType();
+        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(resourceType);
+        mockMvc.perform(post("/create/resource-types")
+                .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isForbidden());
+    }
+    @Test
+    @WithMockKeycloakAuth("ROLE_user")
+    void getAllResourceTypesWithWrongRole() throws Exception {
+        mockMvc.perform(get("/admin/resource-types/"))
+                .andExpect(status().isForbidden());
+    }
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getResourceTypeUserWithWrongRole() throws Exception {
+        mockMvc.perform(get("/resource-types/0"))
+                .andExpect(status().isForbidden());
     }
 }
 

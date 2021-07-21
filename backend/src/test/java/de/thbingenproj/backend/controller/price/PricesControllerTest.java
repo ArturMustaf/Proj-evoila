@@ -225,6 +225,48 @@ public class PricesControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isUnauthorized());
     }
+
+    @Transactional
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getPriceTestsWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/prices/0"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Transactional
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getAllPricesByRessourceIdWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/resources/5/prices"))
+                .andExpect(status().isForbidden());
+    }
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getAllPricesByOrgIDWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/organizations/prices/0"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getAllPricesByVDCIDWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/vdcs/prices/0"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getPricesByVdcIdInGivenTimesWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/vdcs/prices/0/100/200"))
+                .andExpect(status().isForbidden());
+    }
+    @Test
+    @WithMockKeycloakAuth("ROLE_noUser")
+    void getPricesByOrgIdInGivenTimesWithWrongRoleTest() throws Exception {
+        mockMvc.perform(get("/organizations/prices/0/100/200"))
+                .andExpect(status().isForbidden());
+    }
 }
 
 

@@ -7,6 +7,9 @@ import {ResTypeModel} from '../../../../shared/models/resource-models/res-type-m
 import {KeycloakService} from 'keycloak-angular';
 import {OrgUserModel} from '../../../../shared/models/org-user-models/org-user-model';
 import {VdcModel} from '../../../../shared/models/vdc-models/vdc-model';
+import {VdcComputeCapacity} from '../../../../shared/models/vdc-models/vdc-compute-capacity';
+import {VdcStorageProfile} from '../../../../shared/models/vdc-models/vdc-storage-profile';
+import {Observable} from 'rxjs';
 
 /**
  * Dashboard component
@@ -16,6 +19,7 @@ import {VdcModel} from '../../../../shared/models/vdc-models/vdc-model';
   templateUrl: './dash.component.html',
   styleUrls: ['./dash.component.scss']
 })
+
 export class DashComponent implements OnInit {
   allCurrentResources: ResourceModel[];
   allCurrentResourceTypes: ResTypeModel[];
@@ -25,21 +29,40 @@ export class DashComponent implements OnInit {
   dateNowInMS: number = Date.now();
   dateFirstDayOfMonthInMS: number = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime() / 1;
 
+  orgUser: OrgUserModel = {
+    emailAddress: '',
+    fullName: '',
+    href: '',
+    id: '',
+    isEnabled: '',
+    isExternal: '',
+    isGroupRole: '',
+    isLocked: '',
+    name: '',
+    orgID: '',
+    orgRoleID: '',
+    telephone: '',
+    userID: ''
+  };
+  vdcList: VdcModel[] = [];
   constructor(private navService: NavService, private communicator: DataCommunicatorService, private keycloakService: KeycloakService) {
-    navService.isAdmin = false;
-    communicator.getOrganization("1").then((res) => console.log(res));
-    communicator.getVDCsByOrgID("dcf38302-f549-405b-8a03-23f23f4962af").then((res) => console.log(res));
   }
 
-  async ngOnInit() {
-    await this.setupCosts();
+  ngOnInit() {
+    this.getCurrentUserFromBackend();
+    this.setupCosts();
   }
 
-  async setupCosts() {
+  getCurrentUserFromBackend(){
+    let userID = this.keycloakService.getKeycloakInstance().subject;
+    this.communicator.getCurrentOrgUserByOrgKeycloakID(userID)
+      .subscribe(data => this.communicator.getVDCsByOrgID(data.orgID).subscribe(res => this.vdcList = res));
+
+  setupCosts(): void {
     console.log("start");
-    await this.requestAllCurrentResources();
-    await this.requestAllUniqueCurrentResourceTypes()
-    await this.requestAllCurrentPrices();
+    this.requestAllCurrentResources();
+    this.requestAllUniqueCurrentResourceTypes()
+    this.requestAllCurrentPrices();
     this.aggregateCurrentTotalCostsPerResType();
     this.costsDataForDiagram.sort(function(costObjA, costObjB) {
       return costObjB.value - costObjA.value;
@@ -47,7 +70,7 @@ export class DashComponent implements OnInit {
     console.log("e");
   }
 
-  async requestAllCurrentResources() {
+  requestAllCurrentResources() : void {
     await this.communicator.getResourcesByOrgIDInGivenTime("dcf38302-f549-405b-8a03-23f23f4962af",
                                                         this.dateFirstDayOfMonthInMS,
                                                         this.dateNowInMS).then(
@@ -55,7 +78,7 @@ export class DashComponent implements OnInit {
     console.log("a");
   }
 
-  async requestAllUniqueCurrentResourceTypes() {
+  requestAllUniqueCurrentResourceTypes() : void {
     let allCurrentResourceTypeIDs = this.allCurrentResources.map( resource => resource.resourceTypeID );
     let allCurrentUniqueResourceTypeIDs = [... new Set(allCurrentResourceTypeIDs)].sort();
     await allCurrentUniqueResourceTypeIDs.forEach( resourceTypeID => {
@@ -64,7 +87,7 @@ export class DashComponent implements OnInit {
     console.log("b");
   }
 
-  async requestAllCurrentPrices() {
+  requestAllCurrentPrices() : void {
     this.allCurrentResources.forEach(resource => {
       this.communicator.getPricesByResourceIDInGivenTime(resource.id, this.dateFirstDayOfMonthInMS, this.dateNowInMS).then(
         pricesResp => pricesResp.forEach(
@@ -86,6 +109,9 @@ export class DashComponent implements OnInit {
     console.log(orgUser);
     console.log(vdcList);
   }
+
+  ngOnInit(): void {
+    this.getCurrentUserFromBackend();
 */
 
   aggregateCurrentTotalCostsPerResType(): void {
@@ -102,5 +128,3 @@ export class DashComponent implements OnInit {
     console.log("d");
   }
 }
-
-

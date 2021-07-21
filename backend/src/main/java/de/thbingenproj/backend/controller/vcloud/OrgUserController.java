@@ -22,6 +22,7 @@ public class OrgUserController {
     @PostMapping("/create/org-users")
     public OrgUser postOrgUser(@RequestBody OrgUserDTO orgUser){
         var user = this.orgUserRepository.save(modelMapper.map(orgUser, OrgUser.class));
+        syncUserService.syncAll();
         return user;
     }
 

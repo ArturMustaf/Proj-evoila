@@ -34,11 +34,11 @@ public class VDCComputeCapacityController {
 
     @GetMapping("/vdcs/{id}/vdc-compute-capacities")
     public List<VDCComputeCapacity> getAllVDCComputeCapacitiesByVDCID(@PathVariable String id) {
-        return this.vdcComputeCapacityRepository.findAllByVdcID(id);
+        return this.vdcComputeCapacityRepository.findAllByVdcNumber(id);
     }
 
     @GetMapping("/vdcs/{id}/vdc-compute-capacities/latest")
     public VDCComputeCapacity getLatestComputeCapacitiesByVDCID(@PathVariable String id) {
-        return this.vdcComputeCapacityRepository.findTopByVdcIDOrderByDateDesc(id);
+        return this.vdcComputeCapacityRepository.findTopByVdcNumberOrderByDateDesc(id);
     }
 }

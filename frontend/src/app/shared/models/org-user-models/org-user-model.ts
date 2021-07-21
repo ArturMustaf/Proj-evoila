@@ -11,4 +11,5 @@ export interface OrgUserModel {
   isGroupRole: string;
   orgRoleID: string;
   orgID: string;
+  userID: string;
 }

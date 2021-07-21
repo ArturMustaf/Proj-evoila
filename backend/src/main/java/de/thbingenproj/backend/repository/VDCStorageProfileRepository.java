@@ -10,4 +10,5 @@ import java.util.List;
 public interface VDCStorageProfileRepository extends CrudRepository<VDCStorageProfile, String> {
     List<VDCStorageProfile> findAllByVdcID(String vdcID);
     List<VDCStorageProfile> findAll();
+    VDCStorageProfile findTopByVdcIDOrderByDateDesc(String vdcID);
 }

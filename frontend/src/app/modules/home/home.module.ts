@@ -15,6 +15,7 @@ import {TicketsComponent} from './components/tickets/tickets.component';
 import {TicketDisplayComponent} from './components/tickets/display/ticketdisplay.component';
 import { SingleVDCComponent } from './components/single-vdc/single-vdc.component';
 import { ProjectViewComponent } from './components/project-view/project-view.component';
+import { CfAppsViewComponent } from './components/cf-apps-view/cf-apps-view.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ProjectViewComponent } from './components/project-view/project-view.com
     TicketsComponent,
     TicketDisplayComponent,
     SingleVDCComponent,
-    ProjectViewComponent
+    ProjectViewComponent,
+    CfAppsViewComponent
 
   ],
   imports: [

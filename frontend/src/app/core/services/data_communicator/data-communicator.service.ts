@@ -50,4 +50,8 @@ export class DataCommunicatorService {
   getSpacesByOrgName(id: string): Observable<SpaceModel[]> {
     return this.http.get<SpaceModel[]>(environment.backend.address + "/organizations/" + id + "/spaces");
   }
+
+  getLatestAppsByOrgIDAndSpaceID(orgID: string, spaceID: string): Observable<AppModel[]> {
+    return this.http.get<AppModel[]>(environment.backend.address + "organizations/" + orgID +"/spaces/ "+ spaceID +"/latest-app");
+  }
 }

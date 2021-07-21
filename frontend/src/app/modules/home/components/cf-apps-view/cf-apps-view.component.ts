@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DataCommunicatorService} from '../../../../core/services/data_communicator/data-communicator.service';
 import {SpaceModel} from '../../../../shared/models/cf-models/space-model';
+import {AppModel} from '../../../../shared/models/cf-models/app-model';
 
 @Component({
   selector: 'app-cf-apps-view',
@@ -9,12 +10,16 @@ import {SpaceModel} from '../../../../shared/models/cf-models/space-model';
 })
 export class CfAppsViewComponent implements OnInit {
   @Input() spaceList: SpaceModel[] = [];
-  constructor() { }
+  constructor(private communicator: DataCommunicatorService) { }
 
+  getApps(){
+    this.communicator.getLatestAppsByOrgIDAndSpaceID("AAAA", "demo")
+      .subscribe(res => console.log(res + "test"));
+  }
 
 
   ngOnInit(): void {
-    console.log(this.spaceList);
+    this.getApps();
   }
 
 }

@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -65,4 +66,20 @@ public class AppController {
         return this.appRepository.findAll();
     }
 
+    @GetMapping("organizations/{orgID}/latest-app")
+    public List<App> getLatestAppsForSpace(@PathVariable String orgID) {
+        var spaceList = this.appRepository.findAllDistinctSpacesByOrg(orgID);
+        System.out.println(spaceList);
+        var appList = new ArrayList<String>();
+        var sendList = new ArrayList<App>();
+        for (String space: spaceList) {
+            appList.addAll(this.appRepository.findAllGUIDBySpaceAndOrg(space, orgID));
+        }
+        System.out.println(appList);
+        for (String app: appList) {
+            sendList.add(this.appRepository.findTopByGuidOrderByDtDesc(app));
+        }
+        System.out.println(sendList);
+        return sendList;
+    }
 }

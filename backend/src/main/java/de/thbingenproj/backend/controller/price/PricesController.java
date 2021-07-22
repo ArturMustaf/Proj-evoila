@@ -71,13 +71,26 @@ public class PricesController {
     public List<Prices> getAllPricesByRessourceId(@PathVariable long id) {
         return this.pricesRepository.findAllByResourceID(id);
     }
+
+    /**
+     * returns all Prices used or in use of an organization in a specific time interval
+     * @param  id of the resource
+     * @param from start date
+     * @param until end date
+     * @return Prices objects of vdc
+     */
+    @GetMapping("/resources/{id}/prices/{from}/{until}")
+    public List<Prices>getPricesByResourceIDInGivenTime(@PathVariable long id, @PathVariable long from, @PathVariable long until) {
+        return this.pricesRepository.findAllByResourceIDWithinTimeframe(id, from, until);
+    }
+
     /**
      * returns all prices used or in use of an organization
      * @param  id of the organization
      * @return Prices objects
      */
     @GetMapping("/organizations/prices/{id}")
-    public List<Prices> getALlPricesByOrgID(@PathVariable String id){
+    public List<Prices> getAllPricesByOrgID(@PathVariable String id){
         return this.pricesRepository.findAllByOrgID(id);
     }
 

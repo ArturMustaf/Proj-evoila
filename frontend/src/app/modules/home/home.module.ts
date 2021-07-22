@@ -10,11 +10,13 @@ import {DashComponent} from './components/dash/dash.component';
 import {HomeRoutingModule} from './home-routing.module';
 
 import {CostsDiagramComponent} from './components/costs-diagram/costs-diagram.component';
+import {DashCostsDiagramComponent} from './components/dash-costs-diagram/dash-costs-diagram.component';
 
 import {TicketsComponent} from './components/tickets/tickets.component';
 import {TicketDisplayComponent} from './components/tickets/display/ticketdisplay.component';
 import { SingleVDCComponent } from './components/single-vdc/single-vdc.component';
 import { ProjectViewComponent } from './components/project-view/project-view.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 import { CfAppsViewComponent } from './components/cf-apps-view/cf-apps-view.component';
 
 
@@ -28,16 +30,19 @@ import { CfAppsViewComponent } from './components/cf-apps-view/cf-apps-view.comp
     TicketDisplayComponent,
     SingleVDCComponent,
     ProjectViewComponent,
+    DashCostsDiagramComponent,
+    ProjectViewComponent,
     CfAppsViewComponent
 
   ],
-  imports: [
-    CommonModule,
-    ClarityModule,
-    HomeRoutingModule,
-    FormsModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        ClarityModule,
+        HomeRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxChartsModule
+    ]
 })
 export class HomeModule {
 }

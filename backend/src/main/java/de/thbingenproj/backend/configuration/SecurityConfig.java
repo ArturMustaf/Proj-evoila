@@ -84,6 +84,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
     /**
      * define the actual constraints of the app.
+     * Sets the roles needed for specific endpoints
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {

@@ -13,9 +13,23 @@ public interface PricesRepository extends CrudRepository<Prices, Long> {
     Prices findByResourceIDAndEndDateIsNull(long resourceID);
     List<Prices> findAllByVdcID(String vdcID);
     List<Prices> findAllByOrgID(String orgID);
-    // findaAll ById, StartDate between from until || EndDate between from until || EnDate before from && until==null (0)
+
+    /**
+     * Finds all Prices that where active in the given Timeframe by org id, usefull to search for prices between data x and y
+     * @param orgID
+     * @param startDate
+     * @param endDate
+     * @return List of Prices
+     */
     @Query("select p from Prices p where p.orgID = ?1  and (p.startDate < ?3 and (p.endDate > ?2 or p.endDate = 0))")
     List<Prices> findAllByOrgIDWithinTimeframe(String orgID, long startDate, long endDate);
+    /**
+     * Finds all Prices that where active in the given Timeframe by vdc id, usefull to search for prices between data x and y
+     * @param vdcID
+     * @param startDate
+     * @param endDate
+     * @return List of Prices
+     */
     @Query("select p from Prices p where p.vdcID = ?1 and (p.startDate < ?3 and (p.endDate > ?2 or p.endDate = 0))")
     List<Prices> findAllByVDCIDWithinTimeframe(String vdcID, long startDate, long endDate);
 }

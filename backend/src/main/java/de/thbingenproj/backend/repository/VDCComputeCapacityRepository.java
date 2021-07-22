@@ -10,5 +10,11 @@ import java.util.List;
 public interface VDCComputeCapacityRepository extends CrudRepository<VDCComputeCapacity, Long> {
     List<VDCComputeCapacity> findAll();
     List<VDCComputeCapacity> findAllByVdcNumber(String vdcNumber);
+
+    /**
+     * Finds latest Entity
+     * @param vdcNumber
+     * @return latest compute capacity
+     */
     VDCComputeCapacity findTopByVdcNumberOrderByDateDesc(String vdcNumber);
 }

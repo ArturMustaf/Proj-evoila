@@ -11,7 +11,7 @@
 - [Backend](backend)
 <br>Benötigte Zugangsdaten zu API und ArangoDB müssen bei Evoila erfragt werden <br>
 In den einzelnen Modulen müssen die Environment-, oder Propertiedateien verändert/erstellt werden.
-###Keycloak
+###Keycloak (muss "extern" aufgesetzt werden)
 - Nutzerauthentifizierung
 - Nutzerverwaltung
 - Authentifizierung der Clients untereinander
@@ -49,13 +49,13 @@ Erstellen einer File namens _logindata.properties_ mit dem Format:
 ```
 crawler/src/main/ressources
 
-kc.clientID=crawlerClient
+kc.clientID=
 kc.clientSecret=
-kc.grantType=client_credentials
+kc.grantType=
 kc.URI=
 kc.realm=
 kc.tokenURI=
-api.baseURL=https://vcloud.evoila.io/api
+api.baseURL=
 api.user=
 api.password=
 backend.baseURL=
@@ -93,13 +93,13 @@ Erstellen einer File namens _logindata.properties_ mit dem Format:
 ```
 backend/src/main/ressources
 
-kc.clientID=crawlerClient
+kc.clientID=
 kc.clientSecret=
-kc.grantType=client_credentials
+kc.grantType=
 kc.URI=
 kc.realm=
 kc.tokenURI=
-api.baseURL=https://vcloud.evoila.io/api
+api.baseURL=
 api.user=
 api.password=
 backend.baseURL=

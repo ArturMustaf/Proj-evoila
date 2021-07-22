@@ -4,11 +4,10 @@ import {DataCommunicatorService} from '../../../../core/services/data_communicat
 import {KeycloakService} from 'keycloak-angular';
 import {OrgUserModel} from '../../../../shared/models/org-user-models/org-user-model';
 import {VdcModel} from '../../../../shared/models/vdc-models/vdc-model';
-import {VdcComputeCapacity} from '../../../../shared/models/vdc-models/vdc-compute-capacity';
-import {VdcStorageProfile} from '../../../../shared/models/vdc-models/vdc-storage-profile';
-import {Observable} from 'rxjs';
 import {SpaceModel} from '../../../../shared/models/cf-models/space-model';
-import {AppModel} from '../../../../shared/models/cf-models/app-model';
+import {ResourceModel} from '../../../../shared/models/resource-models/resource-model';
+import {PricesModel} from '../../../../shared/models/prices-models/prices-model';
+import {ResTypeModel} from '../../../../shared/models/resource-models/res-type-model';
 
 /**
  * Dashboard component
@@ -28,7 +27,6 @@ export class DashComponent implements OnInit {
   allCurrentResourceTypes: ResTypeModel[] = [];
   allCurrentPricesByType: { 'resourceTypeID': number, 'prices': PricesModel[] }[] = [];
   costsDataForDiagram: { name: string, value: number }[] = [];
-  //costsOfCurrentMonth_TEST_VALUES = [{'name': 'CPU', 'value': 2300}, {'name': 'Storage', 'value': 1200}, {'name': 'RAM', 'value': 900}];
   dateNowInMS: number = Date.now();
   dateFirstDayOfMonthInMS: number = new Date(new Date().getFullYear(), new Date().getMonth(), 1).getTime();
   isDataReady: boolean = false;
@@ -51,23 +49,21 @@ export class DashComponent implements OnInit {
   };
   vdcList: VdcModel[] = [];
   spaceList: SpaceModel[] = [];
-  appList1: AppModel[] = [];
-  appList2: AppModel[] = [];
 
   constructor(private navService: NavService, private communicator: DataCommunicatorService, private keycloakService: KeycloakService) {
 
   }
 
   async ngOnInit() {
-    this.getCurrentUserFromBackend();
+    await this.getCurrentUserFromBackend();
     this.getSpaceList();
     await this.setupCosts();
   }
 
-  getCurrentUserFromBackend(){
+  async getCurrentUserFromBackend() {
     let userID = this.keycloakService.getKeycloakInstance().subject;
-    this.communicator.getCurrentOrgUserByOrgKeycloakID(userID)
-      .subscribe(data => {
+    await this.communicator.getCurrentOrgUserByOrgKeycloakID(userID).toPromise().then(
+      data => {
         this.orgID = data.orgID;
         this.communicator.getVDCsByOrgID(data.orgID)
           .subscribe(res => this.vdcList = res)
@@ -83,6 +79,8 @@ export class DashComponent implements OnInit {
    */
   async setupCosts() {
     await this.requestAllCurrentResources();
+    console.log("orgid: " + this.orgID + " allCurrentResources: " );
+    console.log(this.allCurrentResources);
     await this.requestAllUniqueCurrentResourceTypes();
     await this.requestAllCurrentPrices();
     this.aggregateCurrentTotalCostsPerResType();
@@ -97,15 +95,11 @@ export class DashComponent implements OnInit {
   /*
    * Request all Resources that are being used since the first day of the current month until now
    */
-
-  //ToDO set orgID with keycloak
-  async requestAllCurrentResources() {
-    await this.communicator.getResourcesByOrgIDInGivenTime('dcf38302-f549-405b-8a03-23f23f4962af',
-      this.dateFirstDayOfMonthInMS,
-      this.dateNowInMS).toPromise().then(
-      resources => {
-        this.allCurrentResources = resources;
-      });
+  async requestAllCurrentResources() { //'dcf38302-f549-405b-8a03-23f23f4962af'
+    await this.communicator.getResourcesByOrgIDInGivenTime(this.orgID, this.dateFirstDayOfMonthInMS, this.dateNowInMS)
+      .toPromise().then( resources => {
+          this.allCurrentResources = resources;
+        });
   }
 
   /*
@@ -143,7 +137,8 @@ export class DashComponent implements OnInit {
       );
     }
   }
-  getSpaceList(){
+
+  getSpaceList() {
     this.communicator.getSpacesByOrgName("AAAA").subscribe(res => this.spaceList = res);
   }
 
@@ -197,4 +192,5 @@ export class DashComponent implements OnInit {
     let priceDurationForCurrentMonthInMS = priceEndDateThisMonthInMS - priceStartDateThisMonthInMS;
     let timeOfPriceInHours = priceDurationForCurrentMonthInMS / (1000 * 60 * 60);
     return (price.priceInCent * timeOfPriceInHours) / 100;
+  }
 }

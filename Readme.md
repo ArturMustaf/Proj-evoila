@@ -9,20 +9,18 @@
 - [Frontend](frontend)
 - [Crawler](crawler)
 - [Backend](backend)
-<br>Benötigte Zugangsdaten zu API und Arango müssen bei evoila erfragt werden <br>
-In den einzelnen Modulen müssen die Environment, oder propertiedateien verändert/erstellt werden.
+<br>Benötigte Zugangsdaten zu API und ArangoDB müssen bei Evoila erfragt werden <br>
+In den einzelnen Modulen müssen die Environment-, oder Propertiedateien verändert/erstellt werden.
 ###Keycloak
-- Authentication Service
-- 3 genutzte Clients
-- 1 Realm
+- Nutzerauthentifizierung
 - Nutzerverwaltung
 - Authentifizierung der Clients untereinander
 
-Die Keycloak properties können dann von der Keycloak Adminkonsole ausgelesen werden.
+Die Keycloak Properties können dann in Keycloak Adminkonsole ausgelesen und bearbeitet werden.
 
 ###Frontend
 - Stellt Daten von Backend da
-- Abgesichert durch Keycloak (Muss aufgesetzt werden)
+- Nutzer werden über Keycloak authentifiziert
 ```
 frontend/src/environments/
 ├── environment.dev.ts
@@ -30,13 +28,14 @@ frontend/src/environments/
 └── environment.ts
 ```
 Abändern der Links an die passenden Adressen <br>
-Zum lokalen Entwickeln reicht hier die Standard Konfiguration.
+Zum lokalen Entwickeln reicht hier die Standard Konfiguration. <br>
+Mindestens der Keycloak muss erreichbar sein, sonst kann man sich nicht anmelden 
 <br>
 <br>
 ###Crawler
 - Sammelt Daten von der Arango Datenbank
 - Sammelt Daten von der vCloud Director API
-- Sendet die Daten an das Backend
+- Sendet die Daten (derzeit stündlich) an das Backend
 <br> Um den Crawler lauffähig zu bekommen müssen in den folgenden Dateien die Links angepasst werden
 ```
 crawler/src/main/ressources
@@ -76,10 +75,11 @@ crawler/src/main/java/com.crawler/CrawlerApplication.java/
 -> doAfterInit()
 ```
 ###Backend
-- Legt von Crawler empfangene Daten in einer Postgres Datenbank ab
-- Ist die API für unser Frontend, stellt Endpunkte bereit für das Auslesen der Daten
+- Legt von Crawler empfangene Daten in einer Datenbank ab
+- Ist die API für das Frontend, stellt Endpunkte bereit für das Auslesen der Daten
+- Bietet zudem die Endpunkte um Daten erstellen zu können, diese können vom Crawler kommen, oder händisch eingetragen werden  
 - Endpunkte sind abhängig vom Nutzen nur für Admins zugänglich
-- Authentifizierung findet über einen Keycloakserver statt
+- Authentifizierung der Anfragen findet über den Keycloakserver statt
   <br> Um das Backend lauffähig zu bekommen müssen in den folgenden Dateien die Links angepasst werden
 ```
 backend/src/main/ressources
@@ -105,9 +105,10 @@ api.password=
 backend.baseURL=
 ```
 #Wichtig
-Docker Compose laufen bevor das Backend starten kann <br>
+Docker Compose muss laufen bevor das Backend starten kann <br>
 Das Backend muss laufen bevor der Crawler Daten daran senden kann (Also läuft das Backend am besten bevor der Crawler gestartet wird)<br>
 Frontend kann immer gestartet werden, wird nur nicht befüllt wenn das Backend nicht läuft <br>
+Man muss ggf das _testcontainers/ryuk_ Image selbst runterladen, da das nicht immer auffindbar ist <br>
 #Altes Team
 ## Allgemein
 ### Teammitglieder

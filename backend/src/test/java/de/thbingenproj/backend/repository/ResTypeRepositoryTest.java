@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 @AutoConfigureMockMvc
-public class ResTypeRepositoryTest {
+class ResTypeRepositoryTest {
     @Autowired
     ResTypeRepository resTypeRepository;
 
@@ -61,7 +61,6 @@ public class ResTypeRepositoryTest {
         var resourceType = new ResType();
         resourceType.setTypeOfResource(RandomStringUtils.randomAlphanumeric(5));
         var orgInitialName = resourceType.getTypeOfResource();
-        Random random=new Random();
         resTypeRepository.save(resourceType);
         Assertions.assertNotNull(resTypeRepository.findById(resourceType.getId()));
         var orgUserReturned = resTypeRepository.findById(resourceType.getId()).orElse(null);

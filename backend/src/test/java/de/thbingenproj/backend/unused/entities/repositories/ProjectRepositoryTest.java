@@ -1,11 +1,11 @@
 package de.thbingenproj.backend.unused.entities.repositories;
 
+import de.thbingenproj.backend.extensions.BeforeEvery;
 import de.thbingenproj.backend.unused.entities.prices.Project;
 import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.unused.entities.repositories.util.demo_set_creator.logging_resources.RessourceLogMockCreator;
 import de.thbingenproj.backend.unused.entities.repositories.util.demo_set_creator.user_information.ProjectMockCreator;
-import de.thbingenproj.backend.extensions.BeforeEvery;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,11 +15,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import javax.transaction.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertionsions.assertNotEquals;
 
 @Disabled
 @ExtendWith(BeforeEvery.class)
@@ -35,7 +34,7 @@ class ProjectRepositoryTest {
 
     @Test
     void testCreation(){
-        Assert.assertNotNull(projectRepository);
+        Assertions.assertNotNull(projectRepository);
     }
 
     @Test
@@ -49,7 +48,7 @@ class ProjectRepositoryTest {
         projectRepository.saveAll(entities);
         var checkList = projectRepository.findAll();
         for(Project x : entities){
-            Assert.assertTrue(checkList.contains(x));
+            Assertions.assertTrue(checkList.contains(x));
         }
     }
 
@@ -58,7 +57,7 @@ class ProjectRepositoryTest {
     void readProject(){
         var project = projectMockCreator.createProject();
         projectRepository.save(project);
-        Assert.assertNotNull(projectRepository.findById(project.getId()));
+        Assertions.assertNotNull(projectRepository.findById(project.getId()));
     }
 
     @Test
@@ -66,9 +65,9 @@ class ProjectRepositoryTest {
     void deleteProject(){
         var project = projectMockCreator.createProject();
         projectRepository.save(project);
-        Assert.assertNotNull(projectRepository.findById(project.getId()));
+        Assertions.assertNotNull(projectRepository.findById(project.getId()));
         projectRepository.delete(project);
-        Assert.assertNull(projectRepository.findById(project.getId()).orElse(null));
+        Assertions.assertNull(projectRepository.findById(project.getId()).orElse(null));
     }
 
     @Test
@@ -77,7 +76,7 @@ class ProjectRepositoryTest {
         var project = projectMockCreator.createProject();
         var projectInitialName = project.getName();
         projectRepository.save(project);
-        Assert.assertNotNull(projectRepository.findById(project.getId()));
+        Assertions.assertNotNull(projectRepository.findById(project.getId()));
         var customerReturned = projectRepository.findById(project.getId()).orElse(null);
         String generatedString = RandomStringUtils.randomAlphanumeric(10);
         customerReturned.setName(generatedString);
@@ -95,7 +94,7 @@ class ProjectRepositoryTest {
         }
         projectRepository.saveAll(entities);
         projectRepository.save(testEntity);
-        Assert.assertNotNull(projectRepository.findAllLogs(testEntity.getId()));
+        Assertions.assertNotNull(projectRepository.findAllLogs(testEntity.getId()));
     }
 
     @Test
@@ -108,7 +107,7 @@ class ProjectRepositoryTest {
         projectRepository.saveAll(entities);
         var list= projectRepository.findAll();
         for(var x : entities){
-            Assert.assertTrue(list.contains(x));
+            Assertions.assertTrue(list.contains(x));
         }
     }
 }

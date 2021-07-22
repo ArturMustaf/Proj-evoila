@@ -45,11 +45,8 @@ class OrgUserControllerTest {
         orgUser.setIsEnabled(Boolean.TRUE.toString());
         orgUser.setIsLocked(Boolean.TRUE.toString());
         orgUser.setName("test");
-        //orgUser.setEmailAddress();
-        //orgUser.setTelephone();
         orgUser.setIsExternal(Boolean.TRUE.toString());
         orgUser.setIsGroupRole(Boolean.TRUE.toString());
-        //orgUser.setOrgRoleID();
         orgUser.setOrgID("orgID");
         return orgUser;
     }

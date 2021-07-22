@@ -3,23 +3,19 @@ package de.thbingenproj.backend.controller.price;
 
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import de.thbingenproj.backend.entity.Prices;
-
 import de.thbingenproj.backend.entity.ResType;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import javax.transaction.Transactional;
 
@@ -34,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 @AutoConfigureMockMvc
-public class PricesControllerTest {
+class PricesControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -45,7 +41,7 @@ public class PricesControllerTest {
     @Transactional
     @Test
     void testCreation() {
-        Assert.assertNotNull(pricesController);
+        Assertions.assertNotNull(pricesController);
     }
 
     @Transactional

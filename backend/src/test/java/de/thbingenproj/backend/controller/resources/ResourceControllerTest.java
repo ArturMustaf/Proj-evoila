@@ -10,6 +10,7 @@ import de.thbingenproj.backend.extensions.BeforeEvery;
 import de.thbingenproj.backend.repository.ResourceRepository;
 import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 @AutoConfigureMockMvc
-public class ResourceControllerTest {
+class ResourceControllerTest {
     @Autowired
     MockMvc mockMvc;
 
@@ -45,7 +46,7 @@ public class ResourceControllerTest {
 
     @Test
     void testCreation() {
-        Assert.assertNotNull(resourceController);
+        Assertions.assertNotNull(resourceController);
     }
 
     @Test

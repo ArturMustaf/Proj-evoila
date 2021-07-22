@@ -68,6 +68,6 @@ public class ResourceLog extends BaseTimeEntity {
 
     @PostPersist
     public void afterSave() {
-        ResourceLogListener.getApplicationEventPublisher().publishEvent(new CreationEvent<ResourceLog>(this));
+        ResourceLogListener.getApplicationEventPublisher().publishEvent(new CreationEvent<>(this));
     }
 }

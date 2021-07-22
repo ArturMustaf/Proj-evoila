@@ -39,19 +39,8 @@ class SearchServiceTest {
     @Test
     @Transactional
     @WithMockKeycloakAuth("ROLE_admin")
-    void getUserOnQuery() throws Exception {
-/*        var user = customerMockCreator.createUser();
-        var json = new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(user);
-        mockMvc.perform(post("/create/customers")
-                .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andDo(print())
-                .andExpect(status().isOk());
-        sleep(10000);
-        var result = searchService.getUserOnQuery("", 0, 10);
+    void getUserOnQuery() {
 
-        System.out.println("user: "+user);
-        System.out.println("result: "+result.getData());
-        Assert.assertTrue(result.getData().contains(user));*/
     }
 
     @Test

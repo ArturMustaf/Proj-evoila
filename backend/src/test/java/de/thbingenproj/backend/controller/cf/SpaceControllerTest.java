@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.thbingenproj.backend.entity.Space;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ class SpaceControllerTest {
 
     @Test
     void testCreation() {
-        Assert.assertNotNull(spaceController);
+        Assertions.assertNotNull(spaceController);
     }
 
     @Test

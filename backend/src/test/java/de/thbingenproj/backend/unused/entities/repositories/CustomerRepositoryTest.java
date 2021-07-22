@@ -1,10 +1,10 @@
 package de.thbingenproj.backend.unused.entities.repositories;
 
+import de.thbingenproj.backend.extensions.BeforeEvery;
 import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.unused.entities.repositories.util.demo_set_creator.user_information.CustomerMockCreator;
 import de.thbingenproj.backend.unused.entities.user.Customer;
-import de.thbingenproj.backend.extensions.BeforeEvery;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertionsions.assertNotEquals;
 
 @ExtendWith(BeforeEvery.class)
 @SpringBootTest
@@ -38,7 +38,7 @@ class CustomerRepositoryTest extends PostgresTest {
 
     @Test
     void testCreation(){
-        Assert.assertNotNull(customerRepository);
+        Assertions.assertNotNull(customerRepository);
     }
 
     @Test
@@ -52,7 +52,7 @@ class CustomerRepositoryTest extends PostgresTest {
         customerRepository.saveAll(entities);
         var checkList = customerRepository.findAll();
         for(Customer x : entities){
-            Assert.assertTrue(checkList.contains(x));
+            Assertions.assertTrue(checkList.contains(x));
         }
     }
 
@@ -61,7 +61,7 @@ class CustomerRepositoryTest extends PostgresTest {
     void readCustomer(){
         var customer = customerMockCreator.createUser();
         customerRepository.save(customer);
-        Assert.assertNotNull(customerRepository.findById(customer.getId()));
+        Assertions.assertNotNull(customerRepository.findById(customer.getId()));
     }
 
     @Test
@@ -69,9 +69,9 @@ class CustomerRepositoryTest extends PostgresTest {
     void deleteCustomer(){
         var customer = customerMockCreator.createUser();
         customerRepository.save(customer);
-        Assert.assertNotNull(customerRepository.findById(customer.getId()));
+        Assertions.assertNotNull(customerRepository.findById(customer.getId()));
         customerRepository.delete(customer);
-        Assert.assertNull(customerRepository.findById(customer.getId()).orElse(null));
+        Assertions.assertNull(customerRepository.findById(customer.getId()).orElse(null));
     }
 
     @Test
@@ -80,7 +80,7 @@ class CustomerRepositoryTest extends PostgresTest {
         var customer = customerMockCreator.createUser();
         var contactInitialID = customer.getUserId();
         customerRepository.save(customer);
-        Assert.assertNotNull(customerRepository.findById(customer.getId()));
+        Assertions.assertNotNull(customerRepository.findById(customer.getId()));
         var customerReturned = customerRepository.findById(customer.getId()).orElse(null);
         var generatedString = RandomStringUtils.randomAlphanumeric(10);
         customerReturned.setUserId(generatedString);
@@ -95,7 +95,7 @@ class CustomerRepositoryTest extends PostgresTest {
         var contact = customer.getContactInformation();
         customerRepository.save(customer);
         var result = customerRepository.findAllByContactInformationId(contact.getId());
-        Assert.assertTrue(result.contains(customer));
+        Assertions.assertTrue(result.contains(customer));
     }
 
     @Test
@@ -108,7 +108,7 @@ class CustomerRepositoryTest extends PostgresTest {
         customerRepository.saveAll(entities);
         var list= customerRepository.findAll();
         for(var x : entities){
-            Assert.assertTrue(list.contains(x));
+            Assertions.assertTrue(list.contains(x));
         }
     }
 
@@ -119,6 +119,6 @@ class CustomerRepositoryTest extends PostgresTest {
         String generatedString = RandomStringUtils.randomAlphanumeric(10);
         customer.setUserId(generatedString);
         customerRepository.save(customer);
-        Assert.assertNotNull(customerRepository.findCustomerByUserId(generatedString));
+        Assertions.assertNotNull(customerRepository.findCustomerByUserId(generatedString));
     }
 }

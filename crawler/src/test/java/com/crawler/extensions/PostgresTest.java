@@ -8,6 +8,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 /**
  * Postgres connection to local postgres instance => useful for development
  */
+@SuppressWarnings("rawtypes")
 public abstract class PostgresTest {
     private static final PostgreSQLContainer postgres;
 

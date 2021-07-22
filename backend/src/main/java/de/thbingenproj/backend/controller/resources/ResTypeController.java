@@ -21,7 +21,7 @@ public class ResTypeController {
 
     /**
      * stores a new resourceType
-     * @param  resourceType that should be safed
+     * @param  resourceType that should be saved
      * @return the saved ResType object or error
      */
     @PostMapping("/create/resource-types")
@@ -30,7 +30,7 @@ public class ResTypeController {
     }
     /**
      * @param  id of the resourceType
-     * @return ResType object
+     * @return ResType object or null
      */
     @GetMapping("/resource-types/{id}")
     public ResType getResourceType(@PathVariable long id) {

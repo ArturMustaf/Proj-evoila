@@ -12,10 +12,22 @@ public interface ResourceRepository extends CrudRepository<Resource, Long> {
     List<Resource> findAllByVdcID(String vdcID);
     List<Resource> findAllByOrgID(String orgID);
 
-    // findaAll ById, StartDate between from until || EndDate between from until || EnDate before from && until==null (0)
-    // findaAll ById, StartDate between from until || EndDate between from until || EnDate before from && until==null (0)
+    /**
+     * Finds all Ressources that where active in the given Timeframe by org id, usefull to search for prices between data x and y
+     * @param orgID
+     * @param startDate
+     * @param endDate
+     * @return List of Ressources
+     */
     @Query("select r from Resource r where r.orgID = ?1  and (r.startDate < ?3 and (r.endDate > ?2 or r.endDate = 0))")
     List<Resource> findAllByOrgIDWithinTimeframe(String orgID, long startDate, long endDate);
+    /**
+     * Finds all Ressources that where active in the given Timeframe by org id, usefull to search for prices between data x and y
+     * @param vdcID
+     * @param startDate
+     * @param endDate
+     * @return List of Ressources
+     */
     @Query("select r from Resource r where r.vdcID = ?1 and (r.startDate < ?3 and (r.endDate > ?2 or r.endDate = 0))")
     List<Resource> findAllByVDCIDWithinTimeframe(String vdcID, long startDate, long endDate);
 }

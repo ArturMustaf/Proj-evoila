@@ -35,7 +35,7 @@ public class SpaceController {
     public Space getSpace(@PathVariable String id) {
         return this.spaceRepository.findById(id).orElse(null);
     }
-    
+
     /**
      * Returns all spaces for given organization via get request
      * @param id internal ID of the organization

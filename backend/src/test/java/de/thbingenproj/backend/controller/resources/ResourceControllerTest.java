@@ -102,7 +102,7 @@ public class ResourceControllerTest {
     @Test
     @WithMockKeycloakAuth("ROLE_user")
     void getResourcesByOrgIdInGivenTimeTest() throws Exception {
-        mockMvc.perform(get("/organizations/resources/0/100/200"))
+        mockMvc.perform(get("/organizations/0/resources/100/200"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("")));
     }

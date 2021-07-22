@@ -1,12 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {NavService} from '../../../../core/services/nav/nav.service';
 import {DataCommunicatorService} from '../../../../core/services/data_communicator/data-communicator.service';
-import {ResourceModel} from '../../../../shared/models/resource-models/resource-model';
-import {PricesModel} from '../../../../shared/models/prices-models/prices-model';
-import {ResTypeModel} from '../../../../shared/models/resource-models/res-type-model';
 import {KeycloakService} from 'keycloak-angular';
 import {OrgUserModel} from '../../../../shared/models/org-user-models/org-user-model';
 import {VdcModel} from '../../../../shared/models/vdc-models/vdc-model';
+import {VdcComputeCapacity} from '../../../../shared/models/vdc-models/vdc-compute-capacity';
+import {VdcStorageProfile} from '../../../../shared/models/vdc-models/vdc-storage-profile';
+import {Observable} from 'rxjs';
+import {SpaceModel} from '../../../../shared/models/cf-models/space-model';
+import {AppModel} from '../../../../shared/models/cf-models/app-model';
 
 /**
  * Dashboard component
@@ -48,6 +50,9 @@ export class DashComponent implements OnInit {
     userID: ''
   };
   vdcList: VdcModel[] = [];
+  spaceList: SpaceModel[] = [];
+  appList1: AppModel[] = [];
+  appList2: AppModel[] = [];
 
   constructor(private navService: NavService, private communicator: DataCommunicatorService, private keycloakService: KeycloakService) {
 
@@ -55,10 +60,11 @@ export class DashComponent implements OnInit {
 
   async ngOnInit() {
     this.getCurrentUserFromBackend();
+    this.getSpaceList();
     await this.setupCosts();
   }
 
-  getCurrentUserFromBackend() {
+  getCurrentUserFromBackend(){
     let userID = this.keycloakService.getKeycloakInstance().subject;
     this.communicator.getCurrentOrgUserByOrgKeycloakID(userID)
       .subscribe(data => {
@@ -137,6 +143,9 @@ export class DashComponent implements OnInit {
       );
     }
   }
+  getSpaceList(){
+    this.communicator.getSpacesByOrgName("AAAA").subscribe(res => this.spaceList = res);
+  }
 
   /*
    * The method iterates over all different resource types and the associated array of price objects.
@@ -188,5 +197,4 @@ export class DashComponent implements OnInit {
     let priceDurationForCurrentMonthInMS = priceEndDateThisMonthInMS - priceStartDateThisMonthInMS;
     let timeOfPriceInHours = priceDurationForCurrentMonthInMS / (1000 * 60 * 60);
     return (price.priceInCent * timeOfPriceInHours) / 100;
-  }
 }

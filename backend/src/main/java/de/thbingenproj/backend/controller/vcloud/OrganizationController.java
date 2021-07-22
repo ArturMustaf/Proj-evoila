@@ -17,10 +17,12 @@ public class OrganizationController {
     @Autowired
     ModelMapper modelMapper;
 
+
     @PostMapping("/create/organizations")
     public Organization postOrganization(@RequestBody OrganizationDTO organization){
         return this.organizationRepository.save(modelMapper.map(organization, Organization.class));
     }
+
 
     @GetMapping("/organizations/{id}")
     public Organization getOrganization(@PathVariable String id) {

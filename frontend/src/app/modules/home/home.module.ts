@@ -17,6 +17,7 @@ import {TicketDisplayComponent} from './components/tickets/display/ticketdisplay
 import { SingleVDCComponent } from './components/single-vdc/single-vdc.component';
 import { ProjectViewComponent } from './components/project-view/project-view.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
+import { CfAppsViewComponent } from './components/cf-apps-view/cf-apps-view.component';
 
 
 @NgModule({
@@ -29,7 +30,10 @@ import {NgxChartsModule} from '@swimlane/ngx-charts';
     TicketDisplayComponent,
     SingleVDCComponent,
     ProjectViewComponent,
-    DashCostsDiagramComponent
+    DashCostsDiagramComponent,
+    ProjectViewComponent,
+    CfAppsViewComponent
+
   ],
     imports: [
         CommonModule,

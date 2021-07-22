@@ -22,6 +22,7 @@ public class ArangoController {
 
     /**
      * Finds the latest entry date of any CF resource
+     * Called from Crawler, to specify what data to pull
      * @return last updated date
      */
     @GetMapping("arango/lastUpdate")

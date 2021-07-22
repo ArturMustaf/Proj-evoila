@@ -1,0 +1,10 @@
+<clr-datagrid>
+  <clr-dg-column>Space Name</clr-dg-column>
+
+  <clr-dg-row *ngFor="let space of spaceList">
+    <clr-dg-cell>{{space}}</clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>{{spaceList.length}} spaces</clr-dg-footer>
+</clr-datagrid>
+

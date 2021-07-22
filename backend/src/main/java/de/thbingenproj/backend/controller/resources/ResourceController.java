@@ -23,7 +23,7 @@ public class ResourceController {
     /**
      * stores a new resource
      *
-     * @param resource that should be safed
+     * @param resource that should be saved
      * @return the saved resource object or error
      */
     @PostMapping("/create/resources")
@@ -33,7 +33,7 @@ public class ResourceController {
 
     /**
      * @param id of the resource
-     * @return resource object
+     * @return resource object or null
      */
     @GetMapping("/resources/{id}")
     public Resource getResource(@PathVariable long id) {

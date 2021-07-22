@@ -103,6 +103,13 @@ api.user=
 api.password=
 backend.baseURL=
 ```
+#Frontend
+<br>Fragt Daten vom Backend ab und zeigt diese im Dashboard an. Die abzufragenden Daten richten sich nach der OrgID des aktuell eingeloggten Benutzers.
+Anzuzeigende Daten sind:
+- Die für den aktuellen Monat zu verechnenden Ressourcen, die im Diagramm zusammengefasst angezeigt werden
+- Von der vCloud Director API abgefragten VDCs
+- Von Cloud Foundry abgefragten Spaces
+
 #Wichtig
 Docker Compose muss laufen bevor das Backend starten kann <br>
 Das Backend muss laufen bevor der Crawler Daten daran senden kann (Also läuft das Backend am besten bevor der Crawler gestartet wird)<br>

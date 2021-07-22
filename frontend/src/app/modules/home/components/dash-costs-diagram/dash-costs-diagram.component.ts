@@ -16,7 +16,7 @@ export class DashCostsDiagramComponent implements AfterViewInit {
 
   view: any[] = [700, 300];
   // options
-  gradient: boolean = true;
+
   showLegend: boolean = true;
   showLabels: boolean = true;
   colorScheme = { domain : ['#40708f', '#688ba5', '#8ea6bb', '#b3c3d1', '#d9e1e8', '#ffffff']};

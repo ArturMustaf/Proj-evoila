@@ -60,8 +60,7 @@ api.user=
 api.password=
 backend.baseURL=
 ```
-Erstellen einer File namens _arangodb.properties_ mit dem Format:
-<br> wird von der Arango DB zum verbinden genutzt
+Erstellen einer File namens _arangodb.properties_ mit dem Format wird von der Arango DB zum verbinden genutzt:
 ```
 crawler/src/main/ressources
 

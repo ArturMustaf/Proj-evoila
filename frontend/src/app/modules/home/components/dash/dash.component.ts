@@ -7,6 +7,8 @@ import {VdcModel} from '../../../../shared/models/vdc-models/vdc-model';
 import {VdcComputeCapacity} from '../../../../shared/models/vdc-models/vdc-compute-capacity';
 import {VdcStorageProfile} from '../../../../shared/models/vdc-models/vdc-storage-profile';
 import {Observable} from 'rxjs';
+import {SpaceModel} from '../../../../shared/models/cf-models/space-model';
+import {AppModel} from '../../../../shared/models/cf-models/app-model';
 
 /**
  * Dashboard component
@@ -34,6 +36,10 @@ export class DashComponent implements OnInit {
     userID: ''
   };
   vdcList: VdcModel[] = [];
+  spaceList: SpaceModel[] = [];
+  appList1: AppModel[] = [];
+  appList2: AppModel[] = [];
+
   constructor(private navService: NavService, private communicator: DataCommunicatorService, private keycloakService: KeycloakService) {
   }
 
@@ -42,8 +48,12 @@ export class DashComponent implements OnInit {
     this.communicator.getCurrentOrgUserByOrgKeycloakID(userID)
       .subscribe(data => this.communicator.getVDCsByOrgID(data.orgID).subscribe(res => this.vdcList = res));
   }
+  getSpaceList(){
+    this.communicator.getSpacesByOrgName("AAAA").subscribe(res => this.spaceList = res);
+  }
 
   ngOnInit(): void {
     this.getCurrentUserFromBackend();
+    this.getSpaceList();
   }
 }

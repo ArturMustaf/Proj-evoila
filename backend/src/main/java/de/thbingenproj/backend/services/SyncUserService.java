@@ -1,7 +1,6 @@
 package de.thbingenproj.backend.services;
 
 import de.thbingenproj.backend.entity.OrgUser;
-import de.thbingenproj.backend.model.OrgUserDTO;
 import de.thbingenproj.backend.repository.OrgUserRepository;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
@@ -12,49 +11,50 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
+import java.util.Optional;
 
+@PropertySource("classpath:logindata.properties")
 @Service
 public class SyncUserService {
     @Autowired
     OrgUserRepository orgUserRepository;
     @Autowired
     ModelMapper modelMapper;
+    @Autowired
+    Environment env;
     Keycloak keycloak;
     RealmResource realmResource;
 
-    void initKeycloak() throws IOException {
-        var propFileName = "logindata.properties";
-        var prop = new Properties();
-        var inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
-
-        if (inputStream != null) {
-            prop.load(inputStream);
-        } else {
-            throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath / resources. Please create the file and set granttype, clientid and clientsecret.");
-        }
-
+    /**
+     * Initalizes the connection to the keycloak server
+     */
+    @PostConstruct
+    public void initKeycloak()  {
         keycloak = KeycloakBuilder.builder()
-                .serverUrl(prop.getProperty("keycloak.URI"))
+                .serverUrl(env.getProperty("kc.URI")+"auth")
                 .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
-                .realm(prop.getProperty("keycloak.realm"))
-                .clientId(prop.getProperty("keycloak.clientID"))
-                .clientSecret(prop.getProperty("keycloak.clientSecret"))
+                .realm(env.getProperty("kc.realm"))
+                .clientId(env.getProperty("kc.clientID"))
+                .clientSecret(env.getProperty("kc.clientSecret"))
                 .resteasyClient(
                         new ResteasyClientBuilder()
                                 .connectionPoolSize(10).build()
                 ).build();
         keycloak.tokenManager().getAccessToken();
-        realmResource = keycloak.realm(prop.getProperty("keycloak.realm"));
+        realmResource = keycloak.realm(env.getProperty("kc.realm"));
     }
 
-    void syncAll() {
+    /**
+     * Syncs all users with the keycloak server
+     */
+    public void syncAll() {
         var repoList = getAllRepository();
         for(OrgUser orgUser : repoList){
             syncUserKeycloak(orgUser);
@@ -69,7 +69,11 @@ public class SyncUserService {
         return orgUserRepository.findAll();
     }
 
-    void syncUserKeycloak(OrgUser user) {
+    /**
+     * Snycs user with keycloak
+     * @param user
+     */
+    public void syncUserKeycloak(OrgUser user) {
         var userRepresentation = new UserRepresentation();
         if(keycloakUserExists(user)){
             var list = getAllKeycloak();
@@ -80,10 +84,12 @@ public class SyncUserService {
             }
             userRepresentation.setUsername(user.getName());
             userRepresentation.setEmail(user.getEmailAddress());
+            userRepresentation.setId(user.getId());
             realmResource.users().get(userRepresentation.getId()).update(userRepresentation);
         } else {
             userRepresentation.setEmail(user.getEmailAddress());
             userRepresentation.setUsername(user.getName());
+            userRepresentation.setEnabled(true);
             var credentialRepresentation = new CredentialRepresentation();
             credentialRepresentation.setTemporary(true);
             credentialRepresentation.setType("password");
@@ -91,32 +97,62 @@ public class SyncUserService {
             var credList = new ArrayList<CredentialRepresentation>();
             credList.add(credentialRepresentation);
             userRepresentation.setCredentials(credList);
-            realmResource.users().create(userRepresentation);
+            var response = realmResource.users().create(userRepresentation);
+            response.close();
         }
-        setOrgUserID(user);
+        setIDs(user);
     }
 
-    boolean keycloakUserExists(OrgUser user) {
+    /***
+     * Deletes given user from Keycloak
+     * @param user
+     * @return true if users was delted
+     */
+    public boolean deleteUserKeycloak(OrgUser user){
+        boolean deleted = false;
+        if(keycloakUserExists(user)){
+            var list = getAllKeycloak();
+            for(UserRepresentation usRep : list){
+                if(usRep.getUsername().equals(user.getName()) || usRep.getId().equals(user.getId())){
+                    realmResource.users().delete(usRep.getId());
+                    deleted = true;
+                }
+            }
+        }
+        return deleted;
+    }
+    /***
+     * Deletes given user from Keycloak
+     * @param user
+     * @return true if users exists
+     */
+    public boolean keycloakUserExists(OrgUser user) {
         var list = getAllKeycloak();
         for(UserRepresentation userRepresentation : list){
-            if(userRepresentation.getUsername().equals(user.getName()) || userRepresentation.getId().equals(user.getId())){
+            if(userRepresentation.getId().equals(user.getId())){
                 return true;
             }
         }
         return false;
     }
 
-    void setOrgUserID(OrgUser user){
-        var list = getAllKeycloak();
-        for(UserRepresentation userRepresentation : list){
-            if(user.getName().equals(userRepresentation.getUsername())){
-                OrgUserDTO newUser = modelMapper.map(user, OrgUserDTO.class);
-                newUser.setId(userRepresentation.getId());
-                if(orgUserRepository.findById(user.getId()).isPresent()){
-                    orgUserRepository.deleteById(user.getId());
+    /**
+     * Sets userIDs
+     * @param user
+     * @return true
+     */
+    public boolean setIDs(OrgUser user) {
+        try {
+            var keycloakUsers = realmResource.users().list();
+            for(UserRepresentation userRepresentation: keycloakUsers){
+                if(Optional.ofNullable(userRepresentation.getUsername()).orElse("").equals(user.getName())){
+                    user.setUserID(userRepresentation.getId());
+                    orgUserRepository.save(user);
                 }
-                orgUserRepository.save(modelMapper.map(newUser, OrgUser.class));
             }
+            return true;
+        } catch (Exception e){
+            return false;
         }
     }
 }

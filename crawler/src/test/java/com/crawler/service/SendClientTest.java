@@ -1,8 +1,8 @@
 package com.crawler.service;
 
-import com.crawler.entity.*;
+import com.crawler.postgres.entity.*;
 import com.crawler.extensions.PostgresTest;
-import com.crawler.repository.*;
+import com.crawler.postgres.repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.mockwebserver.MockResponse;
@@ -48,7 +48,6 @@ class SendClientTest {
     @Autowired
     ObjectMapper objectMapper;
 
-
     public static MockWebServer mockServer;
     @BeforeAll
     static void setUp() throws IOException {
@@ -82,7 +81,7 @@ class SendClientTest {
             entities.add(org);
         }
         organizationRepository.saveAll(entities);
-        ArrayList<Organization> organizations = organizationRepository.findAll();
+        var organizations = organizationRepository.findAll();
         for (var org : organizations) {
             String generatedString = RandomStringUtils.randomAlphanumeric(20);
             MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
@@ -95,7 +94,7 @@ class SendClientTest {
                     .setHeader("Content-Type", "application/json")
                     .setBody(objectMapper.writeValueAsString(org)));
         }
-        Assertions.assertIterableEquals(sendClient.postAllOrganizations(),organizations);
+        Assertions.assertIterableEquals(organizations,sendClient.postAllOrganizations());
     }
 
     @Test

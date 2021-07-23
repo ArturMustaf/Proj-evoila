@@ -11,7 +11,7 @@ jobs:
     runs-on: [self-hosted, linux]
     steps:
       - uses: actions/checkout@v2
-
+        
       - name: Extract branch name
         shell: bash
         run: echo "branch=${GITHUB_BASE_REF}" >> $GITHUB_ENV
@@ -31,12 +31,16 @@ jobs:
         shell: bash
         run: echo "environment=prod" >> $GITHUB_ENV
         if: env.branch == 'release'
-        
+          
       - name: Set up JDK 11.0.5
         uses: actions/setup-java@v1
         with:
           java-version: 11.0.5
-
+        
+      - name: copy file
+        shell: bash
+        run:  cp /home/thbingenproj/actions-runner/data/logindata.properties /home/thbingenproj/actions-runner/_work/Proj-evoila/Proj-evoila/backend/src/main/resources
+        
       - name: test backend with maven
         working-directory: ./backend
         run: mvn test -P $environment --file pom.xml
@@ -46,7 +50,7 @@ jobs:
     needs: [backend-test]
     steps:
       - uses: actions/checkout@v2
-
+ 
       - name: Extract branch name
         shell: bash
         run: echo "branch=${GITHUB_BASE_REF}" >> $GITHUB_ENV
@@ -66,13 +70,17 @@ jobs:
         shell: bash
         run: echo "environment=prod" >> $GITHUB_ENV
         if: env.branch == 'release'
-        
+                
       - name: Set up JDK 11.0.5
         uses: actions/setup-java@v1
         with:
           java-version: 11.0.5
 
-      - name: test backend with maven
+      - name: copy file
+        shell: bash
+        run:  cp /home/thbingenproj/actions-runner/data/logindata.properties /home/thbingenproj/actions-runner/_work/Proj-evoila/Proj-evoila/crawler/src/main/resources && cp /home/thbingenproj/actions-runner/data/arangodb.properties /home/thbingenproj/actions-runner/_work/Proj-evoila/Proj-evoila/crawler/src/main/resources
+        
+      - name: test crawler with maven
         working-directory: ./crawler
         run: mvn test -P $environment --file pom.xml
 

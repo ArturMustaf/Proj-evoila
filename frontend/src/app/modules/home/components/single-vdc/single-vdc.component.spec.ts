@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SingleVDCComponent } from './single-vdc.component';
 
-describe('SingleVDCComponent', () => {
+xdescribe('SingleVDCComponent', () => {
   let component: SingleVDCComponent;
   let fixture: ComponentFixture<SingleVDCComponent>;
 

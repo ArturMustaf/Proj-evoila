@@ -29,7 +29,6 @@ import java.util.Arrays;
 
 @KeycloakConfiguration
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
-
     private final KeycloakClientRequestFactory keycloakClientRequestFactory;
 
 
@@ -85,21 +84,25 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
     /**
      * define the actual constraints of the app.
+     * Sets the roles needed for specific endpoints
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
+        final var ADMIN = "admin";
+        final var USER = "user";
         // TODO Remove csrf disable => needed currently for post / put mappings
         http.cors().configurationSource(corsConfigurationSource()).and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .sessionAuthenticationStrategy(sessionAuthenticationStrategy())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/costs/**").hasRole("user")
-                .antMatchers("/create/**").hasRole("admin")
                 .antMatchers("/public/**").permitAll()
-                .antMatchers("/search/**").hasRole("admin")
-                .anyRequest().hasRole("user");
+                .antMatchers("/search/**").hasRole(ADMIN)
+                .antMatchers("/admin/**").hasRole(ADMIN)
+                .antMatchers("/arango/**").hasRole(ADMIN)
+                .antMatchers("/create/**").hasRole(ADMIN)
+                .anyRequest().hasAnyRole(USER);
     }
 
     @Bean

@@ -3,7 +3,7 @@ package de.thbingenproj.backend.controller.cf;
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
 import de.thbingenproj.backend.extensions.BeforeEvery;
 import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ class ArangoControllerTest {
 
     @Test
     void testCreation(){
-            Assert.assertNotNull(arangoController);
+            Assertions.assertNotNull(arangoController);
     }
 
     @Test

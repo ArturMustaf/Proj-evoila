@@ -9,6 +9,7 @@ import java.util.Map;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class VDCComputeCapacityDTO {
+    long id;
     String cpuUnits;
     int cpuLimit;
     int cpuAllocated;
@@ -20,7 +21,7 @@ public class VDCComputeCapacityDTO {
     int memoryReserved;
     int memoryUsed;
     long date;
-    String vdcID;
+    String vdcNumber;
 
     @JsonProperty("cpu")
     private void unpackCPU(Map<String, Object> cpu){

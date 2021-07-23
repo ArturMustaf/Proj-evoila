@@ -9,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
-
 
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
@@ -25,7 +22,7 @@ class APIAuthServiceTest {
      */
     @DisabledOnOs(OS.LINUX)
     @Test
-    void getBearerToken() throws InterruptedException, TimeoutException, IOException {
+    void getBearerToken() {
         var token = authService.getBearerToken();
         Assertions.assertNotNull(token);
     }

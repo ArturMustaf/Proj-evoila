@@ -80,11 +80,7 @@ export class CostsComponent implements OnInit {
     this.loading = true;
     this.costResponses = [];
     // if date invalid, do not send to backend
-    if (this.start !== '' && this.end !== '' && (this.start > this.end)) {
-      this.validSpan = false;
-    } else {
-      this.validSpan = true;
-    }
+    this.validSpan = !(this.start !== '' && this.end !== '' && (this.start > this.end));
     for (const project of this.projects) {
       this.costResponses = await this.communicator.loadCosts(this.start, this.end, project.id);
     }

@@ -1,9 +1,9 @@
 package de.thbingenproj.backend.unused.controller.resourceview;
 
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
-import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.extensions.BeforeEvery;
-import org.junit.Assert;
+import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ class ResourceViewControllerTest {
 
     @Test
     void testCreation(){
-        Assert.assertNotNull(resourceViewController);
+        Assertions.assertNotNull(resourceViewController);
     }
 
     @Test

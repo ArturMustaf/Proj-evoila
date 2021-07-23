@@ -32,6 +32,9 @@ public class SyncUserService {
     Keycloak keycloak;
     RealmResource realmResource;
 
+    /**
+     * Initalizes the connection to the keycloak server
+     */
     @PostConstruct
     public void initKeycloak()  {
         keycloak = KeycloakBuilder.builder()
@@ -48,6 +51,9 @@ public class SyncUserService {
         realmResource = keycloak.realm(env.getProperty("kc.realm"));
     }
 
+    /**
+     * Syncs all users with the keycloak server
+     */
     public void syncAll() {
         var repoList = getAllRepository();
         for(OrgUser orgUser : repoList){
@@ -63,6 +69,10 @@ public class SyncUserService {
         return orgUserRepository.findAll();
     }
 
+    /**
+     * Snycs user with keycloak
+     * @param user
+     */
     public void syncUserKeycloak(OrgUser user) {
         var userRepresentation = new UserRepresentation();
         if(keycloakUserExists(user)){
@@ -93,6 +103,11 @@ public class SyncUserService {
         setIDs(user);
     }
 
+    /***
+     * Deletes given user from Keycloak
+     * @param user
+     * @return true if users was delted
+     */
     public boolean deleteUserKeycloak(OrgUser user){
         boolean deleted = false;
         if(keycloakUserExists(user)){
@@ -106,7 +121,11 @@ public class SyncUserService {
         }
         return deleted;
     }
-
+    /***
+     * Deletes given user from Keycloak
+     * @param user
+     * @return true if users exists
+     */
     public boolean keycloakUserExists(OrgUser user) {
         var list = getAllKeycloak();
         for(UserRepresentation userRepresentation : list){
@@ -116,14 +135,24 @@ public class SyncUserService {
         }
         return false;
     }
-    public boolean setIDs(OrgUser user){
-        var keycloakUsers = realmResource.users().list();
-        for(UserRepresentation userRepresentation: keycloakUsers){
-            if(Optional.ofNullable(userRepresentation.getUsername()).orElse("").equals(user.getName())){
-                user.setUserID(userRepresentation.getId());
-                orgUserRepository.save(user);
+
+    /**
+     * Sets userIDs
+     * @param user
+     * @return true
+     */
+    public boolean setIDs(OrgUser user) {
+        try {
+            var keycloakUsers = realmResource.users().list();
+            for(UserRepresentation userRepresentation: keycloakUsers){
+                if(Optional.ofNullable(userRepresentation.getUsername()).orElse("").equals(user.getName())){
+                    user.setUserID(userRepresentation.getId());
+                    orgUserRepository.save(user);
+                }
             }
+            return true;
+        } catch (Exception e){
+            return false;
         }
-        return true;
     }
 }

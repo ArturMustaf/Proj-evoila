@@ -1,10 +1,10 @@
 package de.thbingenproj.backend.unused.entities.repositories;
 
+import de.thbingenproj.backend.extensions.BeforeEvery;
 import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.unused.entities.repositories.util.demo_set_creator.user_information.ContactInformationMockCreator;
 import de.thbingenproj.backend.unused.entities.user.contact_information.ContactInformation;
-import de.thbingenproj.backend.extensions.BeforeEvery;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+
 @ExtendWith(BeforeEvery.class)
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
@@ -29,7 +30,7 @@ class ContactInformationRepositoryTest {
 
     @Test
     void testCreation(){
-        Assert.assertNotNull(contactInformationRepository);
+        Assertions.assertNotNull(contactInformationRepository);
     }
 
     @Test
@@ -43,7 +44,7 @@ class ContactInformationRepositoryTest {
         contactInformationRepository.saveAll(entities);
         var checkList = contactInformationRepository.findAll();
         for(ContactInformation x : entities){
-            Assert.assertTrue(checkList.contains(x));
+            Assertions.assertTrue(checkList.contains(x));
         }
     }
 
@@ -52,7 +53,7 @@ class ContactInformationRepositoryTest {
     void readContactInformation(){
         var contactInformation = contactInformationMockCreator.createContactInformation();
         contactInformationRepository.save(contactInformation);
-        Assert.assertNotNull(contactInformationRepository.findById(contactInformation.getId()));
+        Assertions.assertNotNull(contactInformationRepository.findById(contactInformation.getId()));
     }
 
     @Test
@@ -60,9 +61,9 @@ class ContactInformationRepositoryTest {
     void deleteContactInformation(){
         var contactInformation = contactInformationMockCreator.createContactInformation();
         contactInformationRepository.save(contactInformation);
-        Assert.assertNotNull(contactInformationRepository.findById(contactInformation.getId()));
+        Assertions.assertNotNull(contactInformationRepository.findById(contactInformation.getId()));
         contactInformationRepository.delete(contactInformation);
-        Assert.assertNull(contactInformationRepository.findById(contactInformation.getId()).orElse(null));
+        Assertions.assertNull(contactInformationRepository.findById(contactInformation.getId()).orElse(null));
     }
 
     @Test
@@ -71,7 +72,7 @@ class ContactInformationRepositoryTest {
         var contactInformation = contactInformationMockCreator.createContactInformation();
         var contactInitialMail = contactInformation.getEmail();
         contactInformationRepository.save(contactInformation);
-        Assert.assertNotNull(contactInformationRepository.findById(contactInformation.getId()));
+        Assertions.assertNotNull(contactInformationRepository.findById(contactInformation.getId()));
         var contactInformationReturned = contactInformationRepository.findById(contactInformation.getId()).orElse(null);
 
         var generatedString = RandomStringUtils.randomAlphanumeric(10);

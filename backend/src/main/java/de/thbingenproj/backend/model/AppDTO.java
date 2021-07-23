@@ -6,11 +6,11 @@ import lombok.Data;
 public class AppDTO {
     String id;
     String arangoID;
-    String diskInMb;
+    long diskInMB;
     long dt;
     String guid;
-    String instances;
-    String memoryInMb;
+    long instances;
+    long memoryInMB;
     String name;
     String org;
     String space;

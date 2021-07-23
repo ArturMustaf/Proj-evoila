@@ -41,17 +41,6 @@ public class RessourceLogMockCreator {
             return dataCreator.getRandom(0, 1000);
         return -1;
 
-//        switch (resourceDescription){
-//            case "VM":
-//            case "Static IP":
-//                return 1;
-//            case "Traffic":
-//                return dataCreator.getRandom(0,300);
-//            case "Storage":
-//                return dataCreator.getRandom(0,1000);
-//            default:
-//                return 0;
-//        }
     }
 
     @Transactional

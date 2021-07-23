@@ -1,14 +1,11 @@
+*{
+  list-style: none;
+}
 .grid-container {
   display: grid;
   grid-template-columns: 1fr 24px 1fr;
   grid-template-rows: 1fr 1fr;
   height: 100%;
-}
-
-.grid-item {
-  min-width: 0;
-  min-height: 0;
-  overflow: auto;
 }
 
 .item-projects {

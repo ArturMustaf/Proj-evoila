@@ -10,4 +10,5 @@ import java.util.List;
 public interface OrgUserRepository extends CrudRepository<OrgUser, String> {
     List<OrgUser> findAll();
     List<OrgUser> findAllByOrgID(String orgID);
+    OrgUser findOrgUserByUserID(String userID);
 }

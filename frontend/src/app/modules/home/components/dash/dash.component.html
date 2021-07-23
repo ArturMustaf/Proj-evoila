@@ -1,25 +1,29 @@
 <div class="clr-row" style="height: 100% !important">
   <div class="clr-col-md" style="height: 100%">
     <div class="card clr-row-md item-projects" style="height: 50%; margin-top: 0; overflow: auto">
-      <div class="card-header">Projects</div>
+      <div class="card-header">CF Spaces</div>
       <div class="card-block" style="overflow: auto">
-        <app-project-view></app-project-view>
+        <app-cf-apps-view [spaceList]="spaceList"></app-cf-apps-view>
       </div>
     </div>
 
     <div class="card clr-row-md item-costs" style="height: 50%; margin-top: 0">
-    <div class="card-header">Costs</div>
-    <div class="card-block" style="overflow: auto">
-      <app-costs-diagram></app-costs-diagram>
-    </div>
+      <div class="card-header">Running costs in €</div>
+      <div class="card-block">
+        <div *ngIf="isDataReady">
+          <app-dash-costs-diagram [data]="costsDataForDiagram"></app-dash-costs-diagram>
+        </div>
+      </div>
     </div>
   </div>
   <div class="card clr-col-md item-vdcs" style="height: 100%; margin-top: 0; overflow: auto">
     <div class="card-header">VDCs</div>
     <div class="card-block" style="overflow-y: auto">
-      <app-single-vdc></app-single-vdc>
-      <app-single-vdc></app-single-vdc>
-      <app-single-vdc></app-single-vdc>
+      <ul>
+      <li *ngFor="let vdc of this.vdcList">
+        <app-single-vdc [vdc]="vdc"></app-single-vdc>
+      </li>
+      </ul>
     </div>
   </div>
 </div>

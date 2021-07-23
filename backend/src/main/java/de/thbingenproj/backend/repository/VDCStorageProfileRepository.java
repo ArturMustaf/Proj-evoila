@@ -10,4 +10,12 @@ import java.util.List;
 public interface VDCStorageProfileRepository extends CrudRepository<VDCStorageProfile, String> {
     List<VDCStorageProfile> findAllByVdcID(String vdcID);
     List<VDCStorageProfile> findAll();
+
+    /**
+     * Finds latest Storage profile
+     * Question if there can be multiple profiles active at once
+     * @param vdcID
+     * @return latest storage profile
+     */
+    VDCStorageProfile findTopByVdcIDOrderByDateDesc(String vdcID);
 }

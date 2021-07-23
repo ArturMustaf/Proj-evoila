@@ -2,10 +2,9 @@ package de.thbingenproj.backend.controller.vcloud;
 
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.thbingenproj.backend.controller.vcloud.VDCComputeCapacityController;
-import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.entity.VDCComputeCapacity;
 import de.thbingenproj.backend.extensions.BeforeEvery;
+import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,17 +38,6 @@ class VDCComputeCapacityControllerTest {
         VDCComputeCapacity vdcComputeCapacity = new VDCComputeCapacity();
         vdcComputeCapacity.setId(0L);
         vdcComputeCapacity.setCpuUnits("MHz");
-        //vdcComputeCapacity.setCpuLimit();
-        //vdcComputeCapacity.setCpuAllocated();
-        //vdcComputeCapacity.setCpuReserved();
-        //vdcComputeCapacity.setCpuUsed();
-        //vdcComputeCapacity.setMemoryUsed();
-        //vdcComputeCapacity.setMemoryLimit();
-        //vdcComputeCapacity.setMemoryAllocated();
-        //vdcComputeCapacity.setMemoryReserved();
-        //vdcComputeCapacity.setMemoryUsed();
-        //vdcComputeCapacity.setDate();
-        //vdcComputeCapacity.setVdcID();
         return vdcComputeCapacity;
     }
 

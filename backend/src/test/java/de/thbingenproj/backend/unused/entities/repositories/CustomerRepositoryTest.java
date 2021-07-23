@@ -16,7 +16,8 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertionsions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 
 @ExtendWith(BeforeEvery.class)
 @SpringBootTest

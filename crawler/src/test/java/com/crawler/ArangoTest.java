@@ -52,24 +52,4 @@ class ArangoTest {
         Assertions.assertNotNull(modelMapper);
     }
 
-//    @Test
-//    @Transactional
-//    void testSpaceRetrieval(){
-//        arangoService.retrieveAllSpaces();
-//        System.out.println(postgresSpaceRepository.findAll());
-//    }
-//
-//    @Test
-//    @Transactional
-//    void testOSBRetrieval(){
-//        arangoService.retrieveAllOSBsFromDate(0);
-//        System.out.println(postgresOSBRepository.findAll());
-//    }
-//
-//    @Test
-//    @Transactional
-//    void testAppRetrieval(){
-//        arangoService.retrieveAllAppsFromDate(0);
-//        System.out.println(postgresAppRepository.findAll());
-//    }
 }

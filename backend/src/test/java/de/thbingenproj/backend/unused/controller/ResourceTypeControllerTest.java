@@ -2,11 +2,10 @@ package de.thbingenproj.backend.unused.controller;
 
 import com.c4_soft.springaddons.security.oauth2.test.annotations.keycloak.WithMockKeycloakAuth;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.thbingenproj.backend.unused.controller.ResourceTypeController;
+import de.thbingenproj.backend.extensions.BeforeEvery;
 import de.thbingenproj.backend.unused.entities.repositories.container.PostgresTest;
 import de.thbingenproj.backend.unused.entities.ressources.ResourceType;
-import de.thbingenproj.backend.extensions.BeforeEvery;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ class ResourceTypeControllerTest {
 
     @Test
     void testCreation() {
-        Assert.assertNotNull(resourceTypeController);
+        Assertions.assertNotNull(resourceTypeController);
     }
 
     @Test

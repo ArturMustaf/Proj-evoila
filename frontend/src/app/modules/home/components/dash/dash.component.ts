@@ -4,7 +4,6 @@ import {DataCommunicatorService} from '../../../../core/services/data_communicat
 import {KeycloakService} from 'keycloak-angular';
 import {OrgUserModel} from '../../../../shared/models/org-user-models/org-user-model';
 import {VdcModel} from '../../../../shared/models/vdc-models/vdc-model';
-import {SpaceModel} from '../../../../shared/models/cf-models/space-model';
 import {ResourceModel} from '../../../../shared/models/resource-models/resource-model';
 import {PricesModel} from '../../../../shared/models/prices-models/prices-model';
 import {ResTypeModel} from '../../../../shared/models/resource-models/res-type-model';
@@ -48,7 +47,7 @@ export class DashComponent implements OnInit {
     userID: ''
   };
   vdcList: VdcModel[] = [];
-  spaceList: SpaceModel[] = [];
+  spaceList: string[] = [];
 
   constructor(private navService: NavService, private communicator: DataCommunicatorService, private keycloakService: KeycloakService) {
 

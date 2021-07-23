@@ -43,17 +43,6 @@ public class ResourceTypeMockCreator {
             return "GiB";
         return "unknown resource";
 
-//        switch (resourceDescription){
-//            case "VM":
-//            case "Static IP":
-//                return "pc.";
-//            case "Traffic":
-//                return "Gb";
-//            case "Storage":
-//                return "GiB";
-//            default:
-//                return "";
-//        }
     }
 
 

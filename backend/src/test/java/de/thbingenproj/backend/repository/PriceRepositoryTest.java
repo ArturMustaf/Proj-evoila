@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 @SpringBootTest
 @ContextConfiguration(initializers = {PostgresTest.PropertiesInitializer.class})
 @AutoConfigureMockMvc
-public class PriceRepositoryTest {
+class PriceRepositoryTest {
     @Autowired
     PricesRepository pricesRepository;
 
@@ -61,7 +61,6 @@ public class PriceRepositoryTest {
         var resourceType = new Prices();
         resourceType.setResourceSize(RandomStringUtils.randomAlphanumeric(5));
         var orgInitialName = resourceType.getResourceSize();
-        Random random=new Random();
         pricesRepository.save(resourceType);
         Assertions.assertNotNull(pricesRepository.findById(resourceType.getId()));
         var orgUserReturned = pricesRepository.findById(resourceType.getId()).orElse(null);
@@ -131,7 +130,7 @@ public class PriceRepositoryTest {
     }
     @Transactional
     @Test
-    public void findAllByVdcIDWithinTimeframeTest() {
+    void findAllByVdcIDWithinTimeframeTest() {
         var entities = new ArrayList<Prices>();
         long time=System.currentTimeMillis();
         String vdcID=RandomStringUtils.randomAlphanumeric(7);
@@ -207,7 +206,7 @@ public class PriceRepositoryTest {
     }
     @Transactional
     @Test
-    public void findAllByOrgIDWithinTimeframeTest() {
+    void findAllByOrgIDWithinTimeframeTest() {
         var entities = new ArrayList<Prices>();
         long time=System.currentTimeMillis();
         String orgID=RandomStringUtils.randomAlphanumeric(7);

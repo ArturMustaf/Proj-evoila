@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 /**
- * @see "https://www.arangodb.com/docs/stable/drivers/spring-data-getting-started.html"
+ * @see <a href="http://google.com">https://www.arangodb.com/docs/stable/drivers/spring-data-getting-started.html</a>
  * create a file named resources/arangodb.properties
  * and set:
  * arangodb.hosts=

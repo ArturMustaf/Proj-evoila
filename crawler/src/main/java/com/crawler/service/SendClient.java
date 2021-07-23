@@ -86,10 +86,7 @@ public class SendClient {
                         .bodyToMono(Organization.class)
                         .block());
             }
-            catch (WebClientResponseException e) {
-                System.out.println("header:"+ e.getHeaders());
-                System.out.println("body: "+e.getResponseBodyAsString());
-                System.out.println("request: "+e.getRequest().getHeaders());
+            catch (Exception e) {
                 logger.error(e.getMessage());
             }
         }

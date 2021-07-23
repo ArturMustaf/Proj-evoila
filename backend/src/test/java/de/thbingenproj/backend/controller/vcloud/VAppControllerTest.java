@@ -48,18 +48,7 @@ class VAppControllerTest {
         vApp.setIsExpired(Boolean.TRUE.toString());
         vApp.setIsInMaintenanceMode(Boolean.TRUE.toString());
         vApp.setIsPublic(Boolean.TRUE.toString());
-        //vApp.setMemoryAllocationMB();
-        //vApp.setNumberOfCpus();
-        //vApp.setOwnerName();
         vApp.setStatus("8");
-        //vApp.setTotalStorageAllocatedMb();
-        //vApp.setVdcHRef();
-        //vApp.setVdcName();
-        //vApp.setVdcID();
-        //vApp.setCpuAllocationMhz();
-        //vApp.setStorageKB();
-        //vApp.setNumberOfVMs();
-        //vApp.setCpuAllocationInMhz();
         return vApp;
     }
 

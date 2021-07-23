@@ -37,9 +37,6 @@ class OrgUserRoleControllerTest {
     private OrgUserRole createOrgUserRole() {
         OrgUserRole orgUserRole = new OrgUserRole();
         orgUserRole.setId("test-id");
-        //orgUserRole.setHref();
-        //orgUserRole.setName();
-        //orgUserRole.setOrgID();
         return orgUserRole;
     }
 

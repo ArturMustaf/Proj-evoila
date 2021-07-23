@@ -141,14 +141,18 @@ public class SyncUserService {
      * @param user
      * @return true
      */
-    public boolean setIDs(OrgUser user){
-        var keycloakUsers = realmResource.users().list();
-        for(UserRepresentation userRepresentation: keycloakUsers){
-            if(Optional.ofNullable(userRepresentation.getUsername()).orElse("").equals(user.getName())){
-                user.setUserID(userRepresentation.getId());
-                orgUserRepository.save(user);
+    public boolean setIDs(OrgUser user) {
+        try {
+            var keycloakUsers = realmResource.users().list();
+            for(UserRepresentation userRepresentation: keycloakUsers){
+                if(Optional.ofNullable(userRepresentation.getUsername()).orElse("").equals(user.getName())){
+                    user.setUserID(userRepresentation.getId());
+                    orgUserRepository.save(user);
+                }
             }
+            return true;
+        } catch (Exception e){
+            return false;
         }
-        return true;
     }
 }
